@@ -8,9 +8,18 @@ const translations = {
     'nav.dashboard': 'Dashboard',
     'nav.story': 'Story Mode',
     'nav.game': 'Training Game',
-    'nav.image': 'Image Inspector',
-    'nav.url': 'URL Analyzer',
-    'nav.text': 'Text Verifier',
+    'nav.image': 'AI Image Forensics',
+    'nav.url': 'URL Threat Scanner',
+    'nav.text': 'Content Verifier',
+
+    // Error Messages & Alerts
+    'error.enterUrl': 'Please enter a URL',
+    'error.analysisFailed': 'Analysis failed — check console for details.',
+    'error.fileTooLarge': 'File too large. Maximum 20MB.',
+    'error.pasteText': 'Please paste some text to verify',
+    'error.verificationFailed': 'Verification failed — check console for details.',
+    'error.enterName': 'Please enter your name',
+    'error.submitFailed': 'Failed to submit score',
 
     // Hero
     'hero.badge': 'AI-POWERED SECURITY PLATFORM',
@@ -24,8 +33,26 @@ const translations = {
     'stats.users': 'Users Protected',
 
     // Dashboard Charts
-    'charts.title': 'Global Cyber Threat Intelligence',
-    'charts.subtitle': 'Real-time analysis of worldwide cyber fraud patterns and trends',
+    'charts.title': 'Global Cyber Threat Intelligence',    'charts.scamTypes': 'Top Scam Types',
+    'charts.reports': 'Reports (thousands)',
+    'charts.phishing': 'Phishing / Spoofing',
+    'charts.investment': 'Investment Fraud',
+    'charts.romance': 'Romance Scams',
+    'charts.techSupport': 'Tech Support Scams',
+    'charts.onlineShopping': 'Online Shopping Fraud',
+    'charts.identityTheft': 'Identity Theft',
+    'charts.businessEmail': 'Business Email Compromise',
+    'charts.cryptocurrency': 'Cryptocurrency Fraud',
+    'charts.prize': 'Prize / Lottery Scams',
+    'charts.socialMedia': 'Social Media Scams',
+    'charts.financialFraud': 'Financial Fraud',
+    'charts.phishingSpoofing': 'Phishing & Spoofing',
+    'charts.identityCrimes': 'Identity Crimes',
+    'charts.romanceSocial': 'Romance & Social',
+    'charts.techSupport2': 'Tech & Support',
+    'charts.other': 'Other',
+    'charts.totalReports': 'Total Reports (K)',
+    'charts.financialLoss': 'Financial Loss ($B)',    'charts.subtitle': 'Real-time analysis of worldwide cyber fraud patterns and trends',
     'charts.topScams': '📊 Top 10 Cyber Scam Types',
     'charts.distribution': '🍩 Scam Category Distribution',
     'charts.trend': '📈 Yearly Cyber Fraud Trend',
@@ -39,17 +66,17 @@ const translations = {
     'tools.story.desc': 'Follow Alex the Cyber Detective through interactive chapters covering prize scams, urgency tactics, impersonation, and social engineering.',
     'tools.game.title': 'Gamified Training',
     'tools.game.desc': '5 difficulty tiers with 15+ scenarios covering phishing, impersonation, delivery scams, emotional manipulation, and homograph attacks.',
-    'tools.image.title': 'Image Inspector',
+    'tools.image.title': 'AI Image Forensics',
     'tools.image.desc': 'Detect AI-generated images, analyze EXIF metadata, check compression artifacts, and identify forensic manipulation signs.',
-    'tools.url.title': 'URL Analyzer',
-    'tools.url.desc': 'Check domain reputation, evaluate SSL certificates, detect phishing patterns, and analyze link safety.',
-    'tools.text.title': 'Text Verifier',
-    'tools.text.desc': 'Fact-check articles, detect sentiment manipulation, identify clickbait patterns, and verify content credibility.',
+    'tools.url.title': 'URL Threat Scanner',
+    'tools.url.desc': 'Check domain reputation, evaluate SSL certificates, detect phishing patterns, and analyze link safety with advanced threat intelligence.',
+    'tools.text.title': 'Content Verifier',
+    'tools.text.desc': 'Fact-check articles, detect sentiment manipulation, identify clickbait patterns, and verify content credibility with AI analysis.',
     'tools.launch': 'Launch Tool →',
 
     // Image Inspector
-    'image.title': 'Image Inspector',
-    'image.subtitle': 'AI-powered image forensic analysis',
+    'image.title': 'AI Image Forensics',
+    'image.subtitle': 'AI-powered deep image forensic analysis & authenticity verification',
     'image.upload': 'Drop image here or click to upload',
     'image.filetypes': 'JPG, PNG, GIF, WebP — Max 20MB',
     'image.analyze': 'ANALYZE IMAGE',
@@ -62,8 +89,8 @@ const translations = {
     'image.noResults': 'Upload an image to begin analysis',
 
     // URL Analyzer
-    'url.title': 'URL Analyzer',
-    'url.subtitle': 'Deep analysis of web addresses for security threats',
+    'url.title': 'URL Threat Scanner',
+    'url.subtitle': 'Advanced threat detection & phishing analysis for web addresses',
     'url.placeholder': 'Enter URL to analyze...',
     'url.analyze': 'ANALYZE URL',
     'url.riskScore': '🎯 Risk Assessment',
@@ -72,8 +99,8 @@ const translations = {
     'url.noResults': 'Enter a URL above to begin analysis',
 
     // Text Verifier
-    'text.title': 'Text Verifier',
-    'text.subtitle': 'AI-powered content credibility analysis',
+    'text.title': 'Content Verifier',
+    'text.subtitle': 'AI-powered credibility analysis & misinformation detection',
     'text.placeholder': 'Paste text or article content here for analysis...',
     'text.analyze': 'VERIFY TEXT',
     'text.content': '📝 Content Analysis',
@@ -143,9 +170,163 @@ const translations = {
     'game.correct': '✓ Correct!',
     'game.incorrect': '✗ Incorrect!',
 
+    // Game Completion
+    'game.trainingComplete': '🎉 Training Complete!',
+    'game.nextRankInfo': 'Score {0}+ for next rank',
+    'game.maxRank': 'Maximum rank achieved!',
+    'game.scoreForNext': 'Score 500+ for next rank',
+
+    // Game Ranks (more detailed)
+    'game.rankTrainee': 'Trainee',
+    'game.rankJunior': 'Junior Detective',
+    'game.rankDetective': 'Detective',
+    'game.rankSenior': 'Senior Detective',
+    'game.rankElite': 'Elite Detective',
+
     // Footer
     'footer.text': 'AI Cyber Detective 2.0 — Empowering Cybersecurity Awareness',
     'footer.disclaimer': 'Educational platform. Data shown is for demonstration purposes.',
+
+    // Logo & Navigation
+    'nav.logo': 'CYBER DETECTIVE',
+
+    // Hero Badges & Sections
+    'hero.aiPowered': 'AI-POWERED SECURITY PLATFORM',
+    'story.interactive': 'INTERACTIVE LEARNING',
+    'game.gamified': 'GAMIFIED TRAINING',
+    'image.forensic': 'FORENSIC ANALYSIS',
+    'url.threat': 'THREAT ANALYSIS',
+    'text.content': 'CONTENT ANALYSIS',
+
+    // Game Difficulty Levels
+    'game.easy': 'Easy',
+    'game.medium': 'Medium',
+    'game.hard': 'Hard',
+    'game.expert': 'Expert',
+    'game.ultimate': 'Ultimate',
+
+    // Game Ranks
+    'game.trainee': 'Trainee',
+    'game.initiate': 'Initiate',
+    'game.detective': 'Detective',
+    'game.specialist': 'Specialist',
+    'game.master': 'Master',
+
+    // Game Feedback
+    'game.correct': 'Correct!',
+    'game.incorrect': 'Incorrect!',
+    'game.points': 'points',
+    'game.streakBonus': 'streak bonus',
+    'game.grandmaster': 'Grandmaster',
+
+    // Tool Labels
+    'image.uploadImage': '📤 Upload Image',
+    'url.enterUrl': '🔗 Enter URL',
+    'text.pasteText': '📝 Paste Text',
+    'image.tips': '💡 Tips',
+    'url.tips': '💡 Tips',
+    'text.whatWeCheck': '🔎 What We Check',
+
+    // URL Analyzer Tips
+    'url.tip1': '• Check for misspellings in domains',
+    'url.tip2': '• Look for suspicious TLDs (.xyz, .top, etc.)',
+    'url.tip3': '• Verify HTTPS is present',
+    'url.tip4': '• Check for homograph characters',
+    'url.tip5': '• Be wary of IP addresses as URLs',
+
+    // Text Verifier Tips
+    'text.tip1': '📊 Sentiment analysis (positive / negative / neutral)',
+    'text.tip2': '🎣 Clickbait pattern detection',
+    'text.tip3': '🔠 CAPS LOCK & urgency detection',
+    'text.tip4': '📉 Statistical claim analysis',
+    'text.tip5': '📰 Source & citation check',
+
+    // Text Verifier Results
+    'text.findings': '🔎 Findings & Warnings',
+
+    // Text Verifier Button
+    'text.verify': 'VERIFY TEXT',
+
+    // Text Verifier Credibility Labels
+    'text.likelyCredible': 'Likely Credible',
+    'text.questionable': 'Questionable',
+    'text.suspicious': 'Suspicious',
+    'text.likelyMisinformation': 'Likely Misinformation',
+
+    // Text Verifier Content Analysis Labels
+    'text.wordCount': 'Word Count',
+    'text.sentenceCount': 'Sentence Count',
+    'text.avgWords': 'Avg Words/Sentence',
+    'text.capsRatio': 'CAPS Ratio',
+    'text.exclamationMarks': 'Exclamation Marks',
+    'text.questionMarks': 'Question Marks',
+    'text.urlsFound': 'URLs Found',
+    'text.statisticalClaims': 'Statistical Claims',
+    'text.sourceCitations': 'Source Citations',
+    'text.yes': 'Yes',
+    'text.noneFound': 'None found',
+
+    // Text Verifier Sentiment Labels
+    'text.positive': 'Positive',
+    'text.negative': 'Negative',
+    'text.neutral': 'Neutral',
+    'text.positiveWords': 'Positive Words',
+    'text.negativeWords': 'Negative Words',
+    'text.sentimentScore': 'Score',
+    'text.comparative': 'Comparative',
+
+    // Text Verifier Findings
+    'text.noRedFlags': 'No significant red flags detected',
+
+    // Game Badges
+    'game.phishing': '📧 PHISHING',
+    'game.prize': '🎁 PRIZE SCAM',
+    'game.delivery': '📦 DELIVERY SCAM',
+    'game.impersonation': '🎭 IMPERSONATION',
+    'game.emotional': '💔 EMOTIONAL MANIPULATION',
+    'game.homograph': '🔤 HOMOGRAPH ATTACK',
+    'game.analysis1': 'Analysis',
+    'game.analysis2': 'Prevention',
+
+    // Image Inspector Additional
+    'image.noExif': '未找到EXIF數據',
+
+    // URL Analyzer Additional
+    'url.lowRisk': '低風險',
+    'url.mediumRisk': '中等風險',
+    'url.highRisk': '高風險',
+    'url.criticalRisk': '關鍵風險',
+
+    // Image Inspector Table Labels
+    'image.fileName': 'File Name',
+    'image.fileSize': 'File Size',
+    'image.mimeType': 'MIME Type',
+    'image.cameraMake': 'Camera Make',
+    'image.cameraModel': 'Camera Model',
+    'image.software': 'Software',
+    'image.dateTaken': 'Date Taken',
+    'image.dimensions': 'Dimensions',
+    'image.iso': 'ISO',
+    'image.focalLength': 'Focal Length',
+    'image.aperture': 'Aperture',
+    'image.exposure': 'Exposure',
+    'image.gps': 'GPS',
+    'image.noCompressionAnomalies': 'No compression anomalies detected',
+    'image.noForensicAnomalies': 'No forensic anomalies detected',
+
+    // URL Analyzer Table Labels
+    'url.protocol': 'Protocol',
+    'url.hostname': 'Hostname',
+    'url.domain': 'Domain',
+    'url.tld': 'TLD',
+    'url.path': 'Path',
+    'url.hasIP': 'Has IP',
+    'url.ssl': 'SSL',
+    'url.resolvedIP': 'Resolved IP',
+    'url.riskLevel': 'Risk Level',
+    'url.noThreats': 'No significant threats detected',
+    'url.yes': 'Yes',
+    'url.no': 'No',
   },
 
   zh: {
@@ -153,9 +334,18 @@ const translations = {
     'nav.dashboard': '儀表板',
     'nav.story': '故事模式',
     'nav.game': '訓練遊戲',
-    'nav.image': '圖片檢測',
-    'nav.url': '網址分析',
-    'nav.text': '文本驗證',
+    'nav.image': 'AI圖像鑑證',
+    'nav.url': '網址威脅掃描',
+    'nav.text': '內容驗證器',
+
+    // Error Messages & Alerts
+    'error.enterUrl': '請輸入網址',
+    'error.analysisFailed': '分析失敗 — 請查看控制台了解詳情。',
+    'error.fileTooLarge': '文件太大。最大20MB。',
+    'error.pasteText': '請粘貼一些文本以進行驗證',
+    'error.verificationFailed': '驗證失敗 — 請查看控制台了解詳情。',
+    'error.enterName': '請輸入你的名字',
+    'error.submitFailed': '提交分數失敗',
 
     // Hero
     'hero.badge': 'AI驅動安全平台',
@@ -170,6 +360,26 @@ const translations = {
 
     // Dashboard Charts
     'charts.title': '全球網絡威脅情報',
+    'charts.scamTypes': '十大騙案類型',
+    'charts.reports': '報告數量（千）',
+    'charts.phishing': '網絡釣魚 / 欺騙',
+    'charts.investment': '投資詐騙',
+    'charts.romance': '戀愛騙局',
+    'charts.techSupport': '技術支援詐騙',
+    'charts.onlineShopping': '網上購物詐騙',
+    'charts.identityTheft': '身份盜竊',
+    'charts.businessEmail': '商業電郵詐騙',
+    'charts.cryptocurrency': '加密貨幣詐騙',
+    'charts.prize': '獎品 / 彩票騙局',
+    'charts.socialMedia': '社交媒體詐騙',
+    'charts.financialFraud': '金融詐騙',
+    'charts.phishingSpoofing': '網絡釣魚及欺騙',
+    'charts.identityCrimes': '身份犯罪',
+    'charts.romanceSocial': '戀愛及社交騙局',
+    'charts.techSupport2': '技術支援',
+    'charts.other': '其他',
+    'charts.totalReports': '總報告數（千）',
+    'charts.financialLoss': '經濟損失（十億美元）',
     'charts.subtitle': '全球網絡詐騙模式和趨勢的實時分析',
     'charts.topScams': '📊 十大網絡騙案類型',
     'charts.distribution': '🍩 騙案類別分佈',
@@ -184,17 +394,17 @@ const translations = {
     'tools.story.desc': '跟隨網絡偵探Alex的互動章節，涵蓋獎品騙局、緊迫策略、身份冒充和社交工程。',
     'tools.game.title': '遊戲化訓練',
     'tools.game.desc': '5個難度等級，15+場景，涵蓋釣魚、冒充、快遞詐騙、情感操控和同形字攻擊。',
-    'tools.image.title': '圖片檢測器',
+    'tools.image.title': 'AI圖像鑑證',
     'tools.image.desc': '檢測AI生成圖片、分析EXIF元數據、檢查壓縮偽影，識別取證操縱痕跡。',
-    'tools.url.title': '網址分析器',
-    'tools.url.desc': '檢查域名信譽、評估SSL證書、檢測釣魚模式、分析鏈接安全性。',
-    'tools.text.title': '文本驗證器',
-    'tools.text.desc': '事實核查文章、檢測情緒操控、識別標題黨模式、驗證內容可信度。',
+    'tools.url.title': '網址威脅掃描',
+    'tools.url.desc': '檢查域名信譽、評估SSL證書、檢測釣魚模式、使用先進威脅情報分析鏈接安全性。',
+    'tools.text.title': '內容驗證器',
+    'tools.text.desc': '事實核查文章、檢測情緒操控、識別標題黨模式、使用AI分析驗證內容可信度。',
     'tools.launch': '啟動工具 →',
 
     // Image Inspector
-    'image.title': '圖片檢測器',
-    'image.subtitle': 'AI驅動的圖片取證分析',
+    'image.title': 'AI圖像鑑證',
+    'image.subtitle': 'AI驅動的深度圖像取證分析與真偽驗證',
     'image.upload': '拖放圖片或點擊上傳',
     'image.filetypes': 'JPG、PNG、GIF、WebP — 最大20MB',
     'image.analyze': '分析圖片',
@@ -207,8 +417,8 @@ const translations = {
     'image.noResults': '上傳圖片以開始分析',
 
     // URL Analyzer
-    'url.title': '網址分析器',
-    'url.subtitle': '深度分析網址安全威脅',
+    'url.title': '網址威脅掃描',
+    'url.subtitle': '先進的威脅檢測與釣魚分析系統',
     'url.placeholder': '輸入要分析的網址...',
     'url.analyze': '分析網址',
     'url.riskScore': '🎯 風險評估',
@@ -217,8 +427,8 @@ const translations = {
     'url.noResults': '在上方輸入網址以開始分析',
 
     // Text Verifier
-    'text.title': '文本驗證器',
-    'text.subtitle': 'AI驅動的內容可信度分析',
+    'text.title': '內容驗證器',
+    'text.subtitle': 'AI驅動的可信度分析與虛假信息檢測',
     'text.placeholder': '在此粘貼文字或文章內容以進行分析...',
     'text.analyze': '驗證文本',
     'text.content': '📝 內容分析',
@@ -288,9 +498,163 @@ const translations = {
     'game.correct': '✓ 正確！',
     'game.incorrect': '✗ 錯誤！',
 
+    // Game Completion
+    'game.trainingComplete': '🎉 訓練完成！',
+    'game.nextRankInfo': '得分{0}+以獲得下一個等級',
+    'game.maxRank': '已達到最高等級！',
+    'game.scoreForNext': '得分500+以獲得下一個等級',
+
+    // Game Ranks (more detailed)
+    'game.rankTrainee': '學員',
+    'game.rankJunior': '初級偵探',
+    'game.rankDetective': '偵探',
+    'game.rankSenior': '高級偵探',
+    'game.rankElite': '精英偵探',
+
     // Footer
     'footer.text': 'AI 網絡偵探 2.0 — 增進網絡安全意識',
     'footer.disclaimer': '教育平台。所顯示的數據僅供演示。',
+
+    // Logo & Navigation
+    'nav.logo': '網絡偵探',
+
+    // Hero Badges & Sections
+    'hero.aiPowered': 'AI驅動安全平台',
+    'story.interactive': '互動式學習',
+    'game.gamified': '遊戲化訓練',
+    'image.forensic': '取證分析',
+    'url.threat': '威脅分析',
+    'text.content': '內容分析',
+
+    // Game Difficulty Levels
+    'game.easy': '簡單',
+    'game.medium': '中等',
+    'game.hard': '困難',
+    'game.expert': '專家',
+    'game.ultimate': '終極',
+
+    // Game Ranks
+    'game.trainee': '學員',
+    'game.initiate': '初級',
+    'game.detective': '偵探',
+    'game.specialist': '專家',
+    'game.master': '大師',
+    'game.grandmaster': '宗師',
+
+    // Game Feedback
+    'game.correct': '正確！',
+    'game.incorrect': '錯誤！',
+    'game.points': '分',
+    'game.streakBonus': '連勝獎勵',
+
+    // Tool Labels
+    'image.uploadImage': '📤 上傳圖片',
+    'url.enterUrl': '🔗 輸入網址',
+    'text.pasteText': '📝 粘貼文本',
+    'image.tips': '💡 提示',
+    'url.tips': '💡 提示',
+    'text.whatWeCheck': '🔎 我們檢查什麼',
+
+    // URL Analyzer Tips
+    'url.tip1': '• 檢查域名中的錯誤拼寫',
+    'url.tip2': '• 查找可疑的頂級域名（.xyz、.top等）',
+    'url.tip3': '• 驗證HTTPS是否存在',
+    'url.tip4': '• 檢查同形字',
+    'url.tip5': '• 警惕IP地址作為網址',
+
+    // Text Verifier Tips
+    'text.tip1': '📊 情緒分析（正面/負面/中立）',
+    'text.tip2': '🎣 標題黨模式檢測',
+    'text.tip3': '🔠 大寫字母和緊急檢測',
+    'text.tip4': '📉 統計聲明分析',
+    'text.tip5': '📰 來源和引用檢查',
+
+    // Text Verifier Results
+    'text.findings': '🔎 發現和警告',
+
+    // Text Verifier Button
+    'text.verify': '驗證文本',
+
+    // Text Verifier Credibility Labels
+    'text.likelyCredible': '可能可信',
+    'text.questionable': '可疑',
+    'text.suspicious': '懷疑',
+    'text.likelyMisinformation': '可能是虛假信息',
+
+    // Text Verifier Content Analysis Labels
+    'text.wordCount': '字數',
+    'text.sentenceCount': '句子數',
+    'text.avgWords': '平均字數/句子',
+    'text.capsRatio': '大寫比例',
+    'text.exclamationMarks': '感嘆號',
+    'text.questionMarks': '問號',
+    'text.urlsFound': '找到的網址',
+    'text.statisticalClaims': '統計聲明',
+    'text.sourceCitations': '來源引用',
+    'text.yes': '有',
+    'text.noneFound': '未找到',
+
+    // Text Verifier Sentiment Labels
+    'text.positive': '正面',
+    'text.negative': '負面',
+    'text.neutral': '中立',
+    'text.positiveWords': '正面詞語',
+    'text.negativeWords': '負面詞語',
+    'text.sentimentScore': '分數',
+    'text.comparative': '比較值',
+
+    // Text Verifier Findings
+    'text.noRedFlags': '未檢測到明顯危險信號',
+
+    // Game Badges
+    'game.phishing': '📧 釣魚',
+    'game.prize': '🎁 獎品騙局',
+    'game.delivery': '📦 快遞騙局',
+    'game.impersonation': '🎭 身份冒充',
+    'game.emotional': '💔 情感操控',
+    'game.homograph': '🔤 同形字攻擊',
+    'game.analysis1': '分析',
+    'game.analysis2': '預防',
+
+    // Image Inspector Additional
+    'image.noExif': '未找到EXIF數據',
+
+    // URL Analyzer Additional
+    'url.lowRisk': '低風險',
+    'url.mediumRisk': '中等風險',
+    'url.highRisk': '高風險',
+    'url.criticalRisk': '關鍵風險',
+
+    // Image Inspector Table Labels
+    'image.fileName': '文件名',
+    'image.fileSize': '文件大小',
+    'image.mimeType': 'MIME類型',
+    'image.cameraMake': '相機製造商',
+    'image.cameraModel': '相機型號',
+    'image.software': '軟件',
+    'image.dateTaken': '拍攝日期',
+    'image.dimensions': '尺寸',
+    'image.iso': 'ISO',
+    'image.focalLength': '焦距',
+    'image.aperture': '光圈',
+    'image.exposure': '曝光',
+    'image.gps': 'GPS',
+    'image.noCompressionAnomalies': '未檢測到壓縮異常',
+    'image.noForensicAnomalies': '未檢測到取證異常',
+
+    // URL Analyzer Table Labels
+    'url.protocol': '協議',
+    'url.hostname': '主機名',
+    'url.domain': '域名',
+    'url.tld': '頂級域名',
+    'url.path': '路徑',
+    'url.hasIP': '是否為IP',
+    'url.ssl': 'SSL',
+    'url.resolvedIP': '解析IP',
+    'url.riskLevel': '風險等級',
+    'url.noThreats': '未檢測到重大威脅',
+    'url.yes': '是',
+    'url.no': '否',
   }
 };
 

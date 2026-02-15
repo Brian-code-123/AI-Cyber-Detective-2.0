@@ -33,19 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
       type: 'bar',
       data: {
         labels: [
-          'Phishing / Spoofing',
-          'Investment Fraud',
-          'Romance Scams',
-          'Tech Support Scams',
-          'Online Shopping Fraud',
-          'Identity Theft',
-          'Business Email Compromise',
-          'Cryptocurrency Fraud',
-          'Prize / Lottery Scams',
-          'Social Media Scams'
+          t('charts.phishing'),
+          t('charts.investment'),
+          t('charts.romance'),
+          t('charts.techSupport'),
+          t('charts.onlineShopping'),
+          t('charts.identityTheft'),
+          t('charts.businessEmail'),
+          t('charts.cryptocurrency'),
+          t('charts.prize'),
+          t('charts.socialMedia')
         ],
         datasets: [{
-          label: 'Reports (thousands)',
+          label: t('charts.reports'),
           data: [324, 267, 215, 186, 158, 142, 125, 108, 84, 73],
           backgroundColor: [
             'rgba(0, 255, 65, 0.7)',
@@ -107,7 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
     new Chart(distCtx, {
       type: 'doughnut',
       data: {
-        labels: ['Financial Fraud', 'Phishing & Spoofing', 'Identity Crimes', 'Romance & Social', 'Tech & Support', 'Other'],
+        labels: [
+          t('charts.financialFraud'),
+          t('charts.phishingSpoofing'),
+          t('charts.identityCrimes'),
+          t('charts.romanceSocial'),
+          t('charts.techSupport2'),
+          t('charts.other')
+        ],
         datasets: [{
           data: [32, 24, 15, 14, 10, 5],
           backgroundColor: [
@@ -162,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
         datasets: [
           {
-            label: 'Total Reports (K)',
+            label: t('charts.totalReports'),
             data: [352, 467, 791, 847, 800, 880, 1020, 1150, 1280],
             borderColor: '#00ff41',
             backgroundColor: 'rgba(0, 255, 65, 0.1)',
@@ -179,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           },
           {
-            label: 'Financial Loss ($B)',
+            label: t('charts.financialLoss'),
             data: [2.7, 3.5, 4.2, 6.9, 10.3, 12.5, 14.8, 17.2, 19.8],
             borderColor: '#ff0055',
             backgroundColor: 'rgba(255, 0, 85, 0.05)',

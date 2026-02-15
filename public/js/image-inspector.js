@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function handleFile(file) {
   if (!file.type.startsWith('image/')) return;
   if (file.size > 20 * 1024 * 1024) {
-    alert('File too large. Maximum 20MB.');
+    alert(t('error.fileTooLarge'));
     return;
   }
 
@@ -102,9 +102,9 @@ function displayResults(data) {
   // File Info
   const fi = data.fileInfo;
   document.getElementById('fileInfoTable').innerHTML = `
-    <tr><td>File Name</td><td>${fi.name}</td></tr>
-    <tr><td>File Size</td><td>${fi.sizeFormatted}</td></tr>
-    <tr><td>MIME Type</td><td>${fi.type}</td></tr>
+    <tr><td>${t('image.fileName')}</td><td>${fi.name}</td></tr>
+    <tr><td>${t('image.fileSize')}</td><td>${fi.sizeFormatted}</td></tr>
+    <tr><td>${t('image.mimeType')}</td><td>${fi.type}</td></tr>
   `;
 
   // EXIF Data
@@ -116,16 +116,16 @@ function displayResults(data) {
     noExif.classList.add('hidden');
     exifTable.classList.remove('hidden');
     let rows = '';
-    if (exif.make) rows += `<tr><td>Camera Make</td><td>${exif.make}</td></tr>`;
-    if (exif.model) rows += `<tr><td>Camera Model</td><td>${exif.model}</td></tr>`;
-    if (exif.software) rows += `<tr><td>Software</td><td>${exif.software}</td></tr>`;
-    if (exif.dateTime) rows += `<tr><td>Date Taken</td><td>${exif.dateTime}</td></tr>`;
-    if (exif.dimensions) rows += `<tr><td>Dimensions</td><td>${exif.dimensions}</td></tr>`;
-    if (exif.iso) rows += `<tr><td>ISO</td><td>${exif.iso}</td></tr>`;
-    if (exif.focalLength) rows += `<tr><td>Focal Length</td><td>${exif.focalLength}mm</td></tr>`;
-    if (exif.aperture) rows += `<tr><td>Aperture</td><td>f/${exif.aperture}</td></tr>`;
-    if (exif.exposureTime) rows += `<tr><td>Exposure</td><td>${exif.exposureTime}s</td></tr>`;
-    if (exif.gps) rows += `<tr><td>GPS</td><td>${exif.gps.lat.toFixed(4)}, ${exif.gps.lng.toFixed(4)}</td></tr>`;
+    if (exif.make) rows += `<tr><td>${t('image.cameraMake')}</td><td>${exif.make}</td></tr>`;
+    if (exif.model) rows += `<tr><td>${t('image.cameraModel')}</td><td>${exif.model}</td></tr>`;
+    if (exif.software) rows += `<tr><td>${t('image.software')}</td><td>${exif.software}</td></tr>`;
+    if (exif.dateTime) rows += `<tr><td>${t('image.dateTaken')}</td><td>${exif.dateTime}</td></tr>`;
+    if (exif.dimensions) rows += `<tr><td>${t('image.dimensions')}</td><td>${exif.dimensions}</td></tr>`;
+    if (exif.iso) rows += `<tr><td>${t('image.iso')}</td><td>${exif.iso}</td></tr>`;
+    if (exif.focalLength) rows += `<tr><td>${t('image.focalLength')}</td><td>${exif.focalLength}mm</td></tr>`;
+    if (exif.aperture) rows += `<tr><td>${t('image.aperture')}</td><td>f/${exif.aperture}</td></tr>`;
+    if (exif.exposureTime) rows += `<tr><td>${t('image.exposure')}</td><td>${exif.exposureTime}s</td></tr>`;
+    if (exif.gps) rows += `<tr><td>${t('image.gps')}</td><td>${exif.gps.lat.toFixed(4)}, ${exif.gps.lng.toFixed(4)}</td></tr>`;
     if (!rows) rows = '<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">No detailed EXIF data</td></tr>';
     exifTable.innerHTML = rows;
   } else {
@@ -136,12 +136,12 @@ function displayResults(data) {
   // Compression
   document.getElementById('compressionFindings').innerHTML = data.compression.findings.map(f =>
     `<div class="finding-item ${f.type}">${getIcon(f.type)} ${f.message}</div>`
-  ).join('') || '<div class="finding-item info">ℹ️ No compression anomalies detected</div>';
+  ).join('') || `<div class="finding-item info">ℹ️ ${t('image.noCompressionAnomalies')}</div>`;
 
   // Forensic
   document.getElementById('forensicFindings').innerHTML = data.forensic.findings.map(f =>
     `<div class="finding-item ${f.type}">${getIcon(f.type)} ${f.message}</div>`
-  ).join('') || '<div class="finding-item info">ℹ️ No forensic anomalies detected</div>';
+  ).join('') || `<div class="finding-item info">ℹ️ ${t('image.noForensicAnomalies')}</div>`;
 }
 
 function getIcon(type) {

@@ -1,8 +1,21 @@
 /* =====================================================
    AI CYBER DETECTIVE 2.0 — Cybersecurity Theme
+   Bootstrap 5 + Custom Cyber Design
    ===================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+/* Bootstrap 5 Override - Custom Color Scheme */
+:root {
+  --bs-body-bg: #0a0e17;
+  --bs-body-color: #e0e6ed;
+  --bs-primary: #00d4ff;
+  --bs-secondary: #00ff41;
+  --bs-danger: #ff0055;
+  --bs-success: #00ff41;
+  --bs-warning: #ffd600;
+  --bs-info: #00d4ff;
+}
 
 :root {
   --bg-primary: #0a0e17;

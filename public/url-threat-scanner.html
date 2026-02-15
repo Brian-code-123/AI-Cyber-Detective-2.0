@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>URL Analyzer — AI Cyber Detective 2.0</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
 </head>
@@ -13,15 +14,15 @@
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
       <div class="logo-icon">🔍</div>
-      <span>CYBER DETECTIVE</span>
+      <span data-i18n="nav.logo">CYBER DETECTIVE</span>
     </a>
     <ul class="nav-links">
       <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
       <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
       <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
-      <li><a href="image-inspector.html" data-i18n="nav.image">Image Inspector</a></li>
-      <li><a href="url-analyzer.html" class="active" data-i18n="nav.url">URL Analyzer</a></li>
-      <li><a href="text-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
+      <li><a href="image-forensics.html" data-i18n="nav.image">Image Inspector</a></li>
+      <li><a href="url-threat-scanner.html" class="active" data-i18n="nav.url">URL Analyzer</a></li>
+      <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
     </ul>
     <div class="nav-right">
       <div class="lang-toggle">
@@ -34,7 +35,7 @@
 
   <main class="main-content">
     <section class="hero" style="padding-bottom: 1rem;">
-      <div class="hero-badge"><span class="pulse-dot"></span><span>THREAT ANALYSIS</span></div>
+      <div class="hero-badge"><span class="pulse-dot"></span><span data-i18n="url.threat">THREAT ANALYSIS</span></div>
       <h1 data-i18n="url.title">URL Analyzer</h1>
       <p data-i18n="url.subtitle">Deep analysis of web addresses for security threats</p>
     </section>
@@ -43,7 +44,7 @@
       <!-- Input Panel -->
       <div class="tool-input-panel">
         <div class="tool-panel">
-          <h3>🔗 Enter URL</h3>
+          <h3 data-i18n="url.enterUrl">🔗 Enter URL</h3>
           <div class="input-group">
             <input type="text" class="cyber-input" id="urlInput" placeholder="https://example.com" data-i18n="url.placeholder">
           </div>
@@ -51,13 +52,13 @@
         </div>
 
         <div class="tool-panel" style="font-size: 0.85rem; color: var(--text-muted);">
-          <h3>💡 Tips</h3>
+          <h3 data-i18n="url.tips">💡 Tips</h3>
           <ul style="list-style: none; padding: 0;">
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">• Check for misspellings in domains</li>
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">• Look for suspicious TLDs (.xyz, .top, etc.)</li>
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">• Verify HTTPS is present</li>
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">• Check for homograph characters</li>
-            <li style="padding: 6px 0;">• Be wary of IP addresses as URLs</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip1">• Check for misspellings in domains</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip2">• Look for suspicious TLDs (.xyz, .top, etc.)</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip3">• Verify HTTPS is present</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip4">• Check for homograph characters</li>
+            <li style="padding: 6px 0;" data-i18n="url.tip5">• Be wary of IP addresses as URLs</li>
           </ul>
         </div>
       </div>
@@ -109,6 +110,7 @@
     </footer>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/url-analyzer.js"></script>

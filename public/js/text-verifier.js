@@ -1,7 +1,7 @@
 // === Text Verifier ===
 async function verifyText() {
   const text = document.getElementById('textInput').value.trim();
-  if (!text) { alert('Please paste some text to verify'); return; }
+  if (!text) { alert(t('error.pasteText')); return; }
 
   document.getElementById('textPlaceholder').classList.add('hidden');
   document.getElementById('textResults').classList.add('hidden');
@@ -17,7 +17,7 @@ async function verifyText() {
     renderTextResults(data);
   } catch (err) {
     console.error(err);
-    alert('Verification failed — check console for details.');
+    alert(t('error.verificationFailed'));
   } finally {
     document.getElementById('textLoading').classList.add('hidden');
   }
@@ -39,10 +39,10 @@ function renderTextResults(data) {
   });
 
   let color, label;
-  if (cred >= 75)       { color = '#00ff41'; label = '✅ Likely Credible'; }
-  else if (cred >= 50)  { color = '#ffaa00'; label = '⚠️ Questionable'; }
-  else if (cred >= 25)  { color = '#ff6600'; label = '🔶 Suspicious'; }
-  else                  { color = '#ff0055'; label = '🚨 Likely Misinformation'; }
+  if (cred >= 75)       { color = '#00ff41'; label = '✅ ' + t('text.likelyCredible'); }
+  else if (cred >= 50)  { color = '#ffaa00'; label = '⚠️ ' + t('text.questionable'); }
+  else if (cred >= 25)  { color = '#ff6600'; label = '🔶 ' + t('text.suspicious'); }
+  else                  { color = '#ff0055'; label = '🚨 ' + t('text.likelyMisinformation'); }
   arc.setAttribute('stroke', color);
   document.getElementById('textCredScore').textContent = cred;
   document.getElementById('textCredScore').style.color = color;
@@ -63,15 +63,15 @@ function renderTextResults(data) {
 
   const ct = document.getElementById('contentTable');
   ct.innerHTML = Object.entries({
-    'Word Count': words.length,
-    'Sentence Count': sentences.length,
-    'Avg Words/Sentence': sentences.length ? (words.length / sentences.length).toFixed(1) : '—',
-    'CAPS Ratio': (capsRatio * 100).toFixed(1) + '%',
-    'Exclamation Marks': exclamationCount,
-    'Question Marks': questionCount,
-    'URLs Found': urlCount,
-    'Statistical Claims': statClaims,
-    'Source Citations': hasCitations ? 'Yes' : 'None found'
+    [t('text.wordCount')]: words.length,
+    [t('text.sentenceCount')]: sentences.length,
+    [t('text.avgWords')]: sentences.length ? (words.length / sentences.length).toFixed(1) : '—',
+    [t('text.capsRatio')]: (capsRatio * 100).toFixed(1) + '%',
+    [t('text.exclamationMarks')]: exclamationCount,
+    [t('text.questionMarks')]: questionCount,
+    [t('text.urlsFound')]: urlCount,
+    [t('text.statisticalClaims')]: statClaims,
+    [t('text.sourceCitations')]: hasCitations ? t('text.yes') : t('text.noneFound')
   }).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
 
   // -- Sentiment (server gives data.sentiment) --
@@ -79,22 +79,22 @@ function renderTextResults(data) {
   const sentViz = document.getElementById('sentimentViz');
   let sentColor, sentEmoji, sentLabel;
   const sc = sent.comparative ?? 0;
-  if (sc > 0.05)      { sentColor = '#00ff41'; sentEmoji = '😊'; sentLabel = 'Positive'; }
-  else if (sc < -0.05){ sentColor = '#ff0055'; sentEmoji = '😠'; sentLabel = 'Negative'; }
-  else                { sentColor = '#ffaa00'; sentEmoji = '😐'; sentLabel = 'Neutral'; }
+  if (sc > 0.05)      { sentColor = '#00ff41'; sentEmoji = '😊'; sentLabel = t('text.positive'); }
+  else if (sc < -0.05){ sentColor = '#ff0055'; sentEmoji = '😠'; sentLabel = t('text.negative'); }
+  else                { sentColor = '#ffaa00'; sentEmoji = '😐'; sentLabel = t('text.neutral'); }
   sentViz.innerHTML = `
     <div style="font-size: 3rem; margin-bottom: 0.5rem;">${sentEmoji}</div>
     <div style="font-size: 1.3rem; font-weight: 700; color: ${sentColor};">${sentLabel}</div>
-    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Score: ${(sent.score ?? 0).toFixed(2)} &nbsp;|&nbsp; Comparative: ${sc.toFixed(4)}</div>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">${t('text.sentimentScore')}: ${(sent.score ?? 0).toFixed(2)} &nbsp;|&nbsp; ${t('text.comparative')}: ${sc.toFixed(4)}</div>
   `;
 
   const st = document.getElementById('sentimentTable');
   st.innerHTML = '';
   if (sent.positive && sent.positive.length) {
-    st.innerHTML += `<tr><td>Positive Words</td><td style="color:#00ff41;">${sent.positive.join(', ')}</td></tr>`;
+    st.innerHTML += `<tr><td>${t('text.positiveWords')}</td><td style="color:#00ff41;">${sent.positive.join(', ')}</td></tr>`;
   }
   if (sent.negative && sent.negative.length) {
-    st.innerHTML += `<tr><td>Negative Words</td><td style="color:#ff0055;">${sent.negative.join(', ')}</td></tr>`;
+    st.innerHTML += `<tr><td>${t('text.negativeWords')}</td><td style="color:#ff0055;">${sent.negative.join(', ')}</td></tr>`;
   }
 
   // -- Findings (merge content + misinformation + credibility findings) --
@@ -106,7 +106,7 @@ function renderTextResults(data) {
     ...(data.credibility?.findings || [])
   ];
   if (allFindings.length === 0) {
-    fc.innerHTML = '<div class="finding-item safe"><span>✅ No significant red flags detected</span></div>';
+    fc.innerHTML = `<div class="finding-item safe"><span>✅ ${t('text.noRedFlags')}</span></div>`;
   } else {
     allFindings.forEach(f => {
       const type = f.type || 'info';

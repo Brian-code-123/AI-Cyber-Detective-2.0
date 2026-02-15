@@ -235,11 +235,11 @@ let gameState = {
 };
 
 const rankThresholds = [
-  { min: 0, badge: '🥉', rank: 'Trainee', next: 500 },
-  { min: 500, badge: '🥈', rank: 'Junior Detective', next: 1000 },
-  { min: 1000, badge: '🥇', rank: 'Detective', next: 1800 },
-  { min: 1800, badge: '🏆', rank: 'Senior Detective', next: 2500 },
-  { min: 2500, badge: '👑', rank: 'Elite Detective', next: null }
+  { min: 0, badge: '🥉', rank: 'Trainee', rankKey: 'game.rankTrainee', next: 500 },
+  { min: 500, badge: '🥈', rank: 'Junior Detective', rankKey: 'game.rankJunior', next: 1000 },
+  { min: 1000, badge: '🥇', rank: 'Detective', rankKey: 'game.rankDetective', next: 1800 },
+  { min: 1800, badge: '🏆', rank: 'Senior Detective', rankKey: 'game.rankSenior', next: 2500 },
+  { min: 2500, badge: '👑', rank: 'Elite Detective', rankKey: 'game.rankElite', next: null }
 ];
 
 function getCurrentRank(score) {
@@ -323,12 +323,12 @@ function handleAnswer(index, correct) {
     const points = basePoints * multiplier;
     gameState.score += points;
 
-    feedbackTitle.textContent = `✓ Correct! +${points} points (${multiplier}x streak bonus)`;
+    feedbackTitle.textContent = `✓ ${t('game.correct')} +${points} ${t('game.points')} (${multiplier}x ${t('game.streakBonus')})`;
     feedbackTitle.style.color = 'var(--accent-green)';
     feedback.classList.add('correct-feedback');
   } else {
     gameState.streak = 0;
-    feedbackTitle.textContent = '✗ Incorrect!';
+    feedbackTitle.textContent = `✗ ${t('game.incorrect')}`;
     feedbackTitle.style.color = 'var(--accent-red)';
     feedback.classList.add('incorrect-feedback');
   }
@@ -355,7 +355,7 @@ function endGame() {
   const rank = getCurrentRank(gameState.score);
   document.getElementById('finalBadge').textContent = rank.badge;
   document.getElementById('finalScore').textContent = gameState.score;
-  document.getElementById('finalRank').textContent = rank.rank;
+  document.getElementById('finalRank').textContent = t(rank.rankKey);
 }
 
 function restartGame() {
@@ -380,15 +380,15 @@ function updateUI() {
 
   const rank = getCurrentRank(gameState.score);
   document.getElementById('currentBadge').textContent = rank.badge;
-  document.getElementById('currentRank').textContent = rank.rank;
+  document.getElementById('currentRank').textContent = t(rank.rankKey);
 
   if (rank.next) {
     const progress = ((gameState.score - rank.min) / (rank.next - rank.min)) * 100;
     document.getElementById('rankProgress').style.width = Math.min(progress, 100) + '%';
-    document.getElementById('nextRankInfo').textContent = `Score ${rank.next}+ for next rank`;
+    document.getElementById('nextRankInfo').textContent = t('game.nextRankInfo').replace('{0}', rank.next);
   } else {
     document.getElementById('rankProgress').style.width = '100%';
-    document.getElementById('nextRankInfo').textContent = 'Maximum rank achieved!';
+    document.getElementById('nextRankInfo').textContent = t('game.maxRank');
   }
 }
 

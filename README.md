@@ -43,14 +43,14 @@ AI Cyber Detective 2.0 is a comprehensive cybersecurity education and analysis p
 - **Global Leaderboard**: Compete with players worldwide
 - **Streak Multipliers**: Bonus points for consecutive correct answers
 
-#### 🖼️ **Image Inspector Tool**
+#### 🖼️ **AI Image Forensics Tool**
 - **AI Generation Detection**: Identify AI-generated or manipulated images
 - **EXIF Metadata Analysis**: Extract camera, GPS, and software information
 - **Compression Forensics**: Detect re-compression artifacts
 - **Pixel Uniformity Analysis**: Identify digital creation patterns
 - **File Signature Verification**: Validate image authenticity
 
-#### 🔗 **URL Analyzer Tool**
+#### 🔗 **URL Threat Scanner Tool**
 - **Phishing Detection**: Identify suspicious URLs and domain impersonation
 - **SSL/HTTPS Verification**: Check encryption status
 - **TLD Risk Assessment**: Flag dangerous top-level domains
@@ -58,7 +58,7 @@ AI Cyber Detective 2.0 is a comprehensive cybersecurity education and analysis p
 - **Homograph Attack Detection**: Identify Unicode domain tricks
 - **Risk Scoring**: 0-100 threat assessment with detailed findings
 
-#### 📝 **Text Verifier Tool**
+#### 📝 **Content Verifier Tool**
 - **Sentiment Analysis**: Powered by NLP sentiment library
 - **Misinformation Detection**: Identify clickbait and conspiracy patterns
 - **Credibility Scoring**: Assess source citations and statistical claims
@@ -166,7 +166,7 @@ AI-Cyber-Detective-2.0/
   }
   ```
 
-#### URL Analyzer
+#### URL Threat Scanner
 - **POST** `/api/analyze-url`
   ```json
   {
@@ -175,14 +175,14 @@ AI-Cyber-Detective-2.0/
   ```
   **Response**: Risk score (0-100), findings array, domain details
 
-#### Image Analyzer
+#### AI Image Forensics
 - **POST** `/api/analyze-image`
   - Content-Type: `multipart/form-data`
   - Field: `image` (max 20MB)
   
   **Response**: AI detection score, EXIF data, compression findings, forensic analysis
 
-#### Text Verifier
+#### Content Verifier
 - **POST** `/api/verify-text`
   ```json
   {

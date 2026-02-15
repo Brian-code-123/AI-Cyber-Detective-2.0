@@ -1,7 +1,7 @@
 // === URL Analyzer ===
 async function analyzeUrl() {
   const input = document.getElementById('urlInput').value.trim();
-  if (!input) { alert('Please enter a URL'); return; }
+  if (!input) { alert(t('error.enterUrl')); return; }
 
   document.getElementById('urlPlaceholder').classList.add('hidden');
   document.getElementById('urlResults').classList.add('hidden');
@@ -17,7 +17,7 @@ async function analyzeUrl() {
     renderUrlResults(data);
   } catch (err) {
     console.error(err);
-    alert('Analysis failed — check console for details.');
+    alert(t('error.analysisFailed'));
   } finally {
     document.getElementById('urlLoading').classList.add('hidden');
   }
@@ -39,10 +39,10 @@ function renderUrlResults(data) {
   });
 
   let color, label;
-  if (risk <= 25)      { color = '#00ff41'; label = '✅ Low Risk'; }
-  else if (risk <= 50) { color = '#ffaa00'; label = '⚠️ Medium Risk'; }
-  else if (risk <= 75) { color = '#ff6600'; label = '🔶 High Risk'; }
-  else                 { color = '#ff0055'; label = '🚨 Critical Risk'; }
+  if (risk <= 25)      { color = '#00ff41'; label = '✅ ' + t('url.lowRisk'); }
+  else if (risk <= 50) { color = '#ffaa00'; label = '⚠️ ' + t('url.mediumRisk'); }
+  else if (risk <= 75) { color = '#ff6600'; label = '🔶 ' + t('url.highRisk'); }
+  else                 { color = '#ff0055'; label = '🚨 ' + t('url.criticalRisk'); }
   arc.setAttribute('stroke', color);
   document.getElementById('urlRiskScore').textContent = risk;
   document.getElementById('urlRiskScore').style.color = color;
@@ -63,15 +63,15 @@ function renderUrlResults(data) {
     hasSSL = u.protocol === 'https:';
   } catch (e) {}
   dtable.innerHTML = Object.entries({
-    'Protocol': parsedProtocol,
-    'Hostname': parsedHostname,
-    'Domain': data.domain || '—',
-    'TLD': parsedTld,
-    'Path': parsedPath,
-    'Has IP': isIP ? 'Yes ⚠️' : 'No',
-    'SSL': hasSSL ? '✅ Yes' : '❌ No',
-    'Resolved IP': info.ip || '—',
-    'Risk Level': data.riskLevel || '—'
+    [t('url.protocol')]: parsedProtocol,
+    [t('url.hostname')]: parsedHostname,
+    [t('url.domain')]: data.domain || '—',
+    [t('url.tld')]: parsedTld,
+    [t('url.path')]: parsedPath,
+    [t('url.hasIP')]: isIP ? t('url.yes') + ' ⚠️' : t('url.no'),
+    [t('url.ssl')]: hasSSL ? '✅ ' + t('url.yes') : '❌ ' + t('url.no'),
+    [t('url.resolvedIP')]: info.ip || '—',
+    [t('url.riskLevel')]: data.riskLevel || '—'
   }).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
 
   // Findings
@@ -79,7 +79,7 @@ function renderUrlResults(data) {
   container.innerHTML = '';
   const findings = data.findings || [];
   if (findings.length === 0) {
-    container.innerHTML = '<div class="finding-item safe"><span>✅ No significant threats detected</span></div>';
+    container.innerHTML = `<div class="finding-item safe"><span>✅ ${t('url.noThreats')}</span></div>`;
   } else {
     findings.forEach(f => {
       const type = f.type || 'info';
