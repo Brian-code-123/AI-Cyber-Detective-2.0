@@ -12,6 +12,7 @@
 [English](#english) | [中文](#中文)
 
 </div>
+![alt text](image.png)
 
 ---
 
