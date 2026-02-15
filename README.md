@@ -77,12 +77,15 @@ AI Cyber Detective 2.0 is a comprehensive cybersecurity education and analysis p
 
 #### Frontend
 - **Core**: Vanilla JavaScript (ES6+)
-- **Styling**: Custom CSS3 with cybersecurity theme
+- **UI Framework**: Bootstrap 5.3.0 (responsive design)
+- **Styling**: Custom CSS3 with cybersecurity theme + Bootstrap integration
 - **Charts**: Chart.js v4.4.0
 - **Maps**: Leaflet.js v1.9.4
 - **Fonts**: Google Fonts (Orbitron, Rajdhani, Share Tech Mono)
 
 #### Design System
+- **Framework**: Bootstrap 5.3.0 with custom CSS overrides
+- **Responsive Design**: Mobile-first approach (single column on mobile, multi-column on desktop)
 - **Theme**: Dark mode with neon accents
 - **Colors**: 
   - Primary Green: `#00ff41`
@@ -90,7 +93,7 @@ AI Cyber Detective 2.0 is a comprehensive cybersecurity education and analysis p
   - Alert Red: `#ff0055`
   - Warning Orange: `#ff8c00`
 - **Effects**: Matrix rain animation, glassmorphism, scanline overlay
-- **Layout**: Responsive grid system with mobile support
+- **Layout**: Bootstrap grid + custom CSS for responsive mobile support
 
 ### 📂 Project Structure
 
@@ -105,9 +108,9 @@ AI-Cyber-Detective-2.0/
     ├── index.html           # Dashboard homepage
     ├── story.html           # Story mode page
     ├── game.html            # Training game page
-    ├── image-inspector.html # Image analysis tool
-    ├── url-analyzer.html    # URL threat analyzer
-    ├── text-verifier.html   # Text credibility checker
+    ├── image-forensics.html # AI Image Forensics tool
+    ├── url-threat-scanner.html # URL Threat Scanner
+    ├── content-verifier.html # Content Verifier tool
     │
     ├── css/
     │   └── style.css        # Complete stylesheet (~1300 lines)
