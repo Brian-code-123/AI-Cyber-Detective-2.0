@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Cyber Detective 2.0</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🔍</div>
+      <span>CYBER DETECTIVE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active" data-i18n="nav.dashboard">Dashboard</a></li>
+      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+      <li><a href="image-inspector.html" data-i18n="nav.image">Image Inspector</a></li>
+      <li><a href="url-analyzer.html" data-i18n="nav.url">URL Analyzer</a></li>
+      <li><a href="text-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <button class="hamburger">☰</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span data-i18n="hero.badge">AI-POWERED SECURITY PLATFORM</span>
+      </div>
+      <h1 data-i18n="hero.title">AI Cyber Detective 2.0</h1>
+      <p data-i18n="hero.subtitle">Your intelligent companion for cybersecurity education, threat detection, and digital forensics.</p>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-icon">🚨</div>
+          <div class="stat-number" data-count="1280000" data-suffix="+">0</div>
+          <div class="stat-label" data-i18n="stats.scams">Scams Reported (2026)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🌍</div>
+          <div class="stat-number" data-count="195">0</div>
+          <div class="stat-label" data-i18n="stats.countries">Countries Affected</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💸</div>
+          <div class="stat-number" data-count="19.8" data-suffix="B+" data-prefix="$">0</div>
+          <div class="stat-label" data-i18n="stats.lost">Money Lost (2026 USD)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🛡️</div>
+          <div class="stat-number" data-count="50000" data-suffix="+">0</div>
+          <div class="stat-label" data-i18n="stats.users">Users Protected</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="section">
+      <div class="section-header">
+        <h2 data-i18n="charts.title">Global Cyber Threat Intelligence</h2>
+        <p data-i18n="charts.subtitle">Real-time analysis of worldwide cyber fraud patterns and trends</p>
+        <div class="accent-line"></div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-container">
+          <h3 data-i18n="charts.topScams">📊 Top 10 Cyber Scam Types</h3>
+          <div class="chart-wrapper">
+            <canvas id="topScamsChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <h3 data-i18n="charts.distribution">🍩 Scam Category Distribution</h3>
+          <div class="chart-wrapper">
+            <canvas id="distributionChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <h3 data-i18n="charts.trend">📈 Yearly Cyber Fraud Trend</h3>
+          <div class="chart-wrapper">
+            <canvas id="trendChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <h3 data-i18n="charts.sophistication">🕸️ Threat Sophistication Radar</h3>
+          <div class="chart-wrapper">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container full-width">
+          <h3 data-i18n="charts.heatmap">🌍 Global Cyber Fraud Heatmap</h3>
+          <div id="heatmap"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="section">
+      <div class="section-header">
+        <h2 data-i18n="tools.title">Investigation Toolkit</h2>
+        <p data-i18n="tools.subtitle">Powerful AI-driven tools for analyzing digital threats</p>
+        <div class="accent-line"></div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon green">📖</div>
+          <h3 data-i18n="tools.story.title">Story-Based Learning</h3>
+          <p data-i18n="tools.story.desc">Follow Alex the Cyber Detective through interactive chapters.</p>
+          <a href="story.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
+        </div>
+        <div class="card">
+          <div class="card-icon cyan">🎮</div>
+          <h3 data-i18n="tools.game.title">Gamified Training</h3>
+          <p data-i18n="tools.game.desc">5 difficulty tiers with 15+ scenarios.</p>
+          <a href="game.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">🖼️</div>
+          <h3 data-i18n="tools.image.title">Image Inspector</h3>
+          <p data-i18n="tools.image.desc">Detect AI-generated images and analyze forensic artifacts.</p>
+          <a href="image-inspector.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
+        </div>
+        <div class="card">
+          <div class="card-icon orange">🌐</div>
+          <h3 data-i18n="tools.url.title">URL Analyzer</h3>
+          <p data-i18n="tools.url.desc">Check domain reputation and detect phishing patterns.</p>
+          <a href="url-analyzer.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
+        </div>
+        <div class="card">
+          <div class="card-icon blue">📝</div>
+          <h3 data-i18n="tools.text.title">Text Verifier</h3>
+          <p data-i18n="tools.text.desc">Fact-check articles and detect misinformation.</p>
+          <a href="text-verifier.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p data-i18n="footer.text">AI Cyber Detective 2.0 — Empowering Cybersecurity Awareness</p>
+      <p class="mt-2" data-i18n="footer.disclaimer">Educational platform. Data shown is for demonstration purposes.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

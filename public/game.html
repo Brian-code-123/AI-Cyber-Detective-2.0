@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Game — AI Cyber Detective 2.0</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🔍</div>
+      <span>CYBER DETECTIVE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+      <li><a href="game.html" class="active" data-i18n="nav.game">Training Game</a></li>
+      <li><a href="image-inspector.html" data-i18n="nav.image">Image Inspector</a></li>
+      <li><a href="url-analyzer.html" data-i18n="nav.url">URL Analyzer</a></li>
+      <li><a href="text-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <button class="hamburger">☰</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <section class="hero" style="padding-bottom: 1rem;">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span>GAMIFIED TRAINING</span>
+      </div>
+      <h1 data-i18n="game.title">Cyber Detective Training</h1>
+      <p data-i18n="game.subtitle">Test your scam detection skills</p>
+    </section>
+
+    <div class="game-container">
+      <!-- Game Header -->
+      <div class="game-header">
+        <div class="game-score">
+          <div class="score-item">
+            <div class="label" data-i18n="game.score">Score</div>
+            <div class="value" id="gameScore">0</div>
+          </div>
+          <div class="score-item">
+            <div class="label" data-i18n="game.streak">Streak</div>
+            <div class="value" id="gameStreak">0🔥</div>
+          </div>
+          <div class="score-item">
+            <div class="label" data-i18n="game.best">Best</div>
+            <div class="value" id="gameBest">0</div>
+          </div>
+          <div class="score-item">
+            <div class="label" data-i18n="game.level">Level</div>
+            <div class="value" id="gameLevel">1/15</div>
+          </div>
+        </div>
+
+        <div class="difficulty-selector">
+          <button class="diff-btn tier-1 active" data-tier="1">Easy</button>
+          <button class="diff-btn tier-2" data-tier="2">Medium</button>
+          <button class="diff-btn tier-3" data-tier="3">Hard</button>
+          <button class="diff-btn tier-4" data-tier="4">Expert</button>
+          <button class="diff-btn tier-5" data-tier="5">Ultimate</button>
+        </div>
+      </div>
+
+      <!-- Badge Display -->
+      <div class="badge-display" id="badgeDisplay">
+        <div class="badge-emoji" id="currentBadge">🥉</div>
+        <div class="badge-info">
+          <h4 id="currentRank">Trainee</h4>
+          <p id="nextRankInfo">Score 500+ for next rank</p>
+        </div>
+        <div style="margin-left: auto;">
+          <div class="progress-bar-container" style="width: 200px;">
+            <div class="progress-bar-fill" id="rankProgress" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario Area -->
+      <div id="scenarioArea">
+        <div class="scenario-card" id="scenarioCard">
+          <div class="scenario-badge" id="scenarioBadge" style="background: rgba(0,255,65,0.1); color: var(--accent-green);">
+            📧 PHISHING
+          </div>
+          <h3 id="scenarioTitle" style="font-family: 'Orbitron'; font-size: 1.1rem; margin-bottom: 1rem;"></h3>
+          <div class="scenario-content" id="scenarioContent"></div>
+          <div class="answer-buttons" id="answerButtons"></div>
+          <div class="feedback-panel" id="feedbackPanel">
+            <div class="feedback-title" id="feedbackTitle"></div>
+            <p id="feedbackText" style="color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.7;"></p>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+              <button class="cyber-btn" id="nextBtn" onclick="nextScenario()" data-i18n="game.next">NEXT SCENARIO →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Over -->
+      <div id="gameOver" class="hidden">
+        <div class="scenario-card" style="text-align: center;">
+          <h2 style="font-family: 'Orbitron'; color: var(--accent-green); margin-bottom: 1rem;">🎉 Training Complete!</h2>
+          <div style="font-size: 4rem; margin: 1rem 0;" id="finalBadge">🥉</div>
+          <div style="font-family: 'Orbitron'; font-size: 2rem; color: var(--accent-cyan); margin-bottom: 0.5rem;" id="finalScore">0</div>
+          <div style="color: var(--text-secondary); margin-bottom: 2rem;" id="finalRank">Trainee</div>
+          
+          <div class="input-group" style="max-width: 300px; margin: 0 auto 1rem;">
+            <input type="text" class="cyber-input" id="playerName" placeholder="Enter your name" data-i18n="game.yourName" maxlength="20">
+          </div>
+          <button class="cyber-btn btn-cyan" onclick="submitScore()" style="max-width: 300px; margin: 0 auto 1rem;" data-i18n="game.submit">SUBMIT SCORE</button>
+          <button class="cyber-btn" onclick="restartGame()" style="max-width: 300px; margin: 0 auto;" data-i18n="game.restart">RESTART</button>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="tool-panel" style="margin-top: 2rem;">
+        <h3 data-i18n="game.leaderboard">🏆 Leaderboard</h3>
+        <div id="leaderboardContainer">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th data-i18n="game.rank">#</th>
+                <th data-i18n="game.player">Player</th>
+                <th data-i18n="game.playerScore">Score</th>
+                <th data-i18n="game.badge">Badge</th>
+                <th data-i18n="game.date">Date</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p data-i18n="footer.text">AI Cyber Detective 2.0 — Empowering Cybersecurity Awareness</p>
+    </footer>
+  </main>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Verifier — AI Cyber Detective 2.0</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🔍</div>
+      <span>CYBER DETECTIVE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+      <li><a href="image-inspector.html" data-i18n="nav.image">Image Inspector</a></li>
+      <li><a href="url-analyzer.html" data-i18n="nav.url">URL Analyzer</a></li>
+      <li><a href="text-verifier.html" class="active" data-i18n="nav.text">Text Verifier</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <button class="hamburger">☰</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <section class="hero" style="padding-bottom: 1rem;">
+      <div class="hero-badge"><span class="pulse-dot"></span><span>CONTENT ANALYSIS</span></div>
+      <h1 data-i18n="text.title">Text Verifier</h1>
+      <p data-i18n="text.subtitle">Detect misinformation, analyse credibility & sentiment</p>
+    </section>
+
+    <div class="tool-layout">
+      <!-- Input Panel -->
+      <div class="tool-input-panel">
+        <div class="tool-panel">
+          <h3>📝 Paste Text</h3>
+          <textarea class="cyber-input" id="textInput" rows="10" placeholder="Paste a suspicious email, message, social post or article..." data-i18n="text.placeholder"></textarea>
+          <button class="cyber-btn" id="textVerifyBtn" onclick="verifyText()" data-i18n="text.verify">VERIFY TEXT</button>
+        </div>
+
+        <div class="tool-panel" style="font-size: 0.85rem; color: var(--text-muted);">
+          <h3>🔎 What We Check</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">📊 Sentiment analysis (positive / negative / neutral)</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">🎣 Clickbait pattern detection</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">🔠 CAPS LOCK & urgency detection</li>
+            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);">📉 Statistical claim analysis</li>
+            <li style="padding: 6px 0;">📰 Source & citation check</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="tool-results">
+        <div id="textPlaceholder" class="tool-panel" style="text-align: center; padding: 4rem 2rem;">
+          <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">📄</div>
+          <p style="color: var(--text-muted); font-size: 1.1rem;" data-i18n="text.noResults">Paste text above to begin verification</p>
+        </div>
+
+        <div id="textResults" class="hidden">
+          <!-- Credibility Score -->
+          <div class="result-panel">
+            <h3 data-i18n="text.credibility">🎯 Credibility Assessment</h3>
+            <div class="risk-meter">
+              <div class="risk-circle">
+                <svg width="150" height="150"><circle cx="75" cy="75" r="65" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/><circle cx="75" cy="75" r="65" fill="none" stroke="var(--accent-green)" stroke-width="8" stroke-dasharray="408" stroke-dashoffset="408" stroke-linecap="round" id="textCredArc"/></svg>
+                <span class="score" id="textCredScore">0</span>
+              </div>
+              <div class="risk-label" id="textCredLabel">—</div>
+            </div>
+          </div>
+
+          <!-- Content Analysis -->
+          <div class="result-panel">
+            <h3 data-i18n="text.content">📊 Content Analysis</h3>
+            <table class="exif-table" id="contentTable"></table>
+          </div>
+
+          <!-- Sentiment -->
+          <div class="result-panel">
+            <h3 data-i18n="text.sentiment">😃 Sentiment Analysis</h3>
+            <div id="sentimentViz" style="text-align: center; margin-bottom: 1rem;"></div>
+            <table class="exif-table" id="sentimentTable"></table>
+          </div>
+
+          <!-- Findings -->
+          <div class="result-panel">
+            <h3 data-i18n="text.findings">🔎 Findings & Warnings</h3>
+            <div id="textFindings"></div>
+          </div>
+        </div>
+
+        <div id="textLoading" class="hidden">
+          <div class="loading">
+            <div class="spinner"></div>
+            <div class="loading-text">Verifying text…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p data-i18n="footer.text">AI Cyber Detective 2.0 — Empowering Cybersecurity Awareness</p>
+    </footer>
+  </main>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/text-verifier.js"></script>
+</body>
+</html>

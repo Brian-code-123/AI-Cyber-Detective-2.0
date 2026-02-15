@@ -1,0 +1,338 @@
+// =====================================================
+// AI CYBER DETECTIVE 2.0 — Internationalization (i18n)
+// =====================================================
+
+const translations = {
+  en: {
+    // Nav
+    'nav.dashboard': 'Dashboard',
+    'nav.story': 'Story Mode',
+    'nav.game': 'Training Game',
+    'nav.image': 'Image Inspector',
+    'nav.url': 'URL Analyzer',
+    'nav.text': 'Text Verifier',
+
+    // Hero
+    'hero.badge': 'AI-POWERED SECURITY PLATFORM',
+    'hero.title': 'AI Cyber Detective 2.0',
+    'hero.subtitle': 'Your intelligent companion for cybersecurity education, threat detection, and digital forensics. Learn to identify scams, analyze suspicious content, and protect yourself online.',
+
+    // Stats
+    'stats.scams': 'Scams Reported',
+    'stats.countries': 'Countries Affected',
+    'stats.lost': 'Money Lost (USD)',
+    'stats.users': 'Users Protected',
+
+    // Dashboard Charts
+    'charts.title': 'Global Cyber Threat Intelligence',
+    'charts.subtitle': 'Real-time analysis of worldwide cyber fraud patterns and trends',
+    'charts.topScams': '📊 Top 10 Cyber Scam Types',
+    'charts.distribution': '🍩 Scam Category Distribution',
+    'charts.trend': '📈 Yearly Cyber Fraud Trend',
+    'charts.heatmap': '🌍 Global Cyber Fraud Heatmap',
+    'charts.sophistication': '🕸️ Threat Sophistication Radar',
+
+    // Tools Section
+    'tools.title': 'Investigation Toolkit',
+    'tools.subtitle': 'Powerful AI-driven tools for analyzing digital threats',
+    'tools.story.title': 'Story-Based Learning',
+    'tools.story.desc': 'Follow Alex the Cyber Detective through interactive chapters covering prize scams, urgency tactics, impersonation, and social engineering.',
+    'tools.game.title': 'Gamified Training',
+    'tools.game.desc': '5 difficulty tiers with 15+ scenarios covering phishing, impersonation, delivery scams, emotional manipulation, and homograph attacks.',
+    'tools.image.title': 'Image Inspector',
+    'tools.image.desc': 'Detect AI-generated images, analyze EXIF metadata, check compression artifacts, and identify forensic manipulation signs.',
+    'tools.url.title': 'URL Analyzer',
+    'tools.url.desc': 'Check domain reputation, evaluate SSL certificates, detect phishing patterns, and analyze link safety.',
+    'tools.text.title': 'Text Verifier',
+    'tools.text.desc': 'Fact-check articles, detect sentiment manipulation, identify clickbait patterns, and verify content credibility.',
+    'tools.launch': 'Launch Tool →',
+
+    // Image Inspector
+    'image.title': 'Image Inspector',
+    'image.subtitle': 'AI-powered image forensic analysis',
+    'image.upload': 'Drop image here or click to upload',
+    'image.filetypes': 'JPG, PNG, GIF, WebP — Max 20MB',
+    'image.analyze': 'ANALYZE IMAGE',
+    'image.aiDetection': '🤖 AI Generation Detection',
+    'image.metadata': '📋 EXIF Metadata',
+    'image.compression': '🗜️ Compression Analysis',
+    'image.forensic': '🔬 Forensic Artifacts',
+    'image.fileInfo': '📁 File Information',
+    'image.verdict': 'Verdict',
+    'image.noResults': 'Upload an image to begin analysis',
+
+    // URL Analyzer
+    'url.title': 'URL Analyzer',
+    'url.subtitle': 'Deep analysis of web addresses for security threats',
+    'url.placeholder': 'Enter URL to analyze...',
+    'url.analyze': 'ANALYZE URL',
+    'url.riskScore': '🎯 Risk Assessment',
+    'url.domain': '🌐 Domain Analysis',
+    'url.security': '🔒 Security Findings',
+    'url.noResults': 'Enter a URL above to begin analysis',
+
+    // Text Verifier
+    'text.title': 'Text Verifier',
+    'text.subtitle': 'AI-powered content credibility analysis',
+    'text.placeholder': 'Paste text or article content here for analysis...',
+    'text.analyze': 'VERIFY TEXT',
+    'text.content': '📝 Content Analysis',
+    'text.sentiment': '💭 Sentiment Analysis',
+    'text.misinfo': '⚠️ Misinformation Detection',
+    'text.credibility': '✅ Credibility Assessment',
+    'text.noResults': 'Paste text above to begin verification',
+
+    // Story
+    'story.title': 'Story-Based Learning',
+    'story.subtitle': 'Follow Alex the Cyber Detective on a thrilling investigation',
+    'story.progress': 'Story Progress',
+    'story.ch1.title': 'Chapter 1: The Prize Trap',
+    'story.ch1.number': 'CHAPTER 01',
+    'story.ch2.title': 'Chapter 2: The Urgency Game',
+    'story.ch2.number': 'CHAPTER 02',
+    'story.ch3.title': 'Chapter 3: The Impersonator',
+    'story.ch3.number': 'CHAPTER 03',
+    'story.ch4.title': 'Chapter 4: The Social Engineer',
+    'story.ch4.number': 'CHAPTER 04',
+    'story.code.title': '🔍 The Cyber Detective Code',
+    'story.dangerLabel': '⚠ DANGER',
+    'story.safeLabel': '✓ SAFE',
+    'story.ch1.text': 'Alex received an exciting email: "Congratulations! You\'ve won a $10,000 Amazon gift card! Click here to claim your prize within 24 hours!" The message looked professional, with the Amazon logo and official-looking formatting. But something felt off...',
+    'story.ch1.msg1': '🎉 CONGRATULATIONS! You\'ve been selected as our WINNER!\nClick here IMMEDIATELY to claim your $10,000 Amazon Gift Card!\nOffer expires in 24 HOURS! ➡️ http://amaz0n-prizes.xyz/claim',
+    'story.ch1.msg2': 'Thank you for your Amazon order #302-4821956.\nYour package has been shipped. Track your delivery at amazon.com/orders.\nDelivery expected: Feb 20, 2026.',
+    'story.ch1.lesson': 'Alex noticed the red flags: unsolicited prize notification, urgency pressure (24 hours), suspicious URL (amaz0n-prizes.xyz instead of amazon.com), and a request to click unknown links. Real prizes don\'t come from random emails.',
+
+    'story.ch2.text': 'The next day, Alex received an alarming text message: "Your bank account has been compromised! You must verify your identity within 1 HOUR or your account will be permanently locked." The message included a link to what looked like a bank website...',
+    'story.ch2.msg1': '🚨 URGENT: Your Wells Fargo account has detected unauthorized access!\nVerify your identity NOW or your account will be LOCKED in 60 minutes!\n➡️ http://wellsfarg0-secure.net/verify\nRef: #WF-8834721',
+    'story.ch2.msg2': 'Wells Fargo Alert: We noticed a login from a new device.\nIf this was you, no action needed.\nIf not, call us at 1-800-869-3557 (on the back of your card).\nWe\'ll never ask for your password via text.',
+    'story.ch2.lesson': 'Scammers create artificial urgency to make you panic and act without thinking. Real banks never threaten to lock accounts via text or ask you to verify through links. They provide their official phone number and encourage you to call directly.',
+
+    'story.ch3.text': 'Alex\'s colleague received a WhatsApp message from their "CEO": "I\'m in an emergency meeting. I need you to buy $500 in gift cards for a client surprise. I\'ll reimburse you. Don\'t tell anyone, it\'s a surprise!" The profile picture matched perfectly...',
+    'story.ch3.msg1': 'Hi, this is James (CEO). I\'m stuck in meetings all day.\nI need a favor - can you purchase 5x $100 iTunes gift cards for client gifts? \nSend me the codes when done. Will reimburse ASAP.\nplease keep this between us 🤫',
+    'story.ch3.msg2': 'Team meeting rescheduled to 3 PM.\nPlease review Q4 report before the meeting.\nJoin via Zoom link in your calendar invite.\n- James, CEO',
+    'story.ch3.lesson': 'Impersonation scams exploit trust and authority. Key red flags: unusual requests from authority figures, gift card purchases (untraceable), secrecy requests, and using personal messaging apps for business. Always verify unusual requests through official channels.',
+
+    'story.ch4.text': 'For the final case, Alex discovered a sophisticated social engineering attack targeting the company. A "new IT support" person called employees asking them to install "security software" and share their login credentials for a "mandatory security audit"...',
+    'story.ch4.msg1': 'Hi, I\'m Mike from IT Support (new hire).\nWe\'re doing a mandatory security audit.\nPlease install this remote access tool: http://quicksupport-dl.com/install\nI\'ll also need your login and password to verify your account security.\nThis is required by management.',
+    'story.ch4.msg2': 'IT Department Notice:\nScheduled system maintenance on Feb 20, 6-8 PM.\nSome services may be temporarily unavailable.\nNo action required from users.\nContact helpdesk@company.com for questions.',
+    'story.ch4.lesson': 'Social engineering manipulates human psychology. Red flags: someone claiming to be "new" (unverifiable), requesting credentials (IT never does this), asking to install unknown software, and claiming management authority. Always verify through HR or known IT contacts.',
+
+    'story.code1': 'Never share passwords or verification codes with anyone',
+    'story.code2': 'Verify sender identity through official channels',
+    'story.code3': 'Don\'t click links in unsolicited messages',
+    'story.code4': 'Be suspicious of urgency and pressure tactics',
+    'story.code5': 'If it seems too good to be true, it probably is',
+
+    // Game
+    'game.title': 'Cyber Detective Training',
+    'game.subtitle': 'Test your scam detection skills',
+    'game.score': 'Score',
+    'game.streak': 'Streak',
+    'game.best': 'Best',
+    'game.level': 'Level',
+    'game.next': 'NEXT SCENARIO →',
+    'game.restart': 'RESTART',
+    'game.leaderboard': '🏆 Leaderboard',
+    'game.yourName': 'Your Name',
+    'game.submit': 'SUBMIT SCORE',
+    'game.rank': 'Rank',
+    'game.player': 'Player',
+    'game.playerScore': 'Score',
+    'game.badge': 'Badge',
+    'game.date': 'Date',
+    'game.correct': '✓ Correct!',
+    'game.incorrect': '✗ Incorrect!',
+
+    // Footer
+    'footer.text': 'AI Cyber Detective 2.0 — Empowering Cybersecurity Awareness',
+    'footer.disclaimer': 'Educational platform. Data shown is for demonstration purposes.',
+  },
+
+  zh: {
+    // Nav
+    'nav.dashboard': '儀表板',
+    'nav.story': '故事模式',
+    'nav.game': '訓練遊戲',
+    'nav.image': '圖片檢測',
+    'nav.url': '網址分析',
+    'nav.text': '文本驗證',
+
+    // Hero
+    'hero.badge': 'AI驅動安全平台',
+    'hero.title': 'AI 網絡偵探 2.0',
+    'hero.subtitle': '您的智能網絡安全教育夥伴，提供威脅檢測和數字取證功能。學習識別騙局、分析可疑內容，保護自己的網絡安全。',
+
+    // Stats
+    'stats.scams': '已報告騙案',
+    'stats.countries': '受影響國家',
+    'stats.lost': '損失金額（美元）',
+    'stats.users': '受保護用戶',
+
+    // Dashboard Charts
+    'charts.title': '全球網絡威脅情報',
+    'charts.subtitle': '全球網絡詐騙模式和趨勢的實時分析',
+    'charts.topScams': '📊 十大網絡騙案類型',
+    'charts.distribution': '🍩 騙案類別分佈',
+    'charts.trend': '📈 年度網絡詐騙趨勢',
+    'charts.heatmap': '🌍 全球網絡詐騙熱力圖',
+    'charts.sophistication': '🕸️ 威脅複雜度雷達圖',
+
+    // Tools Section
+    'tools.title': '調查工具箱',
+    'tools.subtitle': '強大的AI驅動數字威脅分析工具',
+    'tools.story.title': '故事式學習',
+    'tools.story.desc': '跟隨網絡偵探Alex的互動章節，涵蓋獎品騙局、緊迫策略、身份冒充和社交工程。',
+    'tools.game.title': '遊戲化訓練',
+    'tools.game.desc': '5個難度等級，15+場景，涵蓋釣魚、冒充、快遞詐騙、情感操控和同形字攻擊。',
+    'tools.image.title': '圖片檢測器',
+    'tools.image.desc': '檢測AI生成圖片、分析EXIF元數據、檢查壓縮偽影，識別取證操縱痕跡。',
+    'tools.url.title': '網址分析器',
+    'tools.url.desc': '檢查域名信譽、評估SSL證書、檢測釣魚模式、分析鏈接安全性。',
+    'tools.text.title': '文本驗證器',
+    'tools.text.desc': '事實核查文章、檢測情緒操控、識別標題黨模式、驗證內容可信度。',
+    'tools.launch': '啟動工具 →',
+
+    // Image Inspector
+    'image.title': '圖片檢測器',
+    'image.subtitle': 'AI驅動的圖片取證分析',
+    'image.upload': '拖放圖片或點擊上傳',
+    'image.filetypes': 'JPG、PNG、GIF、WebP — 最大20MB',
+    'image.analyze': '分析圖片',
+    'image.aiDetection': '🤖 AI生成檢測',
+    'image.metadata': '📋 EXIF元數據',
+    'image.compression': '🗜️ 壓縮分析',
+    'image.forensic': '🔬 取證偽影',
+    'image.fileInfo': '📁 文件信息',
+    'image.verdict': '判定結果',
+    'image.noResults': '上傳圖片以開始分析',
+
+    // URL Analyzer
+    'url.title': '網址分析器',
+    'url.subtitle': '深度分析網址安全威脅',
+    'url.placeholder': '輸入要分析的網址...',
+    'url.analyze': '分析網址',
+    'url.riskScore': '🎯 風險評估',
+    'url.domain': '🌐 域名分析',
+    'url.security': '🔒 安全發現',
+    'url.noResults': '在上方輸入網址以開始分析',
+
+    // Text Verifier
+    'text.title': '文本驗證器',
+    'text.subtitle': 'AI驅動的內容可信度分析',
+    'text.placeholder': '在此粘貼文字或文章內容以進行分析...',
+    'text.analyze': '驗證文本',
+    'text.content': '📝 內容分析',
+    'text.sentiment': '💭 情感分析',
+    'text.misinfo': '⚠️ 虛假信息檢測',
+    'text.credibility': '✅ 可信度評估',
+    'text.noResults': '粘貼文本以開始驗證',
+
+    // Story
+    'story.title': '故事式學習',
+    'story.subtitle': '跟隨網絡偵探Alex展開驚險調查',
+    'story.progress': '故事進度',
+    'story.ch1.title': '第一章：獎品陷阱',
+    'story.ch1.number': '第 01 章',
+    'story.ch2.title': '第二章：緊迫遊戲',
+    'story.ch2.number': '第 02 章',
+    'story.ch3.title': '第三章：冒充者',
+    'story.ch3.number': '第 03 章',
+    'story.ch4.title': '第四章：社交工程師',
+    'story.ch4.number': '第 04 章',
+    'story.code.title': '🔍 網絡偵探守則',
+    'story.dangerLabel': '⚠ 危險',
+    'story.safeLabel': '✓ 安全',
+    'story.ch1.text': 'Alex收到了一封激動人心的電子郵件：「恭喜！您已贏得$10,000亞馬遜禮品卡！請在24小時內點擊此處領取您的獎品！」郵件看起來很專業，有亞馬遜的標誌和官方格式。但總覺得哪裡不對勁...',
+    'story.ch1.msg1': '🎉 恭喜！您已被選為我們的獲獎者！\n立即點擊領取您的$10,000亞馬遜禮品卡！\n優惠24小時內過期！➡️ http://amaz0n-prizes.xyz/claim',
+    'story.ch1.msg2': '感謝您的亞馬遜訂單 #302-4821956。\n您的包裹已發貨。在 amazon.com/orders 追蹤配送。\n預計送達時間：2026年2月20日。',
+    'story.ch1.lesson': 'Alex注意到了危險信號：不請自來的獎品通知、緊迫壓力（24小時）、可疑網址（amaz0n-prizes.xyz而非amazon.com），以及要求點擊未知鏈接。真正的獎品不會通過隨機郵件發送。',
+
+    'story.ch2.text': '第二天，Alex收到了一條令人擔憂的短信：「您的銀行帳戶已被入侵！您必須在1小時內驗證身份，否則帳戶將被永久鎖定。」短信中包含一個看似銀行網站的鏈接...',
+    'story.ch2.msg1': '🚨 緊急：您的富國銀行帳戶檢測到未授權訪問！\n立即驗證身份，否則帳戶將在60分鐘內被鎖定！\n➡️ http://wellsfarg0-secure.net/verify\n參考：#WF-8834721',
+    'story.ch2.msg2': '富國銀行提醒：我們注意到一個新設備的登入。\n如果是您本人，無需操作。\n如果不是，請撥打卡背面的 1-800-869-3557。\n我們絕不會通過短信要求您提供密碼。',
+    'story.ch2.lesson': '騙子製造人為的緊迫感讓你恐慌並不加思考地行動。真正的銀行不會通過短信威脅鎖定帳戶，也不會要求通過鏈接進行驗證。他們會提供官方電話號碼並鼓勵您直接致電。',
+
+    'story.ch3.text': 'Alex的同事收到了來自「CEO」的WhatsApp消息：「我正在開緊急會議。我需要你買$500的禮品卡作為客戶驚喜。我會報銷給你。不要告訴任何人，這是個驚喜！」頭像完全匹配...',
+    'story.ch3.msg1': '嗨，我是James（CEO）。我一整天都在開會。\n需要你幫個忙 - 能買5張$100的iTunes禮品卡作為客戶禮物嗎？\n買好後把代碼發給我。會盡快報銷。\n請保密哦🤫',
+    'story.ch3.msg2': '團隊會議改到下午3點。\n請在會議前查看第四季度報告。\n通過日曆邀請中的Zoom鏈接加入。\n- James，CEO',
+    'story.ch3.lesson': '冒充騙局利用信任和權威。主要危險信號：權威人物提出不尋常的要求、禮品卡購買（無法追溯）、保密要求、以及使用個人通訊應用程序處理公事。務必通過官方渠道驗證不尋常的要求。',
+
+    'story.ch4.text': '最後一個案件，Alex發現了一個針對公司的複雜社交工程攻擊。一個「新入職的IT支持人員」致電員工，要求他們安裝「安全軟件」並分享登入憑證以進行「強制安全審計」...',
+    'story.ch4.msg1': '嗨，我是IT支持的Mike（新入職）。\n我們正在進行必要的安全審計。\n請安裝這個遠程訪問工具：http://quicksupport-dl.com/install\n我還需要您的登入名和密碼來驗證帳戶安全。\n這是管理層要求的。',
+    'story.ch4.msg2': 'IT部門通知：\n計劃系統維護在2月20日下午6-8點。\n部分服務可能暫時不可用。\n用戶無需採取任何操作。\n有問題請聯繫 helpdesk@company.com。',
+    'story.ch4.lesson': '社交工程利用人類心理學。危險信號：聲稱「新來的」（無法驗證）、要求憑證（IT部門絕不會這樣做）、要求安裝未知軟件、聲稱管理層授權。務必通過人力或已知的IT聯繫人員進行驗證。',
+
+    'story.code1': '永遠不要與任何人分享密碼或驗證碼',
+    'story.code2': '通過官方渠道驗證發件人身份',
+    'story.code3': '不要點擊未經請求的消息中的鏈接',
+    'story.code4': '對緊迫和壓力策略保持懷疑',
+    'story.code5': '如果看起來好得不像真的，那很可能就是假的',
+
+    // Game
+    'game.title': '網絡偵探訓練',
+    'game.subtitle': '測試你的騙局識別能力',
+    'game.score': '分數',
+    'game.streak': '連勝',
+    'game.best': '最高',
+    'game.level': '等級',
+    'game.next': '下一場景 →',
+    'game.restart': '重新開始',
+    'game.leaderboard': '🏆 排行榜',
+    'game.yourName': '你的名字',
+    'game.submit': '提交分數',
+    'game.rank': '排名',
+    'game.player': '玩家',
+    'game.playerScore': '分數',
+    'game.badge': '徽章',
+    'game.date': '日期',
+    'game.correct': '✓ 正確！',
+    'game.incorrect': '✗ 錯誤！',
+
+    // Footer
+    'footer.text': 'AI 網絡偵探 2.0 — 增進網絡安全意識',
+    'footer.disclaimer': '教育平台。所顯示的數據僅供演示。',
+  }
+};
+
+let currentLang = localStorage.getItem('cyberlang') || 'en';
+
+function t(key) {
+  return (translations[currentLang] && translations[currentLang][key]) || (translations['en'] && translations['en'][key]) || key;
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('cyberlang', lang);
+  
+  // Update all elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const text = t(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+
+  // Update pre/code elements that need whitespace preserved
+  document.querySelectorAll('[data-i18n-pre]').forEach(el => {
+    const key = el.getAttribute('data-i18n-pre');
+    el.textContent = t(key);
+  });
+
+  // Update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Fire custom event for page-specific updates
+  window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+}
+
+function initI18n() {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+  setLanguage(currentLang);
+}
