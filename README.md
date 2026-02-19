@@ -144,7 +144,7 @@ NeoTrace/
 │   ├── url-threat-scanner.html  # URL security scanning tool
 │   ├── content-verifier.html    # Content verification tool
 │   ├── css/
-│   │   └── style.css            # Design system (Apple-style, 1000+ lines)
+│   │   └── style.css            # Design system (style, 1000+ lines)
 │   │       ├── Dark/Light themes
 │   │       ├── Glass morphism effects
 │   │       ├── Mobile responsiveness
@@ -282,14 +282,14 @@ POST /api/verify-text
 
 ## 🎨 Design System & User Experience
 
-### Apple-Inspired Design Philosophy
+### Design Philosophy
 - **Minimalist Interface** — Clean, distraction-free user experience
 - **Glassmorphism Effects** — Frosted glass with `backdrop-filter`
 - **Optimal Typography** — SF Pro Display, Inter fonts
 - **Monochromatic Palette** — Dark theme with accent colors
 
 ### Design Tokens & Variables
-- **Primary Blue** — `#0A84FF` (Apple ecosystem standard)
+- **Primary Blue** — `#0A84FF` (ecosystem standard)
 - **Success Green** — `#30D158` (positive indicators)
 - **Alert Red** — `#FF453A` (danger/alerts)
 - **Neutral Grey** — `#1a1a1a` (dark background)
@@ -501,17 +501,8 @@ This project is open source and available under the MIT License. You are free to
 
 ---
 
-## 📈 SEO Optimization & Keywords
 
-<!--
-### Core Search Terms
-**Cybersecurity platform, threat detection, digital forensics, phone verification, URL scanner, image authentication, content verification, password checker, email security, network security, QR code analyzer, security training, cyber threat intelligence, fraud detection, phishing detection**
--->
 
-（本專案已全面針對SEO優化，無需在README明列關鍵字，搜尋引擎會自動根據功能描述、標題、內容進行索引與排名。）
-
-### Long-Tail SEO Keywords
-**AI-powered cybersecurity intelligence platform, real-time threat detection and analysis, digital forensics tools for professionals, phone number fraud detection, URL security scanning, image authenticity detection, content credibility verification, enterprise network security, cybersecurity education platform, threat intelligence automation**
 
 ### Search Intent Optimization
 - **Informational** — Cybersecurity threat guides and security best practices
