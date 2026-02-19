@@ -1,192 +1,351 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phone Inspector — NeoTrace</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
-  <script defer src="/_vercel/insights/script.js"></script>
-</head>
-<body>
-  <canvas id="matrix-canvas"></canvas>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Inspector — NeoTrace</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>"
+    />
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <canvas id="matrix-canvas"></canvas>
 
-  <!-- Navigation -->
-  <nav class="navbar">
-    <a href="index.html" class="nav-logo">
-      <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img">
-      <span data-i18n="nav.logo">NeoTrace</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
-      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
-      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
-      <li class="nav-dropdown">
-        <a href="#" data-i18n="nav.tools">Tools ▾</a>
-        <ul class="nav-dropdown-menu">
-          <li><a href="phone-inspector.html" class="active" data-i18n="nav.phone">Phone Inspector</a></li>
-          <li><a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a></li>
-          <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
-          <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
-          <li><a href="password-checker.html" data-i18n="nav.password">Password Checker</a></li>
-          <li><a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a></li>
-          <li><a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a></li>
-          <li><a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a></li>
-        </ul>
-      </li>
-      <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
-      <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
-      <li><a href="certifications.html" data-i18n="nav.certs">Certifications</a></li>
-      <li><a href="about.html" data-i18n="nav.about">About</a></li>
-    </ul>
-    <div class="nav-right">
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="zh">中</button>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img" />
+        <span data-i18n="nav.logo">NeoTrace</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+        <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+        <li class="nav-dropdown">
+          <a href="#" data-i18n="nav.tools">Tools ▾</a>
+          <ul class="nav-dropdown-menu">
+            <li>
+              <a
+                href="phone-inspector.html"
+                class="active"
+                data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+            </li>
+            <li>
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+            </li>
+            <li>
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+            </li>
+            <li>
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+            </li>
+            <li>
+              <a href="password-checker.html" data-i18n="nav.password"
+                >Password Checker</a
+              >
+            </li>
+            <li>
+              <a href="email-analyzer.html" data-i18n="nav.email"
+                >Email Analyzer</a
+              >
+            </li>
+            <li>
+              <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+            </li>
+            <li><a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a></li>
+          </ul>
+        </li>
+        <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
+        <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
+        <li>
+          <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          ☀️
+        </button>
+        <button class="hamburger" id="menuToggle">☰</button>
       </div>
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀️</button>
-      <button class="hamburger" id="menuToggle">☰</button>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- Main Content -->
-  <div class="main-content">
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Hero -->
+      <section class="hero" style="padding-bottom: 1.5rem">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>PHONE INTELLIGENCE</span>
+        </div>
+        <h1 data-i18n="phone.title">Phone Inspector</h1>
+        <p data-i18n="phone.subtitle">
+          Analyze phone numbers for fraud risk, carrier verification, and threat
+          intelligence
+        </p>
+      </section>
 
-    <!-- Hero -->
-    <section class="hero" style="padding-bottom: 1.5rem;">
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        <span>PHONE INTELLIGENCE</span>
-      </div>
-      <h1 data-i18n="phone.title">Phone Inspector</h1>
-      <p data-i18n="phone.subtitle">Analyze phone numbers for fraud risk, carrier verification, and threat intelligence</p>
-    </section>
-
-    <!-- Phone Scanner Input -->
-    <section class="section" style="padding-top: 0;">
-      <div class="tool-layout">
-
-        <!-- Left: Input Panel -->
-        <div class="tool-input-panel">
-          <div class="tool-panel">
-            <h3>📱 <span data-i18n="phone.title">Phone Inspector</span></h3>
-            <div class="input-group">
-              <label data-i18n="phone.placeholder">Enter phone number</label>
-              <div class="phone-input-row">
-                <div style="position:relative;">
-                  <input type="text" id="dialCodeInput" class="cyber-input dial-input" placeholder="+852" maxlength="6" autocomplete="off" oninput="onDialInput(this)" style="width:90px;text-align:center;">
-                  <div id="dialSuggest" class="auto-suggest-dropdown" style="display:none;z-index:100;"></div>
+      <!-- Phone Scanner Input -->
+      <section class="section" style="padding-top: 0">
+        <div class="tool-layout">
+          <!-- Left: Input Panel -->
+          <div class="tool-input-panel">
+            <div class="tool-panel">
+              <h3>📱 <span data-i18n="phone.title">Phone Inspector</span></h3>
+              <div class="input-group">
+                <label data-i18n="phone.placeholder">Enter phone number</label>
+                <div class="phone-input-row">
+                  <div style="position: relative">
+                    <input
+                      type="text"
+                      id="dialCodeInput"
+                      class="cyber-input dial-input"
+                      placeholder="+852"
+                      maxlength="6"
+                      autocomplete="off"
+                      oninput="onDialInput(this)"
+                      style="width: 90px; text-align: center"
+                    />
+                    <div
+                      id="dialSuggest"
+                      class="auto-suggest-dropdown"
+                      style="display: none; z-index: 100"
+                    ></div>
+                  </div>
+                  <input
+                    type="tel"
+                    id="numberInput"
+                    class="cyber-input"
+                    placeholder="91234567 or full: +1 5551234567"
+                    autocomplete="off"
+                    style="flex: 1"
+                    onkeydown="if (event.key === 'Enter') checkPhone();"
+                  />
                 </div>
-                <input type="tel" id="numberInput" class="cyber-input" placeholder="91234567 or full: +1 5551234567" autocomplete="off" style="flex:1;" onkeydown="if(event.key==='Enter')checkPhone()">
+                <p
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-tertiary);
+                    margin-top: 0.35rem;
+                  "
+                >
+                  Dial code (e.g. +852) then local number, or paste full number
+                  in right field
+                </p>
               </div>
-              <p style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.35rem;">Dial code (e.g. +852) then local number, or paste full number in right field</p>
+              <button
+                id="scanBtn"
+                class="cyber-btn neon-btn"
+                onclick="checkPhone()"
+              >
+                <span data-i18n="phone.scan">SCAN NUMBER</span>
+              </button>
             </div>
-            <button id="scanBtn" class="cyber-btn neon-btn" onclick="checkPhone()">
-              <span data-i18n="phone.scan">SCAN NUMBER</span>
-            </button>
+
+            <!-- Story Tip -->
+            <div
+              class="tool-panel"
+              style="border-left: 2px solid var(--accent)"
+            >
+              <h3>🕵️ Detective Tip</h3>
+              <p
+                style="
+                  font-size: 0.82rem;
+                  color: var(--text-secondary);
+                  line-height: 1.6;
+                "
+                data-i18n="phone.storyTip"
+              >
+                This number looks suspicious? Alex the Detective teaches you how
+                to spot scam calls and protect yourself.
+              </p>
+              <a
+                href="story.html"
+                class="card-link"
+                style="margin-top: 0.8rem; display: inline-flex"
+                >Learn with Alex →</a
+              >
+            </div>
+
+            <!-- No Results Placeholder -->
+            <div
+              id="noResults"
+              class="tool-panel text-center"
+              style="padding: 2rem"
+            >
+              <div
+                style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem"
+              >
+                📱
+              </div>
+              <p
+                style="color: var(--text-tertiary); font-size: 0.85rem"
+                data-i18n="phone.noResults"
+              >
+                Enter a phone number above to begin analysis
+              </p>
+            </div>
           </div>
 
-          <!-- Story Tip -->
-          <div class="tool-panel" style="border-left: 2px solid var(--accent);">
-            <h3>🕵️ Detective Tip</h3>
-            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="phone.storyTip">
-              This number looks suspicious? Alex the Detective teaches you how to spot scam calls and protect yourself.
+          <!-- Right: Results Panel -->
+          <div id="resultsArea" style="display: none">
+            <!-- KPI Cards Grid -->
+            <div
+              id="kpiGrid"
+              style="
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                margin-bottom: 1rem;
+              "
+            ></div>
+
+            <!-- Risk Radar Chart -->
+            <div class="result-panel">
+              <h3 data-i18n="phone.riskRadar">📊 Risk Analysis Radar</h3>
+              <div class="chart-wrapper" style="height: 300px">
+                <canvas id="riskRadar"></canvas>
+              </div>
+            </div>
+
+            <!-- Blacklist & Details -->
+            <div class="result-panel" id="detailsPanel"></div>
+
+            <!-- AI Analysis Panel -->
+            <div
+              class="result-panel"
+              id="aiAnalysisPanel"
+              style="display: none"
+            >
+              <h3 style="color: var(--accent)">🤖 AI Risk Analysis</h3>
+              <div
+                id="aiAnalysisContent"
+                style="
+                  font-size: 0.9rem;
+                  line-height: 1.7;
+                  color: var(--text-secondary);
+                  white-space: pre-wrap;
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <!-- NeoTrace Footer -->
+      <footer class="neo-footer">
+        <div class="neo-footer-inner">
+          <div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo">
+              <img src="images/logo.jpeg" alt="NeoTrace" />
+              <span>NeoTrace</span>
+            </a>
+            <p class="footer-desc">
+              AI-powered cybersecurity intelligence platform. Educating the next
+              generation of digital defenders through interactive tools and
+              real-time threat analysis.
             </p>
-            <a href="story.html" class="card-link" style="margin-top: 0.8rem; display: inline-flex;">Learn with Alex →</a>
-          </div>
-
-          <!-- No Results Placeholder -->
-          <div id="noResults" class="tool-panel text-center" style="padding: 2rem;">
-            <div style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;">📱</div>
-            <p style="color: var(--text-tertiary); font-size: 0.85rem;" data-i18n="phone.noResults">Enter a phone number above to begin analysis</p>
-          </div>
-        </div>
-
-        <!-- Right: Results Panel -->
-        <div id="resultsArea" style="display: none;">
-
-          <!-- KPI Cards Grid -->
-          <div id="kpiGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem;"></div>
-
-          <!-- Risk Radar Chart -->
-          <div class="result-panel">
-            <h3 data-i18n="phone.riskRadar">📊 Risk Analysis Radar</h3>
-            <div class="chart-wrapper" style="height: 300px;">
-              <canvas id="riskRadar"></canvas>
+            <div class="neo-footer-social">
+              <a
+                href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0"
+                target="_blank"
+                title="GitHub"
+                >&#9000;</a
+              >
             </div>
           </div>
-
-          <!-- Blacklist & Details -->
-          <div class="result-panel" id="detailsPanel"></div>
-
-          <!-- AI Analysis Panel -->
-          <div class="result-panel" id="aiAnalysisPanel" style="display:none;">
-            <h3 style="color:var(--accent);">🤖 AI Risk Analysis</h3>
-            <div id="aiAnalysisContent" style="font-size:0.9rem;line-height:1.7;color:var(--text-secondary);white-space:pre-wrap;"></div>
+          <div class="neo-footer-col">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="index.html">Dashboard</a></li>
+              <li><a href="story.html">Story Mode</a></li>
+              <li><a href="game.html">Training Game</a></li>
+              <li><a href="careers.html">Careers</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="certifications.html">Certifications</a></li>
+            </ul>
           </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <!-- NeoTrace Footer -->
-    <footer class="neo-footer">
-      <div class="neo-footer-inner">
-        <div class="neo-footer-brand">
-          <a href="index.html" class="footer-logo">
-            <img src="images/logo.jpeg" alt="NeoTrace">
-            <span>NeoTrace</span>
-          </a>
-          <p class="footer-desc">AI-powered cybersecurity intelligence platform. Educating the next generation of digital defenders through interactive tools and real-time threat analysis.</p>
-          <div class="neo-footer-social">
-            <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub">&#9000;</a>
+          <div class="neo-footer-col">
+            <h4>Tools &amp; Connect</h4>
+            <ul>
+              <li><a href="phone-inspector.html">Phone Inspector</a></li>
+              <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+              <li><a href="image-forensics.html">Image Forensics</a></li>
+              <li><a href="content-verifier.html">Text Verifier</a></li>
+              <li><a href="about.html">About Us</a></li>
+            </ul>
           </div>
         </div>
-        <div class="neo-footer-col">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="story.html">Story Mode</a></li>
-            <li><a href="game.html">Training Game</a></li>
-            <li><a href="careers.html">Careers</a></li>
-            <li><a href="courses.html">Courses</a></li>
-            <li><a href="certifications.html">Certifications</a></li>
-          </ul>
+        <div class="neo-footer-bottom">
+          <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >&uarr; Back to Top</a
+          >
         </div>
-        <div class="neo-footer-col">
-          <h4>Tools &amp; Connect</h4>
-          <ul>
-            <li><a href="phone-inspector.html">Phone Inspector</a></li>
-            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
-            <li><a href="image-forensics.html">Image Forensics</a></li>
-            <li><a href="content-verifier.html">Text Verifier</a></li>
-            <li><a href="about.html">About Us</a></li>
-          </ul>
+      </footer>
+    </div>
+
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      💬
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div class="bot-avatar">🤖</div>
+        <h4 data-i18n="chat.title">NeoTrace AI</h4>
+        <button class="chatbot-close" id="chatbotClose">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot" data-i18n="chat.welcome">
+          Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or
+          how to use this platform.
         </div>
       </div>
-      <div class="neo-footer-bottom">
-        <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
-        <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to Top</a>
+      <div class="chat-input-area">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Ask something..."
+          autocomplete="off"
+        /><button class="chat-send-btn" id="chatSend">➤</button>
       </div>
-    </footer>
+    </div>
 
-  </div>
-
-  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">💬</button>
-  <div class="chatbot-panel" id="chatbotPanel">
-    <div class="chatbot-header"><div class="bot-avatar">🤖</div><h4 data-i18n="chat.title">NeoTrace AI</h4><button class="chatbot-close" id="chatbotClose">✕</button></div>
-    <div class="chat-messages" id="chatMessages"><div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div></div>
-    <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask something..." autocomplete="off"><button class="chat-send-btn" id="chatSend">➤</button></div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/phone-inspector.js"></script>
-  <script src="js/chatbot.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/phone-inspector.js"></script>
+    <script src="js/chatbot.js"></script>
+  </body>
 </html>

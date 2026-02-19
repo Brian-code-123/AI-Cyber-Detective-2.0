@@ -2113,7 +2113,8 @@ app.post("/api/chatbot", async (req, res) => {
 5. For technical questions: show code/commands in markdown code blocks
 6. For "how do I use [NeoTrace tool]": give a step-by-step walkthrough
 7. Reply in the EXACT SAME LANGUAGE the user used: English → English; 廣東話/中文 → 繁體中文
-8. Length: match complexity — simple question = 2-3 sentences; complex question = structured explanation with bullet points
+8. **ALL answers must be in point form (bullets or numbered), ≤50 words, and extremely concise.**
+9. If the answer cannot be made ≤50 words, summarize only the most critical points.
 
 ${context ? `## Current tool context:\n${context}` : ""}`;
 
