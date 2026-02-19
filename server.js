@@ -636,6 +636,66 @@ function fetchURL(targetUrl) {
   });
 }
 
+// ==================== PHONE INSPECTOR API ====================
+app.post('/api/phone/check', (req, res) => {
+  const { phone } = req.body;
+  if (!phone) return res.status(400).json({ error: 'Phone number required' });
+
+  const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+
+  // Phone number database (demo)
+  const phoneDB = {
+    '+85291234567': { country: 'Hong Kong', country_code: 'HK', dial_code: '852', carrier: 'HKT / PCCW', line_type: 'Mobile', fraud_score: 12, spam_risk: 8, voip_risk: 5, recent_activity: 70, carrier_trust: 92, active_status: 'Active', blacklist_hits: 0, email: null, notes: null },
+    '+85261234567': { country: 'Hong Kong', country_code: 'HK', dial_code: '852', carrier: 'China Mobile HK', line_type: 'Mobile', fraud_score: 65, spam_risk: 72, voip_risk: 10, recent_activity: 95, carrier_trust: 78, active_status: 'Active', blacklist_hits: 3, email: 'temp_user88@yopmail.com', notes: 'Multiple spam complaints reported in the last 30 days' },
+    '+85253001234': { country: 'Hong Kong', country_code: 'HK', dial_code: '852', carrier: '3 Hong Kong', line_type: 'VOIP', fraud_score: 88, spam_risk: 90, voip_risk: 95, recent_activity: 40, carrier_trust: 35, active_status: 'Inactive', blacklist_hits: 7, email: 'scammer@tempmail.net', notes: 'Linked to investment scam operations targeting elderly victims' },
+    '+14155551234': { country: 'United States', country_code: 'US', dial_code: '1', carrier: 'T-Mobile', line_type: 'Mobile', fraud_score: 22, spam_risk: 15, voip_risk: 5, recent_activity: 80, carrier_trust: 88, active_status: 'Active', blacklist_hits: 0, email: null, notes: null },
+    '+447911123456': { country: 'United Kingdom', country_code: 'GB', dial_code: '44', carrier: 'Vodafone UK', line_type: 'Mobile', fraud_score: 35, spam_risk: 40, voip_risk: 8, recent_activity: 60, carrier_trust: 82, active_status: 'Active', blacklist_hits: 1, email: null, notes: 'Low-level telemarketing complaints' },
+    '+86138001234567': { country: 'China', country_code: 'CN', dial_code: '86', carrier: 'China Mobile', line_type: 'Mobile', fraud_score: 45, spam_risk: 55, voip_risk: 12, recent_activity: 88, carrier_trust: 70, active_status: 'Active', blacklist_hits: 2, email: null, notes: 'Region associated with elevated scam activity' },
+    '+81901234567': { country: 'Japan', country_code: 'JP', dial_code: '81', carrier: 'NTT Docomo', line_type: 'Mobile', fraud_score: 8, spam_risk: 5, voip_risk: 3, recent_activity: 65, carrier_trust: 95, active_status: 'Active', blacklist_hits: 0, email: null, notes: null }
+  };
+
+  // Check if number exists in DB, otherwise generate
+  let result = phoneDB[cleaned];
+  if (!result) {
+    // Generate realistic demo data based on number pattern
+    const hash = [...cleaned].reduce((a, c) => a + c.charCodeAt(0), 0);
+    const isVoip = hash % 5 === 0;
+    const fraudScore = Math.min(95, Math.max(5, (hash * 7) % 100));
+    const countries = [
+      { country: 'Hong Kong', code: 'HK', dial: '852', carriers: ['HKT / PCCW', 'China Mobile HK', '3 Hong Kong', 'SmarTone'] },
+      { country: 'United States', code: 'US', dial: '1', carriers: ['AT&T', 'T-Mobile', 'Verizon'] },
+      { country: 'United Kingdom', code: 'GB', dial: '44', carriers: ['Vodafone UK', 'EE', 'O2'] },
+      { country: 'Taiwan', code: 'TW', dial: '886', carriers: ['Chunghwa Telecom', 'FarEasTone', 'Taiwan Mobile'] },
+      { country: 'Singapore', code: 'SG', dial: '65', carriers: ['Singtel', 'StarHub', 'M1'] }
+    ];
+    // Detect country from prefix
+    let geo = countries[0]; // default HK
+    if (cleaned.startsWith('+1')) geo = countries[1];
+    else if (cleaned.startsWith('+44')) geo = countries[2];
+    else if (cleaned.startsWith('+886')) geo = countries[3];
+    else if (cleaned.startsWith('+65')) geo = countries[4];
+
+    result = {
+      country: geo.country,
+      country_code: geo.code,
+      dial_code: geo.dial,
+      carrier: geo.carriers[hash % geo.carriers.length],
+      line_type: isVoip ? 'VOIP' : (hash % 3 === 0 ? 'Landline' : 'Mobile'),
+      fraud_score: fraudScore,
+      spam_risk: Math.min(95, Math.max(5, (hash * 3) % 100)),
+      voip_risk: isVoip ? Math.min(95, 60 + (hash % 35)) : Math.max(3, hash % 20),
+      recent_activity: Math.min(95, Math.max(10, (hash * 11) % 100)),
+      carrier_trust: isVoip ? Math.max(20, 50 - (hash % 30)) : Math.min(95, 60 + (hash % 35)),
+      active_status: hash % 4 === 0 ? 'Inactive' : 'Active',
+      blacklist_hits: fraudScore > 60 ? Math.floor(hash % 8) + 1 : (fraudScore > 30 ? hash % 3 : 0),
+      email: fraudScore > 50 ? `user${hash % 999}@tempmail.net` : null,
+      notes: fraudScore > 70 ? 'Number flagged in multiple fraud databases' : (fraudScore > 40 ? 'Moderate risk — exercise caution' : null)
+    };
+  }
+
+  res.json(result);
+});
+
 // ==================== SERVE PAGES ====================
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 

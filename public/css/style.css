@@ -675,3 +675,86 @@ textarea.cyber-input { min-height: 150px; resize: vertical; font-family: inherit
 
 .news-skeleton { padding: 1rem 1.2rem; display: flex; gap: 1rem; align-items: flex-start; }
 .skeleton-line { height: 12px; background: rgba(255,255,255,0.04); border-radius: 6px; animation: skeletonPulse 1.5s infinite; }
+
+/* ===== Phone Inspector ===== */
+.kpi-card {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(150%) blur(20px);
+  -webkit-backdrop-filter: saturate(150%) blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+.kpi-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.kpi-body { flex: 1; min-width: 0; }
+.kpi-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: 0.2rem;
+}
+.kpi-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--kpi-accent, var(--text-primary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kpi-bar-bg {
+  margin-top: 0.5rem;
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.kpi-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scan spinner */
+.scan-spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Tool input panel layout */
+.tool-input-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.input-group { margin-bottom: 1rem; }
+.input-group label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  #kpiGrid { grid-template-columns: 1fr !important; }
+}
+
