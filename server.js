@@ -2175,9 +2175,29 @@ ${context ? `## Current tool context:\n${context}` : ""}`;
       apiReq.end();
     });
 
-    const reply =
-      result.choices?.[0]?.message?.content ||
+    let reply = result.choices?.[0]?.message?.content ||
       "Sorry, I couldn't process that. Try again!";
+
+    // 強制格式化：拆分為點列，截斷50字內
+    function formatToBullets(text) {
+      // 先用句號、分號、換行拆分
+      let items = text.split(/[。.;\n]+/).map(s => s.trim()).filter(Boolean);
+      // 只取前3-5項，並每項限制15字
+      let bullets = [];
+      let totalWords = 0;
+      for (let i = 0; i < items.length && bullets.length < 5; i++) {
+        let item = items[i];
+        // 截斷每項至15字
+        if (item.length > 15) item = item.slice(0, 15) + '...';
+        let itemWords = item.split(/\s+/).length;
+        if (totalWords + itemWords > 50) break;
+        bullets.push('• ' + item);
+        totalWords += itemWords;
+        if (totalWords >= 50) break;
+      }
+      return bullets.join('\n');
+    }
+    reply = formatToBullets(reply);
     res.json({ reply });
   } catch (err) {
     console.error("Chatbot error:", err.message);
