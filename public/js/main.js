@@ -46,11 +46,10 @@ function animateCounters() {
 
 // Scroll reveal animation
 function initScrollReveal() {
-  const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        entry.target.style.animationDelay = entry.target.dataset.delay || '0s';
       }
     });
   }, { threshold: 0.1 });
@@ -102,20 +101,20 @@ function renderCalendar() {
   const today = new Date();
 
   let html = '';
-  // Day headers
-  ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(function(d) {
-    html += '<div class="calendar-day-header">' + d + '</div>';
+  // Day labels (matches CSS .day-label)
+  ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(d => {
+    html += '<div class="day-label">' + d + '</div>';
   });
 
   // Empty cells before first day
   for (let i = 0; i < firstDay; i++) {
-    html += '<div class="calendar-day empty"></div>';
+    html += '<div class="day-cell other-month"></div>';
   }
 
-  // Day cells
+  // Day cells (matches CSS .day-cell, .day-cell.today)
   for (let d = 1; d <= daysInMonth; d++) {
     const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-    html += '<div class="calendar-day' + (isToday ? ' today' : '') + '">' + d + '</div>';
+    html += '<div class="day-cell' + (isToday ? ' today' : '') + '">' + d + '</div>';
   }
 
   daysEl.innerHTML = html;

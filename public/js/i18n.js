@@ -21,6 +21,12 @@ const translations = {
     'error.enterName': 'Please enter your name',
     'error.submitFailed': 'Failed to submit score',
 
+    // Nav - Phone
+    'nav.phone': 'Phone Inspector',
+    'nav.scanner': 'URL Scanner',
+    'nav.forensics': 'Image Forensics',
+    'nav.verifier': 'Text Verifier',
+
     // Hero
     'hero.badge': 'CYBERSECURITY INTELLIGENCE',
     'hero.title': 'NeoTrace',
@@ -187,9 +193,40 @@ const translations = {
     'game.rankSenior': 'Senior Detective',
     'game.rankElite': 'Elite Detective',
 
+    // Phone Inspector
+    'phone.title': 'Phone Inspector',
+    'phone.subtitle': 'Analyze phone numbers for fraud risk, carrier verification, and threat intelligence',
+    'phone.placeholder': 'Enter phone number (e.g. +852 91234567)',
+    'phone.scan': 'SCAN NUMBER',
+    'phone.scanning': 'Scanning...',
+    'phone.country': 'Country / Region',
+    'phone.carrier': 'Carrier',
+    'phone.lineType': 'Line Type',
+    'phone.riskScore': 'Fraud Risk Score',
+    'phone.activity': 'Activity Status',
+    'phone.blacklist': 'Blacklist Hits',
+    'phone.email': 'Associated Email',
+    'phone.voip': 'VOIP',
+    'phone.mobile': 'Mobile',
+    'phone.landline': 'Landline',
+    'phone.highRisk': 'High Risk',
+    'phone.mediumRisk': 'Medium Risk',
+    'phone.lowRisk': 'Low Risk',
+    'phone.active': 'Active',
+    'phone.inactive': 'Inactive',
+    'phone.newNumber': 'New Number',
+    'phone.riskRadar': 'Risk Analysis Radar',
+    'phone.storyTip': 'This number looks suspicious? Alex the Detective teaches you how to spot scam calls and protect yourself.',
+    'phone.noResults': 'Enter a phone number above to begin analysis',
+
+    // Phone Inspector Tool Card
+    'tools.phone.title': 'Phone Inspector',
+    'tools.phone.desc': 'Analyze phone numbers for fraud risk, carrier info, line type, blacklist status, and geo-location intelligence.',
+
     // Footer
     'footer.text': 'NeoTrace — Cybersecurity Intelligence Platform',
     'footer.disclaimer': 'Educational platform. Data shown is for demonstration purposes.',
+    'footer.meta': 'Powered by advanced threat detection and analysis',
 
     // Logo & Navigation
     'nav.logo': 'NeoTrace',
@@ -350,6 +387,12 @@ const translations = {
     'error.verificationFailed': '驗證失敗 — 請查看控制台了解詳情。',
     'error.enterName': '請輸入你的名字',
     'error.submitFailed': '提交分數失敗',
+
+    // Nav - Phone
+    'nav.phone': '電話檢查器',
+    'nav.scanner': '網址掃描',
+    'nav.forensics': '圖像鑑證',
+    'nav.verifier': '內容驗證',
 
     // Hero
     'hero.badge': '網絡安全情報',
@@ -519,9 +562,40 @@ const translations = {
     'game.rankSenior': '高級偵探',
     'game.rankElite': '精英偵探',
 
+    // Phone Inspector
+    'phone.title': '電話檢查器',
+    'phone.subtitle': '分析電話號碼的欺詐風險、運營商驗證和威脅情報',
+    'phone.placeholder': '輸入電話號碼（例如 +852 91234567）',
+    'phone.scan': '掃描號碼',
+    'phone.scanning': '掃描中...',
+    'phone.country': '國家 / 地區',
+    'phone.carrier': '電訊商',
+    'phone.lineType': '線路類型',
+    'phone.riskScore': '欺詐風險分數',
+    'phone.activity': '活躍狀態',
+    'phone.blacklist': '黑名單記錄',
+    'phone.email': '關聯電郵',
+    'phone.voip': 'VOIP網絡電話',
+    'phone.mobile': '手機',
+    'phone.landline': '固定電話',
+    'phone.highRisk': '高風險',
+    'phone.mediumRisk': '中等風險',
+    'phone.lowRisk': '低風險',
+    'phone.active': '活躍',
+    'phone.inactive': '不活躍',
+    'phone.newNumber': '新號碼',
+    'phone.riskRadar': '風險分析雷達',
+    'phone.storyTip': '呢個號碼似可疑？Alex偵探教你點樣識別詐騙電話同保護自己。',
+    'phone.noResults': '在上方輸入電話號碼以開始分析',
+
+    // Phone Inspector Tool Card
+    'tools.phone.title': '電話檢查器',
+    'tools.phone.desc': '分析電話號碼的欺詐風險、電訊商資訊、線路類型、黑名單狀態和地理位置情報。',
+
     // Footer
     'footer.text': 'NeoTrace — 網絡安全情報平台',
     'footer.disclaimer': '教育平台。所顯示的數據僅供演示。',
+    'footer.meta': '由先進的威脅偵測和分析技術驅動',
 
     // Logo & Navigation
     'nav.logo': 'NeoTrace',

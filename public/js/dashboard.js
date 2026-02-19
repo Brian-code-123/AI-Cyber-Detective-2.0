@@ -1,32 +1,15 @@
 // =====================================================
-// AI CYBER DETECTIVE 2.0 — Dashboard Charts
+// NeoTrace — Dashboard Charts (Apple-Style, 3 Charts Only)
 // =====================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  const chartColors = {
-    green: '#00ff41',
-    cyan: '#00d4ff',
-    blue: '#0066ff',
-    purple: '#9d4edd',
-    red: '#ff0055',
-    orange: '#ff8c00',
-    yellow: '#ffd600',
-    pink: '#ff69b4',
-    teal: '#00cec9',
-    lime: '#a8e600'
-  };
 
-  const chartDefaults = {
-    color: '#8b949e',
-    borderColor: 'rgba(255,255,255,0.05)',
-    font: { family: "'Rajdhani', sans-serif" }
-  };
+  // Apple-style chart defaults
+  Chart.defaults.color = 'rgba(255,255,255,0.45)';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.04)';
+  Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif";
 
-  Chart.defaults.color = chartDefaults.color;
-  Chart.defaults.borderColor = chartDefaults.borderColor;
-  Chart.defaults.font.family = chartDefaults.font.family;
-
-  // ===== Top 10 Scam Types (Horizontal Bar) =====
+  // ===== 1. Top 10 Scam Types (Horizontal Bar) =====
   const topScamsCtx = document.getElementById('topScamsChart');
   if (topScamsCtx) {
     new Chart(topScamsCtx, {
@@ -48,20 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
           label: t('charts.reports'),
           data: [324, 267, 215, 186, 158, 142, 125, 108, 84, 73],
           backgroundColor: [
-            'rgba(0, 255, 65, 0.7)',
-            'rgba(0, 212, 255, 0.7)',
-            'rgba(255, 0, 85, 0.7)',
-            'rgba(255, 140, 0, 0.7)',
-            'rgba(157, 78, 221, 0.7)',
-            'rgba(0, 102, 255, 0.7)',
-            'rgba(255, 214, 0, 0.7)',
-            'rgba(255, 105, 180, 0.7)',
-            'rgba(0, 206, 201, 0.7)',
-            'rgba(168, 230, 0, 0.7)'
+            'rgba(10,132,255,0.65)',
+            'rgba(48,209,88,0.65)',
+            'rgba(255,69,58,0.65)',
+            'rgba(255,159,10,0.65)',
+            'rgba(191,90,242,0.65)',
+            'rgba(100,210,255,0.65)',
+            'rgba(255,214,10,0.65)',
+            'rgba(255,55,95,0.65)',
+            'rgba(90,200,245,0.65)',
+            'rgba(172,142,104,0.65)'
           ],
           borderColor: [
-            '#00ff41', '#00d4ff', '#ff0055', '#ff8c00', '#9d4edd',
-            '#0066ff', '#ffd600', '#ff69b4', '#00cec9', '#a8e600'
+            '#0A84FF', '#30D158', '#FF453A', '#FF9F0A', '#BF5AF2',
+            '#64D2FF', '#FFD60A', '#FF375F', '#5AC8F5', '#AC8E68'
           ],
           borderWidth: 1,
           borderRadius: 6,
@@ -75,22 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: 'rgba(13, 19, 33, 0.95)',
-            borderColor: '#00ff41',
+            backgroundColor: 'rgba(28,28,30,0.95)',
+            borderColor: 'rgba(255,255,255,0.1)',
             borderWidth: 1,
-            titleFont: { family: "'Orbitron', sans-serif", size: 12 },
-            bodyFont: { family: "'Rajdhani', sans-serif", size: 14 },
+            titleFont: { size: 12, weight: '600' },
+            bodyFont: { size: 13 },
             padding: 12,
-            cornerRadius: 8,
+            cornerRadius: 10,
             callbacks: {
-              label: ctx => `${ctx.parsed.x}K reports worldwide`
+              label: ctx => ` ${ctx.parsed.x}K reports worldwide`
             }
           }
         },
         scales: {
           x: {
             grid: { color: 'rgba(255,255,255,0.03)' },
-            ticks: { callback: v => v + 'K' }
+            ticks: { callback: v => v + 'K', font: { size: 11 } }
           },
           y: {
             grid: { display: false },
@@ -101,66 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== Scam Distribution (Doughnut) =====
-  const distCtx = document.getElementById('distributionChart');
-  if (distCtx) {
-    new Chart(distCtx, {
-      type: 'doughnut',
-      data: {
-        labels: [
-          t('charts.financialFraud'),
-          t('charts.phishingSpoofing'),
-          t('charts.identityCrimes'),
-          t('charts.romanceSocial'),
-          t('charts.techSupport2'),
-          t('charts.other')
-        ],
-        datasets: [{
-          data: [32, 24, 15, 14, 10, 5],
-          backgroundColor: [
-            'rgba(0, 255, 65, 0.8)',
-            'rgba(0, 212, 255, 0.8)',
-            'rgba(255, 0, 85, 0.8)',
-            'rgba(157, 78, 221, 0.8)',
-            'rgba(255, 140, 0, 0.8)',
-            'rgba(100, 100, 120, 0.8)'
-          ],
-          borderColor: 'rgba(10, 14, 23, 1)',
-          borderWidth: 3,
-          hoverOffset: 15
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '65%',
-        plugins: {
-          legend: {
-            position: 'right',
-            labels: {
-              padding: 15,
-              usePointStyle: true,
-              pointStyleWidth: 12,
-              font: { size: 12 }
-            }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(13, 19, 33, 0.95)',
-            borderColor: '#00d4ff',
-            borderWidth: 1,
-            titleFont: { family: "'Orbitron', sans-serif", size: 12 },
-            padding: 12,
-            cornerRadius: 8,
-            callbacks: {
-              label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // ===== Yearly Trend (Line) - Last 3 Years Highlighted =====
+  // ===== 2. Yearly Trend (Line) =====
   const trendCtx = document.getElementById('trendChart');
   if (trendCtx) {
     new Chart(trendCtx, {
@@ -171,36 +95,30 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: t('charts.totalReports'),
             data: [352, 467, 791, 847, 800, 880, 1020, 1150, 1280],
-            borderColor: '#00ff41',
-            backgroundColor: 'rgba(0, 255, 65, 0.1)',
+            borderColor: '#0A84FF',
+            backgroundColor: 'rgba(10,132,255,0.08)',
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: '#00ff41',
-            pointBorderColor: '#0a0e17',
+            pointBackgroundColor: '#0A84FF',
+            pointBorderColor: '#000',
             pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 8,
-            segment: {
-              // Highlight last 3 years (2024-2026) with thicker line
-              borderWidth: ctx => ctx.p1DataIndex >= 6 ? 4 : 2,
-            }
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            borderWidth: 2,
           },
           {
             label: t('charts.financialLoss'),
             data: [2.7, 3.5, 4.2, 6.9, 10.3, 12.5, 14.8, 17.2, 19.8],
-            borderColor: '#ff0055',
-            backgroundColor: 'rgba(255, 0, 85, 0.05)',
+            borderColor: '#FF453A',
+            backgroundColor: 'rgba(255,69,58,0.05)',
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: '#ff0055',
-            pointBorderColor: '#0a0e17',
+            pointBackgroundColor: '#FF453A',
+            pointBorderColor: '#000',
             pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 8,
-            segment: {
-              // Highlight last 3 years (2024-2026) with thicker line
-              borderWidth: ctx => ctx.p1DataIndex >= 6 ? 4 : 2,
-            }
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            borderWidth: 2,
           }
         ]
       },
@@ -210,15 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
         interaction: { intersect: false, mode: 'index' },
         plugins: {
           legend: {
-            labels: { usePointStyle: true, padding: 20, font: { size: 12 } }
+            labels: { usePointStyle: true, padding: 20, font: { size: 11 } }
           },
           tooltip: {
-            backgroundColor: 'rgba(13, 19, 33, 0.95)',
-            borderColor: '#00ff41',
+            backgroundColor: 'rgba(28,28,30,0.95)',
+            borderColor: 'rgba(255,255,255,0.1)',
             borderWidth: 1,
-            titleFont: { family: "'Orbitron', sans-serif" },
+            titleFont: { weight: '600' },
             padding: 12,
-            cornerRadius: 8
+            cornerRadius: 10
           }
         },
         scales: {
@@ -229,76 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== Threat Sophistication Radar - 3 Year Comparison =====
-  const radarCtx = document.getElementById('radarChart');
-  if (radarCtx) {
-    new Chart(radarCtx, {
-      type: 'radar',
-      data: {
-        labels: ['Phishing', 'Social Engineering', 'Deepfake', 'Ransomware', 'BEC', 'Crypto Fraud', 'Romance Scam'],
-        datasets: [
-          {
-            label: '2024',
-            data: [88, 84, 75, 85, 78, 82, 68],
-            borderColor: 'rgba(0, 102, 255, 0.8)',
-            backgroundColor: 'rgba(0, 102, 255, 0.15)',
-            pointBackgroundColor: '#0066ff',
-            pointBorderColor: '#0a0e17',
-            pointBorderWidth: 2,
-          },
-          {
-            label: '2025',
-            data: [92, 90, 88, 82, 85, 90, 72],
-            borderColor: 'rgba(0, 212, 255, 0.8)',
-            backgroundColor: 'rgba(0, 212, 255, 0.15)',
-            pointBackgroundColor: '#00d4ff',
-            pointBorderColor: '#0a0e17',
-            pointBorderWidth: 2,
-          },
-          {
-            label: '2026',
-            data: [95, 94, 93, 88, 90, 95, 80],
-            borderColor: 'rgba(255, 0, 85, 0.8)',
-            backgroundColor: 'rgba(255, 0, 85, 0.1)',
-            pointBackgroundColor: '#ff0055',
-            pointBorderColor: '#0a0e17',
-            pointBorderWidth: 2,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: { usePointStyle: true, padding: 20, font: { size: 12 } }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(13, 19, 33, 0.95)',
-            borderColor: '#9d4edd',
-            borderWidth: 1,
-            padding: 12,
-            cornerRadius: 8
-          }
-        },
-        scales: {
-          r: {
-            angleLines: { color: 'rgba(255,255,255,0.05)' },
-            grid: { color: 'rgba(255,255,255,0.05)' },
-            pointLabels: { font: { size: 11 }, color: '#8b949e' },
-            ticks: { display: false },
-            suggestedMin: 0,
-            suggestedMax: 100
-          }
-        }
-      }
-    });
-  }
-
-  // ===== World Heatmap (Leaflet Choropleth) =====
+  // ===== 3. World Heatmap (Leaflet) =====
   initHeatmap();
+
+  // ===== Load News =====
+  loadNews();
 });
 
+// ==================== HEATMAP ====================
 function initHeatmap() {
   const mapContainer = document.getElementById('heatmap');
   if (!mapContainer) return;
@@ -313,13 +169,11 @@ function initHeatmap() {
     scrollWheelZoom: true
   });
 
-  // Dark tile layer
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 20
   }).addTo(map);
 
-  // Country centroids with cyber fraud risk data
   const countryData = [
     { name: 'United States', lat: 39.8, lng: -98.5, reports: 880418, risk: 95, lost: '$12.5B' },
     { name: 'United Kingdom', lat: 55.3, lng: -3.4, reports: 425000, risk: 88, lost: '$4.7B' },
@@ -343,100 +197,101 @@ function initHeatmap() {
     { name: 'Malaysia', lat: 4.2, lng: 101.9, reports: 115000, risk: 76, lost: '$1.0B' },
     { name: 'Singapore', lat: 1.35, lng: 103.8, reports: 42000, risk: 65, lost: '$0.5B' },
     { name: 'UAE', lat: 23.4, lng: 53.8, reports: 58000, risk: 68, lost: '$0.6B' },
-    { name: 'Saudi Arabia', lat: 23.8, lng: 45.0, reports: 48000, risk: 62, lost: '$0.4B' },
     { name: 'Italy', lat: 41.8, lng: 12.5, reports: 142000, risk: 74, lost: '$1.1B' },
     { name: 'Spain', lat: 40.4, lng: -3.7, reports: 128000, risk: 72, lost: '$1.0B' },
     { name: 'Netherlands', lat: 52.1, lng: 5.2, reports: 98000, risk: 70, lost: '$0.8B' },
-    { name: 'Sweden', lat: 60.1, lng: 18.6, reports: 65000, risk: 66, lost: '$0.5B' },
-    { name: 'Poland', lat: 51.9, lng: 19.1, reports: 78000, risk: 68, lost: '$0.6B' },
     { name: 'Turkey', lat: 38.9, lng: 35.2, reports: 95000, risk: 72, lost: '$0.7B' },
-    { name: 'Pakistan', lat: 30.3, lng: 69.3, reports: 85000, risk: 70, lost: '$0.5B' },
-    { name: 'Bangladesh', lat: 23.6, lng: 90.3, reports: 72000, risk: 66, lost: '$0.4B' },
-    { name: 'Colombia', lat: 4.5, lng: -74.2, reports: 68000, risk: 65, lost: '$0.4B' },
-    { name: 'Argentina', lat: -38.4, lng: -63.6, reports: 52000, risk: 60, lost: '$0.3B' },
-    { name: 'Egypt', lat: 26.8, lng: 30.8, reports: 62000, risk: 64, lost: '$0.4B' },
-    { name: 'Kenya', lat: -0.02, lng: 37.9, reports: 48000, risk: 62, lost: '$0.3B' },
-    { name: 'Ghana', lat: 7.9, lng: -1.0, reports: 55000, risk: 66, lost: '$0.4B' },
     { name: 'Taiwan', lat: 23.69, lng: 120.96, reports: 78000, risk: 70, lost: '$0.6B' },
     { name: 'Hong Kong', lat: 22.39, lng: 114.1, reports: 62000, risk: 74, lost: '$0.8B' },
-    { name: 'New Zealand', lat: -40.9, lng: 174.8, reports: 35000, risk: 60, lost: '$0.2B' },
-    { name: 'Israel', lat: 31.05, lng: 34.85, reports: 42000, risk: 64, lost: '$0.4B' },
   ];
 
   function getRiskColor(risk) {
-    if (risk >= 90) return '#ff0033';
-    if (risk >= 80) return '#ff4444';
-    if (risk >= 70) return '#ff8c00';
-    if (risk >= 60) return '#ffd600';
-    return '#00ff41';
+    if (risk >= 90) return '#FF453A';
+    if (risk >= 80) return '#FF6961';
+    if (risk >= 70) return '#FF9F0A';
+    if (risk >= 60) return '#FFD60A';
+    return '#30D158';
   }
 
   function getRadius(reports) {
-    return Math.max(8, Math.min(35, Math.sqrt(reports / 1000)));
+    return Math.max(8, Math.min(30, Math.sqrt(reports / 1200)));
   }
 
   countryData.forEach(c => {
-    const circle = L.circleMarker([c.lat, c.lng], {
+    L.circleMarker([c.lat, c.lng], {
       radius: getRadius(c.reports),
       fillColor: getRiskColor(c.risk),
       color: getRiskColor(c.risk),
       weight: 1,
       opacity: 0.8,
-      fillOpacity: 0.45
-    }).addTo(map);
-
-    // Pulsing effect for high-risk countries
-    if (c.risk >= 85) {
-      const pulseCircle = L.circleMarker([c.lat, c.lng], {
-        radius: getRadius(c.reports) + 5,
-        fillColor: getRiskColor(c.risk),
-        color: getRiskColor(c.risk),
-        weight: 1,
-        opacity: 0.2,
-        fillOpacity: 0.1,
-        className: 'pulse-marker'
-      }).addTo(map);
-    }
-
-    circle.bindTooltip(`
+      fillOpacity: 0.4
+    }).addTo(map).bindTooltip(`
       <div class="custom-tooltip">
         <div class="tooltip-title">${c.name}</div>
         <div class="tooltip-value">📊 Reports: ${c.reports.toLocaleString()}</div>
         <div class="tooltip-value">⚠️ Risk Level: ${c.risk}/100</div>
         <div class="tooltip-value">💰 Losses: ${c.lost}</div>
       </div>
-    `, {
-      direction: 'top',
-      offset: [0, -10],
-      className: 'custom-tooltip'
-    });
+    `, { direction: 'top', offset: [0, -10], className: 'custom-tooltip' });
   });
 
   // Legend
   const legend = L.control({ position: 'bottomright' });
   legend.onAdd = function () {
     const div = L.DomUtil.create('div', 'info legend');
-    div.style.cssText = 'background: rgba(13,19,33,0.9); padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(0,255,65,0.2); color: #e0e6ed; font-family: Rajdhani, sans-serif; font-size: 12px;';
+    div.style.cssText = 'background:rgba(28,28,30,0.9);padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:12px;';
     div.innerHTML = `
-      <div style="font-weight:700; margin-bottom:8px; font-family: Orbitron, sans-serif; font-size: 11px; color: #00ff41;">RISK LEVEL</div>
-      <div style="display:flex; align-items:center; gap:6px; margin:4px 0;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ff0033;"></span> Critical (90+)</div>
-      <div style="display:flex; align-items:center; gap:6px; margin:4px 0;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ff4444;"></span> High (80-89)</div>
-      <div style="display:flex; align-items:center; gap:6px; margin:4px 0;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ff8c00;"></span> Medium (70-79)</div>
-      <div style="display:flex; align-items:center; gap:6px; margin:4px 0;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ffd600;"></span> Moderate (60-69)</div>
-      <div style="display:flex; align-items:center; gap:6px; margin:4px 0;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#00ff41;"></span> Low (&lt;60)</div>
+      <div style="font-weight:700;margin-bottom:8px;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;">RISK LEVEL</div>
+      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF453A;"></span> Critical (90+)</div>
+      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF6961;"></span> High (80-89)</div>
+      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF9F0A;"></span> Medium (70-79)</div>
+      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FFD60A;"></span> Moderate (60-69)</div>
+      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#30D158;"></span> Low (&lt;60)</div>
     `;
     return div;
   };
   legend.addTo(map);
+}
 
-  // Add CSS animation for pulse effect
-  const style = document.createElement('style');
-  style.textContent = `
-    .pulse-marker { animation: mapPulse 2s infinite; }
-    @keyframes mapPulse {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.5; }
-    }
-  `;
-  document.head.appendChild(style);
+// ==================== NEWS ====================
+async function loadNews() {
+  const grid = document.getElementById('newsGrid');
+  if (!grid) return;
+
+  try {
+    const res = await fetch('/api/news');
+    if (!res.ok) throw new Error('API error');
+    const news = await res.json();
+    renderNews(grid, news);
+  } catch (e) {
+    // Fallback demo news
+    renderNews(grid, [
+      { title: 'Major Phishing Campaign Targets Banking Customers Across Asia', date: '2026-02-19', source: 'The Hacker News', link: '#', summary: 'A sophisticated phishing campaign leveraging AI-generated emails has been detected targeting major banks in Hong Kong and Singapore.' },
+      { title: 'New Ransomware Variant Uses Zero-Day Exploit in Windows', date: '2026-02-18', source: 'BleepingComputer', link: '#', summary: 'Security researchers discovered a new ransomware strain that exploits a previously unknown vulnerability in Windows.' },
+      { title: 'Critical Vulnerability Found in Popular Open-Source Library', date: '2026-02-17', source: 'SecurityWeek', link: '#', summary: 'A critical remote code execution vulnerability has been found affecting millions of applications worldwide.' },
+      { title: 'AI-Powered Deepfake Scams Surge 300% in Southeast Asia', date: '2026-02-16', source: 'CyberScoop', link: '#', summary: 'Law enforcement agencies report a dramatic increase in deepfake-enabled fraud across the APAC region.' },
+      { title: 'Global Law Enforcement Takes Down Major Dark Web Marketplace', date: '2026-02-15', source: 'Krebs on Security', link: '#', summary: 'An international operation has successfully dismantled one of the largest illegal marketplaces on the dark web.' },
+    ]);
+  }
+}
+
+function renderNews(container, items) {
+  container.innerHTML = items.map((item, i) => {
+    const d = new Date(item.date);
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `
+      <a href="${item.link || '#'}" target="_blank" class="news-item" style="animation: slideUp 0.4s ease ${i * 0.06}s both;">
+        <div class="news-date">
+          <div class="day">${d.getDate()}</div>
+          <div class="month">${months[d.getMonth()]}</div>
+        </div>
+        <div class="news-content">
+          <h4>${item.title}</h4>
+          <p class="news-summary">${item.summary || ''}</p>
+          <span class="news-source">${item.source || 'Security News'}</span>
+        </div>
+        <span class="news-link-icon">↗</span>
+      </a>
+    `;
+  }).join('');
 }
