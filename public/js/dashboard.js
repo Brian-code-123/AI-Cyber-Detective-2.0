@@ -280,7 +280,7 @@ function renderNews(container, items) {
     const d = new Date(item.date);
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     return `
-      <a href="${item.link || '#'}" target="_blank" class="news-item" style="animation: slideUp 0.4s ease ${i * 0.06}s both;">
+      <a href="${item.link || item.url || '#'}" target="_blank" rel="noopener" class="news-item" style="animation: slideUp 0.4s ease ${i * 0.06}s both;">
         <div class="news-date">
           <div class="day">${d.getDate()}</div>
           <div class="month">${months[d.getMonth()]}</div>

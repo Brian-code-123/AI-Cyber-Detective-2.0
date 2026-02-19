@@ -585,7 +585,12 @@ app.get('/api/news', async (req, res) => {
     while ((match = itemRegex.exec(xml)) !== null && items.length < 10) {
       const itemXml = match[1];
       const title = extractTag(itemXml, 'title');
-      const link = extractTag(itemXml, 'link');
+      const rawLink = extractTag(itemXml, 'link');
+      const guid = extractTag(itemXml, 'guid');
+      // <link> in RSS can be a bare URL or CDATA; guid is more reliable
+      const link = (rawLink && rawLink.startsWith('http') ? rawLink : '') ||
+                   (guid && guid.startsWith('http') ? guid : '') ||
+                   rawLink;
       const pubDate = extractTag(itemXml, 'pubDate');
       const description = extractTag(itemXml, 'description');
 
@@ -600,13 +605,33 @@ app.get('/api/news', async (req, res) => {
         .trim();
       const summary = cleanDesc.length > 200 ? cleanDesc.substring(0, 200) + '...' : cleanDesc;
 
+      const cleanLink = link.replace(/<!\[CDATA[|]]>/g, '').trim();
       items.push({
         title: title.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim(),
-        url: link.trim(),
+        link: cleanLink,
+        url: cleanLink,   // alias for backwards compat
         date: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
         source: 'The Hacker News',
         summary
       });
+    }
+
+    // Enhance summaries with AI if API key is available
+    if (ASI_API_KEY && items.length > 0) {
+      try {
+        const articlesText = items.map((item, i) =>
+          `${i + 1}. Title: ${item.title}\nContent: ${item.summary}`
+        ).join('\n\n');
+        const prompt = `You are given ${items.length} cybersecurity news article titles and excerpts. Write a 1-2 sentence plain-English summary for each one that a non-expert can understand. Return ONLY a valid JSON array of ${items.length} strings, e.g. ["summary1","summary2",...]. No extra text, no markdown.\n\n${articlesText}`;
+        const aiResponse = await callASI(prompt, 'You are a concise cybersecurity news summarizer. Only output valid JSON arrays.', 1200);
+        const jsonMatch = aiResponse.match(/\[[\s\S]*\]/);
+        if (jsonMatch) {
+          const aiSummaries = JSON.parse(jsonMatch[0]);
+          aiSummaries.forEach((s, i) => { if (items[i] && s && typeof s === 'string') items[i].summary = s.trim(); });
+        }
+      } catch(e) {
+        console.warn('AI news summary failed, using text excerpts:', e.message);
+      }
     }
 
     newsCache = { data: items, timestamp: Date.now() };
@@ -708,6 +733,47 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.ht
 const ASI_API_KEY = process.env.ASI_API_KEY || '';
 const ASI_MODEL = process.env.ASI_MODEL || 'asi1-mini';
 const ASI_BASE_URL = 'https://api.asi1.ai';
+
+/**
+ * Internal helper: calls ASI-1 chat completion API directly
+ */
+async function callASI(userMessage, systemMessage = 'You are a helpful assistant.', maxTokens = 1500) {
+  if (!ASI_API_KEY) throw new Error('No ASI API key configured');
+  const payload = JSON.stringify({
+    model: ASI_MODEL,
+    messages: [
+      { role: 'system', content: systemMessage },
+      { role: 'user', content: userMessage }
+    ],
+    max_tokens: maxTokens,
+    temperature: 0.3
+  });
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'api.asi1.ai',
+      port: 443,
+      path: '/v1/chat/completions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${ASI_API_KEY}`,
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+    const apiReq = https.request(options, (apiRes) => {
+      let data = '';
+      apiRes.on('data', chunk => data += chunk);
+      apiRes.on('end', () => {
+        try { resolve(JSON.parse(data).choices?.[0]?.message?.content || ''); }
+        catch(e) { reject(new Error('Invalid JSON from ASI API')); }
+      });
+    });
+    apiReq.on('error', reject);
+    apiReq.setTimeout(20000, () => { apiReq.destroy(); reject(new Error('ASI API timeout')); });
+    apiReq.write(payload);
+    apiReq.end();
+  });
+}
 
 // Generic ASI-1 chat completion proxy
 app.post('/api/asi/chat', async (req, res) => {
