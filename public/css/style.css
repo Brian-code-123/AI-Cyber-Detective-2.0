@@ -305,6 +305,25 @@ body::after { display: none !important; content: none !important; }
   padding: clamp(4rem, 8vw, 7rem) 2rem clamp(2rem, 4vw, 4rem);
   position: relative; overflow: hidden;
   max-width: 980px; margin: 0 auto;
+  z-index: 1;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 700px;
+  height: 700px;
+  transform: translate(-50%, -50%) scale(1.15) perspective(800px) rotateX(18deg) rotateZ(-8deg);
+  background:
+    linear-gradient(120deg, rgba(10,132,255,0.10) 0%, rgba(191,90,242,0.08) 100%),
+    url('../images/logo.jpeg') center/60% no-repeat;
+  opacity: 0.18;
+  filter: blur(2.5px) saturate(1.2);
+  pointer-events: none;
+  z-index: 0;
+}
 }
 
 .hero::before {
