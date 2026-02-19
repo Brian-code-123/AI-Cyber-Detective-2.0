@@ -1,7 +1,4 @@
 #  NeoTrace
-![Uploading 617F1558-F786-4613-AE25-184A64AC1E8B_1_201_a.jpeg…]()
-
-
 
 <div align="center">
 
