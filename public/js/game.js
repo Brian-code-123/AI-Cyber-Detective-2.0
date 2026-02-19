@@ -201,7 +201,7 @@ const scenarios = [
   {
     tier: 3,
     type: "socialeng",
-    typeLabel: "🧠 SOCIAL ENGINEERING",
+    typeLabel: "💀 SOCIAL ENGINEERING",
     title: "IT Department Call",
     content: `📞 Phone Call Transcript:\n\nCaller: "Hi, this is Jake from the IT Help Desk. We're upgrading the company VPN and need to migrate all user accounts today. I already have your employee ID from HR.\n\nI just need you to confirm your current password so I can set up your new VPN profile. Otherwise you won't be able to work remotely starting tomorrow.\n\nThis is authorized by your department head. I can give you a ticket number: INC-20260216-0042.\n\nCould you please confirm your password?"`,
     options: [
@@ -259,7 +259,7 @@ const scenarios = [
   {
     tier: 4,
     type: "deepfake",
-    typeLabel: "🤖 DEEPFAKE",
+    typeLabel: "💀 DEEPFAKE",
     title: "Video Call from Manager",
     content: `📹 Scenario:\n\nYou receive a video call from someone who looks and sounds exactly like your department manager. They say:\n\n"Hey, I'm working from home today. I need you to process an urgent wire transfer of $45,000 to this vendor account. The contract was just signed and they need payment today.\n\nHere are the bank details: [provides account number]\n\nI know this is unusual, but the CEO approved it personally. I'll send the formal paperwork tomorrow. Can you process it now?"\n\nThe video quality is slightly lower than usual, and your manager seems to blink less frequently than normal.`,
     options: [
@@ -548,7 +548,7 @@ async function prefetchAIScenarios() {
         const aiScenario = {
           tier: gameState.currentTier,
           type: "ai_generated",
-          typeLabel: data.typeLabel || "🤖 AI SCENARIO",
+          typeLabel: data.typeLabel || "💀 AI SCENARIO",
           title: "AI Challenge",
           content: data.text,
           options: data.options,
@@ -589,7 +589,7 @@ async function fetchAIExplanation(scenario, feedbackText) {
         aiDiv.style.cssText =
           "margin-top:12px;padding:10px 14px;background:rgba(10,132,255,0.06);border-radius:10px;border-left:3px solid var(--accent);font-size:0.88rem;color:var(--text-secondary);";
         aiDiv.innerHTML =
-          '🤖 <strong style="color:var(--accent)">AI Tip:</strong> ' +
+          '💀 <strong style="color:var(--accent)">AI Tip:</strong> ' +
           data.reply;
         feedbackText.parentElement.appendChild(aiDiv);
       }

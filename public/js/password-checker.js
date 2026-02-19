@@ -211,7 +211,7 @@ async function getAIAdvice() {
   const content = document.getElementById('aiContent');
 
   btn.disabled = true;
-  btn.textContent = '🤖 Analyzing...';
+  btn.textContent = '💀 Analyzing...';
   content.textContent = '';
 
   const result = zxcvbn(pw);

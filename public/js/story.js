@@ -131,7 +131,7 @@ async function askStoryAI(chapterNum) {
     const data = await res.json();
     const reply = data.reply || "Could not get AI analysis. Please try again.";
     replyDiv.innerHTML =
-      "🤖 <strong>NeoTrace AI:</strong> " + reply.replace(/\n/g, "<br>");
+      "💀 <strong>NeoTrace AI:</strong> " + reply.replace(/\n/g, "<br>");
   } catch (err) {
     replyDiv.innerHTML =
       '<span style="color:var(--orange)">⚡ AI temporarily unavailable. The chapter\'s Detective Analysis above has the key takeaways.</span>';
