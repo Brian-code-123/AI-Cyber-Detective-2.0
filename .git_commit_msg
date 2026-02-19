@@ -1,0 +1,14 @@
+refactor: complete NeoTrace redesign with Apple-style minimalist UI
+
+- Rename project from "AI Cyber Detective 2.0" to "NeoTrace"
+- Redesign: Apple minimalist theme with frosted glass UI
+- Update color palette: cyberpunk green → monochrome #000-#1a1a1a
+- Replace fonts: Orbitron/Rajdhani → SF Pro/Inter systems
+- Add live cybersecurity news feed (The Hacker News RSS)
+- Add calendar widget to dashboard
+- Reduce charts: keep Heatmap, Bar, Trend (remove Doughnut, Radar)
+- Update all 8 HTML pages with NeoTrace branding
+- Update package.json: Node ≥18, Express ^4.21
+- Update both EN/ZH translations in i18n.js
+- Add documentation: CONTRIBUTING.md, CHANGELOG.md, .env.example
+- All APIs tested and working; server runs without errors

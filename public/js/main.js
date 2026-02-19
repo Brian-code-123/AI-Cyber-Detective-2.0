@@ -1,44 +1,6 @@
 // =====================================================
-// AI CYBER DETECTIVE 2.0 — Main Shared JavaScript
+// NeoTrace — Main Shared JavaScript
 // =====================================================
-
-// Matrix Rain Effect
-function initMatrixRain() {
-  const canvas = document.getElementById('matrix-canvas');
-  if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?/~`アイウエオカキクケコサシスセソタチツテトナニヌネノ';
-  const fontSize = 14;
-  const columns = Math.floor(canvas.width / fontSize);
-  const drops = new Array(columns).fill(1);
-
-  function draw() {
-    ctx.fillStyle = 'rgba(10, 14, 23, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00ff41';
-    ctx.font = `${fontSize}px 'Share Tech Mono', monospace`;
-
-    for (let i = 0; i < drops.length; i++) {
-      const char = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
-  }
-
-  setInterval(draw, 50);
-
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-}
 
 // Mobile Nav Toggle
 function initNavToggle() {
@@ -48,7 +10,6 @@ function initNavToggle() {
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('show');
     });
-    // Close on link click
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => navLinks.classList.remove('show'));
     });
@@ -58,20 +19,21 @@ function initNavToggle() {
 // Animate stat numbers
 function animateCounters() {
   document.querySelectorAll('.stat-number[data-count]').forEach(el => {
-    const target = parseInt(el.dataset.count);
+    const target = parseFloat(el.dataset.count);
     const suffix = el.dataset.suffix || '';
     const prefix = el.dataset.prefix || '';
+    const isFloat = String(el.dataset.count).includes('.');
     const duration = 2000;
     const start = performance.now();
-    
+
     function update(now) {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.floor(target * eased);
-      el.textContent = prefix + current.toLocaleString() + suffix;
+      const current = isFloat ? (target * eased).toFixed(1) : Math.floor(target * eased).toLocaleString();
+      el.textContent = prefix + current + suffix;
       if (progress < 1) requestAnimationFrame(update);
     }
-    
+
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
         requestAnimationFrame(update);
@@ -93,7 +55,7 @@ function initScrollReveal() {
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.chapter, .card, .chart-container, .tool-panel, .result-panel').forEach(el => {
+  document.querySelectorAll('.chapter, .card, .chart-container, .tool-panel, .result-panel, .news-item').forEach(el => {
     observer.observe(el);
   });
 }
@@ -109,12 +71,64 @@ function setActiveNavLink() {
   });
 }
 
+// =====================================================
+// Calendar Widget
+// =====================================================
+let calendarDate = new Date();
+
+function initCalendar() {
+  renderCalendar();
+}
+
+function changeMonth(delta) {
+  calendarDate.setMonth(calendarDate.getMonth() + delta);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const monthEl = document.getElementById('calendarMonth');
+  const daysEl = document.getElementById('calendarDays');
+  if (!monthEl || !daysEl) return;
+
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
+  monthEl.textContent = monthNames[month] + ' ' + year;
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+
+  let html = '';
+  // Day headers
+  ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(function(d) {
+    html += '<div class="calendar-day-header">' + d + '</div>';
+  });
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    html += '<div class="calendar-day empty"></div>';
+  }
+
+  // Day cells
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+    html += '<div class="calendar-day' + (isToday ? ' today' : '') + '">' + d + '</div>';
+  }
+
+  daysEl.innerHTML = html;
+}
+
+// =====================================================
 // Initialize
+// =====================================================
 document.addEventListener('DOMContentLoaded', () => {
-  initMatrixRain();
   initNavToggle();
   animateCounters();
   initScrollReveal();
   setActiveNavLink();
+  initCalendar();
   initI18n();
 });

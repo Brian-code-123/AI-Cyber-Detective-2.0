@@ -1,11 +1,11 @@
 /**
  * =====================================================
- * AI CYBER DETECTIVE 2.0 — Backend Server
+ * NeoTrace — Backend Server
  * =====================================================
  * 
- * @description Express.js server providing API endpoints for cybersecurity education platform
- * @author AI Cyber Detective Team
- * @version 2.0.0
+ * @description Express.js server providing API endpoints for cybersecurity intelligence platform
+ * @author NeoTrace Team
+ * @version 3.0.0
  * @date 2026-02-16
  * 
  * Features:
@@ -554,11 +554,93 @@ function formatBytes(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
+// ==================== NEWS API ====================
+/**
+ * GET /api/news
+ * Returns latest cybersecurity news from RSS feeds
+ * Scrapes The Hacker News RSS feed and returns up to 10 articles with AI-generated summaries
+ */
+let newsCache = { data: null, timestamp: 0 };
+const NEWS_CACHE_TTL = 15 * 60 * 1000; // 15 minutes
+
+app.get('/api/news', async (req, res) => {
+  try {
+    // Return cache if fresh
+    if (newsCache.data && Date.now() - newsCache.timestamp < NEWS_CACHE_TTL) {
+      return res.json(newsCache.data);
+    }
+
+    const feedUrl = 'https://feeds.feedburner.com/TheHackersNews';
+    const xml = await fetchURL(feedUrl);
+
+    // Simple XML parsing for RSS items
+    const items = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
+    while ((match = itemRegex.exec(xml)) !== null && items.length < 10) {
+      const itemXml = match[1];
+      const title = extractTag(itemXml, 'title');
+      const link = extractTag(itemXml, 'link');
+      const pubDate = extractTag(itemXml, 'pubDate');
+      const description = extractTag(itemXml, 'description');
+
+      // Clean HTML from description for summary
+      const cleanDesc = description
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .trim();
+      const summary = cleanDesc.length > 200 ? cleanDesc.substring(0, 200) + '...' : cleanDesc;
+
+      items.push({
+        title: title.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim(),
+        url: link.trim(),
+        date: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+        source: 'The Hacker News',
+        summary
+      });
+    }
+
+    newsCache = { data: items, timestamp: Date.now() };
+    res.json(items);
+  } catch (error) {
+    console.error('News fetch error:', error.message);
+    // Return cached data if available, even if stale
+    if (newsCache.data) return res.json(newsCache.data);
+    res.status(500).json({ error: 'Failed to fetch news', message: error.message });
+  }
+});
+
+function extractTag(xml, tag) {
+  const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i');
+  const match = xml.match(regex);
+  return match ? match[1] : '';
+}
+
+function fetchURL(targetUrl) {
+  return new Promise((resolve, reject) => {
+    const protocol = targetUrl.startsWith('https') ? https : http;
+    protocol.get(targetUrl, { headers: { 'User-Agent': 'NeoTrace/3.0' } }, (response) => {
+      // Handle redirects
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        return fetchURL(response.headers.location).then(resolve).catch(reject);
+      }
+      let data = '';
+      response.on('data', chunk => data += chunk);
+      response.on('end', () => resolve(data));
+      response.on('error', reject);
+    }).on('error', reject);
+  });
+}
+
 // ==================== SERVE PAGES ====================
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.listen(PORT, () => {
-  console.log(`\n🔍 AI Cyber Detective 2.0 is running!`);
+  console.log(`\n◉ NeoTrace is running!`);
   console.log(`🌐 Open: http://localhost:${PORT}`);
   console.log(`📡 Server started at ${new Date().toLocaleString()}\n`);
 });

@@ -1,5 +1,5 @@
 // =====================================================
-// AI CYBER DETECTIVE 2.0 — Internationalization (i18n)
+// NeoTrace — Internationalization (i18n)
 // =====================================================
 
 const translations = {
@@ -22,9 +22,9 @@ const translations = {
     'error.submitFailed': 'Failed to submit score',
 
     // Hero
-    'hero.badge': 'AI-POWERED SECURITY PLATFORM',
-    'hero.title': 'AI Cyber Detective 2.0',
-    'hero.subtitle': 'Your intelligent companion for cybersecurity education, threat detection, and digital forensics. Learn to identify scams, analyze suspicious content, and protect yourself online.',
+    'hero.badge': 'CYBERSECURITY INTELLIGENCE',
+    'hero.title': 'NeoTrace',
+    'hero.subtitle': 'Intelligent threat detection, digital forensics, and cybersecurity education — all in one platform.',
 
     // Stats
     'stats.scams': 'Scams Reported',
@@ -58,6 +58,10 @@ const translations = {
     'charts.trend': '📈 Yearly Cyber Fraud Trend',
     'charts.heatmap': '🌍 Global Cyber Fraud Heatmap',
     'charts.sophistication': '🕸️ Threat Sophistication Radar',
+
+    // News Section
+    'news.title': 'Cybersecurity News',
+    'news.subtitle': 'Latest threats and advisories from across the industry',
 
     // Tools Section
     'tools.title': 'Investigation Toolkit',
@@ -121,7 +125,7 @@ const translations = {
     'story.ch3.number': 'CHAPTER 03',
     'story.ch4.title': 'Chapter 4: The Social Engineer',
     'story.ch4.number': 'CHAPTER 04',
-    'story.code.title': '🔍 The Cyber Detective Code',
+    'story.code.title': '◉ The NeoTrace Code',
     'story.dangerLabel': '⚠ DANGER',
     'story.safeLabel': '✓ SAFE',
     'story.ch1.text': 'Alex received an exciting email: "Congratulations! You\'ve won a $10,000 Amazon gift card! Click here to claim your prize within 24 hours!" The message looked professional, with the Amazon logo and official-looking formatting. But something felt off...',
@@ -151,7 +155,7 @@ const translations = {
     'story.code5': 'If it seems too good to be true, it probably is',
 
     // Game
-    'game.title': 'Cyber Detective Training',
+    'game.title': 'NeoTrace Training',
     'game.subtitle': 'Test your scam detection skills',
     'game.score': 'Score',
     'game.streak': 'Streak',
@@ -184,14 +188,14 @@ const translations = {
     'game.rankElite': 'Elite Detective',
 
     // Footer
-    'footer.text': 'AI Cyber Detective 2.0 — Empowering Cybersecurity Awareness',
+    'footer.text': 'NeoTrace — Cybersecurity Intelligence Platform',
     'footer.disclaimer': 'Educational platform. Data shown is for demonstration purposes.',
 
     // Logo & Navigation
-    'nav.logo': 'CYBER DETECTIVE',
+    'nav.logo': 'NeoTrace',
 
     // Hero Badges & Sections
-    'hero.aiPowered': 'AI-POWERED SECURITY PLATFORM',
+    'hero.aiPowered': 'CYBERSECURITY INTELLIGENCE',
     'story.interactive': 'INTERACTIVE LEARNING',
     'game.gamified': 'GAMIFIED TRAINING',
     'image.forensic': 'FORENSIC ANALYSIS',
@@ -348,9 +352,9 @@ const translations = {
     'error.submitFailed': '提交分數失敗',
 
     // Hero
-    'hero.badge': 'AI驅動安全平台',
-    'hero.title': 'AI 網絡偵探 2.0',
-    'hero.subtitle': '您的智能網絡安全教育夥伴，提供威脅檢測和數字取證功能。學習識別騙局、分析可疑內容，保護自己的網絡安全。',
+    'hero.badge': '網絡安全情報',
+    'hero.title': 'NeoTrace',
+    'hero.subtitle': '智能威脅偵測、數字取證和網絡安全教育 — 全部集於一身。',
 
     // Stats
     'stats.scams': '已報告騙案',
@@ -386,6 +390,10 @@ const translations = {
     'charts.trend': '📈 年度網絡詐騙趨勢',
     'charts.heatmap': '🌍 全球網絡詐騙熱力圖',
     'charts.sophistication': '🕸️ 威脅複雜度雷達圖',
+
+    // News Section
+    'news.title': '網絡安全新聞',
+    'news.subtitle': '來自業界的最新威脅和建議',
 
     // Tools Section
     'tools.title': '調查工具箱',
@@ -449,7 +457,7 @@ const translations = {
     'story.ch3.number': '第 03 章',
     'story.ch4.title': '第四章：社交工程師',
     'story.ch4.number': '第 04 章',
-    'story.code.title': '🔍 網絡偵探守則',
+    'story.code.title': '◉ NeoTrace 守則',
     'story.dangerLabel': '⚠ 危險',
     'story.safeLabel': '✓ 安全',
     'story.ch1.text': 'Alex收到了一封激動人心的電子郵件：「恭喜！您已贏得$10,000亞馬遜禮品卡！請在24小時內點擊此處領取您的獎品！」郵件看起來很專業，有亞馬遜的標誌和官方格式。但總覺得哪裡不對勁...',
@@ -479,7 +487,7 @@ const translations = {
     'story.code5': '如果看起來好得不像真的，那很可能就是假的',
 
     // Game
-    'game.title': '網絡偵探訓練',
+    'game.title': 'NeoTrace 訓練',
     'game.subtitle': '測試你的騙局識別能力',
     'game.score': '分數',
     'game.streak': '連勝',
@@ -512,14 +520,14 @@ const translations = {
     'game.rankElite': '精英偵探',
 
     // Footer
-    'footer.text': 'AI 網絡偵探 2.0 — 增進網絡安全意識',
+    'footer.text': 'NeoTrace — 網絡安全情報平台',
     'footer.disclaimer': '教育平台。所顯示的數據僅供演示。',
 
     // Logo & Navigation
-    'nav.logo': '網絡偵探',
+    'nav.logo': 'NeoTrace',
 
     // Hero Badges & Sections
-    'hero.aiPowered': 'AI驅動安全平台',
+    'hero.aiPowered': '網絡安全情報',
     'story.interactive': '互動式學習',
     'game.gamified': '遊戲化訓練',
     'image.forensic': '取證分析',
