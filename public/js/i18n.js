@@ -496,7 +496,7 @@ const translations = {
       "Built with modern web technologies for performance, security, and scalability.",
     "about.creator.title": "👤 About the Creator",
     "about.creator.desc":
-      "NeoTrace was developed as a comprehensive cybersecurity intelligence platform, combining a passion for cybersecurity with modern AI capabilities.",
+      "Hello world! I'm a cybersecurity enthusiast and the creator of NeoTrace. With a background in computer science and a passion for digital defense, I built NeoTrace to empower individuals with the tools and knowledge to navigate the complex world of cybersecurity. My mission is to make cybersecurity accessible and engaging for everyone, and I hope NeoTrace inspires you to become a vigilant digital citizen.",
     "about.features.title": "✨ Key Features",
     "about.features.desc":
       "A comprehensive suite of AI-powered cybersecurity tools and educational resources.",
@@ -1011,7 +1011,7 @@ const translations = {
     "about.tech.desc": "採用現代網絡技術構建，注重性能、安全性和可擴展性。",
     "about.creator.title": "👤 關於創建者",
     "about.creator.desc":
-      "NeoTrace 是一個綜合性的網絡安全情報平台，將對網絡安全的熱情與現代AI能力相結合。",
+      "你好世界！我是一名熱愛網絡安全的創客，也是 NeoTrace 的創始人。憑藉電腦科學背景和對數字防禦的熱情，我創建 NeoTrace 是為了讓每個人都能掌握工具和知識，在複雜的網絡安全世界中找到方向。我的使命是讓網絡安全變得親切易懂，希望 NeoTrace 能啟發你成為一名警覺的數字公民。",
     "about.features.title": "✨ 主要功能",
     "about.features.desc": "一套全面的AI驅動網絡安全工具和教育資源。",
 
