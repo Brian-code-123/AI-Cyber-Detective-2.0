@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoTrace — Cybersecurity Careers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">◉</div>
+      <span data-i18n="nav.logo">NeoTrace</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+      <li class="nav-dropdown">
+        <a href="#" data-i18n="nav.tools">Tools ▾</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a></li>
+          <li><a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a></li>
+          <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
+          <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
+        </ul>
+      </li>
+      <li><a href="careers.html" class="active" data-i18n="nav.careers">Careers</a></li>
+      <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
+      <li><a href="certifications.html" data-i18n="nav.certs">Certifications</a></li>
+      <li><a href="about.html" data-i18n="nav.about">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中</button>
+      </div>
+      <button class="hamburger" id="menuToggle">☰</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <section class="page-hero">
+      <h1 data-i18n="careers.title">Cybersecurity Careers</h1>
+      <p data-i18n="careers.subtitle">Explore high-demand roles, salary ranges, career paths, and top companies hiring in cybersecurity.</p>
+    </section>
+
+    <div class="resource-grid">
+
+      <!-- SOC Analyst -->
+      <div class="resource-card">
+        <div class="card-emoji">🛡️</div>
+        <h3 data-i18n="careers.soc.title">SOC Analyst</h3>
+        <div class="card-subtitle" data-i18n="careers.soc.level">Entry Level → Senior</div>
+        <p data-i18n="careers.soc.desc">Monitor security alerts, investigate incidents, and maintain security tools in a Security Operations Center. First line of defense against cyber threats.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.soc.salary">💰 $55K – $95K</span>
+          <span data-i18n="careers.soc.growth">📈 35% growth</span>
+        </div>
+      </div>
+
+      <!-- Penetration Tester -->
+      <div class="resource-card">
+        <div class="card-emoji">🔓</div>
+        <h3 data-i18n="careers.pentest.title">Penetration Tester</h3>
+        <div class="card-subtitle" data-i18n="careers.pentest.level">Mid Level → Lead</div>
+        <p data-i18n="careers.pentest.desc">Ethically hack systems to find vulnerabilities before malicious actors do. Conduct red team exercises, write reports, and help organizations strengthen defenses.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.pentest.salary">💰 $80K – $140K</span>
+          <span data-i18n="careers.pentest.growth">📈 33% growth</span>
+        </div>
+      </div>
+
+      <!-- Incident Responder -->
+      <div class="resource-card">
+        <div class="card-emoji">🚨</div>
+        <h3 data-i18n="careers.ir.title">Incident Responder</h3>
+        <div class="card-subtitle" data-i18n="careers.ir.level">Mid Level → Manager</div>
+        <p data-i18n="careers.ir.desc">Lead the response to security breaches — contain threats, perform forensic analysis, recover systems, and implement prevention measures.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.ir.salary">💰 $75K – $130K</span>
+          <span data-i18n="careers.ir.growth">📈 28% growth</span>
+        </div>
+      </div>
+
+      <!-- Security Engineer -->
+      <div class="resource-card">
+        <div class="card-emoji">⚙️</div>
+        <h3 data-i18n="careers.seceng.title">Security Engineer</h3>
+        <div class="card-subtitle" data-i18n="careers.seceng.level">Mid Level → Staff</div>
+        <p data-i18n="careers.seceng.desc">Design and implement security infrastructure — firewalls, IDS/IPS, SIEM systems, encryption, and zero-trust architectures.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.seceng.salary">💰 $90K – $155K</span>
+          <span data-i18n="careers.seceng.growth">📈 31% growth</span>
+        </div>
+      </div>
+
+      <!-- Threat Intelligence Analyst -->
+      <div class="resource-card">
+        <div class="card-emoji">🕵️</div>
+        <h3 data-i18n="careers.threat.title">Threat Intelligence Analyst</h3>
+        <div class="card-subtitle" data-i18n="careers.threat.level">Mid Level → Principal</div>
+        <p data-i18n="careers.threat.desc">Research emerging threats, track APT groups, analyze malware, and produce intelligence reports to inform security strategy.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.threat.salary">💰 $85K – $145K</span>
+          <span data-i18n="careers.threat.growth">📈 30% growth</span>
+        </div>
+      </div>
+
+      <!-- Cloud Security Architect -->
+      <div class="resource-card">
+        <div class="card-emoji">☁️</div>
+        <h3 data-i18n="careers.cloud.title">Cloud Security Architect</h3>
+        <div class="card-subtitle" data-i18n="careers.cloud.level">Senior Level → Director</div>
+        <p data-i18n="careers.cloud.desc">Secure cloud infrastructure across AWS, Azure, and GCP. Design cloud-native security policies, IAM frameworks, and compliance strategies.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.cloud.salary">💰 $120K – $200K</span>
+          <span data-i18n="careers.cloud.growth">📈 40% growth</span>
+        </div>
+      </div>
+
+      <!-- CISO -->
+      <div class="resource-card">
+        <div class="card-emoji">👔</div>
+        <h3 data-i18n="careers.ciso.title">CISO</h3>
+        <div class="card-subtitle" data-i18n="careers.ciso.level">Executive Leadership</div>
+        <p data-i18n="careers.ciso.desc">Chief Information Security Officer — lead the entire security program, manage budgets, report to the board, and set organizational security strategy.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.ciso.salary">💰 $180K – $400K+</span>
+          <span data-i18n="careers.ciso.growth">📈 Executive</span>
+        </div>
+      </div>
+
+      <!-- GRC Analyst -->
+      <div class="resource-card">
+        <div class="card-emoji">📋</div>
+        <h3 data-i18n="careers.grc.title">GRC Analyst</h3>
+        <div class="card-subtitle" data-i18n="careers.grc.level">Entry → Senior</div>
+        <p data-i18n="careers.grc.desc">Governance, Risk, and Compliance — ensure organizations meet security standards (ISO 27001, SOC 2, GDPR), manage risk assessments, and audit controls.</p>
+        <div class="card-meta">
+          <span data-i18n="careers.grc.salary">💰 $60K – $110K</span>
+          <span data-i18n="careers.grc.growth">📈 25% growth</span>
+        </div>
+      </div>
+
+      <!-- Top Companies -->
+      <div class="resource-card" style="grid-column: 1 / -1;">
+        <div class="card-emoji">🏢</div>
+        <h3 data-i18n="careers.companies.title">Top Companies Hiring</h3>
+        <p data-i18n="careers.companies.desc">Leading organizations actively recruiting cybersecurity talent worldwide.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">CrowdStrike</span>
+          <span class="tech-tag">Palo Alto Networks</span>
+          <span class="tech-tag">Google Security</span>
+          <span class="tech-tag">Microsoft</span>
+          <span class="tech-tag">Amazon (AWS)</span>
+          <span class="tech-tag">Mandiant</span>
+          <span class="tech-tag">Deloitte Cyber</span>
+          <span class="tech-tag">IBM Security</span>
+          <span class="tech-tag">Fortinet</span>
+          <span class="tech-tag">SentinelOne</span>
+          <span class="tech-tag">KPMG</span>
+          <span class="tech-tag">PwC</span>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <p data-i18n="footer.text">NeoTrace — Cybersecurity Intelligence Platform</p>
+    </footer>
+  </main>
+
+  <!-- Chatbot -->
+  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">❓</button>
+  <div class="chatbot-panel" id="chatbotPanel">
+    <div class="chatbot-header"><div class="bot-avatar">🤖</div><h4 data-i18n="chat.title">NeoTrace AI</h4><button class="chatbot-close" id="chatbotClose">✕</button></div>
+    <div class="chat-messages" id="chatMessages"><div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div></div>
+    <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask something..." autocomplete="off"><button class="chat-send-btn" id="chatSend">➤</button></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>

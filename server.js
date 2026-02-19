@@ -31,6 +31,11 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 
+// Load environment variables from .env if present
+try { require('dotenv').config(); } catch(e) {
+  // dotenv not installed — use Vercel env vars or system env
+}
+
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -699,8 +704,152 @@ app.post('/api/phone/check', (req, res) => {
 // ==================== SERVE PAGES ====================
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
+// ==================== ASI-1 AI PROXY ====================
+const ASI_API_KEY = process.env.ASI_API_KEY || '';
+const ASI_MODEL = process.env.ASI_MODEL || 'asi1-mini';
+const ASI_BASE_URL = 'https://api.asi1.ai';
+
+// Generic ASI-1 chat completion proxy
+app.post('/api/asi/chat', async (req, res) => {
+  if (!ASI_API_KEY) return res.status(500).json({ error: 'ASI API key not configured' });
+  const { messages, model, max_tokens } = req.body;
+  if (!messages || !Array.isArray(messages)) return res.status(400).json({ error: 'messages array required' });
+
+  try {
+    const payload = JSON.stringify({
+      model: model || ASI_MODEL,
+      messages,
+      max_tokens: max_tokens || 1024,
+      temperature: 0.7
+    });
+
+    const result = await new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.asi1.ai',
+        port: 443,
+        path: '/v1/chat/completions',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${ASI_API_KEY}`,
+          'Content-Length': Buffer.byteLength(payload)
+        }
+      };
+      const apiReq = https.request(options, (apiRes) => {
+        let data = '';
+        apiRes.on('data', chunk => data += chunk);
+        apiRes.on('end', () => {
+          try { resolve(JSON.parse(data)); }
+          catch(e) { reject(new Error('Invalid JSON from ASI API')); }
+        });
+      });
+      apiReq.on('error', reject);
+      apiReq.setTimeout(30000, () => { apiReq.destroy(); reject(new Error('ASI API timeout')); });
+      apiReq.write(payload);
+      apiReq.end();
+    });
+
+    if (result.error) return res.status(502).json({ error: result.error.message || 'ASI API error' });
+    const reply = result.choices?.[0]?.message?.content || '';
+    res.json({ reply, model: result.model, usage: result.usage });
+  } catch(err) {
+    console.error('ASI proxy error:', err.message);
+    res.status(502).json({ error: 'Failed to reach ASI-1 API: ' + err.message });
+  }
+});
+
+// Chatbot endpoint (wraps ASI with NeoTrace system prompt)
+app.post('/api/chatbot', async (req, res) => {
+  const { message, history } = req.body;
+  if (!message) return res.status(400).json({ error: 'message required' });
+
+  const systemPrompt = `You are NeoTrace AI Assistant, a friendly cybersecurity expert built into the NeoTrace platform.
+NeoTrace is an AI-powered cybersecurity intelligence platform with these tools:
+- Dashboard: Real-time threat stats, charts, news feed
+- Story Mode: Interactive cybersecurity stories with decision points
+- Training Game: Quiz-style cybersecurity training
+- Phone Inspector: Analyze phone numbers for spam/fraud risk
+- URL Scanner: Check URLs for phishing, malware, and threats
+- Image Forensics: Detect AI-generated or manipulated images
+- Text Verifier: Verify text credibility and detect misinformation
+
+Also available: Careers page (cybersecurity job roles), Courses (online learning), Certifications (security certs).
+
+Help users navigate the platform, explain cybersecurity concepts, and provide guidance. Keep answers concise and helpful. Reply in the same language the user uses.`;
+
+  const messages = [
+    { role: 'system', content: systemPrompt },
+    ...(history || []).slice(-6),
+    { role: 'user', content: message }
+  ];
+
+  // Forward to ASI proxy internally
+  if (!ASI_API_KEY) {
+    // Fallback if no API key
+    return res.json({ reply: 'I\'m NeoTrace AI Assistant. The AI service is currently being configured. In the meantime, feel free to explore our tools — use the navigation bar to access URL Scanner, Image Forensics, Text Verifier, and more!' });
+  }
+
+  try {
+    const payload = JSON.stringify({ model: ASI_MODEL, messages, max_tokens: 512, temperature: 0.7 });
+    const result = await new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.asi1.ai', port: 443,
+        path: '/v1/chat/completions', method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${ASI_API_KEY}`,
+          'Content-Length': Buffer.byteLength(payload)
+        }
+      };
+      const apiReq = https.request(options, (apiRes) => {
+        let data = '';
+        apiRes.on('data', chunk => data += chunk);
+        apiRes.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { reject(e); } });
+      });
+      apiReq.on('error', reject);
+      apiReq.setTimeout(30000, () => { apiReq.destroy(); reject(new Error('timeout')); });
+      apiReq.write(payload);
+      apiReq.end();
+    });
+
+    const reply = result.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that. Try again!';
+    res.json({ reply });
+  } catch(err) {
+    console.error('Chatbot error:', err.message);
+    res.json({ reply: 'I\'m having trouble connecting right now. Please try again in a moment!' });
+  }
+});
+
+// ==================== FEEDBACK API ====================
+const feedbackStore = [];
+
+app.post('/api/feedback', (req, res) => {
+  const { rating, message, page } = req.body;
+  if (!rating && !message) return res.status(400).json({ error: 'rating or message required' });
+
+  const entry = {
+    id: Date.now(),
+    rating: rating || 0,
+    message: message || '',
+    page: page || 'unknown',
+    timestamp: new Date().toISOString()
+  };
+  feedbackStore.push(entry);
+  console.log(`📝 Feedback received: ${entry.rating}★ — "${entry.message.slice(0, 60)}"`);
+  res.json({ success: true, message: 'Thank you for your feedback!' });
+});
+
+app.get('/api/feedback', (req, res) => {
+  res.json({ count: feedbackStore.length, recent: feedbackStore.slice(-20) });
+});
+
+// ==================== START SERVER ====================
 app.listen(PORT, () => {
   console.log(`\n◉ NeoTrace is running!`);
   console.log(`🌐 Open: http://localhost:${PORT}`);
-  console.log(`📡 Server started at ${new Date().toLocaleString()}\n`);
+  console.log(`📡 Server started at ${new Date().toLocaleString()}`);
+  console.log(`🤖 ASI-1 API: ${ASI_API_KEY ? 'Configured ✓' : 'Not configured'}\n`);
 });
+
+// Export for Vercel serverless
+module.exports = app;

@@ -368,6 +368,50 @@ const translations = {
     'url.noThreats': 'No significant threats detected',
     'url.yes': 'Yes',
     'url.no': 'No',
+
+    // Nav - New
+    'nav.tools': 'Tools ▾',
+    'nav.careers': 'Careers',
+    'nav.courses': 'Courses',
+    'nav.certs': 'Certifications',
+    'nav.about': 'About',
+
+    // Careers Page
+    'careers.title': 'Cybersecurity Careers',
+    'careers.subtitle': 'Explore high-demand roles, salary ranges, career paths, and top companies hiring in cybersecurity.',
+
+    // Courses Page
+    'courses.title': 'Cybersecurity Courses',
+    'courses.subtitle': 'Curated online courses from top platforms to build your cybersecurity skills from beginner to expert.',
+
+    // Certifications Page
+    'certs.title': 'Cybersecurity Certifications',
+    'certs.subtitle': 'Industry-recognized credentials that validate your security expertise and boost your career.',
+
+    // About Page
+    'about.title': 'About NeoTrace',
+    'about.subtitle': 'Building the future of cybersecurity education with AI-powered intelligence tools.',
+    'about.mission.title': '🎯 Mission',
+    'about.mission.desc': 'NeoTrace was built to make cybersecurity knowledge accessible to everyone. In a world where digital threats evolve daily, we believe that education and practical tools should be free, engaging, and powered by cutting-edge AI.',
+    'about.platform.title': '🔧 The Platform',
+    'about.platform.desc': 'NeoTrace combines real-time threat intelligence with interactive education. From our AI-powered URL Scanner and Image Forensics to Story Mode and Training Games, every feature is designed to teach cybersecurity concepts through hands-on experience.',
+    'about.tech.title': '⚡ Technology Stack',
+    'about.tech.desc': 'Built with modern web technologies for performance, security, and scalability.',
+    'about.creator.title': '👤 About the Creator',
+    'about.creator.desc': 'NeoTrace was developed as a comprehensive cybersecurity intelligence platform, combining a passion for cybersecurity with modern AI capabilities.',
+    'about.features.title': '✨ Key Features',
+
+    // Chatbot
+    'chat.title': 'NeoTrace AI',
+    'chat.welcome': 'Hi! I\'m NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.',
+    'chat.placeholder': 'Ask something...',
+
+    // Feedback
+    'feedback.title': 'Share Your Feedback',
+    'feedback.subtitle': 'Help us improve NeoTrace',
+    'feedback.placeholder': 'Tell us what you think...',
+    'feedback.cancel': 'Cancel',
+    'feedback.submit': 'Submit',
   },
 
   zh: {
@@ -737,6 +781,50 @@ const translations = {
     'url.noThreats': '未檢測到重大威脅',
     'url.yes': '是',
     'url.no': '否',
+
+    // Nav - New
+    'nav.tools': '工具 ▾',
+    'nav.careers': '職業',
+    'nav.courses': '課程',
+    'nav.certs': '證書',
+    'nav.about': '關於',
+
+    // Careers Page
+    'careers.title': '網絡安全職業',
+    'careers.subtitle': '探索高需求崗位、薪資範圍、職業路徑和頂級招聘公司。',
+
+    // Courses Page
+    'courses.title': '網絡安全課程',
+    'courses.subtitle': '精選頂級平台的在線課程，從初學者到專家建立您的網絡安全技能。',
+
+    // Certifications Page
+    'certs.title': '網絡安全證書',
+    'certs.subtitle': '業界認可的資格證書，驗證您的安全專業知識並推動職業發展。',
+
+    // About Page
+    'about.title': '關於 NeoTrace',
+    'about.subtitle': '以AI驅動的智能工具，打造網絡安全教育的未來。',
+    'about.mission.title': '🎯 使命',
+    'about.mission.desc': 'NeoTrace 的使命是讓每個人都能獲得網絡安全知識。在數字威脅日新月異的世界中，我們相信教育和實用工具應該是免費的、有趣的，並由尖端AI驅動。',
+    'about.platform.title': '🔧 平台',
+    'about.platform.desc': 'NeoTrace 結合實時威脅情報與互動教育。從AI驅動的網址掃描器和圖像鑑證到故事模式和訓練遊戲，每個功能都旨在通過實踐體驗教授網絡安全概念。',
+    'about.tech.title': '⚡ 技術棧',
+    'about.tech.desc': '採用現代網絡技術構建，注重性能、安全性和可擴展性。',
+    'about.creator.title': '👤 關於創建者',
+    'about.creator.desc': 'NeoTrace 是一個綜合性的網絡安全情報平台，將對網絡安全的熱情與現代AI能力相結合。',
+    'about.features.title': '✨ 主要功能',
+
+    // Chatbot
+    'chat.title': 'NeoTrace AI',
+    'chat.welcome': '你好！我是 NeoTrace AI 助手。可以問我任何關於網絡安全或如何使用此平台的問題。',
+    'chat.placeholder': '請輸入問題...',
+
+    // Feedback
+    'feedback.title': '分享您的意見',
+    'feedback.subtitle': '幫助我們改進 NeoTrace',
+    'feedback.placeholder': '告訴我們您的想法...',
+    'feedback.cancel': '取消',
+    'feedback.submit': '提交',
   }
 };
 

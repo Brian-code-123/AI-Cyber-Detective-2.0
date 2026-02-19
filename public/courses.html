@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoTrace — Cybersecurity Courses</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">◉</div>
+      <span data-i18n="nav.logo">NeoTrace</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+      <li class="nav-dropdown">
+        <a href="#" data-i18n="nav.tools">Tools ▾</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a></li>
+          <li><a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a></li>
+          <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
+          <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
+        </ul>
+      </li>
+      <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
+      <li><a href="courses.html" class="active" data-i18n="nav.courses">Courses</a></li>
+      <li><a href="certifications.html" data-i18n="nav.certs">Certifications</a></li>
+      <li><a href="about.html" data-i18n="nav.about">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中</button>
+      </div>
+      <button class="hamburger" id="menuToggle">☰</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <section class="page-hero">
+      <h1 data-i18n="courses.title">Cybersecurity Courses</h1>
+      <p data-i18n="courses.subtitle">Curated online courses from top platforms to build your cybersecurity skills from beginner to expert.</p>
+    </section>
+
+    <div class="resource-grid">
+
+      <!-- Google Cybersecurity Certificate -->
+      <div class="resource-card">
+        <div class="card-emoji">🎓</div>
+        <h3>Google Cybersecurity Professional Certificate</h3>
+        <div class="card-subtitle">Coursera • Beginner</div>
+        <p>Google's career certificate covering security fundamentals, Linux, SQL, Python, SIEM tools, and incident response. No experience needed.</p>
+        <div class="card-meta">
+          <span>⏱️ ~6 months</span>
+          <span>💲 $49/mo (Coursera Plus)</span>
+          <span>🏅 Certificate included</span>
+        </div>
+        <a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="card-link" style="margin-top:0.8rem">View on Coursera →</a>
+      </div>
+
+      <!-- IBM Cybersecurity Analyst -->
+      <div class="resource-card">
+        <div class="card-emoji">💻</div>
+        <h3>IBM Cybersecurity Analyst Professional Certificate</h3>
+        <div class="card-subtitle">Coursera • Beginner</div>
+        <p>Develop skills in network security, incident response, digital forensics, and penetration testing with IBM's hands-on labs.</p>
+        <div class="card-meta">
+          <span>⏱️ ~8 months</span>
+          <span>💲 $49/mo</span>
+          <span>🏅 Certificate included</span>
+        </div>
+        <a href="https://www.coursera.org/professional-certificates/ibm-cybersecurity-analyst" target="_blank" class="card-link" style="margin-top:0.8rem">View on Coursera →</a>
+      </div>
+
+      <!-- CS50 Cybersecurity -->
+      <div class="resource-card">
+        <div class="card-emoji">🏫</div>
+        <h3>CS50's Introduction to Cybersecurity</h3>
+        <div class="card-subtitle">Harvard / edX • Beginner</div>
+        <p>Harvard's free course covering passwords, phishing, privacy, malware, encryption, and network security for everyday users.</p>
+        <div class="card-meta">
+          <span>⏱️ ~12 hours</span>
+          <span>💲 Free (Verified $99)</span>
+          <span>🏅 Optional certificate</span>
+        </div>
+        <a href="https://cs50.harvard.edu/cybersecurity/" target="_blank" class="card-link" style="margin-top:0.8rem">View Course →</a>
+      </div>
+
+      <!-- TryHackMe -->
+      <div class="resource-card">
+        <div class="card-emoji">🎮</div>
+        <h3>TryHackMe Learning Paths</h3>
+        <div class="card-subtitle">TryHackMe • Beginner → Advanced</div>
+        <p>Interactive, gamified cybersecurity training. Hands-on labs in browser-based virtual machines. Paths for SOC, pentesting, and red team.</p>
+        <div class="card-meta">
+          <span>⏱️ Self-paced</span>
+          <span>💲 Free / $14/mo Premium</span>
+          <span>🏅 Skill badges</span>
+        </div>
+        <a href="https://tryhackme.com/" target="_blank" class="card-link" style="margin-top:0.8rem">Visit TryHackMe →</a>
+      </div>
+
+      <!-- Hack The Box -->
+      <div class="resource-card">
+        <div class="card-emoji">📦</div>
+        <h3>Hack The Box Academy</h3>
+        <div class="card-subtitle">HTB • Intermediate → Advanced</div>
+        <p>Professional-grade cybersecurity training through real-world lab environments. Practice CTF challenges, exploit development, and active directory attacks.</p>
+        <div class="card-meta">
+          <span>⏱️ Self-paced</span>
+          <span>💲 Free / $18/mo</span>
+          <span>🏅 Skill trees</span>
+        </div>
+        <a href="https://academy.hackthebox.com/" target="_blank" class="card-link" style="margin-top:0.8rem">Visit HTB Academy →</a>
+      </div>
+
+      <!-- SANS Cyber Aces -->
+      <div class="resource-card">
+        <div class="card-emoji">🎖️</div>
+        <h3>SANS Cyber Aces Online</h3>
+        <div class="card-subtitle">SANS Institute • Beginner</div>
+        <p>Free entry-level cybersecurity courses from the world's leading security training organization. Covers OS, networking, and system administration fundamentals.</p>
+        <div class="card-meta">
+          <span>⏱️ ~20 hours</span>
+          <span>💲 Free</span>
+          <span>🏅 SANS certified</span>
+        </div>
+        <a href="https://www.sans.org/cyberaces/" target="_blank" class="card-link" style="margin-top:0.8rem">Visit SANS →</a>
+      </div>
+
+      <!-- CompTIA CySA+ path -->
+      <div class="resource-card">
+        <div class="card-emoji">📚</div>
+        <h3>CompTIA Security+ (SY0-701) Prep</h3>
+        <div class="card-subtitle">Udemy / Professor Messer • Beginner</div>
+        <p>Comprehensive study course for the most popular entry-level security certification. Covers network security, cryptography, risk management, and compliance.</p>
+        <div class="card-meta">
+          <span>⏱️ ~40 hours</span>
+          <span>💲 Free / $15–$80</span>
+          <span>🏅 Exam prep</span>
+        </div>
+        <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" class="card-link" style="margin-top:0.8rem">View Free Course →</a>
+      </div>
+
+      <!-- PortSwigger Web Security -->
+      <div class="resource-card">
+        <div class="card-emoji">🌐</div>
+        <h3>PortSwigger Web Security Academy</h3>
+        <div class="card-subtitle">PortSwigger • Intermediate</div>
+        <p>Free, comprehensive web application security training. Learn SQL injection, XSS, CSRF, SSRF, and modern web exploitation techniques with interactive labs.</p>
+        <div class="card-meta">
+          <span>⏱️ Self-paced</span>
+          <span>💲 Free</span>
+          <span>🏅 Practitioner cert available</span>
+        </div>
+        <a href="https://portswigger.net/web-security" target="_blank" class="card-link" style="margin-top:0.8rem">Start Learning →</a>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <p data-i18n="footer.text">NeoTrace — Cybersecurity Intelligence Platform</p>
+    </footer>
+  </main>
+
+  <!-- Chatbot -->
+  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">❓</button>
+  <div class="chatbot-panel" id="chatbotPanel">
+    <div class="chatbot-header"><div class="bot-avatar">🤖</div><h4 data-i18n="chat.title">NeoTrace AI</h4><button class="chatbot-close" id="chatbotClose">✕</button></div>
+    <div class="chat-messages" id="chatMessages"><div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div></div>
+    <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask something..." autocomplete="off"><button class="chat-send-btn" id="chatSend">➤</button></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
