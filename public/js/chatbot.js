@@ -1,6 +1,8 @@
 /**
- * NeoTrace AI Chatbot v2
- * Quick question chips · Feedback integration · Offline fallback
+ * NeoTrace AI Chatbot v3
+ * ASI-1 powered · Quick chips · Conversation history · Offline fallback
+ * @description Full-featured chatbot with persistent conversation, retry logic,
+ *   and professional frosted-glass UI matching the NeoTrace design system.
  */
 (function () {
   'use strict';
@@ -8,10 +10,10 @@
   // ── Quick-question data ──────────────────────────────────────────
   const QUICK_QUESTIONS = [
     { label: '🎣 What is phishing?',         text: 'What is phishing and how can I avoid it?' },
-    { label: '🔐 How to protect accounts?',   text: 'What are the best ways to protect my online accounts?' },
+    { label: '🔐 Protect my accounts',        text: 'What are the best ways to protect my online accounts?' },
     { label: '🔗 Check suspicious URL',        text: 'How do I use the URL Scanner to check a suspicious link?' },
     { label: '📜 Best security certs?',        text: 'What cybersecurity certifications should I get as a beginner?' },
-    { label: '💼 Top cyber job roles',         text: 'What are the highest-paying cybersecurity job roles in 2025?' },
+    { label: '💼 Top cyber careers',           text: 'What are the highest-paying cybersecurity job roles in 2025?' },
     { label: '🖼️ Detect fake images',          text: 'How does the Image Forensics tool detect AI-generated images?' },
   ];
 
@@ -23,17 +25,19 @@
     cert:      'Best beginner certs: CompTIA Security+ (entry-level, widely recognised). Next: CySA+ (analyst), CEH (ethical hacking), OSCP (hands-on pentesting). For management: CISSP or CISM.',
     job:       'Top-paying roles in 2025: Cloud Security Engineer ($120K–$185K), Security Architect ($150K–$220K), Red Team Lead ($135K–$200K). Full salary table on the Careers page.',
     image:     'The Image Forensics tool analyses pixel-level noise, EXIF metadata, and AI artefact signatures. Upload an image and it returns a probability score for AI generation and tampering.',
+    general:   'I can help with cybersecurity questions, explain how NeoTrace tools work, or guide you through our Story Mode and Training Game. What would you like to know?',
   };
 
+  /** @description Match user text to offline fallback for when ASI is unreachable. */
   function offlineFallback(text) {
     const t = text.toLowerCase();
-    if (t.includes('phish') || t.includes('scam'))                              return OFFLINE_ANSWERS.phishing;
+    if (t.includes('phish') || t.includes('scam') || t.includes('spam'))       return OFFLINE_ANSWERS.phishing;
     if (t.includes('password') || t.includes('account') || t.includes('2fa'))  return OFFLINE_ANSWERS.password;
     if (t.includes('url') || t.includes('link') || t.includes('scanner'))      return OFFLINE_ANSWERS.url;
     if (t.includes('cert') || t.includes('cissp') || t.includes('oscp'))       return OFFLINE_ANSWERS.cert;
     if (t.includes('job') || t.includes('salary') || t.includes('career'))     return OFFLINE_ANSWERS.job;
     if (t.includes('image') || t.includes('forensic') || t.includes('fake'))   return OFFLINE_ANSWERS.image;
-    return 'I\'m having trouble connecting right now. Try the quick chips below, or explore: 🔗 URL Scanner · 🖼️ Image Forensics · 📞 Phone Inspector · 📋 Careers · 🎓 Courses.';
+    return OFFLINE_ANSWERS.general;
   }
 
   // ── DOM refs ─────────────────────────────────────────────────────
@@ -46,9 +50,11 @@
 
   if (!toggle || !panel) return;
 
-  let chatHistory  = [];
+  let chatHistory  = [];   // { role, content } — previous turns only
   let isOpen       = false;
   let chipsVisible = true;
+  let retryCount   = 0;
+  const MAX_RETRIES = 1;
 
   // ── Inject feedback button into chatbot header ───────────────────
   const header = panel.querySelector('.chatbot-header');
@@ -61,7 +67,6 @@
       const overlay = document.getElementById('feedbackOverlay');
       if (overlay) { overlay.classList.add('open'); }
       else {
-        // On pages without the feedback modal, show inline in chat
         appendMsg('bot', '💬 Please visit the Dashboard page to leave feedback. Or email us your thoughts anytime!');
         isOpen = true; panel.classList.add('open');
       }
@@ -103,16 +108,26 @@
   toggle.addEventListener('click', () => {
     isOpen = !isOpen;
     panel.classList.toggle('open', isOpen);
+    toggle.classList.toggle('active', isOpen);
     if (isOpen) input.focus();
   });
 
-  closeBtn?.addEventListener('click', () => { isOpen = false; panel.classList.remove('open'); });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen) { isOpen = false; panel.classList.remove('open'); }
+  closeBtn?.addEventListener('click', () => {
+    isOpen = false;
+    panel.classList.remove('open');
+    toggle.classList.remove('active');
   });
 
-  // ── Send message ─────────────────────────────────────────────────
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) {
+      isOpen = false;
+      panel.classList.remove('open');
+      toggle.classList.remove('active');
+    }
+  });
+
+  // ── Send message (with retry) ────────────────────────────────────
+  /** @description Send user message to ASI-1 backend, with retry and offline fallback. */
   function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
@@ -125,29 +140,46 @@
     const typingEl = appendMsg('bot',
       '<div class="typing-dots"><span></span><span></span><span></span></div>', true);
 
+    // Send previous conversation history (NOT including current message)
+    const historyToSend = chatHistory.slice(-8);
     chatHistory.push({ role: 'user', content: text });
 
+    callChatAPI(text, historyToSend, typingEl, 0);
+  }
+
+  /** @description Call /api/chatbot with retry logic. */
+  function callChatAPI(text, history, typingEl, attempt) {
     fetch('/api/chatbot', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, history: chatHistory.slice(-6) })
+      body: JSON.stringify({ message: text, history })
     })
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then(data => {
         typingEl.remove();
         const reply = data.reply || data.error || 'Sorry, something went wrong.';
         appendMsg('bot', reply);
         chatHistory.push({ role: 'assistant', content: reply });
+        retryCount = 0;
       })
-      .catch(() => {
+      .catch((err) => {
+        if (attempt < MAX_RETRIES) {
+          // Retry once after short delay
+          setTimeout(() => callChatAPI(text, history, typingEl, attempt + 1), 1500);
+          return;
+        }
         typingEl.remove();
         const fallback = offlineFallback(text);
-        appendMsg('bot', fallback);
+        appendMsg('bot', '⚡ ' + fallback);
         chatHistory.push({ role: 'assistant', content: fallback });
       })
       .finally(() => { sendBtn.disabled = false; input.focus(); });
   }
 
+  /** @description Append a message bubble to the chat panel. */
   function appendMsg(role, content, isHTML) {
     const el = document.createElement('div');
     el.className = `chat-msg ${role}`;

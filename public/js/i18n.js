@@ -400,6 +400,21 @@ const translations = {
     'about.creator.title': '👤 About the Creator',
     'about.creator.desc': 'NeoTrace was developed as a comprehensive cybersecurity intelligence platform, combining a passion for cybersecurity with modern AI capabilities.',
     'about.features.title': '✨ Key Features',
+    'about.features.desc': 'A comprehensive suite of AI-powered cybersecurity tools and educational resources.',
+
+    // Story AI
+    'story.askAI': 'Ask NeoTrace AI',
+    'story.askBtn': 'Ask AI',
+    'story.askPlaceholder': 'E.g. Is this message a scam? What are the red flags?',
+    'story.heroBadge': 'Powered by ASI-1',
+
+    // Game AI
+    'game.aiScenario': 'AI Generated',
+    'game.aiExplaining': 'AI is analyzing your answer...',
+
+    // Theme
+    'theme.dark': 'Dark Mode',
+    'theme.light': 'Light Mode',
 
     // Chatbot
     'chat.title': 'NeoTrace AI',
@@ -813,6 +828,21 @@ const translations = {
     'about.creator.title': '👤 關於創建者',
     'about.creator.desc': 'NeoTrace 是一個綜合性的網絡安全情報平台，將對網絡安全的熱情與現代AI能力相結合。',
     'about.features.title': '✨ 主要功能',
+    'about.features.desc': '一套全面的AI驅動網絡安全工具和教育資源。',
+
+    // Story AI
+    'story.askAI': '問 NeoTrace AI',
+    'story.askBtn': '問 AI',
+    'story.askPlaceholder': '例如：這條訊息是詐騙嗎？有什麼危險信號？',
+    'story.heroBadge': '由 ASI-1 驅動',
+
+    // Game AI
+    'game.aiScenario': 'AI 生成',
+    'game.aiExplaining': 'AI 正在分析你的答案...',
+
+    // Theme
+    'theme.dark': '深色模式',
+    'theme.light': '淺色模式',
 
     // Chatbot
     'chat.title': 'NeoTrace AI',
@@ -853,6 +883,12 @@ function setLanguage(lang) {
   document.querySelectorAll('[data-i18n-pre]').forEach(el => {
     const key = el.getAttribute('data-i18n-pre');
     el.textContent = t(key);
+  });
+
+  // Update placeholder attributes
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(key);
   });
 
   // Update lang buttons

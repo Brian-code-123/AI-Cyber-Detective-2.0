@@ -51,6 +51,7 @@
       <div class="hero-badge">
         <span class="pulse-dot"></span>
         <span data-i18n="story.interactive">INTERACTIVE LEARNING</span>
+        <span class="hero-ai-badge" data-i18n="story.heroBadge">Powered by ASI-1</span>
       </div>
       <h1 data-i18n="story.title">Story-Based Learning</h1>
       <p data-i18n="story.subtitle">Follow Alex the Cyber Detective on a thrilling investigation</p>
@@ -94,6 +95,13 @@ Delivery expected: Feb 20, 2026.</pre>
           <strong style="color: var(--accent-cyan);">🔍 Detective's Analysis:</strong><br>
           <span data-i18n="story.ch1.lesson">Alex noticed the red flags: unsolicited prize notification, urgency pressure (24 hours), suspicious URL (amaz0n-prizes.xyz instead of amazon.com), and a request to click unknown links.</span>
         </div>
+
+        <div class="story-ai-block">
+          <div class="story-ai-header">🤖 <span data-i18n="story.askAI">Ask NeoTrace AI</span></div>
+          <textarea class="story-ai-input" id="storyAI1" placeholder="E.g. Is this SMS a scam? What red flags should I look for?" data-i18n-placeholder="story.askPlaceholder"></textarea>
+          <button class="story-ai-btn" onclick="askStoryAI(1)"><span data-i18n="story.askBtn">Ask AI</span> ➤</button>
+          <div class="story-ai-reply" id="storyReply1"></div>
+        </div>
       </div>
 
       <!-- Chapter 2 -->
@@ -124,6 +132,13 @@ We'll never ask for your password via text.</pre>
           <strong style="color: var(--accent-cyan);">🔍 Detective's Analysis:</strong><br>
           <span data-i18n="story.ch2.lesson">Scammers create artificial urgency to make you panic and act without thinking.</span>
         </div>
+
+        <div class="story-ai-block">
+          <div class="story-ai-header">🤖 <span data-i18n="story.askAI">Ask NeoTrace AI</span></div>
+          <textarea class="story-ai-input" id="storyAI2" placeholder="E.g. How do I tell if this bank text is real?" data-i18n-placeholder="story.askPlaceholder"></textarea>
+          <button class="story-ai-btn" onclick="askStoryAI(2)"><span data-i18n="story.askBtn">Ask AI</span> ➤</button>
+          <div class="story-ai-reply" id="storyReply2"></div>
+        </div>
       </div>
 
       <!-- Chapter 3 -->
@@ -153,6 +168,13 @@ Join via Zoom link in your calendar invite.
         <div class="story-text" style="margin-top: 1rem; padding: 1rem; background: rgba(0,212,255,0.05); border-radius: 10px; border-left: 3px solid var(--accent-cyan);">
           <strong style="color: var(--accent-cyan);">🔍 Detective's Analysis:</strong><br>
           <span data-i18n="story.ch3.lesson">Impersonation scams exploit trust and authority.</span>
+        </div>
+
+        <div class="story-ai-block">
+          <div class="story-ai-header">🤖 <span data-i18n="story.askAI">Ask NeoTrace AI</span></div>
+          <textarea class="story-ai-input" id="storyAI3" placeholder="E.g. How should I verify if a message is from my boss?" data-i18n-placeholder="story.askPlaceholder"></textarea>
+          <button class="story-ai-btn" onclick="askStoryAI(3)"><span data-i18n="story.askBtn">Ask AI</span> ➤</button>
+          <div class="story-ai-reply" id="storyReply3"></div>
         </div>
       </div>
 
@@ -185,6 +207,13 @@ Contact helpdesk@company.com for questions.</pre>
         <div class="story-text" style="margin-top: 1rem; padding: 1rem; background: rgba(0,212,255,0.05); border-radius: 10px; border-left: 3px solid var(--accent-cyan);">
           <strong style="color: var(--accent-cyan);">🔍 Detective's Analysis:</strong><br>
           <span data-i18n="story.ch4.lesson">Social engineering manipulates human psychology.</span>
+        </div>
+
+        <div class="story-ai-block">
+          <div class="story-ai-header">🤖 <span data-i18n="story.askAI">Ask NeoTrace AI</span></div>
+          <textarea class="story-ai-input" id="storyAI4" placeholder="E.g. What social engineering tactics are most common?" data-i18n-placeholder="story.askPlaceholder"></textarea>
+          <button class="story-ai-btn" onclick="askStoryAI(4)"><span data-i18n="story.askBtn">Ask AI</span> ➤</button>
+          <div class="story-ai-reply" id="storyReply4"></div>
         </div>
       </div><!-- /chapter4 -->
 
@@ -272,7 +301,7 @@ Contact helpdesk@company.com for questions.</pre>
     </footer>
   </main>
 
-  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">❓</button>
+  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">💬</button>
   <div class="chatbot-panel" id="chatbotPanel">
     <div class="chatbot-header"><div class="bot-avatar">🤖</div><h4 data-i18n="chat.title">NeoTrace AI</h4><button class="chatbot-close" id="chatbotClose">✕</button></div>
     <div class="chat-messages" id="chatMessages"><div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div></div>

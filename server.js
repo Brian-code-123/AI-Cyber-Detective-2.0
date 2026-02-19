@@ -925,39 +925,107 @@ app.post('/api/asi/chat', async (req, res) => {
   }
 });
 
+// ==================== GAME SCENARIO AI ====================
+const gameScenarioCache = {};
+const GAME_CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+/**
+ * Generate AI-powered game scenarios via ASI-1.
+ * Cached per tier for performance. Falls back to empty array on failure.
+ */
+app.get('/api/game-scenario', async (req, res) => {
+  const tier = parseInt(req.query.tier) || 1;
+  const lang = req.query.lang || 'en';
+  const cacheKey = `${tier}_${lang}`;
+
+  // Check cache
+  if (gameScenarioCache[cacheKey] && (Date.now() - gameScenarioCache[cacheKey].ts < GAME_CACHE_TTL)) {
+    const cached = gameScenarioCache[cacheKey].data;
+    const item = cached[Math.floor(Math.random() * cached.length)];
+    return res.json(item);
+  }
+
+  if (!ASI_API_KEY) return res.status(503).json({ error: 'AI not configured' });
+
+  const tierNames = { 1: 'Easy (basic scams)', 2: 'Medium (social engineering)', 3: 'Hard (advanced phishing)', 4: 'Expert (deepfakes, supply chain)', 5: 'Ultimate (AI-powered threats)' };
+  const langInstruction = lang === 'zh' ? 'Write in Traditional Chinese.' : 'Write in English.';
+
+  try {
+    const prompt = `Generate 5 unique cybersecurity scam scenarios for difficulty tier ${tier} (${tierNames[tier] || 'General'}). ${langInstruction}
+
+Return ONLY a valid JSON array. Each object must have:
+- "text": string (the scam scenario, 3-5 sentences, realistic)
+- "label": "SCAM" or "SAFE" (label the scenario)
+- "typeLabel": string (e.g. "📧 PHISHING", "🎭 IMPERSONATION")
+- "explanation": string (1-2 sentences explaining why it's a scam or safe)
+- "options": array of 4 objects each with "text" (string) and "correct" (boolean, exactly one true)
+
+Example: [{"text":"...","label":"SCAM","typeLabel":"📧 PHISHING","explanation":"...","options":[{"text":"🚨 This is a SCAM","correct":true},{"text":"✅ This is safe","correct":false},{"text":"🤔 Need more info","correct":false},{"text":"✅ Looks legitimate","correct":false}]}]`;
+
+    const raw = await callASI(prompt, 'You are a cybersecurity training content generator. Return ONLY valid JSON arrays, no markdown.', 2000);
+    
+    // Parse JSON from response
+    let scenarios;
+    try {
+      const jsonMatch = raw.match(/\[[\s\S]*\]/);
+      scenarios = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
+    } catch(e) { scenarios = []; }
+
+    if (scenarios.length > 0) {
+      gameScenarioCache[cacheKey] = { data: scenarios, ts: Date.now() };
+      const item = scenarios[Math.floor(Math.random() * scenarios.length)];
+      res.json(item);
+    } else {
+      res.status(502).json({ error: 'Failed to generate scenario' });
+    }
+  } catch(err) {
+    console.error('Game scenario error:', err.message);
+    res.status(502).json({ error: 'AI unavailable' });
+  }
+});
+
 // Chatbot endpoint (wraps ASI with NeoTrace system prompt)
 app.post('/api/chatbot', async (req, res) => {
-  const { message, history } = req.body;
+  const { message, history, context } = req.body;
   if (!message) return res.status(400).json({ error: 'message required' });
 
-  const systemPrompt = `You are NeoTrace AI Assistant, a friendly cybersecurity expert built into the NeoTrace platform.
+  const systemPrompt = `You are NeoTrace AI Assistant, a friendly and knowledgeable cybersecurity expert built into the NeoTrace platform.
+
 NeoTrace is an AI-powered cybersecurity intelligence platform with these tools:
 - Dashboard: Real-time threat stats, charts, news feed
-- Story Mode: Interactive cybersecurity stories with decision points
-- Training Game: Quiz-style cybersecurity training
+- Story Mode: Interactive cybersecurity stories (4 chapters covering prize scams, urgency tactics, impersonation, social engineering)
+- Training Game: Quiz-style cybersecurity training with 5 difficulty tiers
 - Phone Inspector: Analyze phone numbers for spam/fraud risk
 - URL Scanner: Check URLs for phishing, malware, and threats
 - Image Forensics: Detect AI-generated or manipulated images
 - Text Verifier: Verify text credibility and detect misinformation
+- Careers: Cybersecurity job roles and salary data
+- Courses: Online learning resources
+- Certifications: Industry security certs
 
-Also available: Careers page (cybersecurity job roles), Courses (online learning), Certifications (security certs).
+${context ? 'Current context: ' + context : ''}
 
-Help users navigate the platform, explain cybersecurity concepts, and provide guidance. Keep answers concise and helpful. Reply in the same language the user uses.`;
+Guidelines:
+- Keep answers concise (2-4 sentences) but informative
+- Use examples when explaining concepts
+- If the user asks for "more" or "others", provide additional related information
+- Reply in the SAME language the user uses
+- If you detect Chinese/Cantonese, reply in Traditional Chinese`;
 
-  const messages = [
+  // Build messages array — avoid duplicating the current user message
+  const prevHistory = (history || []).slice(-8);
+  const msgs = [
     { role: 'system', content: systemPrompt },
-    ...(history || []).slice(-6),
+    ...prevHistory,
     { role: 'user', content: message }
   ];
 
-  // Forward to ASI proxy internally
   if (!ASI_API_KEY) {
-    // Fallback if no API key
     return res.json({ reply: 'I\'m NeoTrace AI Assistant. The AI service is currently being configured. In the meantime, feel free to explore our tools — use the navigation bar to access URL Scanner, Image Forensics, Text Verifier, and more!' });
   }
 
   try {
-    const payload = JSON.stringify({ model: ASI_MODEL, messages, max_tokens: 512, temperature: 0.7 });
+    const payload = JSON.stringify({ model: ASI_MODEL, messages: msgs, max_tokens: 600, temperature: 0.7 });
     const result = await new Promise((resolve, reject) => {
       const options = {
         hostname: 'api.asi1.ai', port: 443,
@@ -971,10 +1039,16 @@ Help users navigate the platform, explain cybersecurity concepts, and provide gu
       const apiReq = https.request(options, (apiRes) => {
         let data = '';
         apiRes.on('data', chunk => data += chunk);
-        apiRes.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { reject(e); } });
+        apiRes.on('end', () => {
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.error) reject(new Error(parsed.error.message || 'ASI API error'));
+            else resolve(parsed);
+          } catch(e) { reject(new Error('Invalid response from AI service')); }
+        });
       });
       apiReq.on('error', reject);
-      apiReq.setTimeout(30000, () => { apiReq.destroy(); reject(new Error('timeout')); });
+      apiReq.setTimeout(45000, () => { apiReq.destroy(); reject(new Error('AI service timeout')); });
       apiReq.write(payload);
       apiReq.end();
     });
@@ -983,7 +1057,7 @@ Help users navigate the platform, explain cybersecurity concepts, and provide gu
     res.json({ reply });
   } catch(err) {
     console.error('Chatbot error:', err.message);
-    res.json({ reply: 'I\'m having trouble connecting right now. Please try again in a moment!' });
+    res.status(502).json({ error: 'AI service temporarily unavailable. ' + err.message });
   }
 });
 

@@ -2,6 +2,8 @@
 
 <div align="center">
 
+<img src="public/images/logo.jpeg" alt="NeoTrace Logo" width="120" style="border-radius:20px; margin-bottom:12px;" />
+
 ![Version](https://img.shields.io/badge/version-3.0.0-0A84FF?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-64D2FF?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-FF453A?style=for-the-badge)
