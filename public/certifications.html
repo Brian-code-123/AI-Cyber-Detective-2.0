@@ -1,307 +1,476 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NeoTrace — Cybersecurity Certifications</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
-  <script defer src="/_vercel/insights/script.js"></script>
-</head>
-<body>
-  <canvas id="matrix-canvas"></canvas>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoTrace — Cybersecurity Certifications</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>"
+    />
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <canvas id="matrix-canvas"></canvas>
 
-  <nav class="navbar">
-    <a href="index.html" class="nav-logo">
-      <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img">
-      <span data-i18n="nav.logo">NeoTrace</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
-      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
-      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
-      <li class="nav-dropdown">
-        <a href="#" data-i18n="nav.tools">Tools ▾</a>
-        <ul class="nav-dropdown-menu">
-          <li><a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a></li>
-          <li><a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a></li>
-          <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
-          <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
-        </ul>
-      </li>
-      <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
-      <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
-      <li><a href="certifications.html" class="active" data-i18n="nav.certs">Certifications</a></li>
-      <li><a href="about.html" data-i18n="nav.about">About</a></li>
-    </ul>
-    <div class="nav-right">
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="zh">中</button>
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img" />
+        <span data-i18n="nav.logo">NeoTrace</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+        <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+        <li class="nav-dropdown">
+          <a href="#" data-i18n="nav.tools">Tools ▾</a>
+          <ul class="nav-dropdown-menu">
+            <li>
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+            </li>
+            <li>
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+            </li>
+            <li>
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+            </li>
+            <li>
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
+        <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
+        <li>
+          <a href="certifications.html" class="active" data-i18n="nav.certs"
+            >Certifications</a
+          >
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          ☀️
+        </button>
+        <button class="hamburger" id="menuToggle">☰</button>
       </div>
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀️</button>
-      <button class="hamburger" id="menuToggle">☰</button>
+    </nav>
+
+    <main class="main-content">
+      <section class="product-section">
+        <p class="section-label-lg">🏆 CREDENTIAL GUIDE</p>
+        <h1 class="section-title-lg" data-i18n="certs.title">
+          Cybersecurity Certifications
+        </h1>
+        <p class="section-sub-lg" data-i18n="certs.subtitle">
+          Industry-recognised credentials that validate your security expertise
+          and boost your career.
+        </p>
+
+        <div class="product-cards-grid">
+          <!-- CompTIA Security+ -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #1e2d40, #263b52)"
+            >
+              <span>🏅</span>
+              <span class="pc-badge badge-paid">$404 USD</span>
+              <span class="pc-platform-label">CompTIA</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">Security+ (SY0-701)</div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-entry">Entry Level</span>
+                <span class="pc-tag cost-tag">Vendor-Neutral</span>
+                <span class="pc-tag">Renew 3yr</span>
+              </div>
+              <p class="pc-desc">
+                Most widely recognised entry-level cert. Covers network
+                security, cryptography, risk management, and compliance — often
+                required for gov IT roles.
+              </p>
+              <ul class="pc-features">
+                <li>90 questions, 90 min</li>
+                <li>Valid for government clearance roles</li>
+                <li>Prof. Messer free study guide available</li>
+              </ul>
+              <a
+                href="https://www.comptia.org/certifications/security"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- CEH -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #4a1010, #8b1a1a)"
+            >
+              <span>🎯</span>
+              <span class="pc-badge badge-paid">$1,199 USD</span>
+              <span class="pc-platform-label">EC-Council</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">CEH — Certified Ethical Hacker</div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-mid">Intermediate</span>
+                <span class="pc-tag cost-tag">EC-Council</span>
+                <span class="pc-tag">Renew 3yr</span>
+              </div>
+              <p class="pc-desc">
+                Think like a hacker. Covers footprinting, scanning, system
+                hacking, malware, web app attacks, social engineering, and DoS
+                techniques.
+              </p>
+              <ul class="pc-features">
+                <li>125 questions, 4 hours exam</li>
+                <li>20 attack modules covered</li>
+                <li>Practical lab option available</li>
+              </ul>
+              <a
+                href="https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- CISSP -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #2a1f00, #4a3500)"
+            >
+              <span>👑</span>
+              <span class="pc-badge badge-paid">$749 USD</span>
+              <span class="pc-platform-label">(ISC)²</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">CISSP</div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-adv">Advanced</span>
+                <span class="pc-tag cost-tag">(ISC)²</span>
+                <span class="pc-tag">5yr exp req.</span>
+              </div>
+              <p class="pc-desc">
+                The gold standard for security professionals. Covers 8 CISSP
+                domains from risk management and asset security to software
+                development security.
+              </p>
+              <ul class="pc-features">
+                <li>100–150 CAT questions, 4 hours</li>
+                <li>Requires 5 years work experience</li>
+                <li>Recognized worldwide for senior roles</li>
+              </ul>
+              <a
+                href="https://www.isc2.org/certifications/cissp"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- OSCP -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #0a0a0a, #1a0a0a)"
+            >
+              <span>💀</span>
+              <span class="pc-badge badge-premium">$1,749 USD</span>
+              <span class="pc-platform-label">OffSec</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">
+                OSCP — Offensive Security Certified Professional
+              </div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-exp">Expert</span>
+                <span class="pc-tag cost-tag">OffSec</span>
+                <span class="pc-tag">No expiry</span>
+              </div>
+              <p class="pc-desc">
+                The most respected hands-on pentesting cert. 24-hour practical
+                exam — hack into machines, write a professional pentest report.
+                No MCQ, pure skills.
+              </p>
+              <ul class="pc-features">
+                <li>24-hour practical exam window</li>
+                <li>Professional report required</li>
+                <li>Includes PEN-200 training course</li>
+              </ul>
+              <a
+                href="https://www.offsec.com/courses/pen-200/"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- CySA+ -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #1a1040, #2d1b6e)"
+            >
+              <span>📊</span>
+              <span class="pc-badge badge-paid">$404 USD</span>
+              <span class="pc-platform-label">CompTIA</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">CySA+ (CS0-003)</div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-mid">Intermediate</span>
+                <span class="pc-tag cost-tag">Vendor-Neutral</span>
+                <span class="pc-tag">Renew 3yr</span>
+              </div>
+              <p class="pc-desc">
+                Focused on security analytics and detection. Ideal for SOC
+                analysts — covers vulnerability management, threat intelligence,
+                and incident response.
+              </p>
+              <ul class="pc-features">
+                <li>85 questions, 165 min exam</li>
+                <li>Perfect for SOC Analyst roles</li>
+                <li>Bridges Security+ to CASP+</li>
+              </ul>
+              <a
+                href="https://www.comptia.org/certifications/cybersecurity-analyst"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- CISM -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #1e0a2e, #3a1a52)"
+            >
+              <span>📋</span>
+              <span class="pc-badge badge-paid">$575–$760</span>
+              <span class="pc-platform-label">ISACA</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">
+                CISM — Certified Information Security Manager
+              </div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-adv">Advanced</span>
+                <span class="pc-tag cost-tag">ISACA</span>
+                <span class="pc-tag">5yr exp req.</span>
+              </div>
+              <p class="pc-desc">
+                Management-focused cert covering information security
+                governance, risk management, and incident management. Great for
+                aspiring CISOs and security managers.
+              </p>
+              <ul class="pc-features">
+                <li>150 questions, 4 hours exam</li>
+                <li>Requires 5 years security mgmt exp.</li>
+                <li>Widely valued by enterprises</li>
+              </ul>
+              <a
+                href="https://www.isaca.org/credentialing/cism"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- AWS Security -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #1a0f00, #3d2200)"
+            >
+              <span>☁️</span>
+              <span class="pc-badge badge-paid">$300 USD</span>
+              <span class="pc-platform-label">Amazon AWS</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">AWS Certified Security — Specialty</div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-adv">Advanced</span>
+                <span class="pc-tag cost-tag">AWS</span>
+                <span class="pc-tag">Renew 3yr</span>
+              </div>
+              <p class="pc-desc">
+                Validate expertise securing AWS workloads. Covers incident
+                response, logging, infrastructure security, IAM policies, and
+                data protection on the AWS platform.
+              </p>
+              <ul class="pc-features">
+                <li>65 questions, 170 min exam</li>
+                <li>Requires AWS associate-level exp.</li>
+                <li>High value for cloud security roles</li>
+              </ul>
+              <a
+                href="https://aws.amazon.com/certification/certified-security-specialty/"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+
+          <!-- GIAC / SANS -->
+          <div class="product-card">
+            <div
+              class="pc-header"
+              style="background: linear-gradient(135deg, #0a1628, #1c3a6b)"
+            >
+              <span>🎖️</span>
+              <span class="pc-badge badge-premium">$949–$1,299</span>
+              <span class="pc-platform-label">SANS / GIAC</span>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">GIAC Certifications (SANS Institute)</div>
+              <div class="pc-tags">
+                <span class="pc-tag lv-mid">Intermediate</span>
+                <span class="pc-tag lv-exp">Expert tracks</span>
+                <span class="pc-tag">Renew 4yr</span>
+              </div>
+              <p class="pc-desc">
+                Premium specialised certs from SANS. Includes GSEC, GCIH, GPEN,
+                GREM, and 30+ specialist tracks. Regarded as the most
+                technically rigorous certifications.
+              </p>
+              <ul class="pc-features">
+                <li>Exam format varies per cert</li>
+                <li>GSEC, GCIH, GPEN most popular</li>
+                <li>SANS training courses available</li>
+              </ul>
+              <a
+                href="https://www.giac.org/certifications/"
+                target="_blank"
+                class="pc-action"
+                >Learn More →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NeoTrace Footer -->
+      <footer class="neo-footer">
+        <div class="neo-footer-inner">
+          <div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo">
+              <img src="images/logo.jpeg" alt="NeoTrace" />
+              <span>NeoTrace</span>
+            </a>
+            <p class="footer-desc">
+              AI-powered cybersecurity intelligence platform. Educating the next
+              generation of digital defenders through interactive tools and
+              real-time threat analysis.
+            </p>
+            <div class="neo-footer-social">
+              <a
+                href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0"
+                target="_blank"
+                title="GitHub"
+                >&#9000;</a
+              >
+            </div>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="index.html">Dashboard</a></li>
+              <li><a href="story.html">Story Mode</a></li>
+              <li><a href="game.html">Training Game</a></li>
+              <li><a href="careers.html">Careers</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="certifications.html">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Tools &amp; Connect</h4>
+            <ul>
+              <li><a href="phone-inspector.html">Phone Inspector</a></li>
+              <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+              <li><a href="image-forensics.html">Image Forensics</a></li>
+              <li><a href="content-verifier.html">Text Verifier</a></li>
+              <li><a href="about.html">About Us</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="neo-footer-bottom">
+          <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >&uarr; Back to Top</a
+          >
+        </div>
+      </footer>
+    </main>
+
+    <!-- Chatbot -->
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      💬
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div class="bot-avatar">🤖</div>
+        <h4 data-i18n="chat.title">NeoTrace AI</h4>
+        <button class="chatbot-close" id="chatbotClose">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot" data-i18n="chat.welcome">
+          Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or
+          how to use this platform.
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Ask something..."
+          autocomplete="off"
+        /><button class="chat-send-btn" id="chatSend">➤</button>
+      </div>
     </div>
-  </nav>
 
-  <main class="main-content">
-    <section class="product-section">
-      <p class="section-label-lg">🏆 CREDENTIAL GUIDE</p>
-      <h1 class="section-title-lg" data-i18n="certs.title">Cybersecurity Certifications</h1>
-      <p class="section-sub-lg" data-i18n="certs.subtitle">Industry-recognised credentials that validate your security expertise and boost your career.</p>
-
-      <div class="product-cards-grid">
-
-        <!-- CompTIA Security+ -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#1e2d40,#263b52)">
-            <span>🏅</span>
-            <span class="pc-badge badge-paid">$404 USD</span>
-            <span class="pc-platform-label">CompTIA</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">Security+ (SY0-701)</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-entry">Entry Level</span>
-              <span class="pc-tag cost-tag">Vendor-Neutral</span>
-              <span class="pc-tag">Renew 3yr</span>
-            </div>
-            <p class="pc-desc">Most widely recognised entry-level cert. Covers network security, cryptography, risk management, and compliance — often required for gov IT roles.</p>
-            <ul class="pc-features">
-              <li>90 questions, 90 min</li>
-              <li>Valid for government clearance roles</li>
-              <li>Prof. Messer free study guide available</li>
-            </ul>
-            <a href="https://www.comptia.org/certifications/security" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- CEH -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#4a1010,#8B1A1A)">
-            <span>🎯</span>
-            <span class="pc-badge badge-paid">$1,199 USD</span>
-            <span class="pc-platform-label">EC-Council</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">CEH — Certified Ethical Hacker</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-mid">Intermediate</span>
-              <span class="pc-tag cost-tag">EC-Council</span>
-              <span class="pc-tag">Renew 3yr</span>
-            </div>
-            <p class="pc-desc">Think like a hacker. Covers footprinting, scanning, system hacking, malware, web app attacks, social engineering, and DoS techniques.</p>
-            <ul class="pc-features">
-              <li>125 questions, 4 hours exam</li>
-              <li>20 attack modules covered</li>
-              <li>Practical lab option available</li>
-            </ul>
-            <a href="https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- CISSP -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#2a1f00,#4a3500)">
-            <span>👑</span>
-            <span class="pc-badge badge-paid">$749 USD</span>
-            <span class="pc-platform-label">(ISC)²</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">CISSP</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-adv">Advanced</span>
-              <span class="pc-tag cost-tag">(ISC)²</span>
-              <span class="pc-tag">5yr exp req.</span>
-            </div>
-            <p class="pc-desc">The gold standard for security professionals. Covers 8 CISSP domains from risk management and asset security to software development security.</p>
-            <ul class="pc-features">
-              <li>100–150 CAT questions, 4 hours</li>
-              <li>Requires 5 years work experience</li>
-              <li>Recognized worldwide for senior roles</li>
-            </ul>
-            <a href="https://www.isc2.org/certifications/cissp" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- OSCP -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#0a0a0a,#1a0a0a)">
-            <span>💀</span>
-            <span class="pc-badge badge-premium">$1,749 USD</span>
-            <span class="pc-platform-label">OffSec</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">OSCP — Offensive Security Certified Professional</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-exp">Expert</span>
-              <span class="pc-tag cost-tag">OffSec</span>
-              <span class="pc-tag">No expiry</span>
-            </div>
-            <p class="pc-desc">The most respected hands-on pentesting cert. 24-hour practical exam — hack into machines, write a professional pentest report. No MCQ, pure skills.</p>
-            <ul class="pc-features">
-              <li>24-hour practical exam window</li>
-              <li>Professional report required</li>
-              <li>Includes PEN-200 training course</li>
-            </ul>
-            <a href="https://www.offsec.com/courses/pen-200/" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- CySA+ -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#1a1040,#2d1b6e)">
-            <span>📊</span>
-            <span class="pc-badge badge-paid">$404 USD</span>
-            <span class="pc-platform-label">CompTIA</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">CySA+ (CS0-003)</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-mid">Intermediate</span>
-              <span class="pc-tag cost-tag">Vendor-Neutral</span>
-              <span class="pc-tag">Renew 3yr</span>
-            </div>
-            <p class="pc-desc">Focused on security analytics and detection. Ideal for SOC analysts — covers vulnerability management, threat intelligence, and incident response.</p>
-            <ul class="pc-features">
-              <li>85 questions, 165 min exam</li>
-              <li>Perfect for SOC Analyst roles</li>
-              <li>Bridges Security+ to CASP+</li>
-            </ul>
-            <a href="https://www.comptia.org/certifications/cybersecurity-analyst" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- CISM -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#1e0a2e,#3a1a52)">
-            <span>📋</span>
-            <span class="pc-badge badge-paid">$575–$760</span>
-            <span class="pc-platform-label">ISACA</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">CISM — Certified Information Security Manager</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-adv">Advanced</span>
-              <span class="pc-tag cost-tag">ISACA</span>
-              <span class="pc-tag">5yr exp req.</span>
-            </div>
-            <p class="pc-desc">Management-focused cert covering information security governance, risk management, and incident management. Great for aspiring CISOs and security managers.</p>
-            <ul class="pc-features">
-              <li>150 questions, 4 hours exam</li>
-              <li>Requires 5 years security mgmt exp.</li>
-              <li>Widely valued by enterprises</li>
-            </ul>
-            <a href="https://www.isaca.org/credentialing/cism" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- AWS Security -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#1a0f00,#3d2200)">
-            <span>☁️</span>
-            <span class="pc-badge badge-paid">$300 USD</span>
-            <span class="pc-platform-label">Amazon AWS</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">AWS Certified Security — Specialty</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-adv">Advanced</span>
-              <span class="pc-tag cost-tag">AWS</span>
-              <span class="pc-tag">Renew 3yr</span>
-            </div>
-            <p class="pc-desc">Validate expertise securing AWS workloads. Covers incident response, logging, infrastructure security, IAM policies, and data protection on the AWS platform.</p>
-            <ul class="pc-features">
-              <li>65 questions, 170 min exam</li>
-              <li>Requires AWS associate-level exp.</li>
-              <li>High value for cloud security roles</li>
-            </ul>
-            <a href="https://aws.amazon.com/certification/certified-security-specialty/" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-        <!-- GIAC / SANS -->
-        <div class="product-card">
-          <div class="pc-header" style="background:linear-gradient(135deg,#0a1628,#1c3a6b)">
-            <span>🎖️</span>
-            <span class="pc-badge badge-premium">$949–$1,299</span>
-            <span class="pc-platform-label">SANS / GIAC</span>
-          </div>
-          <div class="pc-body">
-            <div class="pc-title">GIAC Certifications (SANS Institute)</div>
-            <div class="pc-tags">
-              <span class="pc-tag lv-mid">Intermediate</span>
-              <span class="pc-tag lv-exp">Expert tracks</span>
-              <span class="pc-tag">Renew 4yr</span>
-            </div>
-            <p class="pc-desc">Premium specialised certs from SANS. Includes GSEC, GCIH, GPEN, GREM, and 30+ specialist tracks. Regarded as the most technically rigorous certifications.</p>
-            <ul class="pc-features">
-              <li>Exam format varies per cert</li>
-              <li>GSEC, GCIH, GPEN most popular</li>
-              <li>SANS training courses available</li>
-            </ul>
-            <a href="https://www.giac.org/certifications/" target="_blank" class="pc-action">Learn More →</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- NeoTrace Footer -->
-    <footer class="neo-footer">
-      <div class="neo-footer-inner">
-        <div class="neo-footer-brand">
-          <a href="index.html" class="footer-logo">
-            <img src="images/logo.jpeg" alt="NeoTrace">
-            <span>NeoTrace</span>
-          </a>
-          <p class="footer-desc">AI-powered cybersecurity intelligence platform. Educating the next generation of digital defenders through interactive tools and real-time threat analysis.</p>
-          <div class="neo-footer-social">
-            <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub">&#9000;</a>
-          </div>
-        </div>
-        <div class="neo-footer-col">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="story.html">Story Mode</a></li>
-            <li><a href="game.html">Training Game</a></li>
-            <li><a href="careers.html">Careers</a></li>
-            <li><a href="courses.html">Courses</a></li>
-            <li><a href="certifications.html">Certifications</a></li>
-          </ul>
-        </div>
-        <div class="neo-footer-col">
-          <h4>Tools &amp; Connect</h4>
-          <ul>
-            <li><a href="phone-inspector.html">Phone Inspector</a></li>
-            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
-            <li><a href="image-forensics.html">Image Forensics</a></li>
-            <li><a href="content-verifier.html">Text Verifier</a></li>
-            <li><a href="about.html">About Us</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="neo-footer-bottom">
-        <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
-        <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to Top</a>
-      </div>
-    </footer>
-  </main>
-
-
-  <!-- Chatbot -->
-  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">💬</button>
-  <div class="chatbot-panel" id="chatbotPanel">
-    <div class="chatbot-header"><div class="bot-avatar">🤖</div><h4 data-i18n="chat.title">NeoTrace AI</h4><button class="chatbot-close" id="chatbotClose">✕</button></div>
-    <div class="chat-messages" id="chatMessages"><div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div></div>
-    <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask something..." autocomplete="off"><button class="chat-send-btn" id="chatSend">➤</button></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/chatbot.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+  </body>
 </html>

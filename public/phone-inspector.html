@@ -29,6 +29,10 @@
           <li><a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a></li>
           <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
           <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
+          <li><a href="password-checker.html" data-i18n="nav.password">Password Checker</a></li>
+          <li><a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a></li>
+          <li><a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a></li>
+          <li><a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a></li>
         </ul>
       </li>
       <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
@@ -68,10 +72,17 @@
           <div class="tool-panel">
             <h3>📱 <span data-i18n="phone.title">Phone Inspector</span></h3>
             <div class="input-group">
-              <label data-i18n="phone.placeholder">Enter phone number (e.g. +852 91234567)</label>
-              <input type="tel" id="phoneInput" class="cyber-input" placeholder="+852 91234567" autocomplete="off">
+              <label data-i18n="phone.placeholder">Enter phone number</label>
+              <div class="phone-input-row">
+                <div style="position:relative;">
+                  <input type="text" id="dialCodeInput" class="cyber-input dial-input" placeholder="+852" maxlength="6" autocomplete="off" oninput="onDialInput(this)" style="width:90px;text-align:center;">
+                  <div id="dialSuggest" class="auto-suggest-dropdown" style="display:none;z-index:100;"></div>
+                </div>
+                <input type="tel" id="numberInput" class="cyber-input" placeholder="91234567 or full: +1 5551234567" autocomplete="off" style="flex:1;" onkeydown="if(event.key==='Enter')checkPhone()">
+              </div>
+              <p style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.35rem;">Dial code (e.g. +852) then local number, or paste full number in right field</p>
             </div>
-            <button id="scanBtn" class="cyber-btn" onclick="checkPhone()">
+            <button id="scanBtn" class="cyber-btn neon-btn" onclick="checkPhone()">
               <span data-i18n="phone.scan">SCAN NUMBER</span>
             </button>
           </div>
@@ -108,6 +119,12 @@
 
           <!-- Blacklist & Details -->
           <div class="result-panel" id="detailsPanel"></div>
+
+          <!-- AI Analysis Panel -->
+          <div class="result-panel" id="aiAnalysisPanel" style="display:none;">
+            <h3 style="color:var(--accent);">🤖 AI Risk Analysis</h3>
+            <div id="aiAnalysisContent" style="font-size:0.9rem;line-height:1.7;color:var(--text-secondary);white-space:pre-wrap;"></div>
+          </div>
 
         </div>
       </div>

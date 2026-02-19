@@ -1,175 +1,330 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URL Analyzer — NeoTrace</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
-  <script defer src="/_vercel/insights/script.js"></script>
-</head>
-<body>
-  <canvas id="matrix-canvas"></canvas>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Analyzer — NeoTrace</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>"
+    />
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <canvas id="matrix-canvas"></canvas>
 
-  <nav class="navbar">
-    <a href="index.html" class="nav-logo">
-      <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img">
-      <span data-i18n="nav.logo">NeoTrace</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
-      <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
-      <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
-      <li class="nav-dropdown">
-        <a href="#" data-i18n="nav.tools">Tools ▾</a>
-        <ul class="nav-dropdown-menu">
-          <li><a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a></li>
-          <li><a href="url-threat-scanner.html" class="active" data-i18n="nav.url">URL Scanner</a></li>
-          <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
-          <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
-        </ul>
-      </li>
-      <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
-      <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
-      <li><a href="certifications.html" data-i18n="nav.certs">Certifications</a></li>
-      <li><a href="about.html" data-i18n="nav.about">About</a></li>
-    </ul>
-    <div class="nav-right">
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="zh">中文</button>
-      </div>
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀️</button>
-      <button class="hamburger">☰</button>
-    </div>
-  </nav>
-
-  <main class="main-content">
-    <section class="hero" style="padding-bottom: 1rem;">
-      <div class="hero-badge"><span class="pulse-dot"></span><span data-i18n="url.threat">THREAT ANALYSIS</span></div>
-      <h1 data-i18n="url.title">URL Analyzer</h1>
-      <p data-i18n="url.subtitle">Deep analysis of web addresses for security threats</p>
-    </section>
-
-    <div class="tool-layout">
-      <!-- Input Panel -->
-      <div class="tool-input-panel">
-        <div class="tool-panel">
-          <h3 data-i18n="url.enterUrl">🔗 Enter URL</h3>
-          <div class="input-group">
-            <input type="text" class="cyber-input" id="urlInput" placeholder="https://example.com" data-i18n="url.placeholder">
-          </div>
-          <button class="cyber-btn" id="urlAnalyzeBtn" onclick="analyzeUrl()" data-i18n="url.analyze">ANALYZE URL</button>
-        </div>
-
-        <div class="tool-panel" style="font-size: 0.85rem; color: var(--text-muted);">
-          <h3 data-i18n="url.tips">💡 Tips</h3>
-          <ul style="list-style: none; padding: 0;">
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip1">• Check for misspellings in domains</li>
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip2">• Look for suspicious TLDs (.xyz, .top, etc.)</li>
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip3">• Verify HTTPS is present</li>
-            <li style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);" data-i18n="url.tip4">• Check for homograph characters</li>
-            <li style="padding: 6px 0;" data-i18n="url.tip5">• Be wary of IP addresses as URLs</li>
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img" />
+        <span data-i18n="nav.logo">NeoTrace</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+        <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+        <li class="nav-dropdown">
+          <a href="#" data-i18n="nav.tools">Tools ▾</a>
+          <ul class="nav-dropdown-menu">
+            <li>
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+            </li>
+            <li>
+              <a
+                href="url-threat-scanner.html"
+                class="active"
+                data-i18n="nav.url"
+                >URL Scanner</a
+              >
+            </li>
+            <li>
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+            </li>
+            <li>
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+            </li>
           </ul>
+        </li>
+        <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
+        <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
+        <li>
+          <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中文</button>
         </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          ☀️
+        </button>
+        <button class="hamburger">☰</button>
       </div>
+    </nav>
 
-      <!-- Results -->
-      <div class="tool-results">
-        <div id="urlPlaceholder" class="tool-panel" style="text-align: center; padding: 4rem 2rem;">
-          <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">🌐</div>
-          <p style="color: var(--text-muted); font-size: 1.1rem;" data-i18n="url.noResults">Enter a URL above to begin analysis</p>
+    <main class="main-content">
+      <section class="hero" style="padding-bottom: 1rem">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span
+          ><span data-i18n="url.threat">THREAT ANALYSIS</span>
+        </div>
+        <h1 data-i18n="url.title">URL Analyzer</h1>
+        <p data-i18n="url.subtitle">
+          Deep analysis of web addresses for security threats
+        </p>
+      </section>
+
+      <div class="tool-layout">
+        <!-- Input Panel -->
+        <div class="tool-input-panel">
+          <div class="tool-panel">
+            <h3 data-i18n="url.enterUrl">🔗 Enter URL</h3>
+            <div class="input-group">
+              <input
+                type="text"
+                class="cyber-input"
+                id="urlInput"
+                placeholder="https://example.com"
+                data-i18n="url.placeholder"
+              />
+            </div>
+            <button
+              class="cyber-btn"
+              id="urlAnalyzeBtn"
+              onclick="analyzeUrl()"
+              data-i18n="url.analyze"
+            >
+              ANALYZE URL
+            </button>
+          </div>
+
+          <div
+            class="tool-panel"
+            style="font-size: 0.85rem; color: var(--text-muted)"
+          >
+            <h3 data-i18n="url.tips">💡 Tips</h3>
+            <ul style="list-style: none; padding: 0">
+              <li
+                style="
+                  padding: 6px 0;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+                "
+                data-i18n="url.tip1"
+              >
+                • Check for misspellings in domains
+              </li>
+              <li
+                style="
+                  padding: 6px 0;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+                "
+                data-i18n="url.tip2"
+              >
+                • Look for suspicious TLDs (.xyz, .top, etc.)
+              </li>
+              <li
+                style="
+                  padding: 6px 0;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+                "
+                data-i18n="url.tip3"
+              >
+                • Verify HTTPS is present
+              </li>
+              <li
+                style="
+                  padding: 6px 0;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+                "
+                data-i18n="url.tip4"
+              >
+                • Check for homograph characters
+              </li>
+              <li style="padding: 6px 0" data-i18n="url.tip5">
+                • Be wary of IP addresses as URLs
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div id="urlResults" class="hidden">
-          <!-- Risk Score -->
-          <div class="result-panel">
-            <h3 data-i18n="url.riskScore">🎯 Risk Assessment</h3>
-            <div class="risk-meter">
-              <div class="risk-circle">
-                <svg width="150" height="150"><circle cx="75" cy="75" r="65" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/><circle cx="75" cy="75" r="65" fill="none" stroke="var(--accent-green)" stroke-width="8" stroke-dasharray="408" stroke-dashoffset="408" stroke-linecap="round" id="urlRiskArc"/></svg>
-                <span class="score" id="urlRiskScore">0</span>
+        <!-- Results -->
+        <div class="tool-results">
+          <div
+            id="urlPlaceholder"
+            class="tool-panel"
+            style="text-align: center; padding: 4rem 2rem"
+          >
+            <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3">
+              🌐
+            </div>
+            <p
+              style="color: var(--text-muted); font-size: 1.1rem"
+              data-i18n="url.noResults"
+            >
+              Enter a URL above to begin analysis
+            </p>
+          </div>
+
+          <div id="urlResults" class="hidden">
+            <!-- Risk Score -->
+            <div class="result-panel">
+              <h3 data-i18n="url.riskScore">🎯 Risk Assessment</h3>
+              <div class="risk-meter">
+                <div class="risk-circle">
+                  <svg width="150" height="150">
+                    <circle
+                      cx="75"
+                      cy="75"
+                      r="65"
+                      fill="none"
+                      stroke="rgba(255,255,255,0.05)"
+                      stroke-width="8"
+                    />
+                    <circle
+                      cx="75"
+                      cy="75"
+                      r="65"
+                      fill="none"
+                      stroke="var(--accent-green)"
+                      stroke-width="8"
+                      stroke-dasharray="408"
+                      stroke-dashoffset="408"
+                      stroke-linecap="round"
+                      id="urlRiskArc"
+                    />
+                  </svg>
+                  <span class="score" id="urlRiskScore">0</span>
+                </div>
+                <div class="risk-label" id="urlRiskLevel">Low Risk</div>
               </div>
-              <div class="risk-label" id="urlRiskLevel">Low Risk</div>
+            </div>
+
+            <!-- Domain Info -->
+            <div class="result-panel">
+              <h3 data-i18n="url.domain">🌐 Domain Analysis</h3>
+              <table class="exif-table" id="domainTable"></table>
+            </div>
+
+            <!-- Security Findings -->
+            <div class="result-panel">
+              <h3 data-i18n="url.security">🔒 Security Findings</h3>
+              <div id="urlFindings"></div>
             </div>
           </div>
 
-          <!-- Domain Info -->
-          <div class="result-panel">
-            <h3 data-i18n="url.domain">🌐 Domain Analysis</h3>
-            <table class="exif-table" id="domainTable"></table>
-          </div>
-
-          <!-- Security Findings -->
-          <div class="result-panel">
-            <h3 data-i18n="url.security">🔒 Security Findings</h3>
-            <div id="urlFindings"></div>
+          <div id="urlLoading" class="hidden">
+            <div class="loading">
+              <div class="spinner"></div>
+              <div class="loading-text">Scanning URL...</div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div id="urlLoading" class="hidden">
-          <div class="loading">
-            <div class="spinner"></div>
-            <div class="loading-text">Scanning URL...</div>
+      <!-- NeoTrace Footer -->
+      <footer class="neo-footer">
+        <div class="neo-footer-inner">
+          <div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo">
+              <img src="images/logo.jpeg" alt="NeoTrace" />
+              <span>NeoTrace</span>
+            </a>
+            <p class="footer-desc">
+              AI-powered cybersecurity intelligence platform. Educating the next
+              generation of digital defenders through interactive tools and
+              real-time threat analysis.
+            </p>
+            <div class="neo-footer-social">
+              <a
+                href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0"
+                target="_blank"
+                title="GitHub"
+                >&#9000;</a
+              >
+            </div>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="index.html">Dashboard</a></li>
+              <li><a href="story.html">Story Mode</a></li>
+              <li><a href="game.html">Training Game</a></li>
+              <li><a href="careers.html">Careers</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="certifications.html">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Tools &amp; Connect</h4>
+            <ul>
+              <li><a href="phone-inspector.html">Phone Inspector</a></li>
+              <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+              <li><a href="image-forensics.html">Image Forensics</a></li>
+              <li><a href="content-verifier.html">Text Verifier</a></li>
+              <li><a href="about.html">About Us</a></li>
+            </ul>
           </div>
         </div>
+        <div class="neo-footer-bottom">
+          <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >&uarr; Back to Top</a
+          >
+        </div>
+      </footer>
+    </main>
+
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      💬
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div class="bot-avatar">🤖</div>
+        <h4 data-i18n="chat.title">NeoTrace AI</h4>
+        <button class="chatbot-close" id="chatbotClose">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot" data-i18n="chat.welcome">
+          Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or
+          how to use this platform.
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Ask something..."
+          autocomplete="off"
+        /><button class="chat-send-btn" id="chatSend">➤</button>
       </div>
     </div>
 
-    <!-- NeoTrace Footer -->
-    <footer class="neo-footer">
-      <div class="neo-footer-inner">
-        <div class="neo-footer-brand">
-          <a href="index.html" class="footer-logo">
-            <img src="images/logo.jpeg" alt="NeoTrace">
-            <span>NeoTrace</span>
-          </a>
-          <p class="footer-desc">AI-powered cybersecurity intelligence platform. Educating the next generation of digital defenders through interactive tools and real-time threat analysis.</p>
-          <div class="neo-footer-social">
-            <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub">&#9000;</a>
-          </div>
-        </div>
-        <div class="neo-footer-col">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="story.html">Story Mode</a></li>
-            <li><a href="game.html">Training Game</a></li>
-            <li><a href="careers.html">Careers</a></li>
-            <li><a href="courses.html">Courses</a></li>
-            <li><a href="certifications.html">Certifications</a></li>
-          </ul>
-        </div>
-        <div class="neo-footer-col">
-          <h4>Tools &amp; Connect</h4>
-          <ul>
-            <li><a href="phone-inspector.html">Phone Inspector</a></li>
-            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
-            <li><a href="image-forensics.html">Image Forensics</a></li>
-            <li><a href="content-verifier.html">Text Verifier</a></li>
-            <li><a href="about.html">About Us</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="neo-footer-bottom">
-        <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
-        <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to Top</a>
-      </div>
-    </footer>
-  </main>
-
-  <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">💬</button>
-  <div class="chatbot-panel" id="chatbotPanel">
-    <div class="chatbot-header"><div class="bot-avatar">🤖</div><h4 data-i18n="chat.title">NeoTrace AI</h4><button class="chatbot-close" id="chatbotClose">✕</button></div>
-    <div class="chat-messages" id="chatMessages"><div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div></div>
-    <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask something..." autocomplete="off"><button class="chat-send-btn" id="chatSend">➤</button></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/url-analyzer.js"></script>
-  <script src="js/chatbot.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/url-analyzer.js"></script>
+    <script src="js/chatbot.js"></script>
+  </body>
 </html>

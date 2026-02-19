@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Header Analyzer — NeoTrace</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>"
+    />
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <canvas id="matrix-canvas"></canvas>
+
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img" />
+        <span data-i18n="nav.logo">NeoTrace</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
+        <li><a href="game.html" data-i18n="nav.game">Training Game</a></li>
+        <li class="nav-dropdown">
+          <a href="#" data-i18n="nav.tools">Tools ▾</a>
+          <ul class="nav-dropdown-menu">
+            <li>
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+            </li>
+            <li>
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+            </li>
+            <li>
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+            </li>
+            <li>
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+            </li>
+            <li>
+              <a href="password-checker.html" data-i18n="nav.password"
+                >Password Checker</a
+              >
+            </li>
+            <li>
+              <a href="email-analyzer.html" class="active" data-i18n="nav.email"
+                >Email Analyzer</a
+              >
+            </li>
+            <li>
+              <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+            </li>
+            <li><a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a></li>
+          </ul>
+        </li>
+        <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
+        <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
+        <li>
+          <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          ☀️
+        </button>
+        <button class="hamburger" id="menuToggle">☰</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <section class="hero" style="padding-bottom: 1.5rem">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>EMAIL FORENSICS</span>
+        </div>
+        <h1 data-i18n="email.title">Email Header Analyzer</h1>
+        <p data-i18n="email.subtitle">
+          Detect phishing & spoofing — verify SPF, DKIM, and DMARC
+          authentication
+        </p>
+      </section>
+
+      <section class="section" style="padding-top: 0">
+        <div class="tool-layout">
+          <!-- Input Panel -->
+          <div class="tool-input-panel">
+            <div class="tool-panel">
+              <h3>
+                📧 <span data-i18n="email.title">Email Header Analyzer</span>
+              </h3>
+
+              <!-- Upload .eml -->
+              <div class="input-group">
+                <label data-i18n="email.uploadLabel"
+                  >Upload .eml file
+                  <span style="opacity: 0.5">(optional)</span></label
+                >
+                <label class="upload-area" for="emlFile" id="emlDropArea">
+                  <span class="upload-icon">📂</span>
+                  <span data-i18n="email.dragDrop"
+                    >Click or drag .eml file here</span
+                  >
+                  <input
+                    type="file"
+                    id="emlFile"
+                    accept=".eml,.txt,message/rfc822"
+                    hidden
+                    onchange="handleEmlFile(this)"
+                  />
+                </label>
+              </div>
+
+              <!-- Paste headers -->
+              <div class="input-group">
+                <label data-i18n="email.pasteLabel"
+                  >Or paste raw email headers</label
+                >
+                <textarea
+                  id="headersInput"
+                  class="cyber-input"
+                  rows="10"
+                  placeholder="Paste raw email headers here...
+Example:
+Received: from mail.example.com...
+From: sender@example.com
+To: recipient@example.com
+DKIM-Signature: v=1; a=rsa-sha256...
+Authentication-Results: spf=pass...
+Subject: Important Notice"
+                ></textarea>
+              </div>
+
+              <button
+                class="cyber-btn neon-btn"
+                onclick="analyzeEmail()"
+                data-i18n="email.scan"
+              >
+                🔍 Analyze Headers
+              </button>
+              <button
+                onclick="clearEmail()"
+                class="cyber-btn"
+                style="
+                  background: rgba(255, 59, 48, 0.1);
+                  color: var(--red);
+                  border: 1px solid rgba(255, 59, 48, 0.25);
+                  margin-top: 0.5rem;
+                "
+                data-i18n="email.clear"
+              >
+                ✕ Clear
+              </button>
+            </div>
+
+            <!-- No results hint -->
+            <div
+              id="noResults"
+              class="tool-panel text-center"
+              style="padding: 2rem"
+            >
+              <div
+                style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem"
+              >
+                📨
+              </div>
+              <p
+                style="color: var(--text-tertiary); font-size: 0.85rem"
+                data-i18n="email.noResults"
+              >
+                Paste email headers or upload a .eml file and click analyze
+              </p>
+            </div>
+          </div>
+
+          <!-- Results Panel -->
+          <div id="resultsArea" style="display: none">
+            <!-- Auth badges row -->
+            <div class="result-panel">
+              <h3>🔐 Authentication Results</h3>
+              <div
+                id="authBadges"
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.75rem;
+                  margin: 1rem 0;
+                "
+              ></div>
+              <div class="risk-bar-wrap">
+                <div class="risk-bar-label">
+                  <span data-i18n="email.riskScore">Phishing Risk Score</span>
+                  <span id="riskValue" style="font-weight: 700">—</span>
+                </div>
+                <div class="risk-bar-track">
+                  <div
+                    id="riskFill"
+                    class="risk-bar-fill"
+                    style="width: 0%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Header details table -->
+            <div class="result-panel">
+              <h3>📋 Header Details</h3>
+              <table class="detail-table" id="headerTable">
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <!-- Red flags -->
+            <div class="result-panel" id="flagsPanel">
+              <h3>🚩 Flags</h3>
+              <div id="flagsList" style="display: grid; gap: 0.4rem"></div>
+            </div>
+
+            <!-- AI Summary -->
+            <div class="result-panel" id="aiPanel">
+              <h3 style="color: var(--accent)">🤖 AI Verdict</h3>
+              <div
+                id="aiContent"
+                style="
+                  font-size: 0.9rem;
+                  line-height: 1.7;
+                  color: var(--text-secondary);
+                  white-space: pre-wrap;
+                "
+              ></div>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div
+            id="loadingArea"
+            style="display: none"
+            class="result-panel text-center"
+            style="padding: 2rem"
+          >
+            <div class="spinner"></div>
+            <p data-i18n="email.analyzing">Analyzing headers...</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="neo-footer">
+        <div class="neo-footer-inner">
+          <div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo"
+              ><img src="images/logo.jpeg" alt="NeoTrace" /><span
+                >NeoTrace</span
+              ></a
+            >
+            <p class="footer-desc">
+              AI-powered cybersecurity intelligence platform.
+            </p>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="index.html">Dashboard</a></li>
+              <li><a href="story.html">Story Mode</a></li>
+              <li><a href="game.html">Training Game</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Tools</h4>
+            <ul>
+              <li><a href="phone-inspector.html">Phone Inspector</a></li>
+              <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+              <li><a href="password-checker.html">Password Checker</a></li>
+              <li><a href="email-analyzer.html">Email Analyzer</a></li>
+              <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+              <li><a href="qr-scanner.html">QR Scanner</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="neo-footer-bottom">
+          <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >↑ Back to Top</a
+          >
+        </div>
+      </footer>
+    </div>
+
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      💬
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div class="bot-avatar">🤖</div>
+        <h4 data-i18n="chat.title">NeoTrace AI</h4>
+        <button class="chatbot-close" id="chatbotClose">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot" data-i18n="chat.welcome">
+          Hi! I'm NeoTrace AI Assistant.
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Ask something..."
+          autocomplete="off"
+        /><button class="chat-send-btn" id="chatSend">➤</button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/email-analyzer.js"></script>
+    <script src="js/chatbot.js"></script>
+  </body>
+</html>
