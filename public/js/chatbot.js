@@ -82,7 +82,8 @@
   let isOpen = false;
   let chipsVisible = true;
   let retryCount = 0;
-  const MAX_RETRIES = 1;
+  const MAX_RETRIES = 2;
+  const RETRY_DELAY = 2000;
 
   // ── Inject feedback button into chatbot header ───────────────────
   const header = panel.querySelector(".chatbot-header");
@@ -183,7 +184,7 @@
     );
 
     // Send previous conversation history (NOT including current message)
-    const historyToSend = chatHistory.slice(-8);
+    const historyToSend = chatHistory.slice(-12);
     chatHistory.push({ role: "user", content: text });
 
     callChatAPI(text, historyToSend, typingEl, 0);
@@ -207,22 +208,28 @@
         appendMsg("bot", reply);
         chatHistory.push({ role: "assistant", content: reply });
         retryCount = 0;
+        sendBtn.disabled = false;
+        input.focus();
       })
       .catch((err) => {
         if (attempt < MAX_RETRIES) {
-          // Retry once after short delay
+          // Retry with exponential backoff
+          const delay = RETRY_DELAY * (attempt + 1);
           setTimeout(
             () => callChatAPI(text, history, typingEl, attempt + 1),
-            1500,
+            delay,
           );
           return;
         }
+        // All retries exhausted
         typingEl.remove();
         const fallback = offlineFallback(text);
-        appendMsg("bot", "⚡ " + fallback);
+        appendMsg(
+          "bot",
+          `<span style="font-size:0.78em;opacity:0.6">[offline mode]</span>\n${fallback}`,
+          true,
+        );
         chatHistory.push({ role: "assistant", content: fallback });
-      })
-      .finally(() => {
         sendBtn.disabled = false;
         input.focus();
       });

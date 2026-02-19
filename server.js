@@ -2079,31 +2079,46 @@ app.post("/api/chatbot", async (req, res) => {
   const { message, history, context } = req.body;
   if (!message) return res.status(400).json({ error: "message required" });
 
-  const systemPrompt = `You are NeoTrace AI Assistant, a friendly and knowledgeable cybersecurity expert built into the NeoTrace platform.
+  const systemPrompt = `You are NeoTrace AI, an expert cybersecurity assistant with deep, broad knowledge of the entire field of cyber security. You can answer ANY cybersecurity question — not just about the NeoTrace platform.
 
-NeoTrace is an AI-powered cybersecurity intelligence platform with these tools:
-- Dashboard: Real-time threat stats, charts, news feed
-- Story Mode: Interactive cybersecurity stories (4 chapters covering prize scams, urgency tactics, impersonation, social engineering)
-- Training Game: Quiz-style cybersecurity training with 5 difficulty tiers
-- Phone Inspector: Analyze phone numbers for spam/fraud risk
-- URL Scanner: Check URLs for phishing, malware, and threats
-- Image Forensics: Detect AI-generated or manipulated images
-- Text Verifier: Verify text credibility and detect misinformation
-- Careers: Cybersecurity job roles and salary data
-- Courses: Online learning resources
-- Certifications: Industry security certs
+## Your expertise covers (but is not limited to):
+- Threat intelligence: phishing, social engineering, malware, ransomware, APTs, zero-day exploits
+- Defensive security: firewalls, IDS/IPS, SIEM, EDR, network segmentation, MFA, encryption
+- Offensive security: penetration testing, red teaming, OSINT, CVE exploitation, CTF challenges
+- Identity & access: password security, OAuth, SSO, PAM, zero-trust architecture
+- Network security: VPN, TLS/SSL, DNS poisoning, MitM attacks, Wireshark, packet analysis
+- Cloud & app security: OWASP Top 10, DevSecOps, container security, AWS/Azure/GCP security
+- Certifications & careers: CISSP, CEH, OSCP, CompTIA Security+, career paths, salaries
+- Current events: recent CVEs, data breaches, threat actors, government advisories
+- Privacy & law: GDPR, CCPA, HIPAA, incident response, forensics, legal obligations
+- Practical how-to: setup guides, tool usage, hardening checklists, CTF walkthroughs
 
-${context ? "Current context: " + context : ""}
+## NeoTrace platform tools (you can also guide users here):
+- **Phone Inspector**: Analyze any phone number — carrier, risk score, VOIP detection, fraud signals
+- **URL Scanner**: Deep URL analysis — WHOIS, DNS, SSL, safe browsing, redirect chains
+- **Image Forensics**: Detect AI-generated/manipulated images via EXIF + artifact analysis
+- **Text Verifier**: AI credibility scoring, clickbait detection, fact-check support
+- **Password Checker**: Real-time zxcvbn strength scoring, entropy, crack time, generator
+- **Email Analyzer**: SPF/DKIM/DMARC verification, phishing header analysis
+- **WiFi Scanner**: Network security assessment, open/WEP risk detection
+- **QR Scanner**: Decode QR codes + instant URL threat scan
+- **Story Mode**: 4 interactive chapters on real scam tactics
+- **Training Game**: 5-tier quiz game with 15+ attack scenarios
 
-Guidelines:
-- Keep answers concise (2-4 sentences) but informative
-- Use examples when explaining concepts
-- If the user asks for "more" or "others", provide additional related information
-- Reply in the SAME language the user uses
-- If you detect Chinese/Cantonese, reply in Traditional Chinese`;
+## Conversation rules:
+1. This is a MULTI-TURN conversation — always read prior context and give coherent follow-up answers
+2. If asked "more", "what else", "continue", "and then?" — expand with new info, never repeat
+3. Answer ANY question (not just platform questions) — you are a full cybersecurity expert AI
+4. Give CONCRETE, SPECIFIC, ACTIONABLE answers — include commands, examples, real tools when relevant
+5. For technical questions: show code/commands in markdown code blocks
+6. For "how do I use [NeoTrace tool]": give a step-by-step walkthrough
+7. Reply in the EXACT SAME LANGUAGE the user used: English → English; 廣東話/中文 → 繁體中文
+8. Length: match complexity — simple question = 2-3 sentences; complex question = structured explanation with bullet points
 
-  // Build messages array — avoid duplicating the current user message
-  const prevHistory = (history || []).slice(-8);
+${context ? `## Current tool context:\n${context}` : ""}`;
+
+  // Build messages array with full conversation history
+  const prevHistory = (history || []).slice(-12); // keep last 6 turns
   const msgs = [
     { role: "system", content: systemPrompt },
     ...prevHistory,
@@ -2113,7 +2128,7 @@ Guidelines:
   if (!ASI_API_KEY) {
     return res.json({
       reply:
-        "I'm NeoTrace AI Assistant. The AI service is currently being configured. In the meantime, feel free to explore our tools — use the navigation bar to access URL Scanner, Image Forensics, Text Verifier, and more!",
+        "I'm NeoTrace AI. The AI backend isn't configured yet — but I can still help! Ask me about cybersecurity topics and explore our tools via the navigation menu.",
     });
   }
 
@@ -2121,8 +2136,8 @@ Guidelines:
     const payload = JSON.stringify({
       model: ASI_MODEL,
       messages: msgs,
-      max_tokens: 600,
-      temperature: 0.7,
+      max_tokens: 900,
+      temperature: 0.72,
     });
     const result = await new Promise((resolve, reject) => {
       const options = {
@@ -2196,6 +2211,19 @@ app.post("/api/feedback", (req, res) => {
 app.get("/api/feedback", (req, res) => {
   res.json({ count: feedbackStore.length, recent: feedbackStore.slice(-20) });
 });
+
+// ==================== PRODUCTION: Serve React Build ====================
+// Serve the Vite-built React app from dist/ in production (non-Vercel)
+if (process.env.NODE_ENV === "production" && !process.env.VERCEL) {
+  const distPath = path.join(__dirname, "dist");
+  app.use(express.static(distPath));
+  // SPA fallback — all non-API routes return index.html
+  app.get("*", (req, res) => {
+    if (!req.path.startsWith("/api") && !req.path.startsWith("/uploads")) {
+      res.sendFile(path.join(distPath, "index.html"));
+    }
+  });
+}
 
 // ==================== START SERVER ====================
 // Only start HTTP server when running locally (not on Vercel serverless)

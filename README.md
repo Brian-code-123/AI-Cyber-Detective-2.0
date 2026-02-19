@@ -4,13 +4,15 @@
 
 <img src="public/images/logo.jpeg" alt="NeoTrace Logo" width="120" style="border-radius:20px; margin-bottom:12px;" />
 
-![Version](https://img.shields.io/badge/version-3.0.0-0A84FF?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-4.0.0-0A84FF?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-64D2FF?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-FF453A?style=for-the-badge)
+![React](https://img.shields.io/badge/react-18.3.1-61DAFB?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/vite-6-646CFF?style=for-the-badge&logo=vite)
 ![Status](https://img.shields.io/badge/status-active-30D158?style=for-the-badge)
 ![Vercel](https://img.shields.io/badge/deployed-Vercel-black?style=for-the-badge&logo=vercel)
 
-**Cybersecurity Intelligence & Education Platform**
+**Cybersecurity Intelligence & Education Platform — v4.0 (React + AI Agent)**
 
 🌐 **Live Demo**: [ai-cyber-detective-2-0.vercel.app](https://ai-cyber-detective-2-0.vercel.app)
 
@@ -24,7 +26,19 @@
 
 ### Overview
 
-NeoTrace is a cybersecurity intelligence and education platform combining interactive learning with real-world threat detection tools. It features an Apple-inspired minimalist design with frosted glass UI, bilingual support (EN/中文), live cybersecurity news, and a full suite of forensic analysis tools including phone number intelligence.
+NeoTrace is a cybersecurity intelligence and education platform combining interactive learning with real-world threat detection tools. v4.0 introduces a full **React 18 + Vite 6** frontend with **20+ reusable components**, three React Contexts for global state, an upgraded **ASI-1 AI Agent** capable of answering any cybersecurity question, and **Jest unit tests** covering all key components.
+
+### What's New in v4.0
+
+| Change | Details |
+|--------|---------|
+| **⚛️ React 18 Frontend** | Full migration from HTML/JS to React + Vite with lazy-loaded routes |
+| **🤖 AI Agent Upgrade** | ChatGPT/ASI-1 now answers ANY cybersecurity question with multi-turn conversation context |
+| **🧩 20+ Components** | KPICard, RiskBar, StrengthBar, AuthBadge, FlagList, Chatbot, Navbar, UploadArea, and more |
+| **🗂 React Contexts** | ThemeContext (dark/light), I18nContext (EN/ZH), ChatbotContext (chat state + retries) |
+| **🔐 4 New Tools** | Password Checker, Email Analyzer, Wi-Fi Scanner, QR Code Scanner |
+| **🧪 Jest Tests** | 12 test files — UI components, contexts, i18n, chatbot offline fallback |
+| **⚡ Retry Logic** | Chatbot: 2 retries with exponential backoff, graceful offline fallback |
 
 ### Key Features
 
@@ -32,12 +46,135 @@ NeoTrace is a cybersecurity intelligence and education platform combining intera
 |---------|-------------|
 | **🌍 Global Threat Dashboard** | Interactive heatmap (28 countries), top 10 scam chart, yearly trend line |
 | **📱 Phone Inspector** | Phone number intelligence — fraud score, carrier, line type (VOIP/Mobile/Landline), KPI cards, risk radar chart |
-| **📰 Cybersecurity News Feed** | 10 latest articles from The Hacker News RSS with auto-summaries |
-| **📅 Calendar Widget** | Home page calendar for tracking cybersecurity events |
-| **📖 Story-Based Learning** | 4 interactive chapters following Alex through realistic scam scenarios |
-| **🎮 Gamified Training** | 5 difficulty tiers, 15+ scenarios, global leaderboard with streak multipliers |
-| **🖼️ Image Forensics** | AI generation detection, EXIF metadata analysis, compression artifact scanning |
 | **🔗 URL Threat Scanner** | Domain reputation check, SSL evaluation, phishing pattern detection |
+| **🖼️ Image Forensics** | AI generation detection, EXIF metadata analysis, compression artifact scanning |
+| **📰 Content Verifier** | Credibility scoring, clickbait detection, sentiment analysis, fact-check flagging |
+| **🔑 Password Checker** | Local entropy/crack-time calculation, strength bar, criteria grid, secure generator |
+| **📧 Email Analyzer** | SPF/DKIM/DMARC authentication badges, flag analysis, header inspection |
+| **📶 Wi-Fi Scanner** | Security protocol analysis (WEP/WPA/WPA2/WPA3), frequency, vendor lookup |
+| **📷 QR Code Scanner** | Upload QR image, decode URL, risk analysis via ASI-1 |
+| **📖 Story-Based Learning** | 4 interactive chapters following Alex through realistic scam scenarios |
+| **🎮 Gamified Training** | 5 difficulty tiers (11+ scenarios), local leaderboard with streak multipliers |
+| **💬 NeoTrace AI Chatbot** | Full cybersecurity expert — threat intelligence, certifications, CVEs, careers, how-to guides |
+
+### Architecture
+
+```
+AI-Cyber-Detective-2.0/
+├── server.js              # Express backend (Node.js, port 3000)
+├── src/                   # React frontend (Vite)
+│   ├── main.jsx           # App entry point
+│   ├── App.jsx            # Router (11 lazy-loaded routes)
+│   ├── index.css          # Design tokens (dark/light themes)
+│   ├── contexts/
+│   │   ├── ThemeContext.jsx    # Dark/light + localStorage
+│   │   ├── I18nContext.jsx     # EN/ZH translations (60+ keys)
+│   │   └── ChatbotContext.jsx  # Chat state, retries, offline fallback
+│   ├── hooks/
+│   │   └── useApi.js          # Generic fetch hook (JSON + FormData)
+│   ├── components/
+│   │   ├── layout/            # Navbar, Footer, MatrixBackground, PageWrapper
+│   │   └── ui/                # 20 reusable components
+│   ├── pages/                 # 11 page components (Dashboard → GameMode)
+│   └── __tests__/             # 12 Jest test files
+├── public/                # Legacy static HTML (still served)
+├── vite.config.mjs        # Vite config (proxy /api → :3000)
+├── jest.config.js         # Jest (jsdom, babel-jest, CSS modules mock)
+└── babel.config.js        # Babel (@babel/preset-env + react)
+```
+
+### Installation & Development
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/LouisLouis19/AI-Cyber-Detective-2.0.git
+cd AI-Cyber-Detective-2.0
+
+# 2. Install dependencies
+npm install
+
+# 3. Set environment variable
+echo "ASI_API_KEY=your_key_here" > .env
+
+# 4. Run both servers concurrently (Express :3000 + Vite :5173)
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) for the React app, or [http://localhost:3000](http://localhost:3000) for the legacy HTML.
+
+### Scripts
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `npm run dev` | `concurrently "node server.js" "vite"` | Run both servers |
+| `npm run dev:server` | `node server.js` | Express backend only |
+| `npm run dev:client` | `vite` | Vite frontend only |
+| `npm run build` | `vite build` | Production build → `dist/` |
+| `npm run preview` | `vite preview` | Preview production build |
+| `npm test` | `jest` | Run all tests |
+| `npm run test:watch` | `jest --watch` | Watch mode |
+
+### Production Build
+
+```bash
+npm run build         # builds React to dist/
+NODE_ENV=production node server.js  # serves dist/ + /api routes
+```
+
+### Testing
+
+```bash
+npm test              # Run all 12 test suites
+npm run test:watch    # Watch mode for TDD
+```
+
+Test coverage includes:
+- **UI Components**: KPICard, RiskBar, NeonButton, StrengthBar, CriteriaCheck, FlagItem, HeroBadge, AuthBadge, DetailTable
+- **Contexts**: ThemeContext (toggle + localStorage), I18nContext (t() function + language switching), ChatbotContext (sendMessage, clearHistory, offline fallback)
+
+### AI Chatbot Capabilities
+
+The NeoTrace AI (powered by ASI-1) now handles:
+- **Any cybersecurity question** — not just platform-related topics
+- **Multi-turn conversation** — remembers the last 12 messages for context
+- **Expert domains**: Threat intelligence, malware, phishing, network security, cloud security, certifications (OSCP, CEH, CISSP), careers, CVEs, legal/compliance, privacy, practical how-to guides
+- **Retry logic**: 2 automatic retries with exponential backoff. Falls back to an offline curated answer if all retries fail.
+
+---
+
+## <a name="中文"></a> 中文
+
+### 概述
+
+NeoTrace 是一個網絡安全情報與教育平台，v4.0 全面升級為 **React 18 + Vite 6** 架構，配備 **20+ 可複用組件**、三個 React Context 全局狀態管理、升級版 **ASI-1 AI Agent**（可回答任何網絡安全問題）、以及 **Jest 單元測試**。
+
+### v4.0 新特性
+
+| 功能 | 詳情 |
+|------|------|
+| **⚛️ React 18 前端** | 全面從 HTML/JS 遷移至 React + Vite，支持懶加載路由 |
+| **🤖 AI Agent 升級** | ASI-1 現可回答任何網絡安全問題，支持多輪對話上下文 |
+| **🧩 20+ 組件** | KPICard、RiskBar、StrengthBar、AuthBadge、FlagList、Chatbot 等 |
+| **🗂 React Contexts** | ThemeContext（深色/淺色）、I18nContext（中英文）、ChatbotContext |
+| **🔐 4 個新工具** | 密碼檢測器、電郵分析器、Wi-Fi 掃描器、QR 碼掃描器 |
+| **🧪 Jest 測試** | 12 個測試文件，覆蓋 UI 組件、Contexts、聊天機器人離線回退 |
+
+### 安裝與運行
+
+```bash
+git clone https://github.com/LouisLouis19/AI-Cyber-Detective-2.0.git
+cd AI-Cyber-Detective-2.0
+npm install
+echo "ASI_API_KEY=你的密鑰" > .env
+npm run dev           # 同時啟動 Express :3000 和 Vite :5173
+```
+
+---
+
+## License
+
+MIT © 2025 NeoTrace. Built with ASI-1 AI.
+
 | **📝 Content Verifier** | Sentiment analysis, clickbait detection, credibility scoring |
 | **🌐 Bilingual** | Full EN / 中文 (Traditional Chinese) support throughout |
 
