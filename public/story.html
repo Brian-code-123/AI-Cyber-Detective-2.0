@@ -15,7 +15,7 @@
 
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="logo-icon">◉</div>
+      <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img">
       <span data-i18n="nav.logo">NeoTrace</span>
     </a>
     <ul class="nav-links">
@@ -41,6 +41,7 @@
         <button class="lang-btn active" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="zh">中文</button>
       </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀️</button>
       <button class="hamburger">☰</button>
     </div>
   </nav>
@@ -65,7 +66,8 @@
       </div>
     </section>
 
-    <div class="story-container">
+    <div class="story-grid">
+      <div class="story-main">
       <!-- Chapter 1 -->
       <div class="chapter" id="chapter1">
         <div class="chapter-number" data-i18n="story.ch1.number">CHAPTER 01</div>
@@ -184,38 +186,89 @@ Contact helpdesk@company.com for questions.</pre>
           <strong style="color: var(--accent-cyan);">🔍 Detective's Analysis:</strong><br>
           <span data-i18n="story.ch4.lesson">Social engineering manipulates human psychology.</span>
         </div>
-      </div>
+      </div><!-- /chapter4 -->
 
-      <!-- Cyber Detective Code -->
-      <div class="chapter" id="detectiveCode" style="border-color: rgba(0, 255, 65, 0.3); background: rgba(0, 255, 65, 0.03);">
-        <h2 data-i18n="story.code.title">🔍 The Cyber Detective Code</h2>
-        <div style="margin-top: 1.5rem;">
-          <div class="finding-item safe" style="font-size: 1rem;">
-            <span>1.</span>
-            <span data-i18n="story.code1">Never share passwords or verification codes with anyone</span>
-          </div>
-          <div class="finding-item safe" style="font-size: 1rem;">
-            <span>2.</span>
-            <span data-i18n="story.code2">Verify sender identity through official channels</span>
-          </div>
-          <div class="finding-item safe" style="font-size: 1rem;">
-            <span>3.</span>
-            <span data-i18n="story.code3">Don't click links in unsolicited messages</span>
-          </div>
-          <div class="finding-item safe" style="font-size: 1rem;">
-            <span>4.</span>
-            <span data-i18n="story.code4">Be suspicious of urgency and pressure tactics</span>
-          </div>
-          <div class="finding-item safe" style="font-size: 1rem;">
-            <span>5.</span>
-            <span data-i18n="story.code5">If it seems too good to be true, it probably is</span>
+      </div><!-- /story-main -->
+
+      <!-- Story Sidebar: Detective Tips -->
+      <div class="story-sidebar">
+        <div class="tip-card" style="border-color: rgba(0, 255, 65, 0.3); background: rgba(0, 255, 65, 0.03);">
+          <h3>🔍 The Cyber Detective Code</h3>
+          <div style="margin-top: 1rem;">
+            <div class="finding-item safe" style="font-size: 0.95rem;">
+              <span>1.</span>
+              <span data-i18n="story.code1">Never share passwords or verification codes with anyone</span>
+            </div>
+            <div class="finding-item safe" style="font-size: 0.95rem;">
+              <span>2.</span>
+              <span data-i18n="story.code2">Verify sender identity through official channels</span>
+            </div>
+            <div class="finding-item safe" style="font-size: 0.95rem;">
+              <span>3.</span>
+              <span data-i18n="story.code3">Don't click links in unsolicited messages</span>
+            </div>
+            <div class="finding-item safe" style="font-size: 0.95rem;">
+              <span>4.</span>
+              <span data-i18n="story.code4">Be suspicious of urgency and pressure tactics</span>
+            </div>
+            <div class="finding-item safe" style="font-size: 0.95rem;">
+              <span>5.</span>
+              <span data-i18n="story.code5">If it seems too good to be true, it probably is</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <footer class="footer">
-      <p data-i18n="footer.text">NeoTrace — Cybersecurity Intelligence Platform</p>
+        <div class="tip-card">
+          <h3>📊 Quick Stats</h3>
+          <p>Phishing attacks account for <strong style="color:var(--red)">36%</strong> of all data breaches. The average cost of a phishing attack for a mid-sized company is <strong style="color:var(--orange)">$4.76M</strong>.</p>
+        </div>
+
+        <div class="tip-card">
+          <h3>💡 Pro Tip</h3>
+          <p>Always hover over links before clicking to verify the actual URL destination. Scammers often use look-alike domains like "amaz0n.com" or "paypa1.com".</p>
+        </div>
+      </div>
+    </div><!-- /story-grid -->
+
+    <!-- NeoTrace Footer -->
+    <footer class="neo-footer">
+      <div class="neo-footer-inner">
+        <div class="neo-footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.jpeg" alt="NeoTrace">
+            <span>NeoTrace</span>
+          </a>
+          <p class="footer-desc">AI-powered cybersecurity intelligence platform. Educating the next generation of digital defenders through interactive tools and real-time threat analysis.</p>
+          <div class="neo-footer-social">
+            <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub">&#9000;</a>
+          </div>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="story.html">Story Mode</a></li>
+            <li><a href="game.html">Training Game</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Tools &amp; Connect</h4>
+          <ul>
+            <li><a href="phone-inspector.html">Phone Inspector</a></li>
+            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+            <li><a href="image-forensics.html">Image Forensics</a></li>
+            <li><a href="content-verifier.html">Text Verifier</a></li>
+            <li><a href="about.html">About Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="neo-footer-bottom">
+        <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+        <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to Top</a>
+      </div>
     </footer>
   </main>
 

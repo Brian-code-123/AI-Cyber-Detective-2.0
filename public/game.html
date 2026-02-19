@@ -14,7 +14,7 @@
 
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="logo-icon">◉</div>
+      <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img">
       <span data-i18n="nav.logo">NeoTrace</span>
     </a>
     <ul class="nav-links">
@@ -40,6 +40,7 @@
         <button class="lang-btn active" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="zh">中文</button>
       </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀️</button>
       <button class="hamburger">☰</button>
     </div>
   </nav>
@@ -54,108 +55,178 @@
       <p data-i18n="game.subtitle">Test your scam detection skills</p>
     </section>
 
-    <div class="game-container">
-      <!-- Game Header -->
-      <div class="game-header">
-        <div class="game-score">
-          <div class="score-item">
-            <div class="label" data-i18n="game.score">Score</div>
-            <div class="value" id="gameScore">0</div>
+    <div class="game-layout">
+      <!-- Main Game Area -->
+      <div class="game-main">
+        <!-- Game Header: Score + Difficulty -->
+        <div class="game-header">
+          <div class="game-score">
+            <div class="score-item">
+              <div class="label" data-i18n="game.score">Score</div>
+              <div class="value" id="gameScore">0</div>
+            </div>
+            <div class="score-item">
+              <div class="label" data-i18n="game.streak">Streak</div>
+              <div class="value" id="gameStreak">0🔥</div>
+            </div>
+            <div class="score-item">
+              <div class="label" data-i18n="game.best">Best</div>
+              <div class="value" id="gameBest">0</div>
+            </div>
+            <div class="score-item">
+              <div class="label" data-i18n="game.level">Level</div>
+              <div class="value" id="gameLevel">1/15</div>
+            </div>
           </div>
-          <div class="score-item">
-            <div class="label" data-i18n="game.streak">Streak</div>
-            <div class="value" id="gameStreak">0🔥</div>
-          </div>
-          <div class="score-item">
-            <div class="label" data-i18n="game.best">Best</div>
-            <div class="value" id="gameBest">0</div>
-          </div>
-          <div class="score-item">
-            <div class="label" data-i18n="game.level">Level</div>
-            <div class="value" id="gameLevel">1/15</div>
+
+          <div class="difficulty-selector">
+            <button class="diff-btn tier-1 active" data-tier="1" data-i18n="game.easy">Easy</button>
+            <button class="diff-btn tier-2" data-tier="2" data-i18n="game.medium">Medium</button>
+            <button class="diff-btn tier-3" data-tier="3" data-i18n="game.hard">Hard</button>
+            <button class="diff-btn tier-4" data-tier="4" data-i18n="game.expert">Expert</button>
+            <button class="diff-btn tier-5" data-tier="5" data-i18n="game.ultimate">Ultimate</button>
           </div>
         </div>
 
-        <div class="difficulty-selector">
-          <button class="diff-btn tier-1 active" data-tier="1" data-i18n="game.easy">Easy</button>
-          <button class="diff-btn tier-2" data-tier="2" data-i18n="game.medium">Medium</button>
-          <button class="diff-btn tier-3" data-tier="3" data-i18n="game.hard">Hard</button>
-          <button class="diff-btn tier-4" data-tier="4" data-i18n="game.expert">Expert</button>
-          <button class="diff-btn tier-5" data-tier="5" data-i18n="game.ultimate">Ultimate</button>
-        </div>
-      </div>
-
-      <!-- Badge Display -->
-      <div class="badge-display" id="badgeDisplay">
-        <div class="badge-emoji" id="currentBadge">🥉</div>
-        <div class="badge-info">
-          <h4 id="currentRank" data-i18n="game.trainee">Trainee</h4>
-          <p id="nextRankInfo">Score 500+ for next rank</p>
-        </div>
-        <div style="margin-left: auto;">
-          <div class="progress-bar-container" style="width: 200px;">
-            <div class="progress-bar-fill" id="rankProgress" style="width: 0%;"></div>
+        <!-- Badge Display -->
+        <div class="badge-display" id="badgeDisplay">
+          <div class="badge-emoji" id="currentBadge">🥉</div>
+          <div class="badge-info">
+            <h4 id="currentRank" data-i18n="game.trainee">Trainee</h4>
+            <p id="nextRankInfo">Score 500+ for next rank</p>
           </div>
-        </div>
-      </div>
-
-      <!-- Scenario Area -->
-      <div id="scenarioArea">
-        <div class="scenario-card" id="scenarioCard">
-          <div class="scenario-badge" id="scenarioBadge" style="background: rgba(0,255,65,0.1); color: var(--accent-green);">
-            📧 PHISHING
-          </div>
-          <h3 id="scenarioTitle" style="font-family: 'Orbitron'; font-size: 1.1rem; margin-bottom: 1rem;"></h3>
-          <div class="scenario-content" id="scenarioContent"></div>
-          <div class="answer-buttons" id="answerButtons"></div>
-          <div class="feedback-panel" id="feedbackPanel">
-            <div class="feedback-title" id="feedbackTitle"></div>
-            <p id="feedbackText" style="color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.7;"></p>
-            <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-              <button class="cyber-btn" id="nextBtn" onclick="nextScenario()" data-i18n="game.next">NEXT SCENARIO →</button>
+          <div style="margin-left: auto;">
+            <div class="progress-bar-container" style="width: 200px;">
+              <div class="progress-bar-fill" id="rankProgress" style="width: 0%;"></div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Game Over -->
-      <div id="gameOver" class="hidden">
-        <div class="scenario-card" style="text-align: center;">
-          <h2 style="font-family: 'Orbitron'; color: var(--accent-green); margin-bottom: 1rem;" data-i18n="game.trainingComplete">🎉 Training Complete!</h2>
-          <div style="font-size: 4rem; margin: 1rem 0;" id="finalBadge">🥉</div>
-          <div style="font-family: 'Orbitron'; font-size: 2rem; color: var(--accent-cyan); margin-bottom: 0.5rem;" id="finalScore">0</div>
-          <div style="color: var(--text-secondary); margin-bottom: 2rem;" id="finalRank">Trainee</div>
-          
-          <div class="input-group" style="max-width: 300px; margin: 0 auto 1rem;">
-            <input type="text" class="cyber-input" id="playerName" placeholder="Enter your name" data-i18n="game.yourName" maxlength="20">
+        <!-- Scenario Area -->
+        <div id="scenarioArea">
+          <div class="scenario-card" id="scenarioCard">
+            <div class="scenario-badge" id="scenarioBadge" style="background: rgba(0,255,65,0.1); color: var(--accent-green);">
+              📧 PHISHING
+            </div>
+            <h3 id="scenarioTitle" style="font-family: 'Orbitron'; font-size: 1.1rem; margin-bottom: 1rem;"></h3>
+            <div class="scenario-content" id="scenarioContent"></div>
+            <div class="answer-buttons" id="answerButtons"></div>
+            <div class="feedback-panel" id="feedbackPanel">
+              <div class="feedback-title" id="feedbackTitle"></div>
+              <p id="feedbackText" style="color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.7;"></p>
+              <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                <button class="cyber-btn" id="nextBtn" onclick="nextScenario()" data-i18n="game.next">NEXT SCENARIO →</button>
+              </div>
+            </div>
           </div>
-          <button class="cyber-btn btn-cyan" onclick="submitScore()" style="max-width: 300px; margin: 0 auto 1rem;" data-i18n="game.submit">SUBMIT SCORE</button>
-          <button class="cyber-btn" onclick="restartGame()" style="max-width: 300px; margin: 0 auto;" data-i18n="game.restart">RESTART</button>
+        </div>
+
+        <!-- Game Over -->
+        <div id="gameOver" class="hidden">
+          <div class="scenario-card" style="text-align: center;">
+            <h2 style="font-family: 'Orbitron'; color: var(--accent-green); margin-bottom: 1rem;" data-i18n="game.trainingComplete">🎉 Training Complete!</h2>
+            <div style="font-size: 4rem; margin: 1rem 0;" id="finalBadge">🥉</div>
+            <div style="font-family: 'Orbitron'; font-size: 2rem; color: var(--accent-cyan); margin-bottom: 0.5rem;" id="finalScore">0</div>
+            <div style="color: var(--text-secondary); margin-bottom: 2rem;" id="finalRank">Trainee</div>
+            
+            <div class="input-group" style="max-width: 300px; margin: 0 auto 1rem;">
+              <input type="text" class="cyber-input" id="playerName" placeholder="Enter your name" data-i18n="game.yourName" maxlength="20">
+            </div>
+            <button class="cyber-btn btn-cyan" onclick="submitScore()" style="max-width: 300px; margin: 0 auto 1rem;" data-i18n="game.submit">SUBMIT SCORE</button>
+            <button class="cyber-btn" onclick="restartGame()" style="max-width: 300px; margin: 0 auto;" data-i18n="game.restart">RESTART</button>
+          </div>
+        </div>
+      </div><!-- /game-main -->
+
+      <!-- Game Sidebar -->
+      <div class="game-sidebar">
+        <div class="tip-card">
+          <h3>🏆 Leaderboard</h3>
+          <div id="leaderboardContainer">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th data-i18n="game.rank">#</th>
+                  <th data-i18n="game.player">Player</th>
+                  <th data-i18n="game.playerScore">Score</th>
+                  <th data-i18n="game.badge">Badge</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tip-card">
+          <h3>💡 Detection Tips</h3>
+          <ul style="list-style: none; padding: 0; margin: 0.75rem 0 0; display: flex; flex-direction: column; gap: 0.6rem;">
+            <li style="color: var(--text-secondary); font-size: 0.9rem;">🔗 Always check the sender's actual email address</li>
+            <li style="color: var(--text-secondary); font-size: 0.9rem;">⏰ Urgency & pressure = red flag</li>
+            <li style="color: var(--text-secondary); font-size: 0.9rem;">🎁 "Free" offers are rarely free</li>
+            <li style="color: var(--text-secondary); font-size: 0.9rem;">🔒 Legitimate companies never ask for passwords via email</li>
+            <li style="color: var(--text-secondary); font-size: 0.9rem;">📎 Be cautious with unexpected attachments</li>
+          </ul>
+        </div>
+
+        <div class="tip-card">
+          <h3>📊 Your Stats</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.9rem;">
+              <span>Games Played</span>
+              <span id="sidebarGamesPlayed" style="color: var(--accent-cyan); font-weight: 600;">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.9rem;">
+              <span>Best Score</span>
+              <span id="sidebarBestScore" style="color: var(--accent-green); font-weight: 600;">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.9rem;">
+              <span>Accuracy</span>
+              <span id="sidebarAccuracy" style="color: var(--orange); font-weight: 600;">—</span>
+            </div>
+          </div>
+        </div>
+      </div><!-- /game-sidebar -->
+    </div><!-- /game-layout -->
+
+    <!-- NeoTrace Footer -->
+    <footer class="neo-footer">
+      <div class="neo-footer-inner">
+        <div class="neo-footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.jpeg" alt="NeoTrace">
+            <span>NeoTrace</span>
+          </a>
+          <p class="footer-desc">AI-powered cybersecurity intelligence platform. Educating the next generation of digital defenders through interactive tools and real-time threat analysis.</p>
+          <div class="neo-footer-social">
+            <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub">&#9000;</a>
+          </div>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="story.html">Story Mode</a></li>
+            <li><a href="game.html">Training Game</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Tools &amp; Connect</h4>
+          <ul>
+            <li><a href="phone-inspector.html">Phone Inspector</a></li>
+            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+            <li><a href="image-forensics.html">Image Forensics</a></li>
+            <li><a href="content-verifier.html">Text Verifier</a></li>
+            <li><a href="about.html">About Us</a></li>
+          </ul>
         </div>
       </div>
-
-      <!-- Leaderboard -->
-      <div class="tool-panel" style="margin-top: 2rem;">
-        <h3 data-i18n="game.leaderboard">🏆 Leaderboard</h3>
-        <div id="leaderboardContainer">
-          <table class="leaderboard-table">
-            <thead>
-              <tr>
-                <th data-i18n="game.rank">#</th>
-                <th data-i18n="game.player">Player</th>
-                <th data-i18n="game.playerScore">Score</th>
-                <th data-i18n="game.badge">Badge</th>
-                <th data-i18n="game.date">Date</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboardBody"></tbody>
-          </table>
-        </div>
+      <div class="neo-footer-bottom">
+        <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+        <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to Top</a>
       </div>
-    </div>
-
-    <footer class="footer">
-      <p data-i18n="footer.text">NeoTrace — Cybersecurity Intelligence Platform</p>
     </footer>
   </main>
 

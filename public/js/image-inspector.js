@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/** Validate and preview the selected image file. @param {File} file */
 function handleFile(file) {
   if (!file.type.startsWith('image/')) return;
   if (file.size > 20 * 1024 * 1024) {
@@ -48,6 +49,7 @@ function handleFile(file) {
   document.getElementById('analyzeBtn').disabled = false;
 }
 
+/** Upload image to /api/analyze-image and display forensic results. */
 async function analyzeImage() {
   if (!selectedFile) return;
 
@@ -72,6 +74,7 @@ async function analyzeImage() {
   }
 }
 
+/** Render all forensic analysis panels: AI detection, EXIF, compression, forensic artifacts. @param {Object} data - API response */
 function displayResults(data) {
   document.getElementById('loadingState').classList.add('hidden');
   document.getElementById('resultsContainer').classList.remove('hidden');
@@ -144,6 +147,7 @@ function displayResults(data) {
   ).join('') || `<div class="finding-item info">ℹ️ ${t('image.noForensicAnomalies')}</div>`;
 }
 
+/** Map finding severity type to emoji icon. @param {string} type @returns {string} */
 function getIcon(type) {
   switch (type) {
     case 'danger': return '🔴';

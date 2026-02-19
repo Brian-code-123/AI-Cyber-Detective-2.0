@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/** Typewriter animation effect for chapter headers. @param {HTMLElement} element @param {string} text */
 function typeText(element, text) {
   element.textContent = '';
   element.style.borderRight = '2px solid var(--accent-green)';

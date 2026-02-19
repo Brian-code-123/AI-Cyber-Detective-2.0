@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   Chart.defaults.borderColor = 'rgba(255,255,255,0.04)';
   Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif";
 
+  // ── Fetch AI-powered real-time stats ───────────────
+  loadAIStats();
+
   // ===== 1. Top 10 Scam Types (Horizontal Bar) =====
   const topScamsCtx = document.getElementById('topScamsChart');
   if (topScamsCtx) {
@@ -294,4 +297,40 @@ function renderNews(container, items) {
       </a>
     `;
   }).join('');
+}
+
+// ==================== AI-POWERED STATS ====================
+// Fetches real-time cybersecurity stats from the AI endpoint
+// and updates the hero stat counter elements on the dashboard
+async function loadAIStats() {
+  try {
+    const res = await fetch('/api/stats');
+    if (!res.ok) return;
+    const stats = await res.json();
+
+    // Map stat keys to data-count attribute selectors
+    const statEls = document.querySelectorAll('.stat-number[data-count]');
+    if (!statEls.length) return;
+
+    // Update counter targets from AI data
+    statEls.forEach(el => {
+      const suffix = el.dataset.suffix || '';
+      const prefix = el.dataset.prefix || '';
+
+      if (suffix === 'K' && stats.scamsReported) {
+        el.dataset.count = stats.scamsReported;
+      } else if (!suffix && !prefix && stats.countriesAffected) {
+        el.dataset.count = stats.countriesAffected;
+      } else if (prefix === '$' && suffix === 'B' && stats.moneyLost) {
+        el.dataset.count = stats.moneyLost;
+      } else if (suffix === 'M' && stats.usersProtected) {
+        el.dataset.count = stats.usersProtected;
+      }
+    });
+
+    // Re-trigger counter animations with new values
+    if (typeof animateCounters === 'function') animateCounters();
+  } catch (e) {
+    console.log('Using default stats (AI unavailable)');
+  }
 }

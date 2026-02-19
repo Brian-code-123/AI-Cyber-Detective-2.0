@@ -1,4 +1,10 @@
-// === Text Verifier ===
+// =====================================================
+// NeoTrace — Content Verifier (Text Analysis)
+// Handles: text submission, credibility arc,
+//          content stats, sentiment, misinformation
+// =====================================================
+
+/** Submit text to /api/verify-text and render credibility, sentiment, and findings. */
 async function verifyText() {
   const text = document.getElementById('textInput').value.trim();
   if (!text) { alert(t('error.pasteText')); return; }
@@ -23,6 +29,7 @@ async function verifyText() {
   }
 }
 
+/** Render text analysis: credibility arc, content stats table, sentiment, and findings. @param {Object} data - API response */
 function renderTextResults(data) {
   document.getElementById('textResults').classList.remove('hidden');
 
@@ -116,3 +123,20 @@ function renderTextResults(data) {
     });
   }
 }
+
+// Auto-suggest for text verifier input
+document.addEventListener('DOMContentLoaded', () => {
+  const textInput = document.getElementById('textInput');
+  if (textInput && typeof initAutoSuggest === 'function') {
+    initAutoSuggest(textInput, [
+      'Congratulations! You won a free iPhone',
+      'Your account has been compromised, click here',
+      'Dear customer, verify your bank details',
+      'URGENT: Your package delivery failed',
+      'You have been selected for a $1000 gift card',
+      'Please confirm your identity by clicking below',
+      'Investment opportunity: 500% return guaranteed',
+      'Official notice from the tax department'
+    ]);
+  }
+});

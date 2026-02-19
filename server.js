@@ -666,14 +666,117 @@ function fetchURL(targetUrl) {
   });
 }
 
+// ==================== REAL-TIME DASHBOARD STATS (AI) ====================
+// Cache stats for 24 hours to avoid excessive API calls
+let statsCache = { data: null, timestamp: 0 };
+const STATS_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+app.get('/api/stats', async (req, res) => {
+  const now = Date.now();
+  // Return cached data if still valid
+  if (statsCache.data && (now - statsCache.timestamp) < STATS_TTL) {
+    return res.json(statsCache.data);
+  }
+
+  try {
+    const prompt = `You are a cybersecurity data analyst. Return a JSON object with the latest approximate global cybersecurity statistics for ${new Date().getFullYear()}. The JSON must have exactly these keys:
+- "scamsReported": number (total scam reports worldwide, approx, in thousands, e.g. 920)
+- "scamsReportedSuffix": "K"  
+- "countriesAffected": number (countries with significant cybercrime, e.g. 195)
+- "moneyLost": number (total money lost to cybercrime in billions USD, e.g. 14.8)
+- "moneyLostPrefix": "$"
+- "moneyLostSuffix": "B"
+- "usersProtected": number (approximate users of major security platforms in millions, e.g. 2.8)
+- "usersProtectedSuffix": "M"
+- "topScams": array of 10 objects with "name" and "reports" (number in thousands)
+- "yearlyTrend": array of objects with "year" (2018-2026) and "reports" (in thousands) and "losses" (in billions)
+
+Return ONLY valid JSON, no markdown, no explanation.`;
+
+    const aiResponse = await callASI(prompt, 'You are a data analyst returning only valid JSON.');
+    // Try to parse the AI response as JSON
+    let stats;
+    try {
+      // Remove markdown code block if present
+      const cleaned = aiResponse.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+      stats = JSON.parse(cleaned);
+    } catch (parseErr) {
+      throw new Error('AI returned invalid JSON');
+    }
+
+    statsCache = { data: stats, timestamp: now };
+    res.json(stats);
+  } catch (err) {
+    console.error('Stats AI error:', err.message);
+    // Return hardcoded fallback
+    const fallback = {
+      scamsReported: 920, scamsReportedSuffix: 'K',
+      countriesAffected: 195,
+      moneyLost: 14.8, moneyLostPrefix: '$', moneyLostSuffix: 'B',
+      usersProtected: 2.8, usersProtectedSuffix: 'M',
+      source: 'fallback'
+    };
+    res.json(fallback);
+  }
+});
+
 // ==================== PHONE INSPECTOR API ====================
-app.post('/api/phone/check', (req, res) => {
+// Uses Numverify API for real validation, with demo fallback
+app.post('/api/phone/check', async (req, res) => {
   const { phone } = req.body;
   if (!phone) return res.status(400).json({ error: 'Phone number required' });
 
   const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+  const NUMVERIFY_KEY = process.env.NUMVERIFY_KEY;
 
-  // Phone number database (demo)
+  // ── Try Numverify API first ──────────────────────
+  if (NUMVERIFY_KEY) {
+    try {
+      const numUrl = `http://apilayer.net/api/validate?access_key=${NUMVERIFY_KEY}&number=${encodeURIComponent(cleaned)}&format=1`;
+      const raw = await new Promise((resolve, reject) => {
+        require('http').get(numUrl, response => {
+          let data = '';
+          response.on('data', chunk => data += chunk);
+          response.on('end', () => resolve(data));
+          response.on('error', reject);
+        }).on('error', reject);
+      });
+      const nv = JSON.parse(raw);
+      if (nv && nv.valid !== undefined && !nv.error) {
+        // Build response from real Numverify data
+        const hash = [...cleaned].reduce((a, c) => a + c.charCodeAt(0), 0);
+        const isVoip = (nv.line_type || '').toLowerCase().includes('voip');
+        // Generate risk scores (Numverify free tier doesn't include these)
+        const fraudScore = nv.valid ? Math.min(85, Math.max(5, (hash * 7) % 60)) : 75;
+        const result = {
+          country: nv.country_name || 'Unknown',
+          country_code: nv.country_code || '??',
+          dial_code: nv.country_prefix || '',
+          carrier: nv.carrier || 'Unknown Carrier',
+          line_type: nv.line_type || (isVoip ? 'VOIP' : 'Mobile'),
+          location: nv.location || '',
+          international_format: nv.international_format || cleaned,
+          local_format: nv.local_format || cleaned,
+          valid: nv.valid,
+          fraud_score: fraudScore,
+          spam_risk: Math.min(90, Math.max(5, (hash * 3) % (nv.valid ? 50 : 80))),
+          voip_risk: isVoip ? Math.min(90, 60 + (hash % 30)) : Math.max(3, hash % 15),
+          recent_activity: nv.valid ? Math.min(90, Math.max(20, (hash * 11) % 85)) : 15,
+          carrier_trust: isVoip ? Math.max(25, 50 - (hash % 25)) : Math.min(95, 65 + (hash % 30)),
+          active_status: nv.valid ? 'Active' : 'Inactive',
+          blacklist_hits: fraudScore > 60 ? Math.floor(hash % 5) + 1 : 0,
+          email: null,
+          notes: nv.valid ? null : 'Number could not be validated — may be inactive or invalid format',
+          source: 'numverify'
+        };
+        return res.json(result);
+      }
+    } catch (err) {
+      console.error('Numverify API error, falling back to demo:', err.message);
+    }
+  }
+
+  // ── Fallback: Demo phone database ────────────────
   const phoneDB = {
     '+85291234567': { country: 'Hong Kong', country_code: 'HK', dial_code: '852', carrier: 'HKT / PCCW', line_type: 'Mobile', fraud_score: 12, spam_risk: 8, voip_risk: 5, recent_activity: 70, carrier_trust: 92, active_status: 'Active', blacklist_hits: 0, email: null, notes: null },
     '+85261234567': { country: 'Hong Kong', country_code: 'HK', dial_code: '852', carrier: 'China Mobile HK', line_type: 'Mobile', fraud_score: 65, spam_risk: 72, voip_risk: 10, recent_activity: 95, carrier_trust: 78, active_status: 'Active', blacklist_hits: 3, email: 'temp_user88@yopmail.com', notes: 'Multiple spam complaints reported in the last 30 days' },
@@ -684,10 +787,8 @@ app.post('/api/phone/check', (req, res) => {
     '+81901234567': { country: 'Japan', country_code: 'JP', dial_code: '81', carrier: 'NTT Docomo', line_type: 'Mobile', fraud_score: 8, spam_risk: 5, voip_risk: 3, recent_activity: 65, carrier_trust: 95, active_status: 'Active', blacklist_hits: 0, email: null, notes: null }
   };
 
-  // Check if number exists in DB, otherwise generate
   let result = phoneDB[cleaned];
   if (!result) {
-    // Generate realistic demo data based on number pattern
     const hash = [...cleaned].reduce((a, c) => a + c.charCodeAt(0), 0);
     const isVoip = hash % 5 === 0;
     const fraudScore = Math.min(95, Math.max(5, (hash * 7) % 100));
@@ -698,17 +799,14 @@ app.post('/api/phone/check', (req, res) => {
       { country: 'Taiwan', code: 'TW', dial: '886', carriers: ['Chunghwa Telecom', 'FarEasTone', 'Taiwan Mobile'] },
       { country: 'Singapore', code: 'SG', dial: '65', carriers: ['Singtel', 'StarHub', 'M1'] }
     ];
-    // Detect country from prefix
-    let geo = countries[0]; // default HK
+    let geo = countries[0];
     if (cleaned.startsWith('+1')) geo = countries[1];
     else if (cleaned.startsWith('+44')) geo = countries[2];
     else if (cleaned.startsWith('+886')) geo = countries[3];
     else if (cleaned.startsWith('+65')) geo = countries[4];
 
     result = {
-      country: geo.country,
-      country_code: geo.code,
-      dial_code: geo.dial,
+      country: geo.country, country_code: geo.code, dial_code: geo.dial,
       carrier: geo.carriers[hash % geo.carriers.length],
       line_type: isVoip ? 'VOIP' : (hash % 3 === 0 ? 'Landline' : 'Mobile'),
       fraud_score: fraudScore,
@@ -719,8 +817,11 @@ app.post('/api/phone/check', (req, res) => {
       active_status: hash % 4 === 0 ? 'Inactive' : 'Active',
       blacklist_hits: fraudScore > 60 ? Math.floor(hash % 8) + 1 : (fraudScore > 30 ? hash % 3 : 0),
       email: fraudScore > 50 ? `user${hash % 999}@tempmail.net` : null,
-      notes: fraudScore > 70 ? 'Number flagged in multiple fraud databases' : (fraudScore > 40 ? 'Moderate risk — exercise caution' : null)
+      notes: fraudScore > 70 ? 'Number flagged in multiple fraud databases' : (fraudScore > 40 ? 'Moderate risk — exercise caution' : null),
+      source: 'demo'
     };
+  } else {
+    result.source = 'demo';
   }
 
   res.json(result);

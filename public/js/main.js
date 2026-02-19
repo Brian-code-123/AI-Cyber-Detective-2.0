@@ -1,8 +1,26 @@
 // =====================================================
 // NeoTrace — Main Shared JavaScript
+// Handles: navigation, theme toggle, counters,
+//          scroll reveal, calendar, auto-suggest
 // =====================================================
 
-// Mobile Nav Toggle
+// ── Dark / Light Theme Toggle ──────────────────────
+function initThemeToggle() {
+  const saved = localStorage.getItem('neotrace-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+  btn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('neotrace-theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+}
+
+// ── Mobile Nav Toggle ──────────────────────────────
 function initNavToggle() {
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
@@ -16,7 +34,7 @@ function initNavToggle() {
   }
 }
 
-// Animate stat numbers
+/** Animate stat counter elements using IntersectionObserver. Eases in using cubic bezier and supports float/int values with prefix/suffix. */
 function animateCounters() {
   document.querySelectorAll('.stat-number[data-count]').forEach(el => {
     const target = parseFloat(el.dataset.count);
@@ -44,7 +62,7 @@ function animateCounters() {
   });
 }
 
-// Scroll reveal animation
+/** Observe elements for scroll-triggered fade-in animation via .visible class. */
 function initScrollReveal() {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -59,7 +77,7 @@ function initScrollReveal() {
   });
 }
 
-// Active nav link
+/** Highlight the current page link in the navbar by matching pathname. */
 function setActiveNavLink() {
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(link => {
@@ -84,6 +102,7 @@ function changeMonth(delta) {
   renderCalendar();
 }
 
+/** Render the calendar grid for the current month with today highlighted. */
 function renderCalendar() {
   const monthEl = document.getElementById('calendarMonth');
   const daysEl = document.getElementById('calendarDays');
@@ -121,13 +140,75 @@ function renderCalendar() {
 }
 
 // =====================================================
+// Auto-Suggest Component
+// Usage: initAutoSuggest(inputEl, suggestions[])
+// =====================================================
+function initAutoSuggest(inputEl, suggestions) {
+  if (!inputEl) return;
+  // Wrap input for dropdown positioning
+  const wrapper = document.createElement('div');
+  wrapper.className = 'suggest-wrapper';
+  inputEl.parentNode.insertBefore(wrapper, inputEl);
+  wrapper.appendChild(inputEl);
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'suggest-dropdown';
+  wrapper.appendChild(dropdown);
+
+  let activeIdx = -1;
+
+  function render(filtered) {
+    activeIdx = -1;
+    if (!filtered.length) { dropdown.classList.remove('show'); return; }
+    dropdown.innerHTML = filtered.map((s, i) =>
+      `<div class="suggest-item" data-idx="${i}">${s}</div>`
+    ).join('');
+    dropdown.classList.add('show');
+    dropdown.querySelectorAll('.suggest-item').forEach(item => {
+      item.addEventListener('mousedown', e => {
+        e.preventDefault();
+        inputEl.value = item.textContent;
+        dropdown.classList.remove('show');
+        inputEl.dispatchEvent(new Event('input'));
+      });
+    });
+  }
+
+  inputEl.addEventListener('input', () => {
+    const val = inputEl.value.trim().toLowerCase();
+    if (!val) { dropdown.classList.remove('show'); return; }
+    const filtered = suggestions.filter(s => s.toLowerCase().includes(val)).slice(0, 8);
+    render(filtered);
+  });
+
+  inputEl.addEventListener('focus', () => {
+    if (inputEl.value.trim()) inputEl.dispatchEvent(new Event('input'));
+  });
+
+  inputEl.addEventListener('blur', () => {
+    setTimeout(() => dropdown.classList.remove('show'), 150);
+  });
+
+  inputEl.addEventListener('keydown', e => {
+    const items = dropdown.querySelectorAll('.suggest-item');
+    if (!items.length || !dropdown.classList.contains('show')) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, items.length - 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); }
+    else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); inputEl.value = items[activeIdx].textContent; dropdown.classList.remove('show'); return; }
+    else if (e.key === 'Escape') { dropdown.classList.remove('show'); return; }
+    items.forEach((it, i) => it.classList.toggle('active', i === activeIdx));
+  });
+}
+
+// =====================================================
 // Initialize
 // =====================================================
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initNavToggle();
   animateCounters();
   initScrollReveal();
   setActiveNavLink();
   initCalendar();
-  initI18n();
+  if (typeof initI18n === 'function') initI18n();
 });

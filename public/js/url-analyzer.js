@@ -1,4 +1,10 @@
-// === URL Analyzer ===
+// =====================================================
+// NeoTrace — URL Threat Analyzer
+// Handles: URL submission, risk arc animation,
+//          domain analysis table, security findings
+// =====================================================
+
+/** Submit URL to /api/analyze-url and render risk score, domain info, and findings. */
 async function analyzeUrl() {
   const input = document.getElementById('urlInput').value.trim();
   if (!input) { alert(t('error.enterUrl')); return; }
@@ -23,6 +29,7 @@ async function analyzeUrl() {
   }
 }
 
+/** Render URL analysis results: risk arc, domain table, and security findings. @param {Object} data - API response */
 function renderUrlResults(data) {
   document.getElementById('urlResults').classList.remove('hidden');
 
@@ -90,7 +97,28 @@ function renderUrlResults(data) {
   }
 }
 
-// Allow Enter key to trigger analysis
-document.getElementById('urlInput')?.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') analyzeUrl();
+// Allow Enter key to trigger analysis + auto-suggest
+document.addEventListener('DOMContentLoaded', () => {
+  const urlInput = document.getElementById('urlInput');
+  if (urlInput) {
+    urlInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') analyzeUrl();
+    });
+    // Auto-suggest common URL prefixes and domains
+    if (typeof initAutoSuggest === 'function') {
+      initAutoSuggest(urlInput, [
+        'https://',
+        'http://',
+        'https://www.google.com',
+        'https://www.facebook.com',
+        'https://www.amazon.com',
+        'https://bit.ly/',
+        'https://tinyurl.com/',
+        'https://t.co/',
+        'http://suspicious-site.xyz',
+        'https://paypal-verify.phishing.example',
+        'https://login-secure-bank.scam.example'
+      ]);
+    }
+  }
 });

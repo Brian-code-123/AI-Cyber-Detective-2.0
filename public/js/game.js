@@ -242,6 +242,7 @@ const rankThresholds = [
   { min: 2500, badge: '👑', rank: 'Elite Detective', rankKey: 'game.rankElite', next: null }
 ];
 
+/** Get the rank object (badge, title, threshold) for a given score. @param {number} score @returns {Object} */
 function getCurrentRank(score) {
   for (let i = rankThresholds.length - 1; i >= 0; i--) {
     if (score >= rankThresholds[i].min) return rankThresholds[i];
@@ -249,6 +250,7 @@ function getCurrentRank(score) {
   return rankThresholds[0];
 }
 
+/** Shuffle and build the scenario queue filtered by current difficulty tier. */
 function buildScenarioQueue() {
   const tierScenarios = scenarios.filter(s => s.tier === gameState.currentTier);
   // Shuffle
@@ -260,6 +262,7 @@ function buildScenarioQueue() {
   gameState.currentIndex = 0;
 }
 
+/** Render the current scenario to the DOM (badge, title, content, answer buttons). */
 function displayScenario() {
   const scenario = gameState.scenarioQueue[gameState.currentIndex];
   if (!scenario) {
@@ -292,6 +295,7 @@ function displayScenario() {
   document.getElementById('gameLevel').textContent = `${gameState.currentIndex + 1}/${total}`;
 }
 
+/** Process answer selection: calculate score with streak multiplier, show feedback. @param {number} index - Button index @param {boolean} correct - Whether the answer is correct */
 function handleAnswer(index, correct) {
   if (gameState.answered) return;
   gameState.answered = true;
@@ -348,6 +352,7 @@ function nextScenario() {
   }
 }
 
+/** Show the game-over screen with final badge, score, and rank. */
 function endGame() {
   document.getElementById('scenarioArea').classList.add('hidden');
   document.getElementById('gameOver').classList.remove('hidden');
@@ -358,6 +363,7 @@ function endGame() {
   document.getElementById('finalRank').textContent = t(rank.rankKey);
 }
 
+/** Reset all game state and restart from the beginning. */
 function restartGame() {
   gameState.score = 0;
   gameState.streak = 0;
@@ -373,6 +379,7 @@ function restartGame() {
   updateUI();
 }
 
+/** Sync the DOM (score display, streak, badge, rank progress) with current game state. */
 function updateUI() {
   document.getElementById('gameScore').textContent = gameState.score;
   document.getElementById('gameStreak').textContent = gameState.streak + '🔥';
@@ -392,6 +399,7 @@ function updateUI() {
   }
 }
 
+/** Submit the player's name and score to the server leaderboard API. */
 async function submitScore() {
   const name = document.getElementById('playerName').value.trim();
   if (!name) {
@@ -417,6 +425,7 @@ async function submitScore() {
   }
 }
 
+/** Fetch and render the leaderboard table from /api/leaderboard. */
 async function loadLeaderboard() {
   try {
     const res = await fetch('/api/leaderboard');
@@ -445,6 +454,7 @@ async function loadLeaderboard() {
   }
 }
 
+/** Sanitize text to prevent XSS in innerHTML. @param {string} text @returns {string} */
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;

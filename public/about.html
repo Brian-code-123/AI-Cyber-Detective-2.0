@@ -14,7 +14,7 @@
 
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="logo-icon">◉</div>
+      <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img">
       <span data-i18n="nav.logo">NeoTrace</span>
     </a>
     <ul class="nav-links">
@@ -40,6 +40,7 @@
         <button class="lang-btn active" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="zh">中</button>
       </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">☀️</button>
       <button class="hamburger" id="menuToggle">☰</button>
     </div>
   </nav>
@@ -51,69 +52,109 @@
     </section>
 
     <div class="about-section">
+      <div class="about-grid">
 
-      <div class="about-card">
-        <h3 data-i18n="about.mission.title">🎯 Mission</h3>
-        <p data-i18n="about.mission.desc">NeoTrace was built to make cybersecurity knowledge accessible to everyone. In a world where digital threats evolve daily, we believe that education and practical tools should be free, engaging, and powered by cutting-edge AI. Our mission is to empower individuals and organizations with the intelligence they need to stay safe online.</p>
-      </div>
-
-      <div class="about-card">
-        <h3 data-i18n="about.platform.title">🔧 The Platform</h3>
-        <p data-i18n="about.platform.desc">NeoTrace combines real-time threat intelligence with interactive education. From our AI-powered URL Scanner and Image Forensics to Story Mode and Training Games, every feature is designed to teach cybersecurity concepts through hands-on experience. Our platform integrates ASI-1 AI (Fetch.ai) for agentic, Web3-ready intelligence analysis.</p>
-      </div>
-
-      <div class="about-card">
-        <h3 data-i18n="about.tech.title">⚡ Technology Stack</h3>
-        <p data-i18n="about.tech.desc">Built with modern web technologies for performance, security, and scalability.</p>
-        <div class="tech-tags">
-          <span class="tech-tag">Node.js</span>
-          <span class="tech-tag">Express.js</span>
-          <span class="tech-tag">Chart.js</span>
-          <span class="tech-tag">Leaflet.js</span>
-          <span class="tech-tag">ASI-1 AI (Fetch.ai)</span>
-          <span class="tech-tag">Bootstrap 5</span>
-          <span class="tech-tag">Vercel</span>
-          <span class="tech-tag">GitHub</span>
-          <span class="tech-tag">REST APIs</span>
-          <span class="tech-tag">i18n (EN/ZH)</span>
+        <div class="about-card">
+          <h3 data-i18n="about.mission.title">🎯 Mission</h3>
+          <p data-i18n="about.mission.desc">NeoTrace was built to make cybersecurity knowledge accessible to everyone. In a world where digital threats evolve daily, we believe that education and practical tools should be free, engaging, and powered by cutting-edge AI. Our mission is to empower individuals and organizations with the intelligence they need to stay safe online.</p>
         </div>
-      </div>
 
-      <div class="about-card">
-        <h3 data-i18n="about.creator.title">👤 About the Creator</h3>
-        <p data-i18n="about.creator.desc">NeoTrace was developed as a comprehensive cybersecurity intelligence platform, combining a passion for cybersecurity with modern AI capabilities. The project demonstrates full-stack development skills, API integration, AI-powered analysis, internationalization, and responsive design — all with a focus on real-world security education.</p>
-      </div>
-
-      <div class="about-card">
-        <h3 data-i18n="about.features.title">✨ Key Features</h3>
-        <p data-i18n="about.features.desc"></p>
-        <div class="tech-tags">
-          <span class="tech-tag">🛡️ URL Threat Scanner</span>
-          <span class="tech-tag">🖼️ Image Forensics AI</span>
-          <span class="tech-tag">📝 Content Verifier</span>
-          <span class="tech-tag">📱 Phone Inspector</span>
-          <span class="tech-tag">🎮 Training Game</span>
-          <span class="tech-tag">📖 Story Mode</span>
-          <span class="tech-tag">🤖 AI Chatbot</span>
-          <span class="tech-tag">📊 Real-time Dashboard</span>
-          <span class="tech-tag">🌐 Bilingual (EN/ZH)</span>
-          <span class="tech-tag">💬 Feedback System</span>
+        <div class="about-card">
+          <h3 data-i18n="about.platform.title">🔧 The Platform</h3>
+          <p data-i18n="about.platform.desc">NeoTrace combines real-time threat intelligence with interactive education. From our AI-powered URL Scanner and Image Forensics to Story Mode and Training Games, every feature is designed to teach cybersecurity concepts through hands-on experience. Our platform integrates ASI-1 AI (Fetch.ai) for agentic, Web3-ready intelligence analysis.</p>
         </div>
-      </div>
 
-      <div class="about-card">
-        <h3>📬 Contact & Feedback</h3>
-        <p>Have suggestions, found a bug, or want to collaborate? Use the feedback button or chatbot to get in touch. You can also find the source code on GitHub.</p>
-        <div style="margin-top: 1rem; display: flex; gap: 12px; flex-wrap: wrap;">
-          <a href="https://github.com/Brian-code-123/NeoTrace" target="_blank" class="card-link" style="font-size:0.9rem">🐙 GitHub Repository →</a>
-          <button onclick="document.getElementById('feedbackOverlay').classList.add('open')" class="card-link" style="font-size:0.9rem; background:none; border:none; cursor:pointer; color:var(--accent)">💬 Send Feedback →</button>
+        <div class="about-card full-width">
+          <h3 data-i18n="about.tech.title">⚡ Technology Stack</h3>
+          <p data-i18n="about.tech.desc">Built with modern web technologies for performance, security, and scalability.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Express.js</span>
+            <span class="tech-tag">Chart.js</span>
+            <span class="tech-tag">Leaflet.js</span>
+            <span class="tech-tag">ASI-1 AI (Fetch.ai)</span>
+            <span class="tech-tag">Numverify API</span>
+            <span class="tech-tag">Bootstrap 5</span>
+            <span class="tech-tag">Vercel</span>
+            <span class="tech-tag">GitHub</span>
+            <span class="tech-tag">REST APIs</span>
+            <span class="tech-tag">i18n (EN/ZH)</span>
+          </div>
         </div>
-      </div>
 
+        <div class="about-card">
+          <h3 data-i18n="about.creator.title">👤 About the Creator</h3>
+          <p data-i18n="about.creator.desc">NeoTrace was developed as a comprehensive cybersecurity intelligence platform, combining a passion for cybersecurity with modern AI capabilities. The project demonstrates full-stack development skills, API integration, AI-powered analysis, internationalization, and responsive design — all with a focus on real-world security education.</p>
+        </div>
+
+        <div class="about-card">
+          <h3 data-i18n="about.features.title">✨ Key Features</h3>
+          <p data-i18n="about.features.desc"></p>
+          <div class="tech-tags">
+            <span class="tech-tag">🛡️ URL Threat Scanner</span>
+            <span class="tech-tag">🖼️ Image Forensics AI</span>
+            <span class="tech-tag">📝 Content Verifier</span>
+            <span class="tech-tag">📱 Phone Inspector</span>
+            <span class="tech-tag">🎮 Training Game</span>
+            <span class="tech-tag">📖 Story Mode</span>
+            <span class="tech-tag">🤖 AI Chatbot</span>
+            <span class="tech-tag">📊 Real-time Dashboard</span>
+            <span class="tech-tag">🌐 Bilingual (EN/ZH)</span>
+            <span class="tech-tag">💬 Feedback System</span>
+          </div>
+        </div>
+
+        <div class="about-card full-width">
+          <h3>📬 Contact & Feedback</h3>
+          <p>Have suggestions, found a bug, or want to collaborate? Use the feedback button or chatbot to get in touch. You can also find the source code on GitHub.</p>
+          <div style="margin-top: 1rem; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="https://github.com/Brian-code-123/NeoTrace" target="_blank" class="card-link" style="font-size:0.9rem">🐙 GitHub Repository →</a>
+            <button onclick="document.getElementById('feedbackOverlay').classList.add('open')" class="card-link" style="font-size:0.9rem; background:none; border:none; cursor:pointer; color:var(--accent)">💬 Send Feedback →</button>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <footer class="footer">
-      <p data-i18n="footer.text">NeoTrace — Cybersecurity Intelligence Platform</p>
+    <!-- NeoTrace Footer -->
+    <footer class="neo-footer">
+      <div class="neo-footer-inner">
+        <div class="neo-footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.jpeg" alt="NeoTrace">
+            <span>NeoTrace</span>
+          </a>
+          <p class="footer-desc">AI-powered cybersecurity intelligence platform. Educating the next generation of digital defenders through interactive tools and real-time threat analysis.</p>
+          <div class="neo-footer-social">
+            <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub">&#9000;</a>
+          </div>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="story.html">Story Mode</a></li>
+            <li><a href="game.html">Training Game</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Tools &amp; Connect</h4>
+          <ul>
+            <li><a href="phone-inspector.html">Phone Inspector</a></li>
+            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+            <li><a href="image-forensics.html">Image Forensics</a></li>
+            <li><a href="content-verifier.html">Text Verifier</a></li>
+            <li><a href="about.html">About Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="neo-footer-bottom">
+        <p>&copy; 2025 NeoTrace. Built with ASI-1 AI. All rights reserved.</p>
+        <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to Top</a>
+      </div>
     </footer>
   </main>
 

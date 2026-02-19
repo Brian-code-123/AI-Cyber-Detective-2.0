@@ -24,6 +24,7 @@ function riskLabel(score) {
 }
 
 /* ─── Main Function ─── */
+/** Fetch phone analysis from /api/phone/check and render KPI, radar, and details. */
 async function checkPhone() {
   const input = document.getElementById('phoneInput');
   const phone = input.value.trim();
@@ -56,6 +57,7 @@ async function checkPhone() {
 }
 
 /* ─── KPI Cards ─── */
+/** Render the 6 KPI metric cards (country, carrier, line type, risk, activity, blacklist). @param {Object} d - Phone analysis data from API */
 function renderKPI(d) {
   const grid = document.getElementById('kpiGrid');
   const cards = [
@@ -124,6 +126,7 @@ function lineTypeColor(type) {
 }
 
 /* ─── Radar Chart ─── */
+/** Create/update the Chart.js radar chart for the phone risk profile. @param {Object} d - Phone data */
 function renderRadar(d) {
   const ctx = document.getElementById('riskRadar').getContext('2d');
   if (radarChart) radarChart.destroy();
@@ -180,6 +183,7 @@ function renderRadar(d) {
 }
 
 /* ─── Details Panel ─── */
+/** Render the detailed findings panel with Numverify data and source badge. @param {Object} d - Phone data */
 function renderDetails(d) {
   const panel = document.getElementById('detailsPanel');
   const riskClass = d.fraud_score >= 75 ? 'danger' : d.fraud_score >= 40 ? 'warning' : 'safe';
@@ -204,6 +208,24 @@ function renderDetails(d) {
       <strong>${t('phone.country')}:</strong> ${getFlag(d.country_code)} ${d.country || 'Unknown'} (+${d.dial_code || '?'})
     </div>
 
+    ${d.location ? `
+    <div class="finding-item info">
+      <strong>📍 Location:</strong> ${d.location}
+    </div>
+    ` : ''}
+
+    ${d.international_format ? `
+    <div class="finding-item info">
+      <strong>🌐 International Format:</strong> ${d.international_format}
+    </div>
+    ` : ''}
+
+    ${d.valid !== undefined ? `
+    <div class="finding-item ${d.valid ? 'safe' : 'danger'}">
+      <strong>✅ Valid Number:</strong> ${d.valid ? 'Yes — Verified' : 'No — Invalid or unreachable'}
+    </div>
+    ` : ''}
+
     ${d.email ? `
     <div class="finding-item ${d.email.includes('temp') ? 'warning' : 'info'}">
       <strong>${t('phone.email')}:</strong> ${d.email}
@@ -219,15 +241,40 @@ function renderDetails(d) {
       <strong>⚠️ Notes:</strong> ${d.notes}
     </div>
     ` : ''}
+
+    <div class="finding-item info" style="margin-top: 0.8rem; opacity: 0.6;">
+      <strong>🔄 Data Source:</strong> ${d.source === 'numverify' ? 'Numverify API (Real-time)' : 'NeoTrace Demo Database'}
+    </div>
   `;
 }
 
-/* ─── Enter key support ─── */
+/* ─── Enter key & Auto-suggest ─── */
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('phoneInput');
   if (input) {
     input.addEventListener('keydown', e => {
       if (e.key === 'Enter') checkPhone();
     });
+    // Auto-suggest common country prefixes
+    if (typeof initAutoSuggest === 'function') {
+      initAutoSuggest(input, [
+        '+852 (Hong Kong)',
+        '+1 (United States)',
+        '+44 (United Kingdom)',
+        '+86 (China)',
+        '+81 (Japan)',
+        '+82 (South Korea)',
+        '+886 (Taiwan)',
+        '+65 (Singapore)',
+        '+61 (Australia)',
+        '+49 (Germany)',
+        '+33 (France)',
+        '+91 (India)',
+        '+55 (Brazil)',
+        '+7 (Russia)',
+        '+971 (UAE)',
+        '+66 (Thailand)'
+      ]);
+    }
   }
 });
