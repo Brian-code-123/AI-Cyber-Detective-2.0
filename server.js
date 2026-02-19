@@ -844,12 +844,15 @@ app.get('/api/feedback', (req, res) => {
 });
 
 // ==================== START SERVER ====================
-app.listen(PORT, () => {
-  console.log(`\n◉ NeoTrace is running!`);
-  console.log(`🌐 Open: http://localhost:${PORT}`);
-  console.log(`📡 Server started at ${new Date().toLocaleString()}`);
-  console.log(`🤖 ASI-1 API: ${ASI_API_KEY ? 'Configured ✓' : 'Not configured'}\n`);
-});
+// Only start HTTP server when running locally (not on Vercel serverless)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n◉ NeoTrace is running!`);
+    console.log(`🌐 Open: http://localhost:${PORT}`);
+    console.log(`📡 Server started at ${new Date().toLocaleString()}`);
+    console.log(`🤖 ASI-1 API: ${ASI_API_KEY ? 'Configured ✓' : 'Not configured — set ASI_API_KEY env var'}\n`);
+  });
+}
 
-// Export for Vercel serverless
+// Export for Vercel serverless (required)
 module.exports = app;

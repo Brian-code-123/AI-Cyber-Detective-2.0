@@ -937,29 +937,141 @@ textarea.cyber-input { min-height: 150px; resize: vertical; font-family: inherit
 .page-hero p { font-size: 1.05rem; color: var(--text-tertiary); max-width: 600px; margin: 0 auto; }
 
 .resource-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.2rem; padding: 0 2rem 3rem; max-width: 1200px; margin: 0 auto;
+  display: flex; flex-direction: column;
+  gap: 0; padding: 0 2rem 3rem; max-width: 960px; margin: 0 auto;
 }
 .resource-card {
   background: var(--glass-bg);
   backdrop-filter: saturate(150%) blur(20px);
   border: 1px solid var(--glass-border);
-  border-radius: 16px; padding: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 0; padding: 1.4rem 1.8rem;
+  border-bottom: none;
+  transition: background 0.15s;
 }
-.resource-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-.resource-card .card-emoji { font-size: 2rem; margin-bottom: 0.6rem; }
-.resource-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
-.resource-card .card-subtitle { font-size: 0.82rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
-.resource-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.8rem; }
-.resource-card .card-meta { font-size: 0.78rem; color: var(--text-muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.resource-card:first-child { border-radius: 16px 16px 0 0; }
+.resource-card:last-child  { border-radius: 0 0 16px 16px; border-bottom: 1px solid var(--glass-border); }
+.resource-card:only-child  { border-radius: 16px; border-bottom: 1px solid var(--glass-border); }
+.resource-card:hover { background: rgba(255,255,255,0.045); }
+.resource-card .card-row { display: flex; align-items: flex-start; gap: 1.2rem; }
+.resource-card .card-emoji { font-size: 1.6rem; line-height: 1; flex-shrink: 0; padding-top: 2px; }
+.resource-card .card-body { flex: 1; min-width: 0; }
+.resource-card h3 { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem; }
+.resource-card .card-subtitle { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.4rem; }
+.resource-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.6rem; }
+.resource-card .card-meta { font-size: 0.82rem; color: var(--text-muted); display: flex; gap: 16px; flex-wrap: wrap; }
 .resource-card .card-meta span { display: flex; align-items: center; gap: 4px; }
+.resource-card .card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 140px; flex-shrink: 0; }
+.resource-card .salary-badge {
+  padding: 4px 12px; border-radius: 20px;
+  background: rgba(52,199,89,0.12); border: 1px solid rgba(52,199,89,0.2);
+  font-size: 0.82rem; font-weight: 600; color: var(--green); white-space: nowrap;
+}
+.resource-card .level-badge {
+  padding: 3px 10px; border-radius: 20px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.75rem; color: var(--text-muted);
+}
 .resource-card .card-link {
   display: inline-flex; align-items: center; gap: 4px;
   font-size: 0.85rem; font-weight: 600; color: var(--accent);
-  text-decoration: none; transition: gap 0.2s;
+  text-decoration: none; transition: gap 0.2s; margin-top: 4px;
 }
 .resource-card .card-link:hover { gap: 8px; }
+
+/* Careers table */
+.careers-table {
+  width: 100%;
+  border-collapse: separate; border-spacing: 0;
+}
+.careers-table thead th {
+  padding: 10px 16px; text-align: left;
+  font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.careers-table thead th:first-child { border-radius: 12px 0 0 0; }
+.careers-table thead th:last-child  { border-radius: 0 12px 0 0; }
+.careers-table tbody tr {
+  transition: background 0.15s; cursor: default;
+}
+.careers-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.careers-table tbody td {
+  padding: 14px 16px;
+  font-size: 0.9rem; color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+}
+.careers-table tbody td:first-child { font-weight: 600; color: var(--text-primary); }
+.careers-table .badge-level {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+}
+.badge-entry  { background: rgba(52,199,89,0.12); color: var(--green); }
+.badge-mid    { background: rgba(10,132,255,0.12); color: var(--accent); }
+.badge-senior { background: rgba(191,90,242,0.12); color: var(--purple); }
+.badge-exec   { background: rgba(255,159,10,0.12); color: var(--orange); }
+.careers-table .salary-text { color: var(--green); font-weight: 600; font-size: 0.85rem; }
+
+/* ── Careers page layout ─────────────────────────────── */
+.page-section { max-width: 960px; margin: 0 auto 2.5rem; padding: 0 2rem; }
+.section-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+}
+
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.mini-stat {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: 14px; padding: 1.2rem 1.4rem; text-align: center;
+}
+.mini-stat-num { font-size: 1.9rem; font-weight: 800; color: var(--accent); }
+.mini-stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+.careers-table-wrap { }
+.tbl-wrap {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: 14px; overflow: hidden; overflow-x: auto;
+}
+
+/* Level pills for careers table */
+.level-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+}
+.lv-entry  { background: rgba(52,199,89,0.14);   color: var(--green); }
+.lv-mid    { background: rgba(10,132,255,0.14);   color: var(--accent); }
+.lv-senior { background: rgba(191,90,242,0.14);   color: var(--purple); }
+.lv-exec   { background: rgba(255,159,10,0.14);   color: var(--orange); }
+
+.salary-cell { color: var(--green); font-weight: 700; white-space: nowrap; }
+.demand-bar { background: rgba(255,255,255,0.07); border-radius: 4px; width: 120px; height: 6px; }
+.demand-fill { background: var(--accent); height: 100%; border-radius: 4px; }
+.skills-cell { color: var(--text-muted); font-size: 0.8rem; max-width: 260px; }
+
+/* Info cards: career paths + companies */
+.info-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: 14px; padding: 1.4rem 1.6rem; margin-bottom: 1rem;
+}
+.info-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-primary); }
+
+.path-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.path-step {
+  background: rgba(10,132,255,0.12); border: 1px solid rgba(10,132,255,0.2);
+  border-radius: 8px; padding: 6px 14px;
+  font-size: 0.85rem; font-weight: 600; color: var(--accent);
+}
+.path-arrow { color: var(--text-muted); font-size: 1.1rem; }
+
+.company-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.company-tag {
+  padding: 5px 14px; border-radius: 20px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.82rem; color: var(--text-secondary);
+}
+
+/* ────────────────────────────────────────────────────── */
 
 .about-section { max-width: 800px; margin: 0 auto; padding: 0 2rem 3rem; }
 .about-card {
@@ -979,9 +1091,17 @@ textarea.cyber-input { min-height: 150px; resize: vertical; font-family: inherit
 
 @media (max-width: 768px) {
   .chatbot-panel { width: calc(100vw - 24px); right: 12px; bottom: 84px; }
-  .resource-grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+  .resource-grid { padding: 0 1rem 2rem; }
+  .resource-card .card-right { display: none; }
+  .careers-table { padding: 0 1rem; font-size: 0.82rem; }
+  .careers-table thead th, .careers-table tbody td { padding: 10px 10px; }
   .page-hero { padding: 3rem 1rem 1.5rem; }
   .page-hero h1 { font-size: 1.6rem; }
   .about-section { padding: 0 1rem 2rem; }
+  .page-section { padding: 0 1rem; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .demand-bar { width: 70px; }
+  .skills-cell { display: none; }
+  .path-flow { gap: 6px; }
 }
 
