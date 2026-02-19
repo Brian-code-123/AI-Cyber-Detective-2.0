@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🔐 NeoTrace — Cybersecurity Intelligence & Digital Forensics Platform
+<img src="public/images/logo.jpeg" alt="NeoTrace Logo" width="120" style="border-radius:20px; margin-bottom:12px;" />
+
+# NeoTrace — Cybersecurity Intelligence & Digital Forensics Platform
 
 ### AI-Powered Threat Detection, Security Education & Digital Intelligence Tools
 
@@ -451,7 +453,6 @@ npm run dev         # With auto-reload (requires nodemon)
 This project is open source and available under the MIT License. You are free to use, modify, and distribute this software for personal, commercial, or educational purposes.
 
 ### Attribution & Credits
-- **Design Inspiration** — Apple Inc. (design excellence)
 - **Architecture** — Express.js best practices
 - **Threat Intelligence** — Multiple cybersecurity databases
 - **Community** — Security researchers and educators
@@ -502,8 +503,12 @@ This project is open source and available under the MIT License. You are free to
 
 ## 📈 SEO Optimization & Keywords
 
+<!--
 ### Core Search Terms
 **Cybersecurity platform, threat detection, digital forensics, phone verification, URL scanner, image authentication, content verification, password checker, email security, network security, QR code analyzer, security training, cyber threat intelligence, fraud detection, phishing detection**
+-->
+
+（本專案已全面針對SEO優化，無需在README明列關鍵字，搜尋引擎會自動根據功能描述、標題、內容進行索引與排名。）
 
 ### Long-Tail SEO Keywords
 **AI-powered cybersecurity intelligence platform, real-time threat detection and analysis, digital forensics tools for professionals, phone number fraud detection, URL security scanning, image authenticity detection, content credibility verification, enterprise network security, cybersecurity education platform, threat intelligence automation**
@@ -515,8 +520,6 @@ This project is open source and available under the MIT License. You are free to
 - **Commercial** — Enterprise security solutions and professional tools
 
 ---
-
-<div align="center">
 
 ## 🌟 Support This Project
 
@@ -535,5 +538,3 @@ This project is open source and available under the MIT License. You are free to
 **Last Updated:** February 2026 | **Version:** 4.0.0 | **Status:** Active Development
 
 [🔗 Visit Platform](https://neotrace-app.vercel.app) · [📖 Read Docs](https://github.com/Brian-code-123/NeoTrace/wiki) · [🐛 Report Issues](https://github.com/Brian-code-123/NeoTrace/issues)
-
-</div>
