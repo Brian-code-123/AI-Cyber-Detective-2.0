@@ -1,143 +1,389 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crypto & Hash Challenge - NeoTrace</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
     <canvas id="matrix-canvas"></canvas>
     <nav class="navbar">
-        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="NeoTrace" class="logo-img"><span>NeoTrace</span></a>
-        <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
-            <li class="nav-dropdown active">
-                <a href="#">Game</a>
-                <div class="mega-menu game-mega">
-                    <div class="mega-col">
-                        <span class="mega-label">🎮 Game Modes</span>
-                        <a href="story.html" data-i18n="nav.story">Story Mode</a>
-                        <a href="game.html" data-i18n="nav.game">Beginner Training</a>
-                        <a href="game-intermediate.html" class="active">Crypto Challenge</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-dropdown">
-                <a href="#">For You</a>
-                <div class="mega-menu foryou-mega">
-                    <div class="mega-col">
-                        <span class="mega-label">🛠️ Tools</span>
-                        <a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a>
-                        <a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a>
-                        <a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a>
-                        <a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a>
-                        <a href="password-checker.html" data-i18n="nav.password">Password Checker</a>
-                        <a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a>
-                        <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
-                        <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
-                    </div>
-                    <div class="mega-divider"></div>
-                    <div class="mega-col">
-                        <span class="mega-label">📚 Resources</span>
-                        <a href="books.html">Books</a>
-                        <a href="youtube-learning.html">YouTube Learning</a>
-                        <a href="influencers.html">Influencers</a>
-                        <a href="cyber-fundamentals.html">Fundamentals</a>
-                    </div>
-                    <div class="mega-divider"></div>
-                    <div class="mega-col">
-                        <span class="mega-label">💼 Career</span>
-                        <a href="careers.html" data-i18n="nav.careers">Careers</a>
-                        <a href="courses.html" data-i18n="nav.courses">Courses</a>
-                        <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
-                    </div>
-                </div>
-            </li>
-            <li><a href="about.html" data-i18n="nav.about">About</a></li>
-        </ul>
-        <div class="nav-right">
-            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="zh">中文</button></div>
-            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
-            <button class="hamburger"><span></span><span></span><span></span></button>
+      <a href="index.html" class="nav-logo"
+        ><img src="images/logo.png" alt="NeoTrace" class="logo-img" /><span
+          >NeoTrace</span
+        ></a
+      >
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li class="nav-dropdown active">
+          <a href="#">Game</a>
+          <div class="mega-menu game-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="4" />
+                  <path d="M8 12h3m-1.5-1.5v3M15 11.5h.01M18 11.5h.01" /></svg
+                >Game Modes</span
+              >
+              <a href="story.html" data-i18n="nav.story">Story Mode</a>
+              <a href="game.html" data-i18n="nav.game">Beginner Training</a>
+              <a href="game-intermediate.html" class="active"
+                >Crypto Challenge</a
+              >
+            </div>
+          </div>
+        </li>
+        <li class="nav-dropdown">
+          <a href="#">For You</a>
+          <div class="mega-menu foryou-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                  /></svg
+                >Tools</span
+              >
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+              <a href="password-checker.html" data-i18n="nav.password"
+                >Password Checker</a
+              >
+              <a href="email-analyzer.html" data-i18n="nav.email"
+                >Email Analyzer</a
+              >
+              <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+              <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg
+                >Resources</span
+              >
+              <a href="books.html">Books</a>
+              <a href="youtube-learning.html">YouTube Learning</a>
+              <a href="influencers.html">Influencers</a>
+              <a href="cyber-fundamentals.html">Fundamentals</a>
+              <a href="social-engineering.html">Social Engineering Lab</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg
+                >Career</span
+              >
+              <a href="careers.html" data-i18n="nav.careers">Careers</a>
+              <a href="courses.html" data-i18n="nav.courses">Courses</a>
+              <a href="certifications.html" data-i18n="nav.certs"
+                >Certifications</a
+              >
+            </div>
+          </div>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button
+          ><button class="lang-btn" data-lang="zh">中文</button>
         </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          🌙
+        </button>
+        <button class="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </nav>
 
     <main class="main-content">
-        <section class="hero" style="padding-bottom: 1rem;">
-            <h1>🔐 Crypto & Hash Challenge</h1>
-            <p>Test your knowledge of SHA hashing, encryption, and cryptographic concepts</p>
-        </section>
+      <section class="hero" style="padding-bottom: 1rem">
+        <h1>🔐 Crypto & Hash Challenge</h1>
+        <p>
+          Test your knowledge of SHA hashing, encryption, and cryptographic
+          concepts
+        </p>
+      </section>
 
-        <div class="game-layout">
-            <div class="game-main">
-                <!-- Score & Difficulty -->
-                <div class="game-header">
-                    <div class="game-score">
-                        <div class="score-item"><div class="label">Score</div><div class="value" id="cryptoScore">0</div></div>
-                        <div class="score-item"><div class="label">Streak</div><div class="value" id="cryptoStreak">0</div></div>
-                        <div class="score-item"><div class="label">Level</div><div class="value" id="cryptoLevel">1/12</div></div>
-                    </div>
-                </div>
-
-                <!-- Scenario -->
-                <div id="cryptoScenarioArea">
-                    <div class="scenario-card" id="cryptoScenarioCard">
-                        <div class="scenario-badge" id="cryptoBadge" style="background:rgba(191,90,242,0.1);color:var(--purple);">CRYPTOGRAPHY</div>
-                        <h3 id="cryptoTitle" style="font-size:1.1rem;margin-bottom:1rem;"></h3>
-                        <div class="scenario-content" id="cryptoContent"></div>
-                        <div class="answer-buttons" id="cryptoAnswerBtns"></div>
-                        <div class="feedback-panel" id="cryptoFeedback">
-                            <div class="feedback-title" id="cryptoFeedbackTitle"></div>
-                            <p id="cryptoFeedbackText" style="color:var(--text-secondary);margin-top:0.5rem;line-height:1.7;"></p>
-                            <button class="cyber-btn" id="cryptoNextBtn" style="margin-top:1rem;">NEXT CHALLENGE</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Over -->
-                <div id="cryptoGameOver" class="hidden">
-                    <div class="scenario-card" style="text-align:center;">
-                        <h2 style="color:var(--purple);margin-bottom:1rem;">Challenge Complete!</h2>
-                        <div style="font-size:4rem;margin:1rem 0;" id="cryptoFinalBadge">🔐</div>
-                        <div style="font-size:2rem;color:var(--cyan);margin-bottom:0.5rem;" id="cryptoFinalScore">0</div>
-                        <button class="cyber-btn" onclick="startCryptoGame()" style="max-width:300px;margin:1rem auto;">RESTART</button>
-                    </div>
-                </div>
+      <div class="game-layout">
+        <div class="game-main">
+          <!-- Score & Difficulty -->
+          <div class="game-header">
+            <div class="game-score">
+              <div class="score-item">
+                <div class="label">Score</div>
+                <div class="value" id="cryptoScore">0</div>
+              </div>
+              <div class="score-item">
+                <div class="label">Streak</div>
+                <div class="value" id="cryptoStreak">0</div>
+              </div>
+              <div class="score-item">
+                <div class="label">Level</div>
+                <div class="value" id="cryptoLevel">1/12</div>
+              </div>
             </div>
+          </div>
 
-            <!-- Sidebar: Quick Reference -->
-            <div class="game-sidebar">
-                <div class="tip-card">
-                    <h3>📚 Quick Reference</h3>
-                    <div style="font-size:0.88rem;color:var(--text-secondary);line-height:1.7;">
-                        <p><strong>SHA-256</strong> — 256-bit hash, used in Bitcoin & SSL certificates</p>
-                        <p><strong>AES</strong> — Symmetric encryption standard (128/192/256-bit keys)</p>
-                        <p><strong>RSA</strong> — Asymmetric encryption using prime factorization</p>
-                        <p><strong>Diffie-Hellman</strong> — Key exchange protocol over insecure channels</p>
-                        <p><strong>bcrypt</strong> — Password hashing with built-in salt and work factor</p>
-                        <p><strong>HMAC</strong> — Keyed hash for message authentication</p>
-                    </div>
-                </div>
+          <!-- Scenario -->
+          <div id="cryptoScenarioArea">
+            <div class="scenario-card" id="cryptoScenarioCard">
+              <div
+                class="scenario-badge"
+                id="cryptoBadge"
+                style="
+                  background: rgba(191, 90, 242, 0.1);
+                  color: var(--purple);
+                "
+              >
+                CRYPTOGRAPHY
+              </div>
+              <h3
+                id="cryptoTitle"
+                style="font-size: 1.1rem; margin-bottom: 1rem"
+              ></h3>
+              <div class="scenario-content" id="cryptoContent"></div>
+              <div class="answer-buttons" id="cryptoAnswerBtns"></div>
+              <div class="feedback-panel" id="cryptoFeedback">
+                <div class="feedback-title" id="cryptoFeedbackTitle"></div>
+                <p
+                  id="cryptoFeedbackText"
+                  style="
+                    color: var(--text-secondary);
+                    margin-top: 0.5rem;
+                    line-height: 1.7;
+                  "
+                ></p>
+                <button
+                  class="cyber-btn"
+                  id="cryptoNextBtn"
+                  style="margin-top: 1rem"
+                >
+                  NEXT CHALLENGE
+                </button>
+              </div>
             </div>
+          </div>
+
+          <!-- Game Over -->
+          <div id="cryptoGameOver" class="hidden">
+            <div class="scenario-card" style="text-align: center">
+              <h2 style="color: var(--purple); margin-bottom: 1rem">
+                Challenge Complete!
+              </h2>
+              <div
+                style="font-size: 4rem; margin: 1rem 0"
+                id="cryptoFinalBadge"
+              >
+                🔐
+              </div>
+              <div
+                style="
+                  font-size: 2rem;
+                  color: var(--cyan);
+                  margin-bottom: 0.5rem;
+                "
+                id="cryptoFinalScore"
+              >
+                0
+              </div>
+              <button
+                class="cyber-btn"
+                onclick="startCryptoGame()"
+                style="max-width: 300px; margin: 1rem auto"
+              >
+                RESTART
+              </button>
+            </div>
+          </div>
         </div>
+
+        <!-- Sidebar: Quick Reference -->
+        <div class="game-sidebar">
+          <div class="tip-card">
+            <h3>📚 Quick Reference</h3>
+            <div
+              style="
+                font-size: 0.88rem;
+                color: var(--text-secondary);
+                line-height: 1.7;
+              "
+            >
+              <p>
+                <strong>SHA-256</strong> — 256-bit hash, used in Bitcoin & SSL
+                certificates
+              </p>
+              <p>
+                <strong>AES</strong> — Symmetric encryption standard
+                (128/192/256-bit keys)
+              </p>
+              <p>
+                <strong>RSA</strong> — Asymmetric encryption using prime
+                factorization
+              </p>
+              <p>
+                <strong>Diffie-Hellman</strong> — Key exchange protocol over
+                insecure channels
+              </p>
+              <p>
+                <strong>bcrypt</strong> — Password hashing with built-in salt
+                and work factor
+              </p>
+              <p>
+                <strong>HMAC</strong> — Keyed hash for message authentication
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="neo-footer">
-        <div class="neo-footer-inner"><div class="neo-footer-brand">
-            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="NeoTrace"><span>NeoTrace</span></a>
-            <p class="footer-desc">AI-powered cybersecurity intelligence platform.</p>
-        </div></div>
-        <div class="neo-footer-divider"></div>
-        <div class="neo-footer-bottom">
-            <p>&copy; 2026 NeoTrace. All rights reserved.</p>
-            <div class="neo-footer-bottom-right"><a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">📈 Back to Top</a></div>
+      <div class="neo-footer-inner">
+        <div class="neo-footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.png" alt="NeoTrace" />
+            <span>NeoTrace</span>
+          </a>
+          <p class="footer-desc">
+            All-in-One Cybersecurity Learning Hub
+          </p>
+          <div class="neo-footer-tagline">
+            <span class="dot"></span>
+            Processing 100% locally in your browser
+          </div>
+          <div class="neo-footer-social">
+            <a
+              href="https://github.com/Brian-code-123/NeoTrace"
+              target="_blank"
+              title="GitHub"
+              aria-label="GitHub"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.79 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
+        <div class="neo-footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="story.html">Story Mode</a></li>
+            <li><a href="game.html">Training Game</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="phone-inspector.html">Phone Inspector</a></li>
+            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+            <li><a href="email-analyzer.html">Email Analyzer</a></li>
+            <li><a href="image-forensics.html">Image Forensics</a></li>
+            <li><a href="content-verifier.html">Text Verifier</a></li>
+            <li><a href="password-checker.html">Password Checker</a></li>
+            <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+            <li><a href="qr-scanner.html">QR Scanner</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="youtube-learning.html">YouTube Learning</a></li>
+            <li><a href="influencers.html">Influencers</a></li>
+            <li><a href="cyber-fundamentals.html">Cyber Fundamentals</a></li>
+            <li><a href="social-engineering.html">Social Engineering</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="neo-footer-divider"></div>
+      <div class="neo-footer-bottom">
+        <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+        <div class="neo-footer-bottom-right">
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >&#8593; Back to Top</a
+          >
+        </div>
+      </div>
     </footer>
 
-    <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">🤖</button>
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      🤖
+    </button>
     <div class="chatbot-panel" id="chatbotPanel"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -145,154 +391,274 @@
     <script src="js/main.js"></script>
     <script src="js/chatbot.js"></script>
     <script>
-    // Crypto & Hash Game Engine
-    const cryptoQuestions = [
+      // Crypto & Hash Game Engine
+      const cryptoQuestions = [
         {
-            badge: "HASHING", title: "SHA-256 Output",
-            content: "What is the output length of a SHA-256 hash in hexadecimal characters?",
-            options: ["32 characters", "64 characters", "128 characters", "256 characters"],
-            correct: 1,
-            explanation: "SHA-256 produces a 256-bit hash. Since each hex character represents 4 bits, that's 256/4 = 64 hexadecimal characters. This is why SHA-256 hashes always appear as exactly 64 hex digits."
+          badge: "HASHING",
+          title: "SHA-256 Output",
+          content:
+            "What is the output length of a SHA-256 hash in hexadecimal characters?",
+          options: [
+            "32 characters",
+            "64 characters",
+            "128 characters",
+            "256 characters",
+          ],
+          correct: 1,
+          explanation:
+            "SHA-256 produces a 256-bit hash. Since each hex character represents 4 bits, that's 256/4 = 64 hexadecimal characters. This is why SHA-256 hashes always appear as exactly 64 hex digits.",
         },
         {
-            badge: "ENCRYPTION", title: "Symmetric vs Asymmetric",
-            content: "Alice wants to send a secret message to Bob over an insecure channel. They have never communicated before. Which approach should they use?",
-            options: ["AES encryption with a pre-shared key", "Diffie-Hellman key exchange followed by AES", "Just use MD5 to encrypt the message", "Send the AES key in plaintext first, then encrypt the message"],
-            correct: 1,
-            explanation: "Diffie-Hellman allows two parties to establish a shared secret over an insecure channel without prior communication. After establishing the shared secret, they can use it as an AES key for symmetric encryption. MD5 is a hash function, not encryption. Sending keys in plaintext defeats the purpose."
+          badge: "ENCRYPTION",
+          title: "Symmetric vs Asymmetric",
+          content:
+            "Alice wants to send a secret message to Bob over an insecure channel. They have never communicated before. Which approach should they use?",
+          options: [
+            "AES encryption with a pre-shared key",
+            "Diffie-Hellman key exchange followed by AES",
+            "Just use MD5 to encrypt the message",
+            "Send the AES key in plaintext first, then encrypt the message",
+          ],
+          correct: 1,
+          explanation:
+            "Diffie-Hellman allows two parties to establish a shared secret over an insecure channel without prior communication. After establishing the shared secret, they can use it as an AES key for symmetric encryption. MD5 is a hash function, not encryption. Sending keys in plaintext defeats the purpose.",
         },
         {
-            badge: "HASHING", title: "Hash Collision",
-            content: "A birthday attack on a hash function with an n-bit output can find a collision in approximately how many operations?",
-            options: ["2^n operations", "2^(n/2) operations", "n^2 operations", "2^(2n) operations"],
-            correct: 1,
-            explanation: "The birthday paradox tells us that in a set of 2^(n/2) randomly chosen values, there's a ~50% probability of finding two identical hash outputs. For SHA-256 (n=256), this means ~2^128 operations — still computationally infeasible, which is why SHA-256 remains secure."
+          badge: "HASHING",
+          title: "Hash Collision",
+          content:
+            "A birthday attack on a hash function with an n-bit output can find a collision in approximately how many operations?",
+          options: [
+            "2^n operations",
+            "2^(n/2) operations",
+            "n^2 operations",
+            "2^(2n) operations",
+          ],
+          correct: 1,
+          explanation:
+            "The birthday paradox tells us that in a set of 2^(n/2) randomly chosen values, there's a ~50% probability of finding two identical hash outputs. For SHA-256 (n=256), this means ~2^128 operations — still computationally infeasible, which is why SHA-256 remains secure.",
         },
         {
-            badge: "PKI", title: "Digital Certificate Validation",
-            content: "During TLS, a browser receives a certificate chain: Server Cert → Intermediate CA → Root CA. The browser's trust store contains only the Root CA. What happens?",
-            options: ["Connection fails — intermediate CA not trusted", "Browser validates the chain: Server → Intermediate → Root, connection succeeds", "Browser skips to Root CA directly, ignoring the chain", "The server certificate is invalid without direct Root CA signature"],
-            correct: 1,
-            explanation: "PKI uses a chain of trust model. The browser validates each link: the server cert is signed by the Intermediate CA, which is signed by the Root CA in the trust store. As long as the chain is unbroken and all signatures verify, the certificate is accepted."
+          badge: "PKI",
+          title: "Digital Certificate Validation",
+          content:
+            "During TLS, a browser receives a certificate chain: Server Cert → Intermediate CA → Root CA. The browser's trust store contains only the Root CA. What happens?",
+          options: [
+            "Connection fails — intermediate CA not trusted",
+            "Browser validates the chain: Server → Intermediate → Root, connection succeeds",
+            "Browser skips to Root CA directly, ignoring the chain",
+            "The server certificate is invalid without direct Root CA signature",
+          ],
+          correct: 1,
+          explanation:
+            "PKI uses a chain of trust model. The browser validates each link: the server cert is signed by the Intermediate CA, which is signed by the Root CA in the trust store. As long as the chain is unbroken and all signatures verify, the certificate is accepted.",
         },
         {
-            badge: "PASSWORD", title: "Password Storage",
-            content: "A database stores passwords as unsalted SHA-256 hashes. After a breach, attackers crack 60% of passwords in hours. What is the best remediation?",
-            options: ["Switch to MD5 — shorter hashes are harder to match", "Use bcrypt with unique salt per user", "Encrypt passwords with AES-256 instead", "Switch to SHA-512 without salt"],
-            correct: 1,
-            explanation: "bcrypt includes built-in salting (unique per user) and a configurable work factor that makes brute-force attacks exponentially slower. MD5 is weaker. AES encryption is reversible if the key is compromised. SHA-512 without salt is still vulnerable to rainbow tables."
+          badge: "PASSWORD",
+          title: "Password Storage",
+          content:
+            "A database stores passwords as unsalted SHA-256 hashes. After a breach, attackers crack 60% of passwords in hours. What is the best remediation?",
+          options: [
+            "Switch to MD5 — shorter hashes are harder to match",
+            "Use bcrypt with unique salt per user",
+            "Encrypt passwords with AES-256 instead",
+            "Switch to SHA-512 without salt",
+          ],
+          correct: 1,
+          explanation:
+            "bcrypt includes built-in salting (unique per user) and a configurable work factor that makes brute-force attacks exponentially slower. MD5 is weaker. AES encryption is reversible if the key is compromised. SHA-512 without salt is still vulnerable to rainbow tables.",
         },
         {
-            badge: "ENCRYPTION", title: "AES Key Sizes",
-            content: "AES supports three key sizes. A company requires the highest security level for classified data. Which key size should they use?",
-            options: ["AES-64", "AES-128", "AES-192", "AES-256"],
-            correct: 3,
-            explanation: "AES-256 uses a 256-bit key providing the highest security level. AES-64 doesn't exist. While AES-128 is still considered secure for most purposes, AES-256 is required for top-secret classified data by organizations like the NSA."
+          badge: "ENCRYPTION",
+          title: "AES Key Sizes",
+          content:
+            "AES supports three key sizes. A company requires the highest security level for classified data. Which key size should they use?",
+          options: ["AES-64", "AES-128", "AES-192", "AES-256"],
+          correct: 3,
+          explanation:
+            "AES-256 uses a 256-bit key providing the highest security level. AES-64 doesn't exist. While AES-128 is still considered secure for most purposes, AES-256 is required for top-secret classified data by organizations like the NSA.",
         },
         {
-            badge: "HASHING", title: "HMAC Purpose",
-            content: "What does HMAC (Hash-based Message Authentication Code) provide that a regular hash does not?",
-            options: ["Encryption of the message", "Verification that the message was sent by someone with the secret key", "Compression of the message", "Reversibility of the hash"],
-            correct: 1,
-            explanation: "HMAC combines a cryptographic hash with a secret key to provide message authentication and integrity. Unlike a plain hash, only someone with the secret key can produce or verify the correct HMAC, proving the message's origin and that it wasn't tampered with."
+          badge: "HASHING",
+          title: "HMAC Purpose",
+          content:
+            "What does HMAC (Hash-based Message Authentication Code) provide that a regular hash does not?",
+          options: [
+            "Encryption of the message",
+            "Verification that the message was sent by someone with the secret key",
+            "Compression of the message",
+            "Reversibility of the hash",
+          ],
+          correct: 1,
+          explanation:
+            "HMAC combines a cryptographic hash with a secret key to provide message authentication and integrity. Unlike a plain hash, only someone with the secret key can produce or verify the correct HMAC, proving the message's origin and that it wasn't tampered with.",
         },
         {
-            badge: "CRYPTOGRAPHY", title: "RSA Key Generation",
-            content: "In RSA, two large prime numbers p and q are chosen. The modulus n = p × q. Why is it critical that p and q remain secret?",
-            options: ["Knowing p and q allows calculation of the private key from the public key", "p and q are the actual encryption keys", "If p and q are known, n becomes zero", "p and q determine the hash output"],
-            correct: 0,
-            explanation: "The security of RSA relies on the difficulty of factoring the large modulus n back into p and q. If an attacker knows p and q, they can compute the totient φ(n) = (p-1)(q-1) and then derive the private key d from the public exponent e using the extended Euclidean algorithm."
+          badge: "CRYPTOGRAPHY",
+          title: "RSA Key Generation",
+          content:
+            "In RSA, two large prime numbers p and q are chosen. The modulus n = p × q. Why is it critical that p and q remain secret?",
+          options: [
+            "Knowing p and q allows calculation of the private key from the public key",
+            "p and q are the actual encryption keys",
+            "If p and q are known, n becomes zero",
+            "p and q determine the hash output",
+          ],
+          correct: 0,
+          explanation:
+            "The security of RSA relies on the difficulty of factoring the large modulus n back into p and q. If an attacker knows p and q, they can compute the totient φ(n) = (p-1)(q-1) and then derive the private key d from the public exponent e using the extended Euclidean algorithm.",
         },
         {
-            badge: "PROTOCOL", title: "Perfect Forward Secrecy",
-            content: "A server's long-term private key is compromised. With Perfect Forward Secrecy (PFS), what happens to previously recorded encrypted traffic?",
-            options: ["All past traffic can be decrypted", "Only traffic from the last 24 hours can be decrypted", "Past traffic remains encrypted — each session used unique ephemeral keys", "The traffic is automatically re-encrypted with a new key"],
-            correct: 2,
-            explanation: "PFS ensures each session uses unique ephemeral Diffie-Hellman keys that are discarded after use. Even if the server's long-term private key is compromised, past session keys cannot be recovered, protecting all previously recorded traffic."
+          badge: "PROTOCOL",
+          title: "Perfect Forward Secrecy",
+          content:
+            "A server's long-term private key is compromised. With Perfect Forward Secrecy (PFS), what happens to previously recorded encrypted traffic?",
+          options: [
+            "All past traffic can be decrypted",
+            "Only traffic from the last 24 hours can be decrypted",
+            "Past traffic remains encrypted — each session used unique ephemeral keys",
+            "The traffic is automatically re-encrypted with a new key",
+          ],
+          correct: 2,
+          explanation:
+            "PFS ensures each session uses unique ephemeral Diffie-Hellman keys that are discarded after use. Even if the server's long-term private key is compromised, past session keys cannot be recovered, protecting all previously recorded traffic.",
         },
         {
-            badge: "HASHING", title: "Salt & Rainbow Tables",
-            content: "Two users both have the password 'password123'. With proper salting, what happens?",
-            options: ["Both produce the same hash since the password is identical", "Each produces a completely different hash due to unique random salts", "Only the first user's hash is salted", "Salt only works with SHA-512, not SHA-256"],
-            correct: 1,
-            explanation: "A unique random salt is prepended or appended to each password before hashing. Even identical passwords produce completely different hashes. This defeats rainbow tables (precomputed hash lookups) since the attacker would need a separate rainbow table for every possible salt value."
+          badge: "HASHING",
+          title: "Salt & Rainbow Tables",
+          content:
+            "Two users both have the password 'password123'. With proper salting, what happens?",
+          options: [
+            "Both produce the same hash since the password is identical",
+            "Each produces a completely different hash due to unique random salts",
+            "Only the first user's hash is salted",
+            "Salt only works with SHA-512, not SHA-256",
+          ],
+          correct: 1,
+          explanation:
+            "A unique random salt is prepended or appended to each password before hashing. Even identical passwords produce completely different hashes. This defeats rainbow tables (precomputed hash lookups) since the attacker would need a separate rainbow table for every possible salt value.",
         },
         {
-            badge: "ENCRYPTION", title: "Block Cipher Modes",
-            content: "Why is ECB (Electronic Codebook) mode considered insecure for encrypting images or structured data?",
-            options: ["ECB is too slow for large files", "Identical plaintext blocks produce identical ciphertext blocks, leaking patterns", "ECB doesn't actually encrypt the data", "ECB requires a larger key size"],
-            correct: 1,
-            explanation: "In ECB mode, each plaintext block is encrypted independently with the same key. Identical input blocks always produce identical output blocks, preserving patterns in the data. The famous 'ECB penguin' demonstrates this — an encrypted image still shows the outline. CBC, CTR, or GCM modes solve this using IVs/nonces."
+          badge: "ENCRYPTION",
+          title: "Block Cipher Modes",
+          content:
+            "Why is ECB (Electronic Codebook) mode considered insecure for encrypting images or structured data?",
+          options: [
+            "ECB is too slow for large files",
+            "Identical plaintext blocks produce identical ciphertext blocks, leaking patterns",
+            "ECB doesn't actually encrypt the data",
+            "ECB requires a larger key size",
+          ],
+          correct: 1,
+          explanation:
+            "In ECB mode, each plaintext block is encrypted independently with the same key. Identical input blocks always produce identical output blocks, preserving patterns in the data. The famous 'ECB penguin' demonstrates this — an encrypted image still shows the outline. CBC, CTR, or GCM modes solve this using IVs/nonces.",
         },
         {
-            badge: "PROTOCOL", title: "TLS Handshake",
-            content: "During a TLS 1.3 handshake, how many round trips are required before encrypted data can be sent?",
-            options: ["0 round trips (0-RTT)", "1 round trip", "2 round trips", "3 round trips"],
-            correct: 1,
-            explanation: "TLS 1.3 completes its handshake in 1 round trip (1-RTT), a significant improvement over TLS 1.2's 2-RTT handshake. TLS 1.3 also supports 0-RTT resumption for returning clients, though 0-RTT data is vulnerable to replay attacks and should be used cautiously."
-        }
-    ];
+          badge: "PROTOCOL",
+          title: "TLS Handshake",
+          content:
+            "During a TLS 1.3 handshake, how many round trips are required before encrypted data can be sent?",
+          options: [
+            "0 round trips (0-RTT)",
+            "1 round trip",
+            "2 round trips",
+            "3 round trips",
+          ],
+          correct: 1,
+          explanation:
+            "TLS 1.3 completes its handshake in 1 round trip (1-RTT), a significant improvement over TLS 1.2's 2-RTT handshake. TLS 1.3 also supports 0-RTT resumption for returning clients, though 0-RTT data is vulnerable to replay attacks and should be used cautiously.",
+        },
+      ];
 
-    let currentQ = 0, score = 0, streak = 0, answered = false;
-    const shuffled = [...cryptoQuestions].sort(() => Math.random() - 0.5);
+      let currentQ = 0,
+        score = 0,
+        streak = 0,
+        answered = false;
+      const shuffled = [...cryptoQuestions].sort(() => Math.random() - 0.5);
 
-    function startCryptoGame() {
-        currentQ = 0; score = 0; streak = 0; answered = false;
+      function startCryptoGame() {
+        currentQ = 0;
+        score = 0;
+        streak = 0;
+        answered = false;
         shuffled.sort(() => Math.random() - 0.5);
-        document.getElementById('cryptoGameOver').classList.add('hidden');
-        document.getElementById('cryptoScenarioArea').style.display = '';
+        document.getElementById("cryptoGameOver").classList.add("hidden");
+        document.getElementById("cryptoScenarioArea").style.display = "";
         renderCryptoQ();
-    }
+      }
 
-    function renderCryptoQ() {
-        if (currentQ >= shuffled.length) { endCryptoGame(); return; }
+      function renderCryptoQ() {
+        if (currentQ >= shuffled.length) {
+          endCryptoGame();
+          return;
+        }
         answered = false;
         const q = shuffled[currentQ];
-        document.getElementById('cryptoBadge').textContent = q.badge;
-        document.getElementById('cryptoTitle').textContent = q.title;
-        document.getElementById('cryptoContent').textContent = q.content;
-        document.getElementById('cryptoLevel').textContent = (currentQ+1) + '/' + shuffled.length;
-        document.getElementById('cryptoFeedback').style.display = 'none';
-        document.getElementById('cryptoFeedback').className = 'feedback-panel';
+        document.getElementById("cryptoBadge").textContent = q.badge;
+        document.getElementById("cryptoTitle").textContent = q.title;
+        document.getElementById("cryptoContent").textContent = q.content;
+        document.getElementById("cryptoLevel").textContent =
+          currentQ + 1 + "/" + shuffled.length;
+        document.getElementById("cryptoFeedback").style.display = "none";
+        document.getElementById("cryptoFeedback").className = "feedback-panel";
 
-        const btns = document.getElementById('cryptoAnswerBtns');
-        btns.innerHTML = q.options.map((o, i) =>
-            `<button class="answer-btn" onclick="answerCrypto(${i})">${o}</button>`
-        ).join('');
-    }
+        const btns = document.getElementById("cryptoAnswerBtns");
+        btns.innerHTML = q.options
+          .map(
+            (o, i) =>
+              `<button class="answer-btn" onclick="answerCrypto(${i})">${o}</button>`,
+          )
+          .join("");
+      }
 
-    function answerCrypto(idx) {
+      function answerCrypto(idx) {
         if (answered) return;
         answered = true;
         const q = shuffled[currentQ];
-        const btns = document.querySelectorAll('#cryptoAnswerBtns .answer-btn');
+        const btns = document.querySelectorAll("#cryptoAnswerBtns .answer-btn");
         btns.forEach((b, i) => {
-            b.classList.add(i === q.correct ? 'correct' : (i === idx ? 'incorrect' : ''));
-            b.style.pointerEvents = 'none';
+          b.classList.add(
+            i === q.correct ? "correct" : i === idx ? "incorrect" : "",
+          );
+          b.style.pointerEvents = "none";
         });
         const isCorrect = idx === q.correct;
-        if (isCorrect) { score += 100 + streak * 20; streak++; }
-        else { streak = 0; }
-        document.getElementById('cryptoScore').textContent = score;
-        document.getElementById('cryptoStreak').textContent = streak;
+        if (isCorrect) {
+          score += 100 + streak * 20;
+          streak++;
+        } else {
+          streak = 0;
+        }
+        document.getElementById("cryptoScore").textContent = score;
+        document.getElementById("cryptoStreak").textContent = streak;
 
-        const fb = document.getElementById('cryptoFeedback');
-        fb.style.display = 'block';
-        fb.className = 'feedback-panel show ' + (isCorrect ? 'correct-feedback' : 'incorrect-feedback');
-        document.getElementById('cryptoFeedbackTitle').textContent = isCorrect ? '✅ Correct!' : '❌ Incorrect';
-        document.getElementById('cryptoFeedbackTitle').style.color = isCorrect ? 'var(--green)' : 'var(--red)';
-        document.getElementById('cryptoFeedbackText').textContent = q.explanation;
-    }
+        const fb = document.getElementById("cryptoFeedback");
+        fb.style.display = "block";
+        fb.className =
+          "feedback-panel show " +
+          (isCorrect ? "correct-feedback" : "incorrect-feedback");
+        document.getElementById("cryptoFeedbackTitle").textContent = isCorrect
+          ? "✅ Correct!"
+          : "❌ Incorrect";
+        document.getElementById("cryptoFeedbackTitle").style.color = isCorrect
+          ? "var(--green)"
+          : "var(--red)";
+        document.getElementById("cryptoFeedbackText").textContent =
+          q.explanation;
+      }
 
-    document.getElementById('cryptoNextBtn').addEventListener('click', () => { currentQ++; renderCryptoQ(); });
+      document.getElementById("cryptoNextBtn").addEventListener("click", () => {
+        currentQ++;
+        renderCryptoQ();
+      });
 
-    function endCryptoGame() {
-        document.getElementById('cryptoScenarioArea').style.display = 'none';
-        document.getElementById('cryptoGameOver').classList.remove('hidden');
-        document.getElementById('cryptoFinalScore').textContent = score;
-    }
+      function endCryptoGame() {
+        document.getElementById("cryptoScenarioArea").style.display = "none";
+        document.getElementById("cryptoGameOver").classList.remove("hidden");
+        document.getElementById("cryptoFinalScore").textContent = score;
+      }
 
-    startCryptoGame();
+      startCryptoGame();
     </script>
-</body>
+  </body>
 </html>

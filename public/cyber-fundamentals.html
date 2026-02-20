@@ -1,393 +1,1122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cyber Fundamentals - NeoTrace</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
     <canvas id="matrix-canvas"></canvas>
     <nav class="navbar">
-        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="NeoTrace" class="logo-img"><span>NeoTrace</span></a>
-        <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
-            <li class="nav-dropdown">
-                <a href="#">Game</a>
-                <div class="mega-menu game-mega">
-                    <div class="mega-col">
-                        <span class="mega-label">🎮 Game Modes</span>
-                        <a href="story.html" data-i18n="nav.story">Story Mode</a>
-                        <a href="game.html" data-i18n="nav.game">Beginner Training</a>
-                        <a href="game-intermediate.html">Crypto Challenge</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-dropdown active">
-                <a href="#">For You</a>
-                <div class="mega-menu foryou-mega">
-                    <div class="mega-col">
-                        <span class="mega-label">🛠️ Tools</span>
-                        <a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a>
-                        <a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a>
-                        <a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a>
-                        <a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a>
-                        <a href="password-checker.html" data-i18n="nav.password">Password Checker</a>
-                        <a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a>
-                        <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
-                        <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
-                    </div>
-                    <div class="mega-divider"></div>
-                    <div class="mega-col">
-                        <span class="mega-label">📚 Resources</span>
-                        <a href="books.html">Books</a>
-                        <a href="youtube-learning.html">YouTube Learning</a>
-                        <a href="influencers.html">Influencers</a>
-                        <a href="cyber-fundamentals.html" class="active">Fundamentals</a>
-                    </div>
-                    <div class="mega-divider"></div>
-                    <div class="mega-col">
-                        <span class="mega-label">💼 Career</span>
-                        <a href="careers.html" data-i18n="nav.careers">Careers</a>
-                        <a href="courses.html" data-i18n="nav.courses">Courses</a>
-                        <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
-                    </div>
-                </div>
-            </li>
-            <li><a href="about.html" data-i18n="nav.about">About</a></li>
-        </ul>
-        <div class="nav-right">
-            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="zh">中文</button></div>
-            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
-            <button class="hamburger"><span></span><span></span><span></span></button>
+      <a href="index.html" class="nav-logo"
+        ><img src="images/logo.png" alt="NeoTrace" class="logo-img" /><span
+          >NeoTrace</span
+        ></a
+      >
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Game</a>
+          <div class="mega-menu game-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="4" />
+                  <path d="M8 12h3m-1.5-1.5v3M15 11.5h.01M18 11.5h.01" /></svg
+                >Game Modes</span
+              >
+              <a href="story.html" data-i18n="nav.story">Story Mode</a>
+              <a href="game.html" data-i18n="nav.game">Beginner Training</a>
+              <a href="game-intermediate.html">Crypto Challenge</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-dropdown active">
+          <a href="#">For You</a>
+          <div class="mega-menu foryou-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                  /></svg
+                >Tools</span
+              >
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+              <a href="password-checker.html" data-i18n="nav.password"
+                >Password Checker</a
+              >
+              <a href="email-analyzer.html" data-i18n="nav.email"
+                >Email Analyzer</a
+              >
+              <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+              <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg
+                >Resources</span
+              >
+              <a href="books.html">Books</a>
+              <a href="youtube-learning.html">YouTube Learning</a>
+              <a href="influencers.html">Influencers</a>
+              <a href="cyber-fundamentals.html" class="active">Fundamentals</a>
+              <a href="social-engineering.html">Social Engineering Lab</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg
+                >Career</span
+              >
+              <a href="careers.html" data-i18n="nav.careers">Careers</a>
+              <a href="courses.html" data-i18n="nav.courses">Courses</a>
+              <a href="certifications.html" data-i18n="nav.certs"
+                >Certifications</a
+              >
+            </div>
+          </div>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button
+          ><button class="lang-btn" data-lang="zh">中文</button>
         </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          🌙
+        </button>
+        <button class="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </nav>
 
     <main class="main-content">
-        <section class="page-hero">
-            <h1>📚 Cyber Fundamentals</h1>
-            <p>University-level cybersecurity knowledge with exam-style questions and detailed explanations</p>
-        </section>
+      <section class="page-hero">
+        <h1>📚 Cyber Fundamentals</h1>
+        <p>
+          University-level cybersecurity knowledge with exam-style questions and
+          detailed explanations
+        </p>
+      </section>
 
-        <!-- Topic Tabs -->
-        <div class="fund-tabs">
-            <button class="fund-tab active" data-topic="network">🌐 Network Security</button>
-            <button class="fund-tab" data-topic="crypto">🔐 Cryptography</button>
-            <button class="fund-tab" data-topic="malware">🦠 Malware Analysis</button>
-            <button class="fund-tab" data-topic="iam">🔑 Identity & Access</button>
-            <button class="fund-tab" data-topic="ir">🚨 Incident Response</button>
-            <button class="fund-tab" data-topic="webapp">🌍 Web App Security</button>
+      <!-- Topic Tabs -->
+      <div class="fund-tabs">
+        <button class="fund-tab active" data-topic="network">
+          🌐 Network Security
+        </button>
+        <button class="fund-tab" data-topic="crypto">🔐 Cryptography</button>
+        <button class="fund-tab" data-topic="malware">
+          🦠 Malware Analysis
+        </button>
+        <button class="fund-tab" data-topic="iam">🔑 Identity & Access</button>
+        <button class="fund-tab" data-topic="ir">🚨 Incident Response</button>
+        <button class="fund-tab" data-topic="webapp">
+          🌍 Web App Security
+        </button>
+      </div>
+
+      <!-- Topic Panels -->
+      <div class="fund-panels">
+        <!-- 1: Network Security -->
+        <div class="fund-panel active" id="panel-network">
+          <div class="fund-content-row">
+            <div class="fund-knowledge">
+              <h2>🌐 Network Security</h2>
+              <div class="fund-points">
+                <div class="fund-point">
+                  <strong>OSI Model & TCP/IP</strong> — The 7-layer OSI model
+                  (Physical, Data Link, Network, Transport, Session,
+                  Presentation, Application) provides a framework for
+                  understanding how data traverses a network. TCP/IP condenses
+                  this into 4 layers. Security controls can be applied at each
+                  layer.
+                </div>
+                <div class="fund-point">
+                  <strong>Firewalls & IDS/IPS</strong> — Firewalls filter
+                  traffic based on rules (stateless) or connection state
+                  (stateful). IDS (Intrusion Detection Systems) monitor and
+                  alert; IPS (Intrusion Prevention Systems) actively block
+                  malicious traffic. Next-gen firewalls combine both with deep
+                  packet inspection.
+                </div>
+                <div class="fund-point">
+                  <strong>Network Segmentation & VLANs</strong> — Dividing
+                  networks into segments limits lateral movement. VLANs
+                  logically separate traffic at Layer 2. DMZs isolate
+                  public-facing services. Zero Trust assumes no implicit trust
+                  between segments.
+                </div>
+                <div class="fund-point">
+                  <strong>VPN & Tunneling Protocols</strong> — VPNs create
+                  encrypted tunnels over public networks. IPSec operates at
+                  Layer 3 (tunnel/transport mode), SSL/TLS VPNs at Layer 4+.
+                  WireGuard is a modern, lightweight alternative. Split
+                  tunneling vs. full tunneling affects security posture.
+                </div>
+                <div class="fund-point">
+                  <strong>DNS Security</strong> — DNS is often exploited via
+                  cache poisoning, DNS tunneling for data exfiltration, and
+                  domain hijacking. DNSSEC adds authentication. DNS-over-HTTPS
+                  (DoH) and DNS-over-TLS (DoT) encrypt queries to prevent
+                  eavesdropping.
+                </div>
+              </div>
+              <div class="fund-note">
+                ⚠️ <strong>Important:</strong> Network security is the first
+                line of defense. Understanding packet capture (Wireshark) and
+                network forensics is essential for any security professional.
+              </div>
+            </div>
+            <div class="fund-exam">
+              <h3>📝 Exam Questions</h3>
+              <!-- Q1 -->
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q1:</strong> A security analyst notices that an
+                  internal host is making thousands of DNS TXT record queries to
+                  an unusual domain. Which attack is MOST likely occurring?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="net-q1" value="a" /> A) DNS cache
+                    poisoning</label
+                  >
+                  <label
+                    ><input type="radio" name="net-q1" value="b" /> B) DNS
+                    amplification DDoS attack</label
+                  >
+                  <label
+                    ><input type="radio" name="net-q1" value="c" /> C) DNS
+                    tunneling for data exfiltration</label
+                  >
+                  <label
+                    ><input type="radio" name="net-q1" value="d" /> D) DNS zone
+                    transfer attack</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: C) DNS tunneling for data exfiltration
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> DNS tunneling encodes data in
+                    DNS queries (often TXT records) to exfiltrate information
+                    through firewalls that allow DNS traffic. The unusual domain
+                    and high volume of TXT queries are classic indicators. Cache
+                    poisoning modifies cached records, amplification uses open
+                    resolvers for DDoS, and zone transfers copy entire DNS zones
+                    — none match this pattern.
+                  </p>
+                </div>
+              </div>
+              <!-- Q2 -->
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q2:</strong> Which firewall type maintains a state
+                  table tracking active connections and can distinguish between
+                  new and established traffic?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="net-q2" value="a" /> A)
+                    Packet-filtering firewall</label
+                  >
+                  <label
+                    ><input type="radio" name="net-q2" value="b" /> B) Stateful
+                    inspection firewall</label
+                  >
+                  <label
+                    ><input type="radio" name="net-q2" value="c" /> C)
+                    Application-layer proxy firewall</label
+                  >
+                  <label
+                    ><input type="radio" name="net-q2" value="d" /> D)
+                    Circuit-level gateway</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: B) Stateful inspection firewall
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> Stateful firewalls track the
+                    state of connections in a state table, allowing them to make
+                    decisions based on context of traffic flow (SYN, ACK,
+                    established). Packet-filtering checks headers without state.
+                    Proxy firewalls operate at the application layer.
+                    Circuit-level gateways monitor TCP handshakes but don't
+                    inspect packet contents.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Topic Panels -->
-        <div class="fund-panels">
-            <!-- 1: Network Security -->
-            <div class="fund-panel active" id="panel-network">
-                <div class="fund-content-row">
-                    <div class="fund-knowledge">
-                        <h2>🌐 Network Security</h2>
-                        <div class="fund-points">
-                            <div class="fund-point"><strong>OSI Model & TCP/IP</strong> — The 7-layer OSI model (Physical, Data Link, Network, Transport, Session, Presentation, Application) provides a framework for understanding how data traverses a network. TCP/IP condenses this into 4 layers. Security controls can be applied at each layer.</div>
-                            <div class="fund-point"><strong>Firewalls & IDS/IPS</strong> — Firewalls filter traffic based on rules (stateless) or connection state (stateful). IDS (Intrusion Detection Systems) monitor and alert; IPS (Intrusion Prevention Systems) actively block malicious traffic. Next-gen firewalls combine both with deep packet inspection.</div>
-                            <div class="fund-point"><strong>Network Segmentation & VLANs</strong> — Dividing networks into segments limits lateral movement. VLANs logically separate traffic at Layer 2. DMZs isolate public-facing services. Zero Trust assumes no implicit trust between segments.</div>
-                            <div class="fund-point"><strong>VPN & Tunneling Protocols</strong> — VPNs create encrypted tunnels over public networks. IPSec operates at Layer 3 (tunnel/transport mode), SSL/TLS VPNs at Layer 4+. WireGuard is a modern, lightweight alternative. Split tunneling vs. full tunneling affects security posture.</div>
-                            <div class="fund-point"><strong>DNS Security</strong> — DNS is often exploited via cache poisoning, DNS tunneling for data exfiltration, and domain hijacking. DNSSEC adds authentication. DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) encrypt queries to prevent eavesdropping.</div>
-                        </div>
-                        <div class="fund-note">⚠️ <strong>Important:</strong> Network security is the first line of defense. Understanding packet capture (Wireshark) and network forensics is essential for any security professional.</div>
-                    </div>
-                    <div class="fund-exam">
-                        <h3>📝 Exam Questions</h3>
-                        <!-- Q1 -->
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q1:</strong> A security analyst notices that an internal host is making thousands of DNS TXT record queries to an unusual domain. Which attack is MOST likely occurring?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="net-q1" value="a"> A) DNS cache poisoning</label>
-                                <label><input type="radio" name="net-q1" value="b"> B) DNS amplification DDoS attack</label>
-                                <label><input type="radio" name="net-q1" value="c"> C) DNS tunneling for data exfiltration</label>
-                                <label><input type="radio" name="net-q1" value="d"> D) DNS zone transfer attack</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: C) DNS tunneling for data exfiltration</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> DNS tunneling encodes data in DNS queries (often TXT records) to exfiltrate information through firewalls that allow DNS traffic. The unusual domain and high volume of TXT queries are classic indicators. Cache poisoning modifies cached records, amplification uses open resolvers for DDoS, and zone transfers copy entire DNS zones — none match this pattern.</p>
-                            </div>
-                        </div>
-                        <!-- Q2 -->
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q2:</strong> Which firewall type maintains a state table tracking active connections and can distinguish between new and established traffic?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="net-q2" value="a"> A) Packet-filtering firewall</label>
-                                <label><input type="radio" name="net-q2" value="b"> B) Stateful inspection firewall</label>
-                                <label><input type="radio" name="net-q2" value="c"> C) Application-layer proxy firewall</label>
-                                <label><input type="radio" name="net-q2" value="d"> D) Circuit-level gateway</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: B) Stateful inspection firewall</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> Stateful firewalls track the state of connections in a state table, allowing them to make decisions based on context of traffic flow (SYN, ACK, established). Packet-filtering checks headers without state. Proxy firewalls operate at the application layer. Circuit-level gateways monitor TCP handshakes but don't inspect packet contents.</p>
-                            </div>
-                        </div>
-                    </div>
+        <!-- 2: Cryptography -->
+        <div class="fund-panel" id="panel-crypto">
+          <div class="fund-content-row">
+            <div class="fund-knowledge">
+              <h2>🔐 Cryptography</h2>
+              <div class="fund-points">
+                <div class="fund-point">
+                  <strong>Symmetric vs. Asymmetric Encryption</strong> —
+                  Symmetric (AES, 3DES, ChaCha20) uses one shared key for
+                  encryption and decryption — fast but key distribution is a
+                  challenge. Asymmetric (RSA, ECC, Diffie-Hellman) uses key
+                  pairs — solves distribution but is slower. Most systems use
+                  hybrid approaches.
                 </div>
-            </div>
-
-            <!-- 2: Cryptography -->
-            <div class="fund-panel" id="panel-crypto">
-                <div class="fund-content-row">
-                    <div class="fund-knowledge">
-                        <h2>🔐 Cryptography</h2>
-                        <div class="fund-points">
-                            <div class="fund-point"><strong>Symmetric vs. Asymmetric Encryption</strong> — Symmetric (AES, 3DES, ChaCha20) uses one shared key for encryption and decryption — fast but key distribution is a challenge. Asymmetric (RSA, ECC, Diffie-Hellman) uses key pairs — solves distribution but is slower. Most systems use hybrid approaches.</div>
-                            <div class="fund-point"><strong>Hashing & Integrity</strong> — Hash functions (SHA-256, SHA-3, BLAKE2) produce fixed-length digests. Properties: deterministic, collision-resistant, pre-image resistant, avalanche effect. Used for password storage (with salts), file integrity verification, and digital signatures.</div>
-                            <div class="fund-point"><strong>Digital Signatures & PKI</strong> — Digital signatures use private keys to sign and public keys to verify. PKI establishes trust through Certificate Authorities (CAs). X.509 certificates bind identities to public keys. Certificate chains, CRLs, and OCSP handle revocation.</div>
-                            <div class="fund-point"><strong>Key Exchange Protocols</strong> — Diffie-Hellman enables secure key exchange over insecure channels. ECDHE (Elliptic Curve DH Ephemeral) provides forward secrecy — past sessions can't be decrypted even if long-term keys are compromised. Used in TLS 1.3.</div>
-                            <div class="fund-point"><strong>Post-Quantum Cryptography</strong> — Quantum computers threaten RSA and ECC via Shor's algorithm. NIST standardized CRYSTALS-Kyber (key encapsulation) and CRYSTALS-Dilithium (signatures). Organizations should begin crypto-agility planning now.</div>
-                        </div>
-                        <div class="fund-note">⚠️ <strong>Important:</strong> Never roll your own cryptography. Use established libraries (OpenSSL, libsodium, BoringSSL). Key management is often the weakest link — protect keys with HSMs when possible.</div>
-                    </div>
-                    <div class="fund-exam">
-                        <h3>📝 Exam Questions</h3>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q1:</strong> An organization needs to ensure that even if their long-term TLS private key is compromised, previously captured encrypted traffic cannot be decrypted. Which property must the key exchange provide?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="crypto-q1" value="a"> A) Non-repudiation</label>
-                                <label><input type="radio" name="crypto-q1" value="b"> B) Perfect Forward Secrecy (PFS)</label>
-                                <label><input type="radio" name="crypto-q1" value="c"> C) Key escrow</label>
-                                <label><input type="radio" name="crypto-q1" value="d"> D) Certificate pinning</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: B) Perfect Forward Secrecy (PFS)</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> PFS ensures each session uses unique ephemeral keys (via ECDHE or DHE). If the server's long-term private key is later compromised, an attacker cannot derive session keys from captured traffic. Non-repudiation proves authorship. Key escrow stores keys with third parties. Certificate pinning validates specific certificates.</p>
-                            </div>
-                        </div>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q2:</strong> A developer stores user passwords using SHA-256 without a salt. What is the PRIMARY vulnerability of this approach?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="crypto-q2" value="a"> A) SHA-256 is a broken algorithm</label>
-                                <label><input type="radio" name="crypto-q2" value="b"> B) Identical passwords produce identical hashes, enabling rainbow table attacks</label>
-                                <label><input type="radio" name="crypto-q2" value="c"> C) SHA-256 output is too short to be secure</label>
-                                <label><input type="radio" name="crypto-q2" value="d"> D) SHA-256 is reversible</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: B) Identical passwords produce identical hashes, enabling rainbow table attacks</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> Without a salt, the same password always produces the same hash, allowing pre-computed rainbow table lookups and revealing users sharing passwords. SHA-256 is not broken or reversible, and its 256-bit output is sufficient. The fix: use bcrypt, scrypt, or Argon2 with unique salts per password.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="fund-point">
+                  <strong>Hashing & Integrity</strong> — Hash functions
+                  (SHA-256, SHA-3, BLAKE2) produce fixed-length digests.
+                  Properties: deterministic, collision-resistant, pre-image
+                  resistant, avalanche effect. Used for password storage (with
+                  salts), file integrity verification, and digital signatures.
                 </div>
-            </div>
-
-            <!-- 3: Malware Analysis -->
-            <div class="fund-panel" id="panel-malware">
-                <div class="fund-content-row">
-                    <div class="fund-knowledge">
-                        <h2>🦠 Malware Analysis</h2>
-                        <div class="fund-points">
-                            <div class="fund-point"><strong>Malware Types</strong> — Viruses attach to files and replicate. Worms self-propagate across networks. Trojans disguise as legitimate software. Ransomware encrypts files for payment. Rootkits hide at OS/firmware level. Fileless malware lives in memory and uses LOLBins (Living-off-the-Land Binaries).</div>
-                            <div class="fund-point"><strong>Static Analysis</strong> — Examining malware without executing it: file hashing (MD5/SHA-256), strings extraction, PE header analysis, import table inspection, YARA rule matching, disassembly (IDA Pro, Ghidra). Helps identify capabilities, C2 addresses, and packing/obfuscation.</div>
-                            <div class="fund-point"><strong>Dynamic Analysis</strong> — Running malware in sandboxes (Cuckoo, ANY.RUN, Joe Sandbox) to observe behavior: file system changes, registry modifications, network connections, API calls, process creation. Use Process Monitor, Wireshark for real-time monitoring.</div>
-                            <div class="fund-point"><strong>Indicators of Compromise (IOCs)</strong> — Observable artifacts: file hashes, IP addresses, domains, URLs, registry keys, mutex names, email addresses. Shared via STIX/TAXII frameworks. The Pyramid of Pain ranks IOCs by attacker difficulty to change.</div>
-                            <div class="fund-point"><strong>Anti-Analysis Techniques</strong> — Malware detects VMs (CPUID checks, MAC addresses), uses code packing (UPX, Themida), employs anti-debugging (IsDebuggerPresent, timing checks), and implements encryption/encoding to evade detection.</div>
-                        </div>
-                        <div class="fund-note">⚠️ <strong>Important:</strong> Always analyze malware in isolated environments (VMs with snapshots, air-gapped networks). Never execute malware on production systems. Use REMnux and FlareVM as dedicated analysis platforms.</div>
-                    </div>
-                    <div class="fund-exam">
-                        <h3>📝 Exam Questions</h3>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q1:</strong> A malware analyst discovers that a suspicious executable checks for the registry key "HKLM\SOFTWARE\VMware, Inc.\VMware Tools" before executing its payload. What anti-analysis technique is being used?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="mal-q1" value="a"> A) Code obfuscation</label>
-                                <label><input type="radio" name="mal-q1" value="b"> B) Anti-debugging</label>
-                                <label><input type="radio" name="mal-q1" value="c"> C) VM detection / sandbox evasion</label>
-                                <label><input type="radio" name="mal-q1" value="d"> D) Polymorphic mutation</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: C) VM detection / sandbox evasion</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> The malware checks for VMware-specific registry keys to determine if it's running in a virtual machine. If detected, it may exit or deliver benign behavior to fool analysts. This is a sandbox evasion technique. Anti-debugging detects debugger presence (different mechanism). Obfuscation makes code harder to read. Polymorphism changes code signatures.</p>
-                            </div>
-                        </div>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q2:</strong> According to the Pyramid of Pain, which IOC type causes the MOST difficulty for an attacker to change?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="mal-q2" value="a"> A) Hash values</label>
-                                <label><input type="radio" name="mal-q2" value="b"> B) IP addresses</label>
-                                <label><input type="radio" name="mal-q2" value="c"> C) TTPs (Tactics, Techniques, and Procedures)</label>
-                                <label><input type="radio" name="mal-q2" value="d"> D) Domain names</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: C) TTPs (Tactics, Techniques, and Procedures)</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> The Pyramid of Pain (David Bianco) ranks IOCs from trivial to tough: Hash values are trivially changed (recompile). IP addresses and domains are easy to rotate. Network artifacts and tools require more effort. TTPs sit at the top — they represent the attacker's behavior and methodology, which are fundamentally hard to change without developing entirely new capabilities.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="fund-point">
+                  <strong>Digital Signatures & PKI</strong> — Digital signatures
+                  use private keys to sign and public keys to verify. PKI
+                  establishes trust through Certificate Authorities (CAs). X.509
+                  certificates bind identities to public keys. Certificate
+                  chains, CRLs, and OCSP handle revocation.
                 </div>
-            </div>
-
-            <!-- 4: Identity & Access Management -->
-            <div class="fund-panel" id="panel-iam">
-                <div class="fund-content-row">
-                    <div class="fund-knowledge">
-                        <h2>🔑 Identity & Access Management</h2>
-                        <div class="fund-points">
-                            <div class="fund-point"><strong>Authentication Factors</strong> — Something you know (passwords, PINs), something you have (tokens, smart cards, phones), something you are (biometrics). MFA combines 2+ different factors. Risk-based authentication adapts requirements based on context (location, device, behavior).</div>
-                            <div class="fund-point"><strong>Access Control Models</strong> — DAC (Discretionary): owners set permissions. MAC (Mandatory): system-enforced labels/clearances. RBAC (Role-Based): permissions tied to roles. ABAC (Attribute-Based): policies evaluate attributes (user, resource, environment). Zero Trust: "never trust, always verify".</div>
-                            <div class="fund-point"><strong>OAuth 2.0 & OpenID Connect</strong> — OAuth 2.0 is an authorization framework (delegation, not authentication). OIDC adds authentication via ID tokens (JWT). Authorization Code flow (with PKCE) is recommended for web apps. Implicit flow is deprecated due to token exposure in URLs.</div>
-                            <div class="fund-point"><strong>Privileged Access Management (PAM)</strong> — Privileged accounts are top targets. PAM solutions: just-in-time access, session recording, credential vaulting, automatic password rotation. Principle of least privilege: grant minimum access needed for job functions.</div>
-                            <div class="fund-point"><strong>Single Sign-On (SSO) & Federation</strong> — SSO allows one authentication for multiple services. SAML 2.0 uses XML assertions for enterprise federation. OIDC is the modern alternative. Federation connects identity providers across organizational boundaries. Reduces password fatigue but creates a single point of failure.</div>
-                        </div>
-                        <div class="fund-note">⚠️ <strong>Important:</strong> 80% of breaches involve stolen or weak credentials (Verizon DBIR). Implement MFA everywhere, use passwordless authentication (FIDO2/WebAuthn) where possible, and enforce least privilege.</div>
-                    </div>
-                    <div class="fund-exam">
-                        <h3>📝 Exam Questions</h3>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q1:</strong> An employee uses a fingerprint scan and a smart card to access a secure facility. How many authentication factors are being used?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="iam-q1" value="a"> A) One factor (two methods of the same type)</label>
-                                <label><input type="radio" name="iam-q1" value="b"> B) Two factors (biometric + possession)</label>
-                                <label><input type="radio" name="iam-q1" value="c"> C) Three factors</label>
-                                <label><input type="radio" name="iam-q1" value="d"> D) This is single-factor authentication</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: B) Two factors (biometric + possession)</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> A fingerprint is "something you are" (biometric factor) and a smart card is "something you have" (possession factor). Using two different categories constitutes true two-factor authentication (2FA). If both were biometrics (e.g., fingerprint + iris), it would be two methods but only one factor category.</p>
-                            </div>
-                        </div>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q2:</strong> In a Zero Trust architecture, which statement BEST describes the core principle?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="iam-q2" value="a"> A) Internal network traffic is inherently trusted</label>
-                                <label><input type="radio" name="iam-q2" value="b"> B) All access requests must be verified regardless of source location</label>
-                                <label><input type="radio" name="iam-q2" value="c"> C) VPN connections provide sufficient trust</label>
-                                <label><input type="radio" name="iam-q2" value="d"> D) Firewalls eliminate the need for internal authentication</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: B) All access requests must be verified regardless of source location</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> Zero Trust operates on "never trust, always verify." No implicit trust is granted based on network location, VPN status, or previous authentication. Every request is authenticated, authorized, and encrypted. This contrasts with perimeter-based security where internal traffic was trusted by default.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="fund-point">
+                  <strong>Key Exchange Protocols</strong> — Diffie-Hellman
+                  enables secure key exchange over insecure channels. ECDHE
+                  (Elliptic Curve DH Ephemeral) provides forward secrecy — past
+                  sessions can't be decrypted even if long-term keys are
+                  compromised. Used in TLS 1.3.
                 </div>
-            </div>
-
-            <!-- 5: Incident Response -->
-            <div class="fund-panel" id="panel-ir">
-                <div class="fund-content-row">
-                    <div class="fund-knowledge">
-                        <h2>🚨 Incident Response</h2>
-                        <div class="fund-points">
-                            <div class="fund-point"><strong>IR Lifecycle (NIST SP 800-61)</strong> — Four phases: 1) Preparation (policies, tools, training), 2) Detection & Analysis (monitoring, triage, classification), 3) Containment, Eradication & Recovery (isolate, remove, restore), 4) Post-Incident Activity (lessons learned, documentation).</div>
-                            <div class="fund-point"><strong>Detection & Triage</strong> — SIEM systems (Splunk, Elastic, QRadar) correlate logs for anomaly detection. SOC analysts use the MITRE ATT&CK framework to map observed behaviors to known techniques. Alert triage prioritizes true positives and measures by severity and impact.</div>
-                            <div class="fund-point"><strong>Containment Strategies</strong> — Short-term: isolate affected systems (network quarantine, disable accounts). Long-term: patch vulnerabilities, reset credentials, harden configurations. Evidence preservation is critical — image disks before wiping, maintain chain of custody.</div>
-                            <div class="fund-point"><strong>Digital Forensics</strong> — Acquire evidence: disk imaging (dd, FTK Imager), memory dumps (WinPMEM). Analyze: timeline analysis, artifact recovery, log correlation. Tools: Autopsy, EnCase, Volatility. Order of volatility: registers → cache → RAM → disk → logs → network.</div>
-                            <div class="fund-point"><strong>MITRE ATT&CK Framework</strong> — Knowledge base of adversary tactics (14 categories: Reconnaissance through Impact) and techniques. Used for threat-informed defense, detection engineering, red team planning, and gap analysis. Sub-techniques provide granular detail.</div>
-                        </div>
-                        <div class="fund-note">⚠️ <strong>Important:</strong> Time is critical during incidents. Having pre-built runbooks, communication templates, and an incident response plan dramatically reduces response time. Practice with tabletop exercises regularly.</div>
-                    </div>
-                    <div class="fund-exam">
-                        <h3>📝 Exam Questions</h3>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q1:</strong> During an active ransomware incident, a security analyst's FIRST priority should be to:</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="ir-q1" value="a"> A) Pay the ransom to recover data quickly</label>
-                                <label><input type="radio" name="ir-q1" value="b"> B) Isolate affected systems to prevent lateral movement</label>
-                                <label><input type="radio" name="ir-q1" value="c"> C) Reimage all systems immediately</label>
-                                <label><input type="radio" name="ir-q1" value="d"> D) Contact the media to disclose the breach</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: B) Isolate affected systems to prevent lateral movement</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> Containment is the immediate priority to stop ransomware spread. Isolate infected systems from the network while preserving evidence. Paying ransom is discouraged (no guarantee of recovery, funds criminal operations). Reimaging destroys forensic evidence. Media disclosure follows legal/regulatory timelines, not immediate reaction.</p>
-                            </div>
-                        </div>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q2:</strong> When collecting digital evidence from a running system, which should be collected FIRST based on order of volatility?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="ir-q2" value="a"> A) Hard drive contents</label>
-                                <label><input type="radio" name="ir-q2" value="b"> B) System logs</label>
-                                <label><input type="radio" name="ir-q2" value="c"> C) RAM / memory contents</label>
-                                <label><input type="radio" name="ir-q2" value="d"> D) Network connection state</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: C) RAM / memory contents</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> Order of volatility (RFC 3227): Registers/cache → RAM → network state → disk → removable media → logs. RAM is highly volatile and contains running processes, encryption keys, network connections, and malware that may not exist on disk (fileless malware). While network state (D) is also volatile, RAM capture takes priority as it contains the most actionable forensic data.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="fund-point">
+                  <strong>Post-Quantum Cryptography</strong> — Quantum computers
+                  threaten RSA and ECC via Shor's algorithm. NIST standardized
+                  CRYSTALS-Kyber (key encapsulation) and CRYSTALS-Dilithium
+                  (signatures). Organizations should begin crypto-agility
+                  planning now.
                 </div>
+              </div>
+              <div class="fund-note">
+                ⚠️ <strong>Important:</strong> Never roll your own cryptography.
+                Use established libraries (OpenSSL, libsodium, BoringSSL). Key
+                management is often the weakest link — protect keys with HSMs
+                when possible.
+              </div>
             </div>
-
-            <!-- 6: Web Application Security -->
-            <div class="fund-panel" id="panel-webapp">
-                <div class="fund-content-row">
-                    <div class="fund-knowledge">
-                        <h2>🌍 Web Application Security</h2>
-                        <div class="fund-points">
-                            <div class="fund-point"><strong>OWASP Top 10</strong> — The essential web vulnerability list: A01-Broken Access Control, A02-Cryptographic Failures, A03-Injection, A04-Insecure Design, A05-Security Misconfiguration, A06-Vulnerable Components, A07-Authentication Failures, A08-Data Integrity Failures, A09-Logging Failures, A10-SSRF.</div>
-                            <div class="fund-point"><strong>SQL Injection</strong> — Attacker injects SQL code through user input to manipulate database queries. Types: classic (error-based), blind (boolean/time-based), union-based. Prevention: parameterized queries/prepared statements, input validation, stored procedures, WAF rules, least privilege DB accounts.</div>
-                            <div class="fund-point"><strong>Cross-Site Scripting (XSS)</strong> — Reflected XSS: malicious script in URL parameters. Stored XSS: script persisted in database. DOM-based: client-side manipulation. Prevention: output encoding (context-dependent), Content Security Policy (CSP) headers, input sanitization, HTTPOnly cookies.</div>
-                            <div class="fund-point"><strong>CSRF & SSRF</strong> — CSRF tricks authenticated users into performing unwanted actions (via forged requests). Prevention: anti-CSRF tokens, SameSite cookies, custom headers. SSRF forces server to make requests to unintended locations (internal services, cloud metadata). Prevention: allowlists, no user-controlled URLs.</div>
-                            <div class="fund-point"><strong>Security Headers & HTTPS</strong> — Essential headers: Content-Security-Policy, X-Frame-Options, Strict-Transport-Security (HSTS), X-Content-Type-Options. TLS 1.3 is the current standard — disables weak ciphers, mandates forward secrecy, reduces handshake to 1-RTT (0-RTT with resumption).</div>
-                        </div>
-                        <div class="fund-note">⚠️ <strong>Important:</strong> Web apps are the #1 attack vector. Always assume all user input is malicious. Defense in depth: WAF + secure coding + CSP + monitoring + regular pen testing.</div>
-                    </div>
-                    <div class="fund-exam">
-                        <h3>📝 Exam Questions</h3>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q1:</strong> A web application directly concatenates user input into SQL queries: <code>SELECT * FROM users WHERE id = '" + userInput + "'</code>. What is the MOST effective remediation?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="web-q1" value="a"> A) Input length validation</label>
-                                <label><input type="radio" name="web-q1" value="b"> B) Web Application Firewall (WAF)</label>
-                                <label><input type="radio" name="web-q1" value="c"> C) Parameterized queries / prepared statements</label>
-                                <label><input type="radio" name="web-q1" value="d"> D) Encoding special characters in output</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: C) Parameterized queries / prepared statements</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> Parameterized queries separate SQL code from data, making injection impossible regardless of input content. WAFs can be bypassed with encoding tricks. Input length validation doesn't prevent carefully crafted short payloads. Output encoding prevents XSS, not SQLi. Prepared statements are the definitive solution recommended by OWASP.</p>
-                            </div>
-                        </div>
-                        <div class="exam-q">
-                            <p class="exam-question"><strong>Q2:</strong> Which HTTP header instructs the browser to ONLY connect to a website via HTTPS for a specified duration?</p>
-                            <div class="exam-options">
-                                <label><input type="radio" name="web-q2" value="a"> A) Content-Security-Policy</label>
-                                <label><input type="radio" name="web-q2" value="b"> B) X-Frame-Options</label>
-                                <label><input type="radio" name="web-q2" value="c"> C) Strict-Transport-Security (HSTS)</label>
-                                <label><input type="radio" name="web-q2" value="d"> D) X-Content-Type-Options</label>
-                            </div>
-                            <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
-                            <div class="exam-answer" style="display:none;">
-                                <p class="correct-answer">✅ Correct: C) Strict-Transport-Security (HSTS)</p>
-                                <p class="answer-explain"><strong>Explanation:</strong> HSTS forces browsers to use HTTPS for a set max-age period, preventing SSL stripping attacks. CSP controls allowed content sources (scripts, styles). X-Frame-Options prevents clickjacking (iframe embedding). X-Content-Type-Options prevents MIME type sniffing. HSTS with includeSubDomains and preloading provides the strongest transport protection.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="fund-exam">
+              <h3>📝 Exam Questions</h3>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q1:</strong> An organization needs to ensure that even
+                  if their long-term TLS private key is compromised, previously
+                  captured encrypted traffic cannot be decrypted. Which property
+                  must the key exchange provide?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="crypto-q1" value="a" /> A)
+                    Non-repudiation</label
+                  >
+                  <label
+                    ><input type="radio" name="crypto-q1" value="b" /> B)
+                    Perfect Forward Secrecy (PFS)</label
+                  >
+                  <label
+                    ><input type="radio" name="crypto-q1" value="c" /> C) Key
+                    escrow</label
+                  >
+                  <label
+                    ><input type="radio" name="crypto-q1" value="d" /> D)
+                    Certificate pinning</label
+                  >
                 </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: B) Perfect Forward Secrecy (PFS)
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> PFS ensures each session uses
+                    unique ephemeral keys (via ECDHE or DHE). If the server's
+                    long-term private key is later compromised, an attacker
+                    cannot derive session keys from captured traffic.
+                    Non-repudiation proves authorship. Key escrow stores keys
+                    with third parties. Certificate pinning validates specific
+                    certificates.
+                  </p>
+                </div>
+              </div>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q2:</strong> A developer stores user passwords using
+                  SHA-256 without a salt. What is the PRIMARY vulnerability of
+                  this approach?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="crypto-q2" value="a" /> A)
+                    SHA-256 is a broken algorithm</label
+                  >
+                  <label
+                    ><input type="radio" name="crypto-q2" value="b" /> B)
+                    Identical passwords produce identical hashes, enabling
+                    rainbow table attacks</label
+                  >
+                  <label
+                    ><input type="radio" name="crypto-q2" value="c" /> C)
+                    SHA-256 output is too short to be secure</label
+                  >
+                  <label
+                    ><input type="radio" name="crypto-q2" value="d" /> D)
+                    SHA-256 is reversible</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: B) Identical passwords produce identical hashes,
+                    enabling rainbow table attacks
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> Without a salt, the same
+                    password always produces the same hash, allowing
+                    pre-computed rainbow table lookups and revealing users
+                    sharing passwords. SHA-256 is not broken or reversible, and
+                    its 256-bit output is sufficient. The fix: use bcrypt,
+                    scrypt, or Argon2 with unique salts per password.
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+
+        <!-- 3: Malware Analysis -->
+        <div class="fund-panel" id="panel-malware">
+          <div class="fund-content-row">
+            <div class="fund-knowledge">
+              <h2>🦠 Malware Analysis</h2>
+              <div class="fund-points">
+                <div class="fund-point">
+                  <strong>Malware Types</strong> — Viruses attach to files and
+                  replicate. Worms self-propagate across networks. Trojans
+                  disguise as legitimate software. Ransomware encrypts files for
+                  payment. Rootkits hide at OS/firmware level. Fileless malware
+                  lives in memory and uses LOLBins (Living-off-the-Land
+                  Binaries).
+                </div>
+                <div class="fund-point">
+                  <strong>Static Analysis</strong> — Examining malware without
+                  executing it: file hashing (MD5/SHA-256), strings extraction,
+                  PE header analysis, import table inspection, YARA rule
+                  matching, disassembly (IDA Pro, Ghidra). Helps identify
+                  capabilities, C2 addresses, and packing/obfuscation.
+                </div>
+                <div class="fund-point">
+                  <strong>Dynamic Analysis</strong> — Running malware in
+                  sandboxes (Cuckoo, ANY.RUN, Joe Sandbox) to observe behavior:
+                  file system changes, registry modifications, network
+                  connections, API calls, process creation. Use Process Monitor,
+                  Wireshark for real-time monitoring.
+                </div>
+                <div class="fund-point">
+                  <strong>Indicators of Compromise (IOCs)</strong> — Observable
+                  artifacts: file hashes, IP addresses, domains, URLs, registry
+                  keys, mutex names, email addresses. Shared via STIX/TAXII
+                  frameworks. The Pyramid of Pain ranks IOCs by attacker
+                  difficulty to change.
+                </div>
+                <div class="fund-point">
+                  <strong>Anti-Analysis Techniques</strong> — Malware detects
+                  VMs (CPUID checks, MAC addresses), uses code packing (UPX,
+                  Themida), employs anti-debugging (IsDebuggerPresent, timing
+                  checks), and implements encryption/encoding to evade
+                  detection.
+                </div>
+              </div>
+              <div class="fund-note">
+                ⚠️ <strong>Important:</strong> Always analyze malware in
+                isolated environments (VMs with snapshots, air-gapped networks).
+                Never execute malware on production systems. Use REMnux and
+                FlareVM as dedicated analysis platforms.
+              </div>
+            </div>
+            <div class="fund-exam">
+              <h3>📝 Exam Questions</h3>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q1:</strong> A malware analyst discovers that a
+                  suspicious executable checks for the registry key
+                  "HKLM\SOFTWARE\VMware, Inc.\VMware Tools" before executing its
+                  payload. What anti-analysis technique is being used?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="mal-q1" value="a" /> A) Code
+                    obfuscation</label
+                  >
+                  <label
+                    ><input type="radio" name="mal-q1" value="b" /> B)
+                    Anti-debugging</label
+                  >
+                  <label
+                    ><input type="radio" name="mal-q1" value="c" /> C) VM
+                    detection / sandbox evasion</label
+                  >
+                  <label
+                    ><input type="radio" name="mal-q1" value="d" /> D)
+                    Polymorphic mutation</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: C) VM detection / sandbox evasion
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> The malware checks for
+                    VMware-specific registry keys to determine if it's running
+                    in a virtual machine. If detected, it may exit or deliver
+                    benign behavior to fool analysts. This is a sandbox evasion
+                    technique. Anti-debugging detects debugger presence
+                    (different mechanism). Obfuscation makes code harder to
+                    read. Polymorphism changes code signatures.
+                  </p>
+                </div>
+              </div>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q2:</strong> According to the Pyramid of Pain, which
+                  IOC type causes the MOST difficulty for an attacker to change?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="mal-q2" value="a" /> A) Hash
+                    values</label
+                  >
+                  <label
+                    ><input type="radio" name="mal-q2" value="b" /> B) IP
+                    addresses</label
+                  >
+                  <label
+                    ><input type="radio" name="mal-q2" value="c" /> C) TTPs
+                    (Tactics, Techniques, and Procedures)</label
+                  >
+                  <label
+                    ><input type="radio" name="mal-q2" value="d" /> D) Domain
+                    names</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: C) TTPs (Tactics, Techniques, and Procedures)
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> The Pyramid of Pain (David
+                    Bianco) ranks IOCs from trivial to tough: Hash values are
+                    trivially changed (recompile). IP addresses and domains are
+                    easy to rotate. Network artifacts and tools require more
+                    effort. TTPs sit at the top — they represent the attacker's
+                    behavior and methodology, which are fundamentally hard to
+                    change without developing entirely new capabilities.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4: Identity & Access Management -->
+        <div class="fund-panel" id="panel-iam">
+          <div class="fund-content-row">
+            <div class="fund-knowledge">
+              <h2>🔑 Identity & Access Management</h2>
+              <div class="fund-points">
+                <div class="fund-point">
+                  <strong>Authentication Factors</strong> — Something you know
+                  (passwords, PINs), something you have (tokens, smart cards,
+                  phones), something you are (biometrics). MFA combines 2+
+                  different factors. Risk-based authentication adapts
+                  requirements based on context (location, device, behavior).
+                </div>
+                <div class="fund-point">
+                  <strong>Access Control Models</strong> — DAC (Discretionary):
+                  owners set permissions. MAC (Mandatory): system-enforced
+                  labels/clearances. RBAC (Role-Based): permissions tied to
+                  roles. ABAC (Attribute-Based): policies evaluate attributes
+                  (user, resource, environment). Zero Trust: "never trust,
+                  always verify".
+                </div>
+                <div class="fund-point">
+                  <strong>OAuth 2.0 & OpenID Connect</strong> — OAuth 2.0 is an
+                  authorization framework (delegation, not authentication). OIDC
+                  adds authentication via ID tokens (JWT). Authorization Code
+                  flow (with PKCE) is recommended for web apps. Implicit flow is
+                  deprecated due to token exposure in URLs.
+                </div>
+                <div class="fund-point">
+                  <strong>Privileged Access Management (PAM)</strong> —
+                  Privileged accounts are top targets. PAM solutions:
+                  just-in-time access, session recording, credential vaulting,
+                  automatic password rotation. Principle of least privilege:
+                  grant minimum access needed for job functions.
+                </div>
+                <div class="fund-point">
+                  <strong>Single Sign-On (SSO) & Federation</strong> — SSO
+                  allows one authentication for multiple services. SAML 2.0 uses
+                  XML assertions for enterprise federation. OIDC is the modern
+                  alternative. Federation connects identity providers across
+                  organizational boundaries. Reduces password fatigue but
+                  creates a single point of failure.
+                </div>
+              </div>
+              <div class="fund-note">
+                ⚠️ <strong>Important:</strong> 80% of breaches involve stolen or
+                weak credentials (Verizon DBIR). Implement MFA everywhere, use
+                passwordless authentication (FIDO2/WebAuthn) where possible, and
+                enforce least privilege.
+              </div>
+            </div>
+            <div class="fund-exam">
+              <h3>📝 Exam Questions</h3>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q1:</strong> An employee uses a fingerprint scan and a
+                  smart card to access a secure facility. How many
+                  authentication factors are being used?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="iam-q1" value="a" /> A) One
+                    factor (two methods of the same type)</label
+                  >
+                  <label
+                    ><input type="radio" name="iam-q1" value="b" /> B) Two
+                    factors (biometric + possession)</label
+                  >
+                  <label
+                    ><input type="radio" name="iam-q1" value="c" /> C) Three
+                    factors</label
+                  >
+                  <label
+                    ><input type="radio" name="iam-q1" value="d" /> D) This is
+                    single-factor authentication</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: B) Two factors (biometric + possession)
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> A fingerprint is "something
+                    you are" (biometric factor) and a smart card is "something
+                    you have" (possession factor). Using two different
+                    categories constitutes true two-factor authentication (2FA).
+                    If both were biometrics (e.g., fingerprint + iris), it would
+                    be two methods but only one factor category.
+                  </p>
+                </div>
+              </div>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q2:</strong> In a Zero Trust architecture, which
+                  statement BEST describes the core principle?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="iam-q2" value="a" /> A) Internal
+                    network traffic is inherently trusted</label
+                  >
+                  <label
+                    ><input type="radio" name="iam-q2" value="b" /> B) All
+                    access requests must be verified regardless of source
+                    location</label
+                  >
+                  <label
+                    ><input type="radio" name="iam-q2" value="c" /> C) VPN
+                    connections provide sufficient trust</label
+                  >
+                  <label
+                    ><input type="radio" name="iam-q2" value="d" /> D) Firewalls
+                    eliminate the need for internal authentication</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: B) All access requests must be verified
+                    regardless of source location
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> Zero Trust operates on "never
+                    trust, always verify." No implicit trust is granted based on
+                    network location, VPN status, or previous authentication.
+                    Every request is authenticated, authorized, and encrypted.
+                    This contrasts with perimeter-based security where internal
+                    traffic was trusted by default.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5: Incident Response -->
+        <div class="fund-panel" id="panel-ir">
+          <div class="fund-content-row">
+            <div class="fund-knowledge">
+              <h2>🚨 Incident Response</h2>
+              <div class="fund-points">
+                <div class="fund-point">
+                  <strong>IR Lifecycle (NIST SP 800-61)</strong> — Four phases:
+                  1) Preparation (policies, tools, training), 2) Detection &
+                  Analysis (monitoring, triage, classification), 3) Containment,
+                  Eradication & Recovery (isolate, remove, restore), 4)
+                  Post-Incident Activity (lessons learned, documentation).
+                </div>
+                <div class="fund-point">
+                  <strong>Detection & Triage</strong> — SIEM systems (Splunk,
+                  Elastic, QRadar) correlate logs for anomaly detection. SOC
+                  analysts use the MITRE ATT&CK framework to map observed
+                  behaviors to known techniques. Alert triage prioritizes true
+                  positives and measures by severity and impact.
+                </div>
+                <div class="fund-point">
+                  <strong>Containment Strategies</strong> — Short-term: isolate
+                  affected systems (network quarantine, disable accounts).
+                  Long-term: patch vulnerabilities, reset credentials, harden
+                  configurations. Evidence preservation is critical — image
+                  disks before wiping, maintain chain of custody.
+                </div>
+                <div class="fund-point">
+                  <strong>Digital Forensics</strong> — Acquire evidence: disk
+                  imaging (dd, FTK Imager), memory dumps (WinPMEM). Analyze:
+                  timeline analysis, artifact recovery, log correlation. Tools:
+                  Autopsy, EnCase, Volatility. Order of volatility: registers →
+                  cache → RAM → disk → logs → network.
+                </div>
+                <div class="fund-point">
+                  <strong>MITRE ATT&CK Framework</strong> — Knowledge base of
+                  adversary tactics (14 categories: Reconnaissance through
+                  Impact) and techniques. Used for threat-informed defense,
+                  detection engineering, red team planning, and gap analysis.
+                  Sub-techniques provide granular detail.
+                </div>
+              </div>
+              <div class="fund-note">
+                ⚠️ <strong>Important:</strong> Time is critical during
+                incidents. Having pre-built runbooks, communication templates,
+                and an incident response plan dramatically reduces response
+                time. Practice with tabletop exercises regularly.
+              </div>
+            </div>
+            <div class="fund-exam">
+              <h3>📝 Exam Questions</h3>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q1:</strong> During an active ransomware incident, a
+                  security analyst's FIRST priority should be to:
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="ir-q1" value="a" /> A) Pay the
+                    ransom to recover data quickly</label
+                  >
+                  <label
+                    ><input type="radio" name="ir-q1" value="b" /> B) Isolate
+                    affected systems to prevent lateral movement</label
+                  >
+                  <label
+                    ><input type="radio" name="ir-q1" value="c" /> C) Reimage
+                    all systems immediately</label
+                  >
+                  <label
+                    ><input type="radio" name="ir-q1" value="d" /> D) Contact
+                    the media to disclose the breach</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: B) Isolate affected systems to prevent lateral
+                    movement
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> Containment is the immediate
+                    priority to stop ransomware spread. Isolate infected systems
+                    from the network while preserving evidence. Paying ransom is
+                    discouraged (no guarantee of recovery, funds criminal
+                    operations). Reimaging destroys forensic evidence. Media
+                    disclosure follows legal/regulatory timelines, not immediate
+                    reaction.
+                  </p>
+                </div>
+              </div>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q2:</strong> When collecting digital evidence from a
+                  running system, which should be collected FIRST based on order
+                  of volatility?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="ir-q2" value="a" /> A) Hard drive
+                    contents</label
+                  >
+                  <label
+                    ><input type="radio" name="ir-q2" value="b" /> B) System
+                    logs</label
+                  >
+                  <label
+                    ><input type="radio" name="ir-q2" value="c" /> C) RAM /
+                    memory contents</label
+                  >
+                  <label
+                    ><input type="radio" name="ir-q2" value="d" /> D) Network
+                    connection state</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: C) RAM / memory contents
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> Order of volatility (RFC
+                    3227): Registers/cache → RAM → network state → disk →
+                    removable media → logs. RAM is highly volatile and contains
+                    running processes, encryption keys, network connections, and
+                    malware that may not exist on disk (fileless malware). While
+                    network state (D) is also volatile, RAM capture takes
+                    priority as it contains the most actionable forensic data.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6: Web Application Security -->
+        <div class="fund-panel" id="panel-webapp">
+          <div class="fund-content-row">
+            <div class="fund-knowledge">
+              <h2>🌍 Web Application Security</h2>
+              <div class="fund-points">
+                <div class="fund-point">
+                  <strong>OWASP Top 10</strong> — The essential web
+                  vulnerability list: A01-Broken Access Control,
+                  A02-Cryptographic Failures, A03-Injection, A04-Insecure
+                  Design, A05-Security Misconfiguration, A06-Vulnerable
+                  Components, A07-Authentication Failures, A08-Data Integrity
+                  Failures, A09-Logging Failures, A10-SSRF.
+                </div>
+                <div class="fund-point">
+                  <strong>SQL Injection</strong> — Attacker injects SQL code
+                  through user input to manipulate database queries. Types:
+                  classic (error-based), blind (boolean/time-based),
+                  union-based. Prevention: parameterized queries/prepared
+                  statements, input validation, stored procedures, WAF rules,
+                  least privilege DB accounts.
+                </div>
+                <div class="fund-point">
+                  <strong>Cross-Site Scripting (XSS)</strong> — Reflected XSS:
+                  malicious script in URL parameters. Stored XSS: script
+                  persisted in database. DOM-based: client-side manipulation.
+                  Prevention: output encoding (context-dependent), Content
+                  Security Policy (CSP) headers, input sanitization, HTTPOnly
+                  cookies.
+                </div>
+                <div class="fund-point">
+                  <strong>CSRF & SSRF</strong> — CSRF tricks authenticated users
+                  into performing unwanted actions (via forged requests).
+                  Prevention: anti-CSRF tokens, SameSite cookies, custom
+                  headers. SSRF forces server to make requests to unintended
+                  locations (internal services, cloud metadata). Prevention:
+                  allowlists, no user-controlled URLs.
+                </div>
+                <div class="fund-point">
+                  <strong>Security Headers & HTTPS</strong> — Essential headers:
+                  Content-Security-Policy, X-Frame-Options,
+                  Strict-Transport-Security (HSTS), X-Content-Type-Options. TLS
+                  1.3 is the current standard — disables weak ciphers, mandates
+                  forward secrecy, reduces handshake to 1-RTT (0-RTT with
+                  resumption).
+                </div>
+              </div>
+              <div class="fund-note">
+                ⚠️ <strong>Important:</strong> Web apps are the #1 attack
+                vector. Always assume all user input is malicious. Defense in
+                depth: WAF + secure coding + CSP + monitoring + regular pen
+                testing.
+              </div>
+            </div>
+            <div class="fund-exam">
+              <h3>📝 Exam Questions</h3>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q1:</strong> A web application directly concatenates
+                  user input into SQL queries:
+                  <code>SELECT * FROM users WHERE id = '" + userInput + "'</code
+                  >. What is the MOST effective remediation?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="web-q1" value="a" /> A) Input
+                    length validation</label
+                  >
+                  <label
+                    ><input type="radio" name="web-q1" value="b" /> B) Web
+                    Application Firewall (WAF)</label
+                  >
+                  <label
+                    ><input type="radio" name="web-q1" value="c" /> C)
+                    Parameterized queries / prepared statements</label
+                  >
+                  <label
+                    ><input type="radio" name="web-q1" value="d" /> D) Encoding
+                    special characters in output</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: C) Parameterized queries / prepared statements
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> Parameterized queries separate
+                    SQL code from data, making injection impossible regardless
+                    of input content. WAFs can be bypassed with encoding tricks.
+                    Input length validation doesn't prevent carefully crafted
+                    short payloads. Output encoding prevents XSS, not SQLi.
+                    Prepared statements are the definitive solution recommended
+                    by OWASP.
+                  </p>
+                </div>
+              </div>
+              <div class="exam-q">
+                <p class="exam-question">
+                  <strong>Q2:</strong> Which HTTP header instructs the browser
+                  to ONLY connect to a website via HTTPS for a specified
+                  duration?
+                </p>
+                <div class="exam-options">
+                  <label
+                    ><input type="radio" name="web-q2" value="a" /> A)
+                    Content-Security-Policy</label
+                  >
+                  <label
+                    ><input type="radio" name="web-q2" value="b" /> B)
+                    X-Frame-Options</label
+                  >
+                  <label
+                    ><input type="radio" name="web-q2" value="c" /> C)
+                    Strict-Transport-Security (HSTS)</label
+                  >
+                  <label
+                    ><input type="radio" name="web-q2" value="d" /> D)
+                    X-Content-Type-Options</label
+                  >
+                </div>
+                <button class="reveal-btn" onclick="revealAnswer(this)">
+                  Reveal Answer
+                </button>
+                <div class="exam-answer" style="display: none">
+                  <p class="correct-answer">
+                    ✅ Correct: C) Strict-Transport-Security (HSTS)
+                  </p>
+                  <p class="answer-explain">
+                    <strong>Explanation:</strong> HSTS forces browsers to use
+                    HTTPS for a set max-age period, preventing SSL stripping
+                    attacks. CSP controls allowed content sources (scripts,
+                    styles). X-Frame-Options prevents clickjacking (iframe
+                    embedding). X-Content-Type-Options prevents MIME type
+                    sniffing. HSTS with includeSubDomains and preloading
+                    provides the strongest transport protection.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="neo-footer">
-        <div class="neo-footer-inner"><div class="neo-footer-brand">
-            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="NeoTrace"><span>NeoTrace</span></a>
-            <p class="footer-desc">AI-powered cybersecurity intelligence platform.</p>
-        </div></div>
-        <div class="neo-footer-divider"></div>
-        <div class="neo-footer-bottom">
-            <p>&copy; 2026 NeoTrace. All rights reserved.</p>
-            <div class="neo-footer-bottom-right"><a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">📈 Back to Top</a></div>
+      <div class="neo-footer-inner">
+        <div class="neo-footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.png" alt="NeoTrace" />
+            <span>NeoTrace</span>
+          </a>
+          <p class="footer-desc">
+            All-in-One Cybersecurity Learning Hub
+          </p>
+          <div class="neo-footer-tagline">
+            <span class="dot"></span>
+            Processing 100% locally in your browser
+          </div>
+          <div class="neo-footer-social">
+            <a
+              href="https://github.com/Brian-code-123/NeoTrace"
+              target="_blank"
+              title="GitHub"
+              aria-label="GitHub"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.79 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
+        <div class="neo-footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="story.html">Story Mode</a></li>
+            <li><a href="game.html">Training Game</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="phone-inspector.html">Phone Inspector</a></li>
+            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+            <li><a href="email-analyzer.html">Email Analyzer</a></li>
+            <li><a href="image-forensics.html">Image Forensics</a></li>
+            <li><a href="content-verifier.html">Text Verifier</a></li>
+            <li><a href="password-checker.html">Password Checker</a></li>
+            <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+            <li><a href="qr-scanner.html">QR Scanner</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="youtube-learning.html">YouTube Learning</a></li>
+            <li><a href="influencers.html">Influencers</a></li>
+            <li><a href="cyber-fundamentals.html">Cyber Fundamentals</a></li>
+            <li><a href="social-engineering.html">Social Engineering</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="neo-footer-divider"></div>
+      <div class="neo-footer-bottom">
+        <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+        <div class="neo-footer-bottom-right">
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >&#8593; Back to Top</a
+          >
+        </div>
+      </div>
     </footer>
 
-    <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">🤖</button>
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      🤖
+    </button>
     <div class="chatbot-panel" id="chatbotPanel"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -395,20 +1124,27 @@
     <script src="js/main.js"></script>
     <script src="js/chatbot.js"></script>
     <script>
-    // Tab switching
-    document.querySelectorAll('.fund-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.fund-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.fund-panel').forEach(p => p.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById('panel-' + tab.dataset.topic).classList.add('active');
+      // Tab switching
+      document.querySelectorAll(".fund-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document
+            .querySelectorAll(".fund-tab")
+            .forEach((t) => t.classList.remove("active"));
+          document
+            .querySelectorAll(".fund-panel")
+            .forEach((p) => p.classList.remove("active"));
+          tab.classList.add("active");
+          document
+            .getElementById("panel-" + tab.dataset.topic)
+            .classList.add("active");
         });
-    });
-    function revealAnswer(btn) {
+      });
+      function revealAnswer(btn) {
         const ans = btn.nextElementSibling;
-        ans.style.display = ans.style.display === 'none' ? 'block' : 'none';
-        btn.textContent = ans.style.display === 'none' ? 'Reveal Answer' : 'Hide Answer';
-    }
+        ans.style.display = ans.style.display === "none" ? "block" : "none";
+        btn.textContent =
+          ans.style.display === "none" ? "Reveal Answer" : "Hide Answer";
+      }
     </script>
-</body>
+  </body>
 </html>

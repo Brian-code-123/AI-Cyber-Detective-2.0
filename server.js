@@ -2079,44 +2079,45 @@ app.post("/api/chatbot", async (req, res) => {
   const { message, history, context } = req.body;
   if (!message) return res.status(400).json({ error: "message required" });
 
-  const systemPrompt = `You are NeoTrace AI, an expert cybersecurity assistant with deep, broad knowledge of the entire field of cyber security. You can answer ANY cybersecurity question — not just about the NeoTrace platform.
+  const systemPrompt = `You are NeoTrace AI, a friendly and expert cybersecurity assistant. You have deep knowledge of cybersecurity AND the NeoTrace platform.
 
-## Your expertise covers (but is not limited to):
-- Threat intelligence: phishing, social engineering, malware, ransomware, APTs, zero-day exploits
-- Defensive security: firewalls, IDS/IPS, SIEM, EDR, network segmentation, MFA, encryption
-- Offensive security: penetration testing, red teaming, OSINT, CVE exploitation, CTF challenges
-- Identity & access: password security, OAuth, SSO, PAM, zero-trust architecture
-- Network security: VPN, TLS/SSL, DNS poisoning, MitM attacks, Wireshark, packet analysis
-- Cloud & app security: OWASP Top 10, DevSecOps, container security, AWS/Azure/GCP security
-- Certifications & careers: CISSP, CEH, OSCP, CompTIA Security+, career paths, salaries
-- Current events: recent CVEs, data breaches, threat actors, government advisories
-- Privacy & law: GDPR, CCPA, HIPAA, incident response, forensics, legal obligations
-- Practical how-to: setup guides, tool usage, hardening checklists, CTF walkthroughs
+## NeoTrace Platform — Tools & How to Use Them:
+- **Phone Inspector** — Analyze any phone number for carrier, risk score, VOIP detection, fraud signals. Go to "For You → Phone Inspector", enter the number, click Analyze.
+- **URL Scanner** — Deep URL analysis: WHOIS, DNS, SSL cert check, safe browsing, redirect chain. Go to "For You → URL Scanner", paste URL, click Scan.
+- **Image Forensics** — Detect AI-generated or manipulated images via EXIF metadata + pixel artifact analysis. Go to "For You → Image Forensics", upload an image.
+- **Text Verifier / Content Verifier** — AI credibility scoring, clickbait detection, fact-check support. Paste any article or message text.
+- **Password Checker** — Real-time strength scoring, entropy, estimated crack time, and password generator. Go to "For You → Password Checker".
+- **Email Analyzer** — SPF/DKIM/DMARC header verification, phishing risk scoring. Paste email headers.
+- **WiFi Scanner** — Network security assessment, detect open/WEP networks and risks.
+- **QR Scanner** — Decode QR codes and instantly scan the embedded URL for threats.
+- **Story Mode** — Interactive 4-chapter narrative learning experience covering real scam tactics (prize, urgency, impersonation, social engineering).
+- **Training Game** — 5-tier quiz game with 15+ realistic attack scenarios. Earn points and appear on the leaderboard.
+- **Certifications Page** — Guides for CompTIA Security+, CEH, OSCP, CISSP and more.
+- **Careers Page** — Cybersecurity job roles, salary ranges, and required skills.
+- **YouTube Learning** — Curated free video courses from NetworkChuck, Professor Messer, John Hammond, and more.
+- **Books** — Recommended cybersecurity reading list.
+- **Courses** — Online course recommendations for all levels.
 
-## NeoTrace platform tools (you can also guide users here):
-- **Phone Inspector**: Analyze any phone number — carrier, risk score, VOIP detection, fraud signals
-- **URL Scanner**: Deep URL analysis — WHOIS, DNS, SSL, safe browsing, redirect chains
-- **Image Forensics**: Detect AI-generated/manipulated images via EXIF + artifact analysis
-- **Text Verifier**: AI credibility scoring, clickbait detection, fact-check support
-- **Password Checker**: Real-time zxcvbn strength scoring, entropy, crack time, generator
-- **Email Analyzer**: SPF/DKIM/DMARC verification, phishing header analysis
-- **WiFi Scanner**: Network security assessment, open/WEP risk detection
-- **QR Scanner**: Decode QR codes + instant URL threat scan
-- **Story Mode**: 4 interactive chapters on real scam tactics
-- **Training Game**: 5-tier quiz game with 15+ attack scenarios
+## Cybersecurity Expertise:
+- Phishing, social engineering, malware, ransomware, APTs
+- Firewalls, IDS/IPS, SIEM, EDR, MFA, encryption
+- Penetration testing, red teaming, OSINT, CTF
+- OWASP Top 10, web security, cloud security
+- Password security, OAuth, zero-trust
+- GDPR, HIPAA, incident response, forensics
+- Current CVEs, threat intelligence, breaches
 
-## Conversation rules:
-1. This is a MULTI-TURN conversation — always read prior context and give coherent follow-up answers
-2. If asked "more", "what else", "continue", "and then?" — expand with new info, never repeat
-3. Answer ANY question (not just platform questions) — you are a full cybersecurity expert AI
-4. Give CONCRETE, SPECIFIC, ACTIONABLE answers — include commands, examples, real tools when relevant
-5. For technical questions: show code/commands in markdown code blocks
-6. For "how do I use [NeoTrace tool]": give a step-by-step walkthrough
-7. Reply in the EXACT SAME LANGUAGE the user used: English → English; 廣東話/中文 → 繁體中文
-8. **ALL answers must be in point form (bullets or numbered), ≤50 words, and extremely concise.**
-9. If the answer cannot be made ≤50 words, summarize only the most critical points.
+## Response Format Rules (CRITICAL — always follow these):
+1. **Structure every answer clearly** — use headers (##), bullet points (- item), numbered steps (1. step), and **bold** for key terms.
+2. **For how-to questions**: always use numbered steps. Example: "1. Open the URL Scanner page. 2. Paste the URL..."
+3. **For concept explanations**: use a short definition first, then bullet points for details.
+4. **No character limits** — give complete, useful answers. Do NOT truncate or abbreviate.
+5. **Use markdown formatting**: \`inline code\` for commands/tools, **bold** for important terms, > for tips/warnings.
+6. **Multi-turn conversation**: read previous context, give coherent follow-ups. Never repeat what was already said.
+7. **Language**: reply in the EXACT same language the user used. English → English. 廣東話/中文 → 繁體中文.
+8. **Be specific and actionable**: include real commands, tool names, example payloads where appropriate.
 
-${context ? `## Current tool context:\n${context}` : ""}`;
+${context ? `## Current page context:\n${context}` : ""}`;
 
   // Build messages array with full conversation history
   const prevHistory = (history || []).slice(-12); // keep last 6 turns
@@ -2178,26 +2179,6 @@ ${context ? `## Current tool context:\n${context}` : ""}`;
     let reply = result.choices?.[0]?.message?.content ||
       "Sorry, I couldn't process that. Try again!";
 
-    // 強制格式化：拆分為點列，截斷50字內
-    function formatToBullets(text) {
-      // 先用句號、分號、換行拆分
-      let items = text.split(/[。.;\n]+/).map(s => s.trim()).filter(Boolean);
-      // 只取前3-5項，並每項限制15字
-      let bullets = [];
-      let totalWords = 0;
-      for (let i = 0; i < items.length && bullets.length < 5; i++) {
-        let item = items[i];
-        // 截斷每項至15字
-        if (item.length > 15) item = item.slice(0, 15) + '...';
-        let itemWords = item.split(/\s+/).length;
-        if (totalWords + itemWords > 50) break;
-        bullets.push('• ' + item);
-        totalWords += itemWords;
-        if (totalWords >= 50) break;
-      }
-      return bullets.join('\n');
-    }
-    reply = formatToBullets(reply);
     res.json({ reply });
   } catch (err) {
     console.error("Chatbot error:", err.message);

@@ -1,349 +1,849 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YouTube Learning - NeoTrace</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎬%3C/text%3E%3C/svg%3E">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎬%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
     <canvas id="matrix-canvas"></canvas>
     <nav class="navbar">
-        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="NeoTrace" class="logo-img"><span>NeoTrace</span></a>
-        <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
-            <li class="nav-dropdown">
-                <a href="#">Game</a>
-                <div class="mega-menu game-mega">
-                    <div class="mega-col">
-                        <span class="mega-label">🎮 Game Modes</span>
-                        <a href="story.html" data-i18n="nav.story">Story Mode</a>
-                        <a href="game.html" data-i18n="nav.game">Beginner Training</a>
-                        <a href="game-intermediate.html">Crypto Challenge</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-dropdown active">
-                <a href="#">For You</a>
-                <div class="mega-menu foryou-mega">
-                    <div class="mega-col">
-                        <span class="mega-label">🛠️ Tools</span>
-                        <a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a>
-                        <a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a>
-                        <a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a>
-                        <a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a>
-                        <a href="password-checker.html" data-i18n="nav.password">Password Checker</a>
-                        <a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a>
-                        <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
-                        <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
-                    </div>
-                    <div class="mega-divider"></div>
-                    <div class="mega-col">
-                        <span class="mega-label">📚 Resources</span>
-                        <a href="books.html">Books</a>
-                        <a href="youtube-learning.html" class="active">YouTube Learning</a>
-                        <a href="influencers.html">Influencers</a>
-                        <a href="cyber-fundamentals.html">Fundamentals</a>
-                    </div>
-                    <div class="mega-divider"></div>
-                    <div class="mega-col">
-                        <span class="mega-label">💼 Career</span>
-                        <a href="careers.html" data-i18n="nav.careers">Careers</a>
-                        <a href="courses.html" data-i18n="nav.courses">Courses</a>
-                        <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
-                    </div>
-                </div>
-            </li>
-            <li><a href="about.html" data-i18n="nav.about">About</a></li>
-        </ul>
-        <div class="nav-right">
-            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="zh">中文</button></div>
-            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
-            <button class="hamburger"><span></span><span></span><span></span></button>
+      <a href="index.html" class="nav-logo"
+        ><img src="images/logo.png" alt="NeoTrace" class="logo-img" /><span
+          >NeoTrace</span
+        ></a
+      >
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Game</a>
+          <div class="mega-menu game-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="4" />
+                  <path d="M8 12h3m-1.5-1.5v3M15 11.5h.01M18 11.5h.01" /></svg
+                >Game Modes</span
+              >
+              <a href="story.html" data-i18n="nav.story">Story Mode</a>
+              <a href="game.html" data-i18n="nav.game">Beginner Training</a>
+              <a href="game-intermediate.html">Crypto Challenge</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-dropdown active">
+          <a href="#">For You</a>
+          <div class="mega-menu foryou-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                  /></svg
+                >Tools</span
+              >
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+              <a href="password-checker.html" data-i18n="nav.password"
+                >Password Checker</a
+              >
+              <a href="email-analyzer.html" data-i18n="nav.email"
+                >Email Analyzer</a
+              >
+              <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+              <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg
+                >Resources</span
+              >
+              <a href="books.html">Books</a>
+              <a href="youtube-learning.html" class="active"
+                >YouTube Learning</a
+              >
+              <a href="influencers.html">Influencers</a>
+              <a href="cyber-fundamentals.html">Fundamentals</a>
+              <a href="social-engineering.html">Social Engineering Lab</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg
+                >Career</span
+              >
+              <a href="careers.html" data-i18n="nav.careers">Careers</a>
+              <a href="courses.html" data-i18n="nav.courses">Courses</a>
+              <a href="certifications.html" data-i18n="nav.certs"
+                >Certifications</a
+              >
+            </div>
+          </div>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button
+          ><button class="lang-btn" data-lang="zh">中文</button>
         </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          🌙
+        </button>
+        <button class="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </nav>
 
     <main class="main-content">
-        <section class="page-hero yt-hero-compact">
-            <h1>🎬 YouTube Learning Hub</h1>
-            <p>Best free cybersecurity channels — click any card to watch</p>
-        </section>
+      <section class="page-hero yt-hero-compact">
+        <h1>🎬 YouTube Learning Hub</h1>
+        <p>Best free cybersecurity channels — click any card to watch</p>
+      </section>
 
-        <div class="yt-page-wrap">
-            <!-- Filter chips -->
-            <div class="yt-filter-row">
-                <button class="yt-chip active" data-filter="all">All</button>
-                <button class="yt-chip" data-filter="beginner">🟢 Beginner</button>
-                <button class="yt-chip" data-filter="intermediate">🟡 Intermediate</button>
-                <button class="yt-chip" data-filter="advanced">🔴 Advanced</button>
+      <div class="yt-page-wrap">
+        <!-- Filter chips -->
+        <div class="yt-filter-row">
+          <button class="yt-chip active" data-filter="all">All</button>
+          <button class="yt-chip" data-filter="beginner">🟢 Beginner</button>
+          <button class="yt-chip" data-filter="intermediate">
+            🟡 Intermediate
+          </button>
+          <button class="yt-chip" data-filter="advanced">🔴 Advanced</button>
+        </div>
+
+        <div class="yt-layout">
+          <!-- ══ VIDEO GRID ══ -->
+          <div class="yt-grid" id="ytGrid">
+            <!-- NetworkChuck -->
+            <div
+              class="yt-card"
+              data-level="beginner"
+              onclick="
+                openModal(
+                  'B7A4KZRGt40',
+                  'NetworkChuck — FREE Cybersecurity for Beginners',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/B7A4KZRGt40/hqdefault.jpg"
+                  alt="NetworkChuck"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #30d158; --g2: #00c7be"
+                >
+                  📺
+                </div>
+                <span class="yt-pill beginner">Beginner</span>
+                <span class="yt-dur">Full Course</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #30d158; --av2: #00c7be">
+                  NC
+                </div>
+                <div class="yt-text">
+                  <h4>FREE Cybersecurity for Beginners</h4>
+                  <p>NetworkChuck · Networking, Linux, Hacking</p>
+                </div>
+              </div>
             </div>
 
-            <div class="yt-layout">
-                <!-- ══ VIDEO GRID ══ -->
-                <div class="yt-grid" id="ytGrid">
-                    <!-- NetworkChuck -->
-                    <div class="yt-card" data-level="beginner" onclick="openModal('B7A4KZRGt40','NetworkChuck — FREE Cybersecurity for Beginners')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/B7A4KZRGt40/hqdefault.jpg" alt="NetworkChuck" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#30D158;--g2:#00C7BE;">📺</div>
-                            <span class="yt-pill beginner">Beginner</span>
-                            <span class="yt-dur">Full Course</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#30D158;--av2:#00C7BE;">NC</div>
-                            <div class="yt-text">
-                                <h4>FREE Cybersecurity for Beginners</h4>
-                                <p>NetworkChuck · Networking, Linux, Hacking</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Professor Messer -->
+            <div
+              class="yt-card"
+              data-level="beginner"
+              onclick="
+                openModal(
+                  'ZyjLHt3fhek',
+                  'Professor Messer — CompTIA Security+ SY0-701',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/ZyjLHt3fhek/hqdefault.jpg"
+                  alt="Professor Messer"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #0a84ff; --g2: #5e5ce6"
+                >
+                  📚
+                </div>
+                <span class="yt-pill beginner">Beginner</span>
+                <span class="yt-dur">Full Course</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #0a84ff; --av2: #5e5ce6">
+                  PM
+                </div>
+                <div class="yt-text">
+                  <h4>CompTIA Security+ SY0-701 Training</h4>
+                  <p>Professor Messer · Certification Prep</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- Professor Messer -->
-                    <div class="yt-card" data-level="beginner" onclick="openModal('ZyjLHt3fhek','Professor Messer — CompTIA Security+ SY0-701')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/ZyjLHt3fhek/hqdefault.jpg" alt="Professor Messer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#0A84FF;--g2:#5E5CE6;">📚</div>
-                            <span class="yt-pill beginner">Beginner</span>
-                            <span class="yt-dur">Full Course</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#0A84FF;--av2:#5E5CE6;">PM</div>
-                            <div class="yt-text">
-                                <h4>CompTIA Security+ SY0-701 Training</h4>
-                                <p>Professor Messer · Certification Prep</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- TCM Security -->
+            <div
+              class="yt-card"
+              data-level="beginner"
+              onclick="
+                openModal(
+                  '3FNYvj2U0HM',
+                  'The Cyber Mentor — Ethical Hacking in 15 Hours',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/3FNYvj2U0HM/hqdefault.jpg"
+                  alt="TCM Security"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #ff9f0a; --g2: #ff453a"
+                >
+                  🎯
+                </div>
+                <span class="yt-pill beginner">Beginner</span>
+                <span class="yt-dur">15 hrs</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #ff9f0a; --av2: #ff453a">
+                  TC
+                </div>
+                <div class="yt-text">
+                  <h4>Ethical Hacking in 15 Hours</h4>
+                  <p>The Cyber Mentor · Pen Testing</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- TCM Security -->
-                    <div class="yt-card" data-level="beginner" onclick="openModal('3FNYvj2U0HM','The Cyber Mentor — Ethical Hacking in 15 Hours')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/3FNYvj2U0HM/hqdefault.jpg" alt="TCM Security" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#FF9F0A;--g2:#FF453A;">🎯</div>
-                            <span class="yt-pill beginner">Beginner</span>
-                            <span class="yt-dur">15 hrs</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#FF9F0A;--av2:#FF453A;">TC</div>
-                            <div class="yt-text">
-                                <h4>Ethical Hacking in 15 Hours</h4>
-                                <p>The Cyber Mentor · Pen Testing</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Computerphile -->
+            <div
+              class="yt-card"
+              data-level="beginner"
+              onclick="
+                openModal(
+                  'AQDCe585Lnc',
+                  'Computerphile — Cybersecurity &amp; Cryptography',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/AQDCe585Lnc/hqdefault.jpg"
+                  alt="Computerphile"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #30d158; --g2: #64d2ff"
+                >
+                  🔐
+                </div>
+                <span class="yt-pill beginner">Beginner</span>
+                <span class="yt-dur">Series</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #30d158; --av2: #64d2ff">
+                  CP
+                </div>
+                <div class="yt-text">
+                  <h4>Cybersecurity &amp; Cryptography Explained</h4>
+                  <p>Computerphile · Academic Security</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- Computerphile -->
-                    <div class="yt-card" data-level="beginner" onclick="openModal('AQDCe585Lnc','Computerphile — Cybersecurity &amp; Cryptography')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/AQDCe585Lnc/hqdefault.jpg" alt="Computerphile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#30D158;--g2:#64D2FF;">🔐</div>
-                            <span class="yt-pill beginner">Beginner</span>
-                            <span class="yt-dur">Series</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#30D158;--av2:#64D2FF;">CP</div>
-                            <div class="yt-text">
-                                <h4>Cybersecurity &amp; Cryptography Explained</h4>
-                                <p>Computerphile · Academic Security</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- John Hammond -->
+            <div
+              class="yt-card"
+              data-level="intermediate"
+              onclick="
+                openModal(
+                  '5QzgzBpv_PQ',
+                  'John Hammond — CTF Walkthroughs &amp; Malware Analysis',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/5QzgzBpv_PQ/hqdefault.jpg"
+                  alt="John Hammond"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #ff9f0a; --g2: #ff453a"
+                >
+                  🔍
+                </div>
+                <span class="yt-pill intermediate">Intermediate</span>
+                <span class="yt-dur">CTF</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #ff9f0a; --av2: #ff453a">
+                  JH
+                </div>
+                <div class="yt-text">
+                  <h4>CTF Walkthroughs &amp; Malware Analysis</h4>
+                  <p>John Hammond · CTF · Threat Research</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- John Hammond -->
-                    <div class="yt-card" data-level="intermediate" onclick="openModal('5QzgzBpv_PQ','John Hammond — CTF Walkthroughs &amp; Malware Analysis')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/5QzgzBpv_PQ/hqdefault.jpg" alt="John Hammond" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#FF9F0A;--g2:#FF453A;">🔍</div>
-                            <span class="yt-pill intermediate">Intermediate</span>
-                            <span class="yt-dur">CTF</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#FF9F0A;--av2:#FF453A;">JH</div>
-                            <div class="yt-text">
-                                <h4>CTF Walkthroughs &amp; Malware Analysis</h4>
-                                <p>John Hammond · CTF · Threat Research</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- David Bombal -->
+            <div
+              class="yt-card"
+              data-level="intermediate"
+              onclick="
+                openModal(
+                  '8qzW0qI2pFw',
+                  'David Bombal — Ethical Hacking &amp; Networking Labs',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/8qzW0qI2pFw/hqdefault.jpg"
+                  alt="David Bombal"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #ff9f0a; --g2: #ff6b35"
+                >
+                  🌐
+                </div>
+                <span class="yt-pill intermediate">Intermediate</span>
+                <span class="yt-dur">Labs</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #ff9f0a; --av2: #ff6b35">
+                  DB
+                </div>
+                <div class="yt-text">
+                  <h4>Ethical Hacking &amp; Networking Labs</h4>
+                  <p>David Bombal · Kali Linux · Labs</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- David Bombal -->
-                    <div class="yt-card" data-level="intermediate" onclick="openModal('8qzW0qI2pFw','David Bombal — Ethical Hacking &amp; Networking Labs')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/8qzW0qI2pFw/hqdefault.jpg" alt="David Bombal" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#FF9F0A;--g2:#FF6B35;">🌐</div>
-                            <span class="yt-pill intermediate">Intermediate</span>
-                            <span class="yt-dur">Labs</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#FF9F0A;--av2:#FF6B35;">DB</div>
-                            <div class="yt-text">
-                                <h4>Ethical Hacking &amp; Networking Labs</h4>
-                                <p>David Bombal · Kali Linux · Labs</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- IppSec -->
+            <div
+              class="yt-card"
+              data-level="intermediate"
+              onclick="
+                openModal(
+                  'E35aTR2IQYI',
+                  'IppSec — HackTheBox Walkthrough Series',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/E35aTR2IQYI/hqdefault.jpg"
+                  alt="IppSec"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #bf5af2; --g2: #5e5ce6"
+                >
+                  🧩
+                </div>
+                <span class="yt-pill intermediate">Intermediate</span>
+                <span class="yt-dur">HTB</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #bf5af2; --av2: #5e5ce6">
+                  IP
+                </div>
+                <div class="yt-text">
+                  <h4>HackTheBox Walkthrough Series</h4>
+                  <p>IppSec · Privilege Escalation · HTB</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- IppSec -->
-                    <div class="yt-card" data-level="intermediate" onclick="openModal('E35aTR2IQYI','IppSec — HackTheBox Walkthrough Series')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/E35aTR2IQYI/hqdefault.jpg" alt="IppSec" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#BF5AF2;--g2:#5E5CE6;">🧩</div>
-                            <span class="yt-pill intermediate">Intermediate</span>
-                            <span class="yt-dur">HTB</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#BF5AF2;--av2:#5E5CE6;">IP</div>
-                            <div class="yt-text">
-                                <h4>HackTheBox Walkthrough Series</h4>
-                                <p>IppSec · Privilege Escalation · HTB</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- HackerSploit -->
+            <div
+              class="yt-card"
+              data-level="intermediate"
+              onclick="
+                openModal(
+                  'bzaJKCZFmFk',
+                  'HackerSploit — Red Team &amp; Pen Testing',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/bzaJKCZFmFk/hqdefault.jpg"
+                  alt="HackerSploit"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #ff453a; --g2: #ff9f0a"
+                >
+                  🛠
+                </div>
+                <span class="yt-pill intermediate">Intermediate</span>
+                <span class="yt-dur">Red Team</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #ff453a; --av2: #ff9f0a">
+                  HS
+                </div>
+                <div class="yt-text">
+                  <h4>Red Team &amp; Pen Testing Tutorials</h4>
+                  <p>HackerSploit · Metasploit · Burp Suite</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- HackerSploit -->
-                    <div class="yt-card" data-level="intermediate" onclick="openModal('bzaJKCZFmFk','HackerSploit — Red Team &amp; Pen Testing')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/bzaJKCZFmFk/hqdefault.jpg" alt="HackerSploit" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#FF453A;--g2:#FF9F0A;">🛠</div>
-                            <span class="yt-pill intermediate">Intermediate</span>
-                            <span class="yt-dur">Red Team</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#FF453A;--av2:#FF9F0A;">HS</div>
-                            <div class="yt-text">
-                                <h4>Red Team &amp; Pen Testing Tutorials</h4>
-                                <p>HackerSploit · Metasploit · Burp Suite</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- LiveOverflow -->
+            <div
+              class="yt-card"
+              data-level="advanced"
+              onclick="
+                openModal(
+                  'iyAyN3GFM7A',
+                  'LiveOverflow — Binary Exploitation &amp; Web Hacking',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/iyAyN3GFM7A/hqdefault.jpg"
+                  alt="LiveOverflow"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #bf5af2; --g2: #ff453a"
+                >
+                  💀
+                </div>
+                <span class="yt-pill advanced">Advanced</span>
+                <span class="yt-dur">Research</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #bf5af2; --av2: #ff453a">
+                  LO
+                </div>
+                <div class="yt-text">
+                  <h4>Binary Exploitation &amp; Web Hacking</h4>
+                  <p>LiveOverflow · Exploit Dev · Research</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- LiveOverflow -->
-                    <div class="yt-card" data-level="advanced" onclick="openModal('iyAyN3GFM7A','LiveOverflow — Binary Exploitation &amp; Web Hacking')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/iyAyN3GFM7A/hqdefault.jpg" alt="LiveOverflow" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#BF5AF2;--g2:#FF453A;">💀</div>
-                            <span class="yt-pill advanced">Advanced</span>
-                            <span class="yt-dur">Research</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#BF5AF2;--av2:#FF453A;">LO</div>
-                            <div class="yt-text">
-                                <h4>Binary Exploitation &amp; Web Hacking</h4>
-                                <p>LiveOverflow · Exploit Dev · Research</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- 13Cubed -->
+            <div
+              class="yt-card"
+              data-level="advanced"
+              onclick="
+                openModal(
+                  'J5Nf3BVLS4w',
+                  '13Cubed — Digital Forensics &amp; Incident Response',
+                )
+              "
+            >
+              <div class="yt-thumb">
+                <img
+                  src="https://i.ytimg.com/vi/J5Nf3BVLS4w/hqdefault.jpg"
+                  alt="13Cubed"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="yt-thumb-fallback"
+                  style="--g1: #bf5af2; --g2: #ff2d55"
+                >
+                  🔬
+                </div>
+                <span class="yt-pill advanced">Advanced</span>
+                <span class="yt-dur">DFIR</span>
+                <div class="yt-play">
+                  <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="yt-info">
+                <div class="yt-av" style="--av1: #bf5af2; --av2: #ff2d55">
+                  13
+                </div>
+                <div class="yt-text">
+                  <h4>Digital Forensics &amp; Incident Response</h4>
+                  <p>13Cubed · Volatility · Windows Forensics</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /yt-grid -->
 
-                    <!-- 13Cubed -->
-                    <div class="yt-card" data-level="advanced" onclick="openModal('J5Nf3BVLS4w','13Cubed — Digital Forensics &amp; Incident Response')">
-                        <div class="yt-thumb">
-                            <img src="https://i.ytimg.com/vi/J5Nf3BVLS4w/hqdefault.jpg" alt="13Cubed" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                            <div class="yt-thumb-fallback" style="--g1:#BF5AF2;--g2:#FF2D55;">🔬</div>
-                            <span class="yt-pill advanced">Advanced</span>
-                            <span class="yt-dur">DFIR</span>
-                            <div class="yt-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
-                        </div>
-                        <div class="yt-info">
-                            <div class="yt-av" style="--av1:#BF5AF2;--av2:#FF2D55;">13</div>
-                            <div class="yt-text">
-                                <h4>Digital Forensics &amp; Incident Response</h4>
-                                <p>13Cubed · Volatility · Windows Forensics</p>
-                            </div>
-                        </div>
-                    </div>
+          <!-- ══ SIDEBAR ══ -->
+          <aside class="yt-sidebar">
+            <!-- Study Methods -->
+            <div class="yt-sb-card">
+              <div class="yt-sb-head">
+                <span>⚡</span><span class="yt-sb-label">Study Methods</span>
+              </div>
+              <div class="yt-sb-body">
+                <div class="yt-tip">
+                  <span class="yt-tip-ico">🍅</span>
+                  <div>
+                    <strong>Pomodoro</strong
+                    ><span
+                      >25 min focus, 5 min break. 4 rounds → 15 min rest.</span
+                    >
+                  </div>
+                </div>
+                <div class="yt-tip">
+                  <span class="yt-tip-ico">🔁</span>
+                  <div>
+                    <strong>Spaced Repetition</strong
+                    ><span>Review: 1d → 3d → 7d → 30d intervals.</span>
+                  </div>
+                </div>
+                <div class="yt-tip">
+                  <span class="yt-tip-ico">🏗️</span>
+                  <div>
+                    <strong>Feynman Technique</strong
+                    ><span
+                      >Explain it simply — gaps reveal knowledge gaps.</span
+                    >
+                  </div>
+                </div>
+                <div class="yt-tip">
+                  <span class="yt-tip-ico">📝</span>
+                  <div>
+                    <strong>Active Recall</strong
+                    ><span
+                      >Close notes, recall key points. Testing >
+                      re-reading.</span
+                    >
+                  </div>
+                </div>
+                <div class="yt-tip">
+                  <span class="yt-tip-ico">🧪</span>
+                  <div>
+                    <strong>Practice Labs</strong
+                    ><span>TryHackMe &amp; HackTheBox alongside videos.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                </div><!-- /yt-grid -->
+            <!-- Learning Path -->
+            <div class="yt-sb-card">
+              <div class="yt-sb-head">
+                <span>🗺️</span><span class="yt-sb-label">Learning Path</span>
+              </div>
+              <div class="yt-sb-body yt-path">
+                <div class="yt-step">
+                  <div class="yt-step-dot" style="--dc: #30d158">1</div>
+                  <div class="yt-step-line"></div>
+                  <div class="yt-step-content">
+                    <strong>Beginner</strong
+                    ><span>NetworkChuck → Professor Messer → TCM Security</span>
+                  </div>
+                </div>
+                <div class="yt-step">
+                  <div class="yt-step-dot" style="--dc: #ff9f0a">2</div>
+                  <div class="yt-step-line"></div>
+                  <div class="yt-step-content">
+                    <strong>Intermediate</strong
+                    ><span>John Hammond → David Bombal → IppSec</span>
+                  </div>
+                </div>
+                <div class="yt-step">
+                  <div class="yt-step-dot" style="--dc: #bf5af2">3</div>
+                  <div class="yt-step-line yt-step-line--last"></div>
+                  <div class="yt-step-content">
+                    <strong>Advanced</strong
+                    ><span>LiveOverflow → 13Cubed → Bug Bounties</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                <!-- ══ SIDEBAR ══ -->
-                <aside class="yt-sidebar">
-
-                    <!-- Study Methods -->
-                    <div class="yt-sb-card">
-                        <div class="yt-sb-head"><span>⚡</span><span class="yt-sb-label">Study Methods</span></div>
-                        <div class="yt-sb-body">
-                            <div class="yt-tip"><span class="yt-tip-ico">🍅</span><div><strong>Pomodoro</strong><span>25 min focus, 5 min break. 4 rounds → 15 min rest.</span></div></div>
-                            <div class="yt-tip"><span class="yt-tip-ico">🔁</span><div><strong>Spaced Repetition</strong><span>Review: 1d → 3d → 7d → 30d intervals.</span></div></div>
-                            <div class="yt-tip"><span class="yt-tip-ico">🏗️</span><div><strong>Feynman Technique</strong><span>Explain it simply — gaps reveal knowledge gaps.</span></div></div>
-                            <div class="yt-tip"><span class="yt-tip-ico">📝</span><div><strong>Active Recall</strong><span>Close notes, recall key points. Testing > re-reading.</span></div></div>
-                            <div class="yt-tip"><span class="yt-tip-ico">🧪</span><div><strong>Practice Labs</strong><span>TryHackMe &amp; HackTheBox alongside videos.</span></div></div>
-                        </div>
-                    </div>
-
-                    <!-- Learning Path -->
-                    <div class="yt-sb-card">
-                        <div class="yt-sb-head"><span>🗺️</span><span class="yt-sb-label">Learning Path</span></div>
-                        <div class="yt-sb-body yt-path">
-                            <div class="yt-step">
-                                <div class="yt-step-dot" style="--dc:#30D158;">1</div>
-                                <div class="yt-step-line"></div>
-                                <div class="yt-step-content"><strong>Beginner</strong><span>NetworkChuck → Professor Messer → TCM Security</span></div>
-                            </div>
-                            <div class="yt-step">
-                                <div class="yt-step-dot" style="--dc:#FF9F0A;">2</div>
-                                <div class="yt-step-line"></div>
-                                <div class="yt-step-content"><strong>Intermediate</strong><span>John Hammond → David Bombal → IppSec</span></div>
-                            </div>
-                            <div class="yt-step">
-                                <div class="yt-step-dot" style="--dc:#BF5AF2;">3</div>
-                                <div class="yt-step-line yt-step-line--last"></div>
-                                <div class="yt-step-content"><strong>Advanced</strong><span>LiveOverflow → 13Cubed → Bug Bounties</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ask AI -->
-                    <div class="yt-sb-card">
-                        <div class="yt-sb-head"><span>🤖</span><span class="yt-sb-label">Ask AI</span></div>
-                        <div class="yt-sb-body">
-                            <textarea id="ytAiInput" class="yt-ai-ta" rows="3" placeholder="e.g. What's the difference between Nmap and Masscan?"></textarea>
-                            <button id="ytAiBtn" class="yt-ai-btn" onclick="askAI()"><span>▶</span> Ask</button>
-                            <div id="ytAiReply" class="yt-ai-reply"></div>
-                        </div>
-                    </div>
-
-                </aside><!-- /yt-sidebar -->
-
-            </div><!-- /yt-layout -->
-        </div><!-- /yt-page-wrap -->
+            <!-- Ask AI -->
+            <div class="yt-sb-card">
+              <div class="yt-sb-head">
+                <span>🤖</span><span class="yt-sb-label">Ask AI</span>
+              </div>
+              <div class="yt-sb-body">
+                <textarea
+                  id="ytAiInput"
+                  class="yt-ai-ta"
+                  rows="3"
+                  placeholder="e.g. What's the difference between Nmap and Masscan?"
+                ></textarea>
+                <button id="ytAiBtn" class="yt-ai-btn" onclick="askAI()">
+                  <span>▶</span> Ask
+                </button>
+                <div id="ytAiReply" class="yt-ai-reply"></div>
+              </div>
+            </div>
+          </aside>
+          <!-- /yt-sidebar -->
+        </div>
+        <!-- /yt-layout -->
+      </div>
+      <!-- /yt-page-wrap -->
     </main>
 
     <!-- ══ VIDEO MODAL ══ -->
     <div class="yt-modal" id="ytModal" onclick="closeModal(event)">
-        <div class="yt-modal-box" onclick="event.stopPropagation()">
-            <div class="yt-modal-hdr">
-                <span id="ytModalTitle" class="yt-modal-ttl"></span>
-                <button class="yt-modal-x" onclick="closeModal()">✕</button>
-            </div>
-            <div class="yt-modal-player">
-                <iframe id="ytFrame" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
-            </div>
+      <div class="yt-modal-box" onclick="event.stopPropagation()">
+        <div class="yt-modal-hdr">
+          <span id="ytModalTitle" class="yt-modal-ttl"></span>
+          <button class="yt-modal-x" onclick="closeModal()">✕</button>
         </div>
+        <div class="yt-modal-player">
+          <iframe
+            id="ytFrame"
+            src=""
+            allow="autoplay; encrypted-media; fullscreen"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
     </div>
 
     <footer class="neo-footer">
-        <div class="neo-footer-inner"><div class="neo-footer-brand">
-            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="NeoTrace"><span>NeoTrace</span></a>
-            <p class="footer-desc">AI-powered cybersecurity intelligence platform.</p>
-        </div></div>
-        <div class="neo-footer-divider"></div>
-        <div class="neo-footer-bottom">
-            <p>&copy; 2026 NeoTrace. All rights reserved.</p>
-            <div class="neo-footer-bottom-right"><a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">📈 Back to Top</a></div>
+      <div class="neo-footer-inner">
+        <div class="neo-footer-brand">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.png" alt="NeoTrace" />
+            <span>NeoTrace</span>
+          </a>
+          <p class="footer-desc">
+            All-in-One Cybersecurity Learning Hub
+          </p>
+          <div class="neo-footer-tagline">
+            <span class="dot"></span>
+            Processing 100% locally in your browser
+          </div>
+          <div class="neo-footer-social">
+            <a
+              href="https://github.com/Brian-code-123/NeoTrace"
+              target="_blank"
+              title="GitHub"
+              aria-label="GitHub"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.79 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
+        <div class="neo-footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="story.html">Story Mode</a></li>
+            <li><a href="game.html">Training Game</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="phone-inspector.html">Phone Inspector</a></li>
+            <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+            <li><a href="email-analyzer.html">Email Analyzer</a></li>
+            <li><a href="image-forensics.html">Image Forensics</a></li>
+            <li><a href="content-verifier.html">Text Verifier</a></li>
+            <li><a href="password-checker.html">Password Checker</a></li>
+            <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+            <li><a href="qr-scanner.html">QR Scanner</a></li>
+          </ul>
+        </div>
+        <div class="neo-footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="youtube-learning.html">YouTube Learning</a></li>
+            <li><a href="influencers.html">Influencers</a></li>
+            <li><a href="cyber-fundamentals.html">Cyber Fundamentals</a></li>
+            <li><a href="social-engineering.html">Social Engineering</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="neo-footer-divider"></div>
+      <div class="neo-footer-bottom">
+        <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+        <div class="neo-footer-bottom-right">
+          <a
+            href="#"
+            class="back-to-top"
+            onclick="
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return false;
+            "
+            >&#8593; Back to Top</a
+          >
+        </div>
+      </div>
     </footer>
 
-    <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">🤖</button>
+    <button
+      class="chatbot-toggle"
+      id="chatbotToggle"
+      title="NeoTrace AI Assistant"
+    >
+      🤖
+    </button>
     <div class="chatbot-panel" id="chatbotPanel"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -351,63 +851,76 @@
     <script src="js/main.js"></script>
     <script src="js/chatbot.js"></script>
     <script>
-    /* ── Modal ── */
-    function openModal(vid, title) {
-        document.getElementById('ytModalTitle').textContent = title;
-        document.getElementById('ytFrame').src = `https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`;
-        document.getElementById('ytModal').classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeModal(e) {
-        if (e && e.target !== document.getElementById('ytModal')) return;
+      /* ── Modal ── */
+      function openModal(vid, title) {
+        document.getElementById("ytModalTitle").textContent = title;
+        document.getElementById("ytFrame").src =
+          `https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`;
+        document.getElementById("ytModal").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal(e) {
+        if (e && e.target !== document.getElementById("ytModal")) return;
         _closeModal();
-    }
-    function _closeModal() {
-        document.getElementById('ytModal').classList.remove('open');
-        document.getElementById('ytFrame').src = '';
-        document.body.style.overflow = '';
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') _closeModal(); });
+      }
+      function _closeModal() {
+        document.getElementById("ytModal").classList.remove("open");
+        document.getElementById("ytFrame").src = "";
+        document.body.style.overflow = "";
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") _closeModal();
+      });
 
-    /* ── Filter chips ── */
-    document.querySelectorAll('.yt-chip').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.yt-chip').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const f = btn.dataset.filter;
-            document.querySelectorAll('.yt-card').forEach(c => {
-                c.style.display = (f === 'all' || c.dataset.level === f) ? '' : 'none';
-            });
+      /* ── Filter chips ── */
+      document.querySelectorAll(".yt-chip").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".yt-chip")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const f = btn.dataset.filter;
+          document.querySelectorAll(".yt-card").forEach((c) => {
+            c.style.display =
+              f === "all" || c.dataset.level === f ? "" : "none";
+          });
         });
-    });
+      });
 
-    /* ── AI Ask ── */
-    const aiKB = {
-        nmap: 'Nmap scans hosts & ports. Use `nmap -sV -sC <target>` for service detection + default scripts. Great for initial recon.',
-        sql:  'SQL Injection manipulates database queries. Payload: `\' OR 1=1--`. Defense: parameterized queries. Tool: SQLMap.',
-        xss:  'XSS injects scripts into web pages. Test with `<script>alert(1)</script>`. Stored XSS is most dangerous. Use Burp Suite.',
-        metasploit: 'Metasploit is an exploitation framework. Use `msfconsole`, search for a module, set RHOSTS, then `exploit`. Essential for pen testing.',
-        burp: 'Burp Suite intercepts HTTP traffic. Use the Proxy tab to inspect & modify requests. Spider + Scanner automate web recon.',
-    };
-    function askAI() {
-        const inp = document.getElementById('ytAiInput');
-        const btn = document.getElementById('ytAiBtn');
-        const reply = document.getElementById('ytAiReply');
+      /* ── AI Ask ── */
+      const aiKB = {
+        nmap: "Nmap scans hosts & ports. Use `nmap -sV -sC <target>` for service detection + default scripts. Great for initial recon.",
+        sql: "SQL Injection manipulates database queries. Payload: `' OR 1=1--`. Defense: parameterized queries. Tool: SQLMap.",
+        xss: "XSS injects scripts into web pages. Test with <script>alert(1)<\/script>. Stored XSS is most dangerous. Use Burp Suite.",
+        metasploit:
+          "Metasploit is an exploitation framework. Use `msfconsole`, search for a module, set RHOSTS, then `exploit`. Essential for pen testing.",
+        burp: "Burp Suite intercepts HTTP traffic. Use the Proxy tab to inspect & modify requests. Spider + Scanner automate web recon.",
+      };
+      function askAI() {
+        const inp = document.getElementById("ytAiInput");
+        const btn = document.getElementById("ytAiBtn");
+        const reply = document.getElementById("ytAiReply");
         const q = inp.value.trim();
         if (!q) return;
         btn.disabled = true;
-        reply.style.display = 'block';
-        reply.textContent = '...';
+        reply.style.display = "block";
+        reply.textContent = "...";
         setTimeout(() => {
-            const key = Object.keys(aiKB).find(k => q.toLowerCase().includes(k));
-            reply.textContent = key ? aiKB[key]
-                : `"${q}" is a great topic! Watch the channels above for in-depth coverage, then practice on TryHackMe or HackTheBox. Use Professor Messer for certs and TCM Security for practical hacking.`;
-            btn.disabled = false;
+          const key = Object.keys(aiKB).find((k) =>
+            q.toLowerCase().includes(k),
+          );
+          reply.textContent = key
+            ? aiKB[key]
+            : `"${q}" is a great topic! Watch the channels above for in-depth coverage, then practice on TryHackMe or HackTheBox. Use Professor Messer for certs and TCM Security for practical hacking.`;
+          btn.disabled = false;
         }, 800);
-    }
-    document.getElementById('ytAiInput').addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askAI(); }
-    });
+      }
+      document.getElementById("ytAiInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          askAI();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

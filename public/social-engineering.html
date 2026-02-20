@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Engineering Lab - NeoTrace</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧠%3C/text%3E%3C/svg%3E"
+    />
+
+    <style>
+      /* ===== Social Engineering Lab — page styles ===== */
+      .se-hero {
+        padding-top: 110px;
+        padding-bottom: 12px;
+      }
+      .se-sub {
+        opacity: 0.82;
+        max-width: 68ch;
+        margin: 0 auto;
+      }
+      .se-wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 18px 72px;
+      }
+
+      /* Layout */
+      .se-layout {
+        display: grid;
+        grid-template-columns: 1.85fr 0.9fr;
+        gap: 20px;
+        align-items: start;
+      }
+      @media (max-width: 980px) {
+        .se-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Cards */
+      .se-card {
+        border-radius: var(--radius-xl);
+        background: var(--glass-bg-strong);
+        border: 1px solid var(--glass-border);
+        overflow: hidden;
+      }
+      .se-card-hd {
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--glass-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .se-card-bd {
+        padding: 16px 18px;
+      }
+      .se-badge {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-glow);
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      /* Chapters */
+      .se-chapters {
+        display: grid;
+        gap: 16px;
+      }
+      .se-chapter h2 {
+        margin: 4px 0 14px;
+        font-size: 1.2rem;
+      }
+      .se-ch-num {
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        color: var(--text-muted);
+        margin: 0;
+      }
+      .se-kp {
+        padding-left: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+      .se-kp li {
+        padding-left: 18px;
+        position: relative;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+      .se-kp li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+
+      /* Callouts */
+      .se-analysis {
+        border-left: 3px solid rgba(52, 209, 98, 0.85);
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        background: rgba(52, 209, 98, 0.07);
+      }
+      .se-warn {
+        border-left: 3px solid rgba(255, 159, 10, 0.9);
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        background: rgba(255, 159, 10, 0.07);
+      }
+      .se-danger {
+        border-left: 3px solid rgba(255, 69, 58, 0.9);
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        background: rgba(255, 69, 58, 0.07);
+      }
+
+      /* Accordion */
+      .se-accordion {
+        display: grid;
+        gap: 8px;
+      }
+      .se-q {
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        color: var(--text-secondary);
+        font-size: 0.93rem;
+        transition: var(--transition);
+      }
+      .se-q:hover {
+        background: var(--glass-bg-strong);
+        color: var(--text-primary);
+      }
+      .se-q.open {
+        color: var(--accent);
+        border-color: var(--accent-glow);
+      }
+      .se-a {
+        display: none;
+        padding: 10px 14px 4px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.65;
+      }
+      .se-q.open + .se-a {
+        display: block;
+      }
+
+      /* Pills */
+      .se-pillrow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .se-pill {
+        font-size: 12px;
+        border-radius: 999px;
+        padding: 5px 11px;
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-glow);
+        color: var(--accent);
+      }
+
+      /* Sidebar */
+      .se-side-sticky {
+        position: sticky;
+        top: 92px;
+        display: grid;
+        gap: 16px;
+      }
+      .se-small {
+        font-size: 0.88rem;
+        line-height: 1.6;
+      }
+      .se-ck {
+        padding-left: 0;
+        list-style: none;
+        display: grid;
+        gap: 7px;
+      }
+      .se-ck li {
+        color: var(--text-secondary);
+        font-size: 0.88rem;
+      }
+      .se-btn {
+        display: block;
+        width: 100%;
+        border-radius: var(--radius);
+        padding: 10px 14px;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+      .se-btn:hover {
+        background: var(--glass-bg-strong);
+        color: var(--text-primary);
+        border-color: var(--glass-border-hover);
+      }
+      .se-hr {
+        height: 1px;
+        background: var(--glass-border);
+        margin: 4px 0;
+      }
+      .se-muted {
+        color: var(--text-muted);
+      }
+      .mt-2 {
+        margin-top: 0.5rem;
+      }
+      .mt-3 {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- NAV (same structure as your other pages; keep links consistent) -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="NeoTrace" class="logo-img" />
+        <span>NeoTrace</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li class="nav-dropdown">
+          <a href="#">Game</a>
+          <div class="mega-menu game-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="4" />
+                  <path d="M8 12h3m-1.5-1.5v3M15 11.5h.01M18 11.5h.01" /></svg
+                >Game Modes</span
+              >
+              <a href="story.html" data-i18n="nav.story">Story Mode</a>
+              <a href="game.html" data-i18n="nav.game">Beginner Training</a>
+              <a href="game-intermediate.html">Crypto Challenge</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-dropdown active">
+          <a href="#">For You</a>
+          <div class="mega-menu foryou-mega">
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                  /></svg
+                >Tools</span
+              >
+              <a href="phone-inspector.html" data-i18n="nav.phone"
+                >Phone Inspector</a
+              >
+              <a href="url-threat-scanner.html" data-i18n="nav.url"
+                >URL Scanner</a
+              >
+              <a href="image-forensics.html" data-i18n="nav.image"
+                >Image Forensics</a
+              >
+              <a href="content-verifier.html" data-i18n="nav.text"
+                >Text Verifier</a
+              >
+              <a href="password-checker.html" data-i18n="nav.password"
+                >Password Checker</a
+              >
+              <a href="email-analyzer.html" data-i18n="nav.email"
+                >Email Analyzer</a
+              >
+              <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+              <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg
+                >Resources</span
+              >
+              <a href="books.html">Books</a>
+              <a href="youtube-learning.html">YouTube Learning</a>
+              <a href="influencers.html">Influencers</a>
+              <a href="cyber-fundamentals.html">Fundamentals</a>
+              <a href="social-engineering.html" class="active"
+                >Social Engineering Lab</a
+              >
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <span class="mega-label"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg
+                >Career</span
+              >
+              <a href="careers.html" data-i18n="nav.careers">Careers</a>
+              <a href="courses.html" data-i18n="nav.courses">Courses</a>
+              <a href="certifications.html" data-i18n="nav.certs"
+                >Certifications</a
+              >
+            </div>
+          </div>
+        </li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中文</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          🌙
+        </button>
+        <button class="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <!-- HERO -->
+      <section class="page-hero se-hero">
+        <h1>🧠 Social Engineering Lab</h1>
+        <p class="se-sub">
+          Understand how attackers exploit human psychology — and how to defend
+          against it
+        </p>
+      </section>
+
+      <!-- MAIN -->
+      <div class="se-wrap">
+        <div class="se-layout">
+          <!-- LEFT: Chapters -->
+          <div class="se-chapters">
+            <!-- Chapter 1: Phishing -->
+            <div class="se-card se-chapter">
+              <div class="se-card-hd">
+                <div>
+                  <p class="se-ch-num">CHAPTER 01</p>
+                  <h2>Phishing Attacks</h2>
+                </div>
+                <span class="se-badge">High Risk</span>
+              </div>
+              <div class="se-card-bd">
+                <ul class="se-kp">
+                  <li>
+                    <strong>Spear Phishing</strong> — Targeted attacks crafted
+                    for a specific individual or organisation, using personal
+                    details (name, role, colleagues) harvested from LinkedIn or
+                    social media to appear legitimate.
+                  </li>
+                  <li>
+                    <strong>Whaling</strong> — Spear phishing aimed at C-suite
+                    executives (CEO, CFO). Attackers impersonate board members,
+                    legal teams, or tax authorities to authorise wire transfers.
+                  </li>
+                  <li>
+                    <strong>Smishing &amp; Vishing</strong> — SMS-based and
+                    voice-call-based phishing. Smishing sends malicious links
+                    via text; vishing uses phone calls to extract credentials,
+                    OTPs, or payment details.
+                  </li>
+                  <li>
+                    <strong>Clone Phishing</strong> — A legitimate previously
+                    delivered email is duplicated with a malicious link or
+                    attachment and re-sent, exploiting the recipient's
+                    familiarity with the original.
+                  </li>
+                  <li>
+                    <strong>Adversary-in-the-Middle (AiTM)</strong> — Real-time
+                    phishing proxy that intercepts MFA tokens by relaying
+                    traffic between victim and real site, bypassing TOTP-based
+                    2FA.
+                  </li>
+                </ul>
+
+                <div class="se-danger mt-3">
+                  <strong>⚠️ Red Flags:</strong> Urgency or fear language ("Your
+                  account will be suspended"), misspelled domains (paypa1.com),
+                  unexpected attachments (.exe, .iso), requests to bypass normal
+                  approval channels.
+                </div>
+
+                <div class="se-analysis mt-3">
+                  <strong>✅ Defence:</strong> DMARC/DKIM/SPF enforcement,
+                  anti-phishing browser extensions, security awareness training,
+                  hardware security keys (FIDO2) which are not phish-able.
+                </div>
+
+                <div class="mt-3">
+                  <p><strong>Real-World Example</strong></p>
+                  <p class="se-small se-muted">
+                    In 2023, MGM Resorts was breached after attackers called the
+                    IT help desk, impersonated an employee (details found on
+                    LinkedIn), and convinced staff to reset MFA — causing $100M+
+                    in disruption.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chapter 2: Pretexting -->
+            <div class="se-card se-chapter">
+              <div class="se-card-hd">
+                <div>
+                  <p class="se-ch-num">CHAPTER 02</p>
+                  <h2>Pretexting &amp; Impersonation</h2>
+                </div>
+                <span class="se-badge">Medium–High</span>
+              </div>
+              <div class="se-card-bd">
+                <ul class="se-kp">
+                  <li>
+                    <strong>What is Pretexting?</strong> — Creating a fabricated
+                    scenario (pretext) to manipulate a target into divulging
+                    information. Unlike phishing, pretexting often involves
+                    multi-step relationship-building over days or weeks.
+                  </li>
+                  <li>
+                    <strong>Authority Impersonation</strong> — Posing as IT
+                    support, bank auditors, government officials, or law
+                    enforcement to pressure compliance. People are conditioned
+                    to obey authority figures.
+                  </li>
+                  <li>
+                    <strong>Vendor / Supplier Fraud</strong> — Attackers
+                    impersonate a known supplier, claiming a bank account
+                    change, then redirect invoice payments. Often called
+                    Business Email Compromise (BEC).
+                  </li>
+                  <li>
+                    <strong>Romance Scams / Pig Butchering</strong> — Long-term
+                    identity fabrication to build emotional trust before
+                    extracting money or credentials. Pig butchering adds a fake
+                    investment component.
+                  </li>
+                </ul>
+
+                <div class="se-warn mt-3">
+                  <strong>🟠 Psychological Levers Used:</strong><br />
+                  <div class="se-pillrow mt-2">
+                    <span class="se-pill">Authority</span>
+                    <span class="se-pill">Urgency</span>
+                    <span class="se-pill">Reciprocity</span>
+                    <span class="se-pill">Liking &amp; Trust</span>
+                    <span class="se-pill">Scarcity</span>
+                    <span class="se-pill">Social Proof</span>
+                    <span class="se-pill">Fear</span>
+                  </div>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div class="se-accordion mt-3">
+                  <p><strong>FAQ</strong></p>
+                  <div>
+                    <div class="se-q" onclick="this.classList.toggle('open')">
+                      How do I verify someone's identity over the phone?
+                      <span>›</span>
+                    </div>
+                    <div class="se-a se-small">
+                      Never rely on caller ID — it can be spoofed. Hang up and
+                      call back using an official number from your company's
+                      internal directory or the organisation's public website.
+                      For sensitive requests, always require written
+                      authorisation via a second channel.
+                    </div>
+                  </div>
+                  <div>
+                    <div class="se-q" onclick="this.classList.toggle('open')">
+                      What is a "dual authorisation" control?
+                      <span>›</span>
+                    </div>
+                    <div class="se-a se-small">
+                      Dual authorisation (also called "four-eyes principle")
+                      requires two separate people to approve high-value or
+                      sensitive actions — like wire transfers or admin-account
+                      resets. This makes impersonation attacks far less
+                      effective since the attacker must compromise two people
+                      simultaneously.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chapter 3: Baiting, Tailgating, Physical -->
+            <div class="se-card se-chapter">
+              <div class="se-card-hd">
+                <div>
+                  <p class="se-ch-num">CHAPTER 03</p>
+                  <h2>Physical &amp; Environmental Attacks</h2>
+                </div>
+                <span class="se-badge">Physical Layer</span>
+              </div>
+              <div class="se-card-bd">
+                <ul class="se-kp">
+                  <li>
+                    <strong>Baiting</strong> — Leaving infected USB drives in
+                    car parks, lobbies, or conference rooms labelled "Payroll
+                    Q3" or "Confidential". Curiosity or greed lures the victim
+                    into plugging it in.
+                  </li>
+                  <li>
+                    <strong>Tailgating / Piggybacking</strong> — Physically
+                    following an authorised person through a secured door. Often
+                    assisted by carrying heavy boxes to invoke courtesy, or
+                    wearing a high-vis vest to appear like maintenance staff.
+                  </li>
+                  <li>
+                    <strong>Shoulder Surfing</strong> — Observing someone's
+                    screen or keyboard in public spaces (cafés, airports,
+                    trains) to capture passwords, PINs, or sensitive data.
+                  </li>
+                  <li>
+                    <strong>Dumpster Diving</strong> — Searching discarded
+                    documents for account numbers, org charts, memos, or
+                    credentials. Pre-shredding all documents significantly
+                    reduces this risk.
+                  </li>
+                </ul>
+
+                <div class="se-danger mt-3">
+                  <strong>🛑 Never plug in unknown USB devices.</strong> Even if
+                  found in the company car park, it could be a rubber ducky (HID
+                  attack device) that runs keystrokes in milliseconds upon
+                  insertion.
+                </div>
+
+                <div class="se-analysis mt-3">
+                  <strong>✅ Countermeasures:</strong> Disable USB auto-run via
+                  group policy, install physical mantrapportals for
+                  high-security areas, implement visitor management systems,
+                  conduct "drop test" drills to measure USB pickup rates.
+                </div>
+              </div>
+            </div>
+
+            <!-- Chapter 4: Digital OSINT / Online SE -->
+            <div class="se-card se-chapter">
+              <div class="se-card-hd">
+                <div>
+                  <p class="se-ch-num">CHAPTER 04</p>
+                  <h2>Digital OSINT &amp; Social Media Exploitation</h2>
+                </div>
+                <span class="se-badge">Recon Phase</span>
+              </div>
+              <div class="se-card-bd">
+                <ul class="se-kp">
+                  <li>
+                    <strong>Open Source Intelligence (OSINT)</strong> —
+                    Attackers use publicly available info (LinkedIn org charts,
+                    Twitter/X posts, GitHub commit emails, WHOIS records) to
+                    build detailed profiles for targeted attacks.
+                  </li>
+                  <li>
+                    <strong>Security Question Harvesting</strong> — "Your first
+                    pet?", "Your mother's maiden name?" — answers to these are
+                    often shared publicly on social media. Avoid real answers;
+                    treat them like passwords.
+                  </li>
+                  <li>
+                    <strong
+                      >Account Takeover via Social Engineering Carriers</strong
+                    >
+                    — Convincing a mobile carrier to port your number to a new
+                    SIM (SIM swapping), then resetting email/bank accounts via
+                    SMS OTP.
+                  </li>
+                  <li>
+                    <strong>Fake LinkedIn Recruiters</strong> — Attackers create
+                    convincing recruiter profiles, offer jobs, then send
+                    malicious documents disguised as NDAs or interview
+                    assessments (especially targeting crypto/finance employees).
+                  </li>
+                </ul>
+
+                <div class="se-warn mt-3">
+                  <strong>🟠 Your Digital Footprint Checklist:</strong>
+                  <ul class="se-small mt-2">
+                    <li>Google your full name + city regularly</li>
+                    <li>
+                      Review LinkedIn privacy settings — hide "connections"
+                    </li>
+                    <li>Use a PIN lock on your mobile carrier account</li>
+                    <li>Never reuse the same profile photo across platforms</li>
+                    <li>
+                      Disable "people you may know" and location metadata on
+                      posts
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /se-chapters -->
+
+          <!-- RIGHT: Sticky Sidebar -->
+          <aside class="se-side-sticky">
+            <!-- Defence Checklist -->
+            <div class="se-card">
+              <div class="se-card-hd">
+                <strong>🛡️ Defence Checklist</strong>
+              </div>
+              <div class="se-card-bd se-small">
+                <ul class="se-ck">
+                  <li>
+                    ✅ Verify caller identity via callback (official number)
+                  </li>
+                  <li>✅ Pause before acting on "urgent" requests</li>
+                  <li>✅ Hover links — check full URL before clicking</li>
+                  <li>✅ Use a password manager (no reused passwords)</li>
+                  <li>✅ Enable FIDO2 hardware key or passkey</li>
+                  <li>✅ Never share OTP codes with anyone</li>
+                  <li>✅ Cross-check invoice bank account changes</li>
+                  <li>✅ Shred all physical documents before disposal</li>
+                  <li>✅ Lock screen before leaving workstation</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Attack Cycle Card -->
+            <div class="se-card">
+              <div class="se-card-hd">
+                <strong>🔄 Attack Lifecycle</strong>
+              </div>
+              <div class="se-card-bd se-small">
+                <div style="display: grid; gap: 10px">
+                  <div
+                    style="
+                      padding: 10px 12px;
+                      border-radius: 10px;
+                      background: rgba(255, 69, 58, 0.1);
+                      border-left: 3px solid rgba(255, 69, 58, 0.8);
+                    "
+                  >
+                    <strong>1. Reconnaissance</strong><br />OSINT gathering —
+                    LinkedIn, WHOIS, social media profiles
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 12px;
+                      border-radius: 10px;
+                      background: rgba(255, 159, 10, 0.1);
+                      border-left: 3px solid rgba(255, 159, 10, 0.8);
+                    "
+                  >
+                    <strong>2. Target Selection</strong><br />Identify weakest
+                    link — often junior staff or new hires
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 12px;
+                      border-radius: 10px;
+                      background: rgba(10, 132, 255, 0.1);
+                      border-left: 3px solid rgba(10, 132, 255, 0.8);
+                    "
+                  >
+                    <strong>3. Deception &amp; Manipulation</strong><br />Build
+                    trust, fabricate pretext, exploit psychological triggers
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 12px;
+                      border-radius: 10px;
+                      background: rgba(191, 90, 242, 0.1);
+                      border-left: 3px solid rgba(191, 90, 242, 0.8);
+                    "
+                  >
+                    <strong>4. Execution</strong><br />Credential harvest,
+                    malware install, financial transfer
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 12px;
+                      border-radius: 10px;
+                      background: rgba(52, 209, 98, 0.1);
+                      border-left: 3px solid rgba(52, 209, 98, 0.8);
+                    "
+                  >
+                    <strong>5. Cover Tracks</strong><br />Delete evidence,
+                    maintain access, pivot laterally
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="se-card">
+              <div class="se-card-hd">
+                <strong>🔗 Related Resources</strong>
+              </div>
+              <div class="se-card-bd" style="display: grid; gap: 8px">
+                <a
+                  href="cyber-fundamentals.html"
+                  class="se-btn text-decoration-none"
+                  >📚 Cyber Fundamentals</a
+                >
+                <a
+                  href="email-analyzer.html"
+                  class="se-btn text-decoration-none"
+                  >📧 Analyse a Phishing Email</a
+                >
+                <a
+                  href="url-threat-scanner.html"
+                  class="se-btn text-decoration-none"
+                  >🔗 Scan a Suspicious URL</a
+                >
+                <div class="se-hr"></div>
+                <a href="game.html" class="se-btn text-decoration-none"
+                  >🎮 Test Your Skills in Game Mode</a
+                >
+              </div>
+            </div>
+          </aside>
+        </div>
+        <!-- /se-layout -->
+      </div>
+      <!-- /se-wrap -->
+
+      <!-- Footer -->
+      <footer class="neo-footer">
+        <div class="neo-footer-inner">
+          <div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo">
+              <img src="images/logo.png" alt="NeoTrace" />
+              <span>NeoTrace</span>
+            </a>
+            <p class="footer-desc">
+              All-in-One Cybersecurity Learning Hub
+            </p>
+            <div class="neo-footer-tagline">
+              <span class="dot"></span>
+              Processing 100% locally in your browser
+            </div>
+            <div class="neo-footer-social">
+              <a
+                href="https://github.com/Brian-code-123/NeoTrace"
+                target="_blank"
+                title="GitHub"
+                aria-label="GitHub"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.79 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Navigate</h4>
+            <ul>
+              <li><a href="index.html">Dashboard</a></li>
+              <li><a href="story.html">Story Mode</a></li>
+              <li><a href="game.html">Training Game</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="certifications.html">Certifications</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="careers.html">Careers</a></li>
+            </ul>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Tools</h4>
+            <ul>
+              <li><a href="phone-inspector.html">Phone Inspector</a></li>
+              <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+              <li><a href="email-analyzer.html">Email Analyzer</a></li>
+              <li><a href="image-forensics.html">Image Forensics</a></li>
+              <li><a href="content-verifier.html">Text Verifier</a></li>
+              <li><a href="password-checker.html">Password Checker</a></li>
+              <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+              <li><a href="qr-scanner.html">QR Scanner</a></li>
+            </ul>
+          </div>
+          <div class="neo-footer-col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="books.html">Books</a></li>
+              <li><a href="youtube-learning.html">YouTube Learning</a></li>
+              <li><a href="influencers.html">Influencers</a></li>
+              <li><a href="cyber-fundamentals.html">Cyber Fundamentals</a></li>
+              <li><a href="social-engineering.html">Social Engineering</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="neo-footer-divider"></div>
+        <div class="neo-footer-bottom">
+          <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+          <div class="neo-footer-bottom-right">
+            <div class="neo-footer-social">
+              <a
+                href="https://github.com/Brian-code-123/NeoTrace"
+                target="_blank"
+                title="GitHub"
+                aria-label="GitHub"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.79 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+                  />
+                </svg>
+              </a>
+            </div>
+            <a
+              href="#"
+              class="back-to-top"
+              onclick="
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return false;
+              "
+              >&#8593; Back to Top</a
+            >
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <div class="chatbot-toggle" id="chatbotToggle" title="Ask AI">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 2C6.48 2 2 6.03 2 11c0 2.68 1.24 5.08 3.2 6.72L4 22l4.55-1.52A10.6 10.6 0 0 0 12 21c5.52 0 10-4.03 10-9s-4.48-9-10-9z"
+        />
+      </svg>
+    </div>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <span class="chatbot-title">🛡️ NeoTrace AI</span>
+        <button class="chatbot-close" id="chatbotClose">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <div class="chat-chips" id="chatChips">
+          <button class="chat-chip" data-q="What is spear phishing?">
+            Spear phishing?
+          </button>
+          <button class="chat-chip" data-q="How does SIM swapping work?">
+            SIM swapping?
+          </button>
+          <button class="chat-chip" data-q="How do I spot a phishing email?">
+            Spot phishing?
+          </button>
+        </div>
+        <div class="chat-input-row">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Ask about social engineering…"
+            autocomplete="off"
+          />
+          <button id="chatSend">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

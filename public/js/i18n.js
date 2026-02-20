@@ -1058,38 +1058,46 @@ function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("cyberlang", lang);
 
-  // Update all elements with data-i18n attribute
-  document.querySelectorAll("[data-i18n]").forEach((el) => {
-    const key = el.getAttribute("data-i18n");
-    const text = t(key);
-    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-      el.placeholder = text;
-    } else {
-      el.textContent = text;
-    }
-  });
-
-  // Update pre/code elements that need whitespace preserved
-  document.querySelectorAll("[data-i18n-pre]").forEach((el) => {
-    const key = el.getAttribute("data-i18n-pre");
-    el.textContent = t(key);
-  });
-
-  // Update placeholder attributes
-  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-    const key = el.getAttribute("data-i18n-placeholder");
-    el.placeholder = t(key);
-  });
-
-  // Update lang buttons
+  // Update lang buttons immediately so active state feels instant
   document.querySelectorAll(".lang-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.lang === lang);
   });
 
-  // Fire custom event for page-specific updates
-  window.dispatchEvent(
-    new CustomEvent("languageChanged", { detail: { lang } }),
-  );
+  // Batch all DOM text updates in a single RAF for smooth, non-blocking render
+  requestAnimationFrame(() => {
+    // Cache translated strings up-front to avoid repeated lookups
+    const cache = {};
+    const getText = (key) => {
+      if (key in cache) return cache[key];
+      cache[key] =
+        (translations[currentLang] && translations[currentLang][key]) ||
+        (translations["en"] && translations["en"][key]) ||
+        key;
+      return cache[key];
+    };
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const text = getText(el.getAttribute("data-i18n"));
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+        el.placeholder = text;
+      } else {
+        el.textContent = text;
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-pre]").forEach((el) => {
+      el.textContent = getText(el.getAttribute("data-i18n-pre"));
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+      el.placeholder = getText(el.getAttribute("data-i18n-placeholder"));
+    });
+
+    // Fire custom event for page-specific updates
+    window.dispatchEvent(
+      new CustomEvent("languageChanged", { detail: { lang } }),
+    );
+  });
 }
 
 function initI18n() {

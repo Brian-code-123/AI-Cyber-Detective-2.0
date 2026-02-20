@@ -246,11 +246,38 @@ function initAutoSuggest(inputEl, suggestions) {
 }
 
 // =====================================================
+// Mega-menu hover with delay (prevents accidental close)
+// =====================================================
+function initMegaMenus() {
+  document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+    let closeTimer = null;
+    dropdown.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      // close any other open dropdown
+      document.querySelectorAll('.nav-dropdown').forEach(d => {
+        if (d !== dropdown) d.classList.remove('open');
+      });
+      dropdown.classList.add('open');
+    });
+    dropdown.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => dropdown.classList.remove('open'), 400);
+    });
+  });
+  // close on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-dropdown')) {
+      document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+    }
+  });
+}
+
+// =====================================================
 // Initialize
 // =====================================================
 document.addEventListener("DOMContentLoaded", () => {
   initThemeToggle();
   initNavToggle();
+  initMegaMenus();
   animateCounters();
   initScrollReveal();
   setActiveNavLink();
