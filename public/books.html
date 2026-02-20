@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Books - NeoTrace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="NeoTrace" class="logo-img"><span>NeoTrace</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li class="nav-dropdown"><a href="#">Game</a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="story.html">Story Mode</a></li>
+                    <li><a href="game.html">Beginner Training</a></li>
+                    <li><a href="game-intermediate.html">Crypto Challenge</a></li>
+                </ul>
+            </li>
+            <li class="nav-dropdown"><a href="#">For You</a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="phone-inspector.html">Phone Inspector</a></li>
+                    <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+                    <li><a href="image-forensics.html">Image Forensics</a></li>
+                    <li><a href="content-verifier.html">Text Verifier</a></li>
+                    <li><a href="password-checker.html">Password Checker</a></li>
+                    <li><a href="email-analyzer.html">Email Analyzer</a></li>
+                    <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+                    <li><a href="qr-scanner.html">QR Scanner</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="certifications.html">Certifications</a></li>
+                    <li><a href="books.html" class="active">Books</a></li>
+                    <li><a href="youtube-learning.html">YouTube Learning</a></li>
+                    <li><a href="influencers.html">Influencers</a></li>
+                    <li><a href="cyber-fundamentals.html">Fundamentals</a></li>
+                </ul>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="zh">中文</button></div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+            <button class="hamburger"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-hero">
+            <h1>📚 Cybersecurity Books</h1>
+            <p>Curated reading list to build your security knowledge from beginner to expert</p>
+        </section>
+
+        <div class="books-grid-wrapper">
+            <div class="books-grid">
+                <!-- Book 1 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9780316380508-L.jpg" alt="The Art of Invisibility" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-beginner">Beginner</span>
+                        <h3>The Art of Invisibility</h3>
+                        <p class="book-author">Kevin Mitnick</p>
+                        <p class="book-desc">Written by the world's most famous hacker, this book teaches online privacy and security for everyday users. Reveals how vulnerable personal data really is.</p>
+                        <a href="https://www.amazon.com/dp/0316380504" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 2 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9780199918119-L.jpg" alt="Cybersecurity and Cyberwar" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-beginner">Beginner</span>
+                        <h3>Cybersecurity and Cyberwar</h3>
+                        <p class="book-author">P.W. Singer, Allan Friedman</p>
+                        <p class="book-desc">An accessible primer on cybersecurity concepts, threats, and policy. Answers fundamental questions about how cyberspace works and why it matters.</p>
+                        <a href="https://www.amazon.com/dp/0199918112" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 3 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781119433385-L.jpg" alt="Social Engineering" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-beginner">Beginner</span>
+                        <h3>Social Engineering: Human Hacking</h3>
+                        <p class="book-author">Christopher Hadnagy</p>
+                        <p class="book-desc">Explores how attackers manipulate people to bypass security. Essential reading for understanding phishing, pretexting, and influence techniques.</p>
+                        <a href="https://www.amazon.com/dp/111943338X" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 4 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781593275648-L.jpg" alt="Penetration Testing" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-beginner">Beginner</span>
+                        <h3>Penetration Testing: Hands-On Intro</h3>
+                        <p class="book-author">Georgia Weidman</p>
+                        <p class="book-desc">A beginner-friendly walkthrough of penetration testing. Covers reconnaissance, exploitation, post-exploitation with hands-on labs using real tools.</p>
+                        <a href="https://www.amazon.com/dp/1593275641" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 5 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781118026472-L.jpg" alt="Web App Hacker's Handbook" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-intermediate">Intermediate</span>
+                        <h3>Web Application Hacker's Handbook</h3>
+                        <p class="book-author">Dafydd Stuttard, Marcus Pinto</p>
+                        <p class="book-desc">The definitive guide to discovering and exploiting web application security flaws. Covers every step of attacking and defending web apps.</p>
+                        <a href="https://www.amazon.com/dp/1118026470" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 6 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781593272883-L.jpg" alt="Metasploit Guide" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-intermediate">Intermediate</span>
+                        <h3>Metasploit: Penetration Tester's Guide</h3>
+                        <p class="book-author">David Kennedy et al.</p>
+                        <p class="book-desc">A comprehensive guide to the Metasploit Framework for penetration testing. Find vulnerabilities and execute sophisticated attacks.</p>
+                        <a href="https://www.amazon.com/dp/159327288X" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 7 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781541016361-L.jpg" alt="BTFM" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-intermediate">Intermediate</span>
+                        <h3>Blue Team Field Manual (BTFM)</h3>
+                        <p class="book-author">Alan J. White, Ben Clark</p>
+                        <p class="book-desc">Quick-reference guide for incident responders and security ops. Covers defensive commands, tools, and procedures across Windows, Linux, and network environments.</p>
+                        <a href="https://www.amazon.com/dp/154101636X" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 8 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781593271442-L.jpg" alt="Hacking: Art of Exploitation" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-advanced">Advanced</span>
+                        <h3>Hacking: The Art of Exploitation</h3>
+                        <p class="book-author">Jon Erickson</p>
+                        <p class="book-desc">Introduces C programming from a hacker's perspective and explains exploitation techniques. Includes a live Linux environment for hands-on practice.</p>
+                        <a href="https://www.amazon.com/dp/1593271441" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 9 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781593272906-L.jpg" alt="Practical Malware Analysis" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-advanced">Advanced</span>
+                        <h3>Practical Malware Analysis</h3>
+                        <p class="book-author">Michael Sikorski, Andrew Honig</p>
+                        <p class="book-desc">Hands-on guide to dissecting malicious software. Covers tools and techniques for analyzing, debugging, and disassembling malware.</p>
+                        <a href="https://www.amazon.com/dp/1593272901" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+                <!-- Book 10 -->
+                <div class="book-card">
+                    <div class="book-cover"><img src="https://covers.openlibrary.org/b/isbn/9781593273880-L.jpg" alt="The Tangled Web" loading="lazy"></div>
+                    <div class="book-body">
+                        <span class="book-level lv-advanced">Advanced</span>
+                        <h3>The Tangled Web</h3>
+                        <p class="book-author">Michal Zalewski</p>
+                        <p class="book-desc">Deep dive into browser security mechanics and web protocol quirks that attackers exploit. Essential for web developers building secure applications.</p>
+                        <a href="https://www.amazon.com/dp/1593273886" target="_blank" class="book-buy">Buy on Amazon →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="neo-footer">
+        <div class="neo-footer-inner"><div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="NeoTrace"><span>NeoTrace</span></a>
+            <p class="footer-desc">AI-powered cybersecurity intelligence platform.</p>
+        </div></div>
+        <div class="neo-footer-divider"></div>
+        <div class="neo-footer-bottom">
+            <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+            <div class="neo-footer-bottom-right"><a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">📈 Back to Top</a></div>
+        </div>
+    </footer>
+
+    <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">🤖</button>
+    <div class="chatbot-panel" id="chatbotPanel"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

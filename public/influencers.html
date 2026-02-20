@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Influencers - NeoTrace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E👤%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="NeoTrace" class="logo-img"><span>NeoTrace</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li class="nav-dropdown"><a href="#">Game</a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="story.html">Story Mode</a></li>
+                    <li><a href="game.html">Beginner Training</a></li>
+                    <li><a href="game-intermediate.html">Crypto Challenge</a></li>
+                </ul>
+            </li>
+            <li class="nav-dropdown"><a href="#">For You</a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="phone-inspector.html">Phone Inspector</a></li>
+                    <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+                    <li><a href="image-forensics.html">Image Forensics</a></li>
+                    <li><a href="content-verifier.html">Text Verifier</a></li>
+                    <li><a href="password-checker.html">Password Checker</a></li>
+                    <li><a href="email-analyzer.html">Email Analyzer</a></li>
+                    <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+                    <li><a href="qr-scanner.html">QR Scanner</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="certifications.html">Certifications</a></li>
+                    <li><a href="books.html">Books</a></li>
+                    <li><a href="youtube-learning.html">YouTube Learning</a></li>
+                    <li><a href="influencers.html" class="active">Influencers</a></li>
+                    <li><a href="cyber-fundamentals.html">Fundamentals</a></li>
+                </ul>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="zh">中文</button></div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+            <button class="hamburger"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-hero">
+            <h1>👤 Cybersecurity Influencers</h1>
+            <p>Follow these experts across social media to stay updated on the latest in cybersecurity</p>
+        </section>
+
+        <!-- Filter Tabs -->
+        <div class="influencer-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="twitter">𝕏 / Twitter</button>
+            <button class="filter-btn" data-filter="youtube">YouTube</button>
+            <button class="filter-btn" data-filter="linkedin">LinkedIn</button>
+            <button class="filter-btn" data-filter="blog">Blog</button>
+        </div>
+
+        <div class="influencer-grid">
+            <!-- 1 Kevin Mitnick -->
+            <div class="influencer-card" data-platforms="twitter,youtube,blog">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#FF453A,#BF5AF2);">KM</div>
+                    <div class="influencer-info">
+                        <h3>Kevin Mitnick</h3>
+                        <span class="influencer-title">The World's Most Famous Hacker</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Former FBI most-wanted hacker turned security consultant. Author of "The Art of Invisibility" and "Ghost in the Wires". Legendary social engineering expert.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Social Engineering</span>
+                    <span class="inf-tag">Pen Testing</span>
+                    <span class="inf-tag">Security Awareness</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/kevinmitnick" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@KevinMinick" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                    <a href="https://mitnicksecurity.com/blog" target="_blank" class="platform-badge blog">📝 Blog</a>
+                </div>
+            </div>
+            <!-- 2 Troy Hunt -->
+            <div class="influencer-card" data-platforms="twitter,blog,youtube">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#0A84FF,#30D158);">TH</div>
+                    <div class="influencer-info">
+                        <h3>Troy Hunt</h3>
+                        <span class="influencer-title">Creator of Have I Been Pwned</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Microsoft Regional Director and creator of haveibeenpwned.com. Leading voice on data breaches, password security, and web security best practices.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Data Breaches</span>
+                    <span class="inf-tag">Web Security</span>
+                    <span class="inf-tag">HIBP</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/troyhunt" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.troyhunt.com/" target="_blank" class="platform-badge blog">📝 Blog</a>
+                    <a href="https://www.youtube.com/@troyhuntdotcom" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                </div>
+            </div>
+            <!-- 3 MalwareTech (Marcus Hutchins) -->
+            <div class="influencer-card" data-platforms="twitter,youtube,blog">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#FF9F0A,#FF453A);">MT</div>
+                    <div class="influencer-info">
+                        <h3>MalwareTech (Marcus Hutchins)</h3>
+                        <span class="influencer-title">WannaCry Kill Switch Hero</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Famous for stopping the WannaCry ransomware attack. Expert malware analyst who shares deep technical breakdowns of malware campaigns and threat research.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Malware Analysis</span>
+                    <span class="inf-tag">Threat Intel</span>
+                    <span class="inf-tag">Reverse Engineering</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/MalwareTechBlog" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@MalwareTechBlog" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                    <a href="https://malwaretech.com/" target="_blank" class="platform-badge blog">📝 Blog</a>
+                </div>
+            </div>
+            <!-- 4 Rachel Tobac -->
+            <div class="influencer-card" data-platforms="twitter,youtube,linkedin">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#FF2D55,#BF5AF2);">RT</div>
+                    <div class="influencer-info">
+                        <h3>Rachel Tobac</h3>
+                        <span class="influencer-title">CEO @ SocialProof Security</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Ethical social engineer and CEO of SocialProof Security. DEF CON Social Engineering CTF champion. Makes security awareness entertaining and accessible.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Social Engineering</span>
+                    <span class="inf-tag">Security Awareness</span>
+                    <span class="inf-tag">Vishing</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/racheltobac" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@RachelTobac" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                    <a href="https://www.linkedin.com/in/racheltobac/" target="_blank" class="platform-badge linkedin">🔗 LinkedIn</a>
+                </div>
+            </div>
+            <!-- 5 Graham Cluley -->
+            <div class="influencer-card" data-platforms="twitter,blog">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#00C7BE,#30D158);">GC</div>
+                    <div class="influencer-info">
+                        <h3>Graham Cluley</h3>
+                        <span class="influencer-title">Veteran Security Journalist</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Award-winning security blogger and podcaster with 30+ years in the industry. Known for witty takes on breaking security news. Host of the "Smashing Security" podcast.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Security News</span>
+                    <span class="inf-tag">Podcast</span>
+                    <span class="inf-tag">Privacy</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/gcluley" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://grahamcluley.com/" target="_blank" class="platform-badge blog">📝 Blog</a>
+                </div>
+            </div>
+            <!-- 6 InsiderPhD -->
+            <div class="influencer-card" data-platforms="twitter,youtube,linkedin">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#5E5CE6,#0A84FF);">IP</div>
+                    <div class="influencer-info">
+                        <h3>InsiderPhD (Katie Paxton-Fear)</h3>
+                        <span class="influencer-title">Bug Bounty Researcher & PhD</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">PhD researcher and prolific bug bounty hunter. Creates beginner-friendly content on web app hacking, API security, and bug bounty methodology.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Bug Bounty</span>
+                    <span class="inf-tag">API Security</span>
+                    <span class="inf-tag">Web Hacking</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/InsiderPhD" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@InsiderPhD" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                    <a href="https://www.linkedin.com/in/katiepf/" target="_blank" class="platform-badge linkedin">🔗 LinkedIn</a>
+                </div>
+            </div>
+            <!-- 7 Nahamsec -->
+            <div class="influencer-card" data-platforms="twitter,youtube">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#30D158,#00C7BE);">NS</div>
+                    <div class="influencer-info">
+                        <h3>Nahamsec (Ben Sadeghipour)</h3>
+                        <span class="influencer-title">Bug Bounty Legend</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">One of the most successful bug bounty hunters. Streams recon and hacking on Twitch. Runs NahamCon conference and shares methodologies openly.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Bug Bounty</span>
+                    <span class="inf-tag">Recon</span>
+                    <span class="inf-tag">Live Hacking</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/NahamSec" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@NahamSec" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                </div>
+            </div>
+            <!-- 8 Daniel Miessler -->
+            <div class="influencer-card" data-platforms="twitter,blog,linkedin">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#FF9F0A,#30D158);">DM</div>
+                    <div class="influencer-info">
+                        <h3>Daniel Miessler</h3>
+                        <span class="influencer-title">Security Writer & Thinker</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Prolific security writer focused on the intersection of technology, security, and society. Creator of SecLists — the essential wordlists for pen testers.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">SecLists</span>
+                    <span class="inf-tag">AI Security</span>
+                    <span class="inf-tag">Thought Leadership</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/DanielMiessler" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://danielmiessler.com/" target="_blank" class="platform-badge blog">📝 Blog</a>
+                    <a href="https://www.linkedin.com/in/danielmiessler/" target="_blank" class="platform-badge linkedin">🔗 LinkedIn</a>
+                </div>
+            </div>
+            <!-- 9 Heath Adams / The Cyber Mentor -->
+            <div class="influencer-card" data-platforms="twitter,youtube,linkedin">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#FF453A,#FF9F0A);">HA</div>
+                    <div class="influencer-info">
+                        <h3>Heath Adams (The Cyber Mentor)</h3>
+                        <span class="influencer-title">CEO @ TCM Security</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Founded TCM Security and the PNPT certification. His free 15-hour ethical hacking course launched thousands of security careers. Focused on practical skills.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">Ethical Hacking</span>
+                    <span class="inf-tag">Pen Testing</span>
+                    <span class="inf-tag">Education</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/taborator" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@TCMSecurityAcademy" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                    <a href="https://www.linkedin.com/in/haborator/" target="_blank" class="platform-badge linkedin">🔗 LinkedIn</a>
+                </div>
+            </div>
+            <!-- 10 CyberNews Team -->
+            <div class="influencer-card" data-platforms="twitter,youtube,blog">
+                <div class="influencer-header">
+                    <div class="influencer-avatar" style="background:linear-gradient(135deg,#64D2FF,#5E5CE6);">CN</div>
+                    <div class="influencer-info">
+                        <h3>CyberNews</h3>
+                        <span class="influencer-title">Security Research & News</span>
+                    </div>
+                </div>
+                <p class="influencer-bio">Independent research-driven security news outlet. Investigates data leaks, tests security products, and publishes original threat research accessible to all levels.</p>
+                <div class="influencer-tags">
+                    <span class="inf-tag">News</span>
+                    <span class="inf-tag">Data Leaks</span>
+                    <span class="inf-tag">Reviews</span>
+                </div>
+                <div class="influencer-platforms">
+                    <a href="https://twitter.com/CyberNews" target="_blank" class="platform-badge twitter">𝕏 Twitter</a>
+                    <a href="https://www.youtube.com/@cybernews" target="_blank" class="platform-badge youtube">▶ YouTube</a>
+                    <a href="https://cybernews.com/" target="_blank" class="platform-badge blog">📝 Blog</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="neo-footer">
+        <div class="neo-footer-inner"><div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="NeoTrace"><span>NeoTrace</span></a>
+            <p class="footer-desc">AI-powered cybersecurity intelligence platform.</p>
+        </div></div>
+        <div class="neo-footer-divider"></div>
+        <div class="neo-footer-bottom">
+            <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+            <div class="neo-footer-bottom-right"><a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">📈 Back to Top</a></div>
+        </div>
+    </footer>
+
+    <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">🤖</button>
+    <div class="chatbot-panel" id="chatbotPanel"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script>
+    // Platform filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            document.querySelectorAll('.influencer-card').forEach(card => {
+                if (filter === 'all') { card.style.display = ''; return; }
+                card.style.display = card.dataset.platforms.includes(filter) ? '' : 'none';
+            });
+        });
+    });
+    </script>
+</body>
+</html>

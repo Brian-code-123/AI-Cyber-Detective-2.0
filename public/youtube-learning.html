@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Learning - NeoTrace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎬%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="NeoTrace" class="logo-img"><span>NeoTrace</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li class="nav-dropdown"><a href="#">Game</a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="story.html">Story Mode</a></li>
+                    <li><a href="game.html">Beginner Training</a></li>
+                    <li><a href="game-intermediate.html">Crypto Challenge</a></li>
+                </ul>
+            </li>
+            <li class="nav-dropdown"><a href="#">For You</a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="phone-inspector.html">Phone Inspector</a></li>
+                    <li><a href="url-threat-scanner.html">URL Scanner</a></li>
+                    <li><a href="image-forensics.html">Image Forensics</a></li>
+                    <li><a href="content-verifier.html">Text Verifier</a></li>
+                    <li><a href="password-checker.html">Password Checker</a></li>
+                    <li><a href="email-analyzer.html">Email Analyzer</a></li>
+                    <li><a href="wifi-scanner.html">WiFi Scanner</a></li>
+                    <li><a href="qr-scanner.html">QR Scanner</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="certifications.html">Certifications</a></li>
+                    <li><a href="books.html">Books</a></li>
+                    <li><a href="youtube-learning.html" class="active">YouTube Learning</a></li>
+                    <li><a href="influencers.html">Influencers</a></li>
+                    <li><a href="cyber-fundamentals.html">Fundamentals</a></li>
+                </ul>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">EN</button><button class="lang-btn" data-lang="zh">中文</button></div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+            <button class="hamburger"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="page-hero">
+            <h1>🎬 YouTube Learning Hub</h1>
+            <p>Best free cybersecurity courses and channels on YouTube — learn at your own pace</p>
+        </section>
+
+        <!-- Learning Tips Sidebar + Channels Grid -->
+        <div class="yt-page-layout">
+            <div class="yt-main">
+                <div class="yt-channels-grid">
+                    <!-- Channel 1 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#30D158 0%,#00C7BE 100%);">
+                            <span class="yt-level">Beginner</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>NetworkChuck</h3>
+                            <p class="yt-course-title">FREE Cybersecurity Course for Beginners</p>
+                            <p class="yt-desc">Energetic, accessible education aimed at absolute beginners. Breaks down complex topics into entertaining, digestible lessons.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Networking fundamentals, Linux basics, ethical hacking intro</li>
+                                    <li>Hands-on labs with real tools in virtual environments</li>
+                                    <li>Great foundation for CompTIA Security+ certification</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/playlist?list=PLIhvC56v63IIJZRa3lzK6IeBQOH_VFjUQ" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 2 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#0A84FF 0%,#5E5CE6 100%);">
+                            <span class="yt-level">Beginner</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>Professor Messer</h3>
+                            <p class="yt-course-title">CompTIA Security+ SY0-701 Training</p>
+                            <p class="yt-desc">The gold standard free Security+ certification training. Structured, no-nonsense exam prep covering every objective.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Complete coverage of all Security+ SY0-701 exam objectives</li>
+                                    <li>Clear explanations with real-world examples and diagrams</li>
+                                    <li>Widely regarded as sufficient to pass the exam</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/playlist?list=PLG49S3nxzAnl4QDVqK-hOnoqcSKEIDDuv" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 3 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#30D158 0%,#00C7BE 100%);">
+                            <span class="yt-level">Beginner</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>The Cyber Mentor (TCM)</h3>
+                            <p class="yt-course-title">Ethical Hacking in 15 Hours — Full Course</p>
+                            <p class="yt-desc">One of the most comprehensive free ethical hacking courses covering real-world penetration testing methodology from start to finish.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Full pen-test methodology: recon → scanning → exploitation → reporting</li>
+                                    <li>Active Directory attacking and privilege escalation</li>
+                                    <li>Foundation for PNPT certification</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=3FNYvj2U0HM" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 4 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#30D158 0%,#64D2FF 100%);">
+                            <span class="yt-level">Beginner</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>Computerphile</h3>
+                            <p class="yt-course-title">Cybersecurity & Cryptography Explained</p>
+                            <p class="yt-desc">Academic-quality security explanations from university professors. Makes theory accessible and engaging with clear visuals.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Clear encryption, hashing, and cryptographic protocol explanations</li>
+                                    <li>Password security, buffer overflows, SQL injection fundamentals</li>
+                                    <li>Taught by actual university lecturers with academic rigor</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@Computerphile" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 5 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#FF9F0A 0%,#FF453A 100%);">
+                            <span class="yt-level">Intermediate</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>John Hammond</h3>
+                            <p class="yt-course-title">CTF Walkthroughs & Malware Analysis</p>
+                            <p class="yt-desc">Practical content: CTF challenges, malware analysis, and real-world vulnerability research. Perfect for hands-on learners.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Step-by-step CTF solve walkthroughs teach problem-solving</li>
+                                    <li>Malware analysis deep dives using professional techniques</li>
+                                    <li>Covers emerging threats and CVEs as they appear</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@_JohnHammond" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 6 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#FF9F0A 0%,#FF6B35 100%);">
+                            <span class="yt-level">Intermediate</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>David Bombal</h3>
+                            <p class="yt-course-title">Ethical Hacking & Networking Labs</p>
+                            <p class="yt-desc">Extensive networking and ethical hacking tutorials with focus on hands-on lab work. Practical skills with real equipment and tools.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Detailed Kali Linux and hacking tool tutorials</li>
+                                    <li>Expert interviews with industry professionals</li>
+                                    <li>Networking fundamentals tied to security applications</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@davidbombal" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 7 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#FF9F0A 0%,#BF5AF2 100%);">
+                            <span class="yt-level">Intermediate</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>IppSec</h3>
+                            <p class="yt-course-title">HackTheBox Walkthrough Series</p>
+                            <p class="yt-desc">Detailed HackTheBox machine walkthroughs demonstrating real penetration testing techniques. The definitive guide for HTB.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Systematic enumeration and exploitation approach</li>
+                                    <li>Windows & Linux privilege escalation techniques</li>
+                                    <li>Searchable index at ippsec.rocks for specific techniques</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@ippsec" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 8 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#FF9F0A 0%,#FF453A 100%);">
+                            <span class="yt-level">Intermediate</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>HackerSploit</h3>
+                            <p class="yt-course-title">Red Team & Pen Testing Tutorials</p>
+                            <p class="yt-desc">Practical pen-testing and red-team tutorials with step-by-step tool demonstrations. Excellent for building offensive skills.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Comprehensive tool tutorials: Nmap, Burp Suite, Metasploit</li>
+                                    <li>Linux security and server hardening guides</li>
+                                    <li>Bug bounty hunting methodology and examples</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@HackerSploit" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 9 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#BF5AF2 0%,#FF453A 100%);">
+                            <span class="yt-level">Advanced</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>LiveOverflow</h3>
+                            <p class="yt-course-title">Binary Exploitation & Web Hacking</p>
+                            <p class="yt-desc">Advanced security research: binary exploitation, web hacking, CTFs. Complex concepts explained with clear visualizations.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Deep technical memory corruption and binary exploits</li>
+                                    <li>Browser hacking and advanced web vulnerability research</li>
+                                    <li>Teaches the mindset of security researchers</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@LiveOverflow" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                    <!-- Channel 10 -->
+                    <div class="yt-card">
+                        <div class="yt-card-header" style="background:linear-gradient(135deg,#BF5AF2 0%,#FF2D55 100%);">
+                            <span class="yt-level">Advanced</span>
+                            <span class="yt-icon">📺</span>
+                        </div>
+                        <div class="yt-card-body">
+                            <h3>13Cubed</h3>
+                            <p class="yt-course-title">Digital Forensics & Incident Response</p>
+                            <p class="yt-desc">Focused on DFIR with professional-grade content. Windows forensics, memory analysis, and investigation techniques.</p>
+                            <div class="yt-takeaways">
+                                <h4>Key Takeaways</h4>
+                                <ul>
+                                    <li>Windows forensic artifact analysis and evidence collection</li>
+                                    <li>Memory forensics with Volatility framework</li>
+                                    <li>Incident response procedures used by professionals</li>
+                                </ul>
+                            </div>
+                            <a href="https://www.youtube.com/@13Cubed" target="_blank" class="yt-link">Watch on YouTube →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar: Learning Tips + AI -->
+            <div class="yt-sidebar">
+                <div class="tip-card">
+                    <h3>🧠 Learning Tips</h3>
+                    <div style="font-size:0.9rem;color:var(--text-secondary);line-height:1.8;">
+                        <p><strong>🍅 Pomodoro Technique</strong> — Study 25 min, break 5 min. After 4 rounds, take a longer 15–30 min break.</p>
+                        <p><strong>🔁 Spaced Repetition</strong> — Review material at increasing intervals (1 day → 3 days → 7 days → 30 days).</p>
+                        <p><strong>🏗️ Feynman Technique</strong> — Explain the concept in simple terms as if teaching a beginner. Gaps in your explanation reveal gaps in understanding.</p>
+                        <p><strong>📝 Active Recall</strong> — Close notes and try to recall key points. Testing yourself beats re-reading.</p>
+                        <p><strong>✍️ Markdown Notes</strong> — Use headings (#), bullet points (-), code blocks (```) to organize notes. Tools: Obsidian, Notion, Typora.</p>
+                    </div>
+                </div>
+                <div class="tip-card" style="margin-top:1rem;">
+                    <h3>🤖 Ask AI</h3>
+                    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.8rem;">Have a question about what you're learning?</p>
+                    <textarea class="cyber-input" id="ytAiInput" rows="3" placeholder="e.g. Explain SQL injection in simple terms..." style="min-height:80px;resize:vertical;"></textarea>
+                    <button class="cyber-btn" onclick="askYtAi()" style="margin-top:0.5rem;" id="ytAiBtn">Ask AI</button>
+                    <div id="ytAiReply" style="display:none;margin-top:0.8rem;padding:12px 16px;background:rgba(255,255,255,0.03);border-radius:10px;border-left:3px solid var(--accent);font-size:0.9rem;color:var(--text-secondary);line-height:1.65;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="neo-footer">
+        <div class="neo-footer-inner"><div class="neo-footer-brand">
+            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="NeoTrace"><span>NeoTrace</span></a>
+            <p class="footer-desc">AI-powered cybersecurity intelligence platform.</p>
+        </div></div>
+        <div class="neo-footer-divider"></div>
+        <div class="neo-footer-bottom">
+            <p>&copy; 2026 NeoTrace. All rights reserved.</p>
+            <div class="neo-footer-bottom-right"><a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">📈 Back to Top</a></div>
+        </div>
+    </footer>
+
+    <button class="chatbot-toggle" id="chatbotToggle" title="NeoTrace AI Assistant">🤖</button>
+    <div class="chatbot-panel" id="chatbotPanel"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script>
+    function askYtAi() {
+        const input = document.getElementById('ytAiInput');
+        const reply = document.getElementById('ytAiReply');
+        const btn = document.getElementById('ytAiBtn');
+        const q = input.value.trim();
+        if (!q) return;
+        btn.disabled = true; btn.textContent = 'Thinking...';
+        reply.style.display = 'block';
+        reply.innerHTML = '<span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>';
+        // Simulate AI response
+        setTimeout(() => {
+            const responses = {
+                default: `Great question! Here's a concise answer:\n\n"${q}" — This is a key topic in cybersecurity. The core concept involves understanding how attackers exploit vulnerabilities and how defenders can mitigate them. I recommend checking the YouTube channels above for detailed video explanations, and practice on platforms like TryHackMe or HackTheBox for hands-on experience.`
+            };
+            reply.textContent = responses.default;
+            btn.disabled = false; btn.textContent = 'Ask AI';
+        }, 1500);
+    }
+    </script>
+</body>
+</html>
