@@ -1885,6 +1885,7 @@ app.get("/", (req, res) =>
 const ASI_API_KEY = process.env.ASI_API_KEY || "";
 const ASI_MODEL = process.env.ASI_MODEL || "asi1-mini";
 const ASI_BASE_URL = "https://api.asi1.ai";
+const IS_VERCEL = !!process.env.VERCEL; // Detect Vercel environment
 
 /**
  * Internal helper: calls ASI-1 chat completion API directly
@@ -1928,7 +1929,8 @@ async function callASI(
       });
     });
     apiReq.on("error", reject);
-    apiReq.setTimeout(20000, () => {
+    const timeout = IS_VERCEL ? 15000 : 20000; // Shorter timeout for Vercel
+    apiReq.setTimeout(timeout, () => {
       apiReq.destroy();
       reject(new Error("ASI API timeout"));
     });
@@ -2128,10 +2130,10 @@ ${context ? `## Current page context:\n${context}` : ""}`;
   ];
 
   if (!ASI_API_KEY) {
-    return res.json({
-      reply:
-        "I'm NeoTrace AI. The AI backend isn't configured yet — but I can still help! Ask me about cybersecurity topics and explore our tools via the navigation menu.",
-    });
+    const noKeyMsg = IS_VERCEL 
+      ? "🤖 **AI backend not configured on Vercel.**\n\nSet the `ASI_API_KEY` environment variable in your Vercel project settings to enable the chatbot.\n\n📚 In the meantime, ask me about:\n• How to use our security tools\n• Cybersecurity fundamentals\n• Recommended certifications"
+      : "I'm NeoTrace AI. The AI backend isn't configured yet — but I can still help! Ask me about cybersecurity topics and explore our tools via the navigation menu.";
+    return res.json({ reply: noKeyMsg });
   }
 
   try {
@@ -2168,7 +2170,8 @@ ${context ? `## Current page context:\n${context}` : ""}`;
         });
       });
       apiReq.on("error", reject);
-      apiReq.setTimeout(45000, () => {
+      const timeout = IS_VERCEL ? 20000 : 25000; // Shorter timeout for Vercel (10s buffer)
+      apiReq.setTimeout(timeout, () => {
         apiReq.destroy();
         reject(new Error("AI service timeout"));
       });
@@ -2182,6 +2185,19 @@ ${context ? `## Current page context:\n${context}` : ""}`;
     res.json({ reply });
   } catch (err) {
     console.error("Chatbot error:", err.message);
+    // If AI service fails, send graceful response with explanation
+    if (err.message.includes("timeout") || err.message.includes("ECONNREFUSED")) {
+      // Return offline fallback for timeout/connection errors
+      const fallback = 
+        "🤖 **AI service is temporarily unavailable.** I can still help! Ask me about:\n" +
+        "• How to use our tools (URL Scanner, Phone Inspector, Image Forensics, etc.)\n" +
+        "• Cybersecurity basics (phishing, malware, passwords, 2FA)\n" +
+        "• Recommended certifications (Security+, CEH, OSCP)\n" +
+        "• Career paths in cybersecurity\n" +
+        "• Password security best practices\n\n" +
+        "💡 Try refreshing the page and trying again.";
+      return res.status(200).json({ reply: fallback });
+    }
     res
       .status(502)
       .json({ error: "AI service temporarily unavailable. " + err.message });
