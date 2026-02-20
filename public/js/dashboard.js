@@ -2,12 +2,54 @@
 // NeoTrace — Dashboard Charts (Apple-Style, 3 Charts Only)
 // =====================================================
 
+
+function getChartScalesConfig(theme) {
+  if (theme === "light") {
+    return {
+      gridColor: "rgba(0,0,0,0.06)",
+      tickColor: "rgba(0,0,0,0.7)",
+    };
+  }
+  return {
+    gridColor: "rgba(255,255,255,0.06)",
+    tickColor: "rgba(255,255,255,0.85)",
+  };
+}
+
+function setChartTheme(theme) {
+  if (theme === "light") {
+    Chart.defaults.color = "rgba(0,0,0,0.7)";
+    Chart.defaults.borderColor = "rgba(0,0,0,0.08)";
+  } else {
+    Chart.defaults.color = "rgba(255,255,255,0.85)";
+    Chart.defaults.borderColor = "rgba(255,255,255,0.08)";
+  }
+  Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif";
+}
+
+function getCurrentTheme() {
+  // 優先用 data-theme，否則 fallback 至 prefers-color-scheme
+  const html = document.documentElement;
+  if (html.hasAttribute('data-theme')) {
+    return html.getAttribute('data-theme');
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function redrawCharts() {
+  // 重新載入頁面即可重繪（簡單做法，或可優化為動態重繪）
+  location.reload();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Apple-style chart defaults
-  Chart.defaults.color = "rgba(255,255,255,0.45)";
-  Chart.defaults.borderColor = "rgba(255,255,255,0.04)";
-  Chart.defaults.font.family =
-    "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif";
+  setChartTheme(getCurrentTheme());
+
+  // 監聽主題切換（假設有 data-theme 變化）
+  const observer = new MutationObserver(() => {
+    setChartTheme(getCurrentTheme());
+    redrawCharts();
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   // ── Fetch AI-powered real-time stats ───────────────
   loadAIStats();
@@ -85,12 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         scales: {
           x: {
-            grid: { color: "rgba(255,255,255,0.03)" },
-            ticks: { callback: (v) => v + "K", font: { size: 11 } },
+            grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
+            ticks: { callback: (v) => v + "K", font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
           },
           y: {
             grid: { display: false },
-            ticks: { font: { size: 11 } },
+            ticks: { font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
           },
         },
       },
@@ -163,8 +205,15 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         },
         scales: {
-          x: { grid: { color: "rgba(255,255,255,0.03)" } },
-          y: { grid: { color: "rgba(255,255,255,0.03)" }, beginAtZero: true },
+          x: {
+            grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
+            ticks: { font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
+          },
+          y: {
+            grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
+            ticks: { font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
+            beginAtZero: true,
+          },
         },
       },
     });

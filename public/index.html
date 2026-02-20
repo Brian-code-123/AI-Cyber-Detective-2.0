@@ -25,7 +25,7 @@
     <!-- Navigation -->
     <nav class="navbar">
       <a href="index.html" class="nav-logo">
-        <img src="images/logo.jpeg" alt="NeoTrace" class="logo-img" />
+        <img src="images/logo.png" alt="NeoTrace" class="logo-img" />
         <span data-i18n="nav.logo">NeoTrace</span>
       </a>
       <ul class="nav-links">
@@ -190,18 +190,56 @@
 
         <div class="home-grid">
           <div class="home-main">
-            <div class="news-grid" id="newsGrid">
-              <div class="news-skeleton">
-                <div class="skeleton-line" style="width: 80%"></div>
+            <div class="news-cards" id="newsGrid">
+              <div class="news-card">
+                <div class="news-main-img">
+                  <img src="https://thehackernews.com/images/-vQwQ6l0e6Qw/Xz8v7v8v8vI/AAAAAAAABcA/rat-malware-campaign.jpg" alt="CRESCENTHARVEST Campaign">
+                </div>
+                <div class="news-content">
+                  <h2>CRESCENTHARVEST Campaign Targets Iran Protest Supporters With RAT Malware</h2>
+                  <p class="news-summary">Cybersecurity researchers have disclosed details of a new campaign dubbed CRESCENTHARVEST, likely targeting supporters of Iran's ongoing protests to conduct information theft and long-term espionage.</p>
+                  <div class="news-meta">Ravie Lakshmanan · 2026-02-19</div>
+                </div>
               </div>
-              <div class="news-skeleton">
-                <div class="skeleton-line" style="width: 65%"></div>
+              <div class="news-card">
+                <div class="news-main-img">
+                  <img src="https://thehackernews.com/images/-dQw4w9WgXcQ/Xz8v7v8v8vI/AAAAAAAABcB/outlook-credential-theft.jpg" alt="Outlook Add-In Steals Credentials">
+                </div>
+                <div class="news-content">
+                  <h2>First Malicious Outlook Add-In Found Stealing 4,000+ Microsoft Credentials</h2>
+                  <p class="news-summary">A newly discovered malicious Outlook add-in has been found stealing thousands of Microsoft credentials, posing a significant threat to business email security.</p>
+                  <div class="news-meta">The Hacker News · 2026-02-18</div>
+                </div>
               </div>
-              <div class="news-skeleton">
-                <div class="skeleton-line" style="width: 75%"></div>
+              <div class="news-card">
+                <div class="news-main-img">
+                  <img src="https://thehackernews.com/images/-chrome-malware/Xz8v7v8v8vI/AAAAAAAABcC/chrome-extension-malware.jpg" alt="Malicious Chrome Extensions">
+                </div>
+                <div class="news-content">
+                  <h2>Malicious Chrome Extensions Caught Stealing Business Data, Emails, and Browsing History</h2>
+                  <p class="news-summary">Several Chrome extensions have been identified as malicious, stealing sensitive business data, emails, and users' browsing history.</p>
+                  <div class="news-meta">The Hacker News · 2026-02-17</div>
+                </div>
               </div>
-              <div class="news-skeleton">
-                <div class="skeleton-line" style="width: 60%"></div>
+              <div class="news-card">
+                <div class="news-main-img">
+                  <img src="https://thehackernews.com/images/-ransomware-edr/Xz8v7v8v8vI/AAAAAAAABcD/ransomware-edr-bypass.jpg" alt="Reynolds Ransomware EDR Bypass">
+                </div>
+                <div class="news-content">
+                  <h2>Reynolds Ransomware Embeds BYOD Driver to Disable EDR Security Tools</h2>
+                  <p class="news-summary">A new ransomware strain named Reynolds has been observed embedding a BYOD driver to bypass and disable endpoint detection and response (EDR) security tools.</p>
+                  <div class="news-meta">The Hacker News · 2026-02-16</div>
+                </div>
+              </div>
+              <div class="news-card">
+                <div class="news-main-img">
+                  <img src="https://thehackernews.com/images/-android-backdoor/Xz8v7v8v8vI/AAAAAAAABcE/android-backdoor-firmware.jpg" alt="Keenadu Firmware Backdoor">
+                </div>
+                <div class="news-content">
+                  <h2>Keenadu Firmware Backdoor Infects Android Tablets via Signed OTA Updates</h2>
+                  <p class="news-summary">A firmware backdoor named Keenadu has been found infecting Android tablets through signed OTA updates, allowing persistent remote access.</p>
+                  <div class="news-meta">The Hacker News · 2026-02-15</div>
+                </div>
               </div>
             </div>
           </div>
@@ -219,141 +257,7 @@
           </div>
         </div>
       </section>
-
-      <!-- Tools Section -->
-      <section class="section">
-        <div class="section-header">
-          <h2 data-i18n="tools.title">Investigation Toolkit</h2>
-          <p data-i18n="tools.subtitle">
-            Powerful AI-driven tools for analyzing digital threats
-          </p>
-          <div class="accent-line"></div>
-        </div>
-
-        <div class="cards-grid">
-          <div class="card">
-            <div class="card-icon green">📖</div>
-            <h3 data-i18n="tools.story.title">Story-Based Learning</h3>
-            <p data-i18n="tools.story.desc">
-              Follow Alex the Cyber Detective through interactive chapters
-              covering prize scams, urgency tactics, impersonation, and social
-              engineering.
-            </p>
-            <a href="story.html" class="card-link" data-i18n="tools.launch"
-              >Launch Tool →</a
-            >
           </div>
-          <div class="card">
-            <div class="card-icon cyan">🎮</div>
-            <h3 data-i18n="tools.game.title">Gamified Training</h3>
-            <p data-i18n="tools.game.desc">
-              5 difficulty tiers with 15+ scenarios covering phishing,
-              impersonation, delivery scams, emotional manipulation, and
-              homograph attacks.
-            </p>
-            <a href="game.html" class="card-link" data-i18n="tools.launch"
-              >Launch Tool →</a
-            >
-          </div>
-          <div class="card">
-            <div class="card-icon purple">📱</div>
-            <h3 data-i18n="tools.phone.title">Phone Inspector</h3>
-            <p data-i18n="tools.phone.desc">
-              Analyze phone numbers for fraud risk, carrier info, line type,
-              blacklist status, and geo-location intelligence.
-            </p>
-            <a
-              href="phone-inspector.html"
-              class="card-link"
-              data-i18n="tools.launch"
-              >Launch Tool →</a
-            >
-          </div>
-          <div class="card">
-            <div class="card-icon red">🔗</div>
-            <h3 data-i18n="tools.url.title">URL Threat Scanner</h3>
-            <p data-i18n="tools.url.desc">
-              Check domain reputation, evaluate SSL certificates, detect
-              phishing patterns, and analyze link safety with advanced threat
-              intelligence.
-            </p>
-            <a
-              href="url-threat-scanner.html"
-              class="card-link"
-              data-i18n="tools.launch"
-              >Launch Tool →</a
-            >
-          </div>
-          <div class="card">
-            <div class="card-icon orange">🖼️</div>
-            <h3 data-i18n="tools.image.title">AI Image Forensics</h3>
-            <p data-i18n="tools.image.desc">
-              Detect AI-generated images, analyze EXIF metadata, check
-              compression artifacts, and identify forensic manipulation signs.
-            </p>
-            <a
-              href="image-forensics.html"
-              class="card-link"
-              data-i18n="tools.launch"
-              >Launch Tool →</a
-            >
-          </div>
-          <div class="card">
-            <div class="card-icon blue">📄</div>
-            <h3 data-i18n="tools.text.title">Content Verifier</h3>
-            <p data-i18n="tools.text.desc">
-              Fact-check articles, detect sentiment manipulation, identify
-              clickbait patterns, and verify content credibility with AI
-              analysis.
-            </p>
-            <a
-              href="content-verifier.html"
-              class="card-link"
-              data-i18n="tools.launch"
-              >Launch Tool →</a
-            >
-          </div>
-
-          <!-- Password Checker -->
-          <div class="card">
-            <div class="card-icon green">🔑</div>
-            <h3 data-i18n="tools.password.title">Password Checker</h3>
-            <p data-i18n="tools.password.desc">
-              Real-time password strength analysis with entropy scoring, crack-time estimates, and an AI-powered strong password generator.
-            </p>
-            <a href="password-checker.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
-          </div>
-
-          <!-- Email Analyzer -->
-          <div class="card">
-            <div class="card-icon orange">📧</div>
-            <h3 data-i18n="tools.email.title">Email Analyzer</h3>
-            <p data-i18n="tools.email.desc">
-              Detect phishing and spoofing by verifying SPF, DKIM, and DMARC authentication. Paste headers or upload a .eml file.
-            </p>
-            <a href="email-analyzer.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
-          </div>
-
-          <!-- WiFi Scanner -->
-          <div class="card">
-            <div class="card-icon cyan">📶</div>
-            <h3 data-i18n="tools.wifi.title">WiFi Scanner</h3>
-            <p data-i18n="tools.wifi.desc">
-              Assess your WiFi network's security posture — detect open/WEP/weak networks with AI-powered protection advice.
-            </p>
-            <a href="wifi-scanner.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
-          </div>
-
-          <!-- QR Scanner -->
-          <div class="card">
-            <div class="card-icon purple">⬛</div>
-            <h3 data-i18n="tools.qr.title">QR Code Scanner</h3>
-            <p data-i18n="tools.qr.desc">
-              Decode QR codes and instantly scan embedded URLs for phishing, malware, and other cyber threats using AI analysis.
-            </p>
-            <a href="qr-scanner.html" class="card-link" data-i18n="tools.launch">Launch Tool →</a>
-          </div>
-
         </div>
       </section>
 
@@ -362,7 +266,7 @@
         <div class="neo-footer-inner">
           <div class="neo-footer-brand">
             <a href="index.html" class="footer-logo">
-              <img src="images/logo.jpeg" alt="NeoTrace" />
+              <img src="images/logo.png" alt="NeoTrace" />
               <span>NeoTrace</span>
             </a>
             <p class="footer-desc">
@@ -412,7 +316,7 @@
         </div>
         <div class="neo-footer-divider"></div>
         <div class="neo-footer-bottom">
-          <p>&copy; 2026 NeoTrace. Built with AI. All rights reserved.</p>
+          <p>&copy; 2026 NeoTrace. All rights reserved.</p>
           <div class="neo-footer-bottom-right">
             <div class="neo-footer-social">
               <a href="https://github.com/LouisLouis19/AI-Cyber-Detective-2.0" target="_blank" title="GitHub" aria-label="GitHub">

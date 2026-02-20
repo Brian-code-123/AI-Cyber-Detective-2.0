@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/images/logo.jpeg" alt="NeoTrace Logo" width="120" style="border-radius:20px; margin-bottom:12px;" />
+<img src="public/images/logo.png" alt="NeoTrace Logo" width="120" style="border-radius:20px; margin-bottom:12px;" />
 
 # NeoTrace — Cybersecurity Intelligence & Digital Forensics Platform
 
