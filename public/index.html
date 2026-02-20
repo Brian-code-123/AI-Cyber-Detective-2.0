@@ -32,31 +32,45 @@
             <li><a href="index.html" class="active" data-i18n="nav.dashboard">Dashboard</a></li>
             <li class="nav-dropdown">
                 <a href="#">Game</a>
-                <ul class="nav-dropdown-menu">
-                    <li><a href="story.html" data-i18n="nav.story">Story Mode</a></li>
-                    <li><a href="game.html" data-i18n="nav.game">Beginner Training</a></li>
-                    <li><a href="game-intermediate.html">Crypto Challenge</a></li>
-                </ul>
+                <div class="mega-menu game-mega">
+                    <div class="mega-col">
+                        <span class="mega-label">🎮 Game Modes</span>
+                        <a href="story.html" data-i18n="nav.story">Story Mode</a>
+                        <a href="game.html" data-i18n="nav.game">Beginner Training</a>
+                        <a href="game-intermediate.html">Crypto Challenge</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-dropdown">
                 <a href="#">For You</a>
-                <ul class="nav-dropdown-menu">
-                    <li><a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a></li>
-                    <li><a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a></li>
-                    <li><a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a></li>
-                    <li><a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a></li>
-                    <li><a href="password-checker.html" data-i18n="nav.password">Password Checker</a></li>
-                    <li><a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a></li>
-                    <li><a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a></li>
-                    <li><a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a></li>
-                    <li><a href="careers.html" data-i18n="nav.careers">Careers</a></li>
-                    <li><a href="courses.html" data-i18n="nav.courses">Courses</a></li>
-                    <li><a href="certifications.html" data-i18n="nav.certs">Certifications</a></li>
-                    <li><a href="books.html">Books</a></li>
-                    <li><a href="youtube-learning.html">YouTube Learning</a></li>
-                    <li><a href="influencers.html">Influencers</a></li>
-                    <li><a href="cyber-fundamentals.html">Fundamentals</a></li>
-                </ul>
+                <div class="mega-menu foryou-mega">
+                    <div class="mega-col">
+                        <span class="mega-label">🛠️ Tools</span>
+                        <a href="phone-inspector.html" data-i18n="nav.phone">Phone Inspector</a>
+                        <a href="url-threat-scanner.html" data-i18n="nav.url">URL Scanner</a>
+                        <a href="image-forensics.html" data-i18n="nav.image">Image Forensics</a>
+                        <a href="content-verifier.html" data-i18n="nav.text">Text Verifier</a>
+                        <a href="password-checker.html" data-i18n="nav.password">Password Checker</a>
+                        <a href="email-analyzer.html" data-i18n="nav.email">Email Analyzer</a>
+                        <a href="wifi-scanner.html" data-i18n="nav.wifi">WiFi Scanner</a>
+                        <a href="qr-scanner.html" data-i18n="nav.qr">QR Scanner</a>
+                    </div>
+                    <div class="mega-divider"></div>
+                    <div class="mega-col">
+                        <span class="mega-label">📚 Resources</span>
+                        <a href="books.html">Books</a>
+                        <a href="youtube-learning.html">YouTube Learning</a>
+                        <a href="influencers.html">Influencers</a>
+                        <a href="cyber-fundamentals.html">Fundamentals</a>
+                    </div>
+                    <div class="mega-divider"></div>
+                    <div class="mega-col">
+                        <span class="mega-label">💼 Career</span>
+                        <a href="careers.html" data-i18n="nav.careers">Careers</a>
+                        <a href="courses.html" data-i18n="nav.courses">Courses</a>
+                        <a href="certifications.html" data-i18n="nav.certs">Certifications</a>
+                    </div>
+                </div>
             </li>
             <li><a href="about.html" data-i18n="nav.about">About</a></li>
         </ul>
@@ -168,62 +182,82 @@
           <div class="accent-line"></div>
         </div>
 
-        <div class="home-grid">
-          <div class="home-main">
-            <div class="news-cards" id="newsGrid">
-              <div class="news-card">
-                <div class="news-main-img">
-                  <img src="https://thehackernews.com/images/-vQwQ6l0e6Qw/Xz8v7v8v8vI/AAAAAAAABcA/rat-malware-campaign.jpg" alt="CRESCENTHARVEST Campaign">
-                </div>
-                <div class="news-content">
+        <div class="bbc-wrap">
+          <!-- News Grid -->
+          <div class="bbc-news-block">
+            <div class="bbc-grid">
+              <!-- LEFT: featured text headline -->
+              <div class="bbc-left">
+                <div>
+                  <span class="bbc-cat">Threat Intel</span>
                   <h2>CRESCENTHARVEST Campaign Targets Iran Protest Supporters With RAT Malware</h2>
-                  <p class="news-summary">Cybersecurity researchers have disclosed details of a new campaign dubbed CRESCENTHARVEST, likely targeting supporters of Iran's ongoing protests to conduct information theft and long-term espionage.</p>
-                  <div class="news-meta">Ravie Lakshmanan · 2026-02-19</div>
+                  <p>Cybersecurity researchers disclosed a new campaign targeting protest supporters to conduct information theft and long-term espionage, deploying remote access trojans via spear-phishing lures.</p>
+                </div>
+                <div class="bbc-meta">
+                  <span>Ravie Lakshmanan</span>
+                  <span class="bbc-meta-dot">·</span>
+                  <span>Feb 19, 2026</span>
                 </div>
               </div>
-              <div class="news-card">
-                <div class="news-main-img">
-                  <img src="https://thehackernews.com/images/-dQw4w9WgXcQ/Xz8v7v8v8vI/AAAAAAAABcB/outlook-credential-theft.jpg" alt="Outlook Add-In Steals Credentials">
+              <!-- CENTER: hero image article -->
+              <a class="bbc-hero" href="https://thehackernews.com" target="_blank" rel="noopener">
+                <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=900&q=80" alt="Cybersecurity threat">
+                <div class="bbc-hero-overlay">
+                  <span class="bbc-cat">Credentials</span>
+                  <h3>First Malicious Outlook Add-In Steals 4,000+ Microsoft Credentials</h3>
                 </div>
-                <div class="news-content">
-                  <h2>First Malicious Outlook Add-In Found Stealing 4,000+ Microsoft Credentials</h2>
-                  <p class="news-summary">A newly discovered malicious Outlook add-in has been found stealing thousands of Microsoft credentials, posing a significant threat to business email security.</p>
-                  <div class="news-meta">The Hacker News · 2026-02-18</div>
-                </div>
-              </div>
-              <div class="news-card">
-                <div class="news-main-img">
-                  <img src="https://thehackernews.com/images/-chrome-malware/Xz8v7v8v8vI/AAAAAAAABcC/chrome-extension-malware.jpg" alt="Malicious Chrome Extensions">
-                </div>
-                <div class="news-content">
-                  <h2>Malicious Chrome Extensions Caught Stealing Business Data, Emails, and Browsing History</h2>
-                  <p class="news-summary">Several Chrome extensions have been identified as malicious, stealing sensitive business data, emails, and users' browsing history.</p>
-                  <div class="news-meta">The Hacker News · 2026-02-17</div>
-                </div>
-              </div>
-              <div class="news-card">
-                <div class="news-main-img">
-                  <img src="https://thehackernews.com/images/-ransomware-edr/Xz8v7v8v8vI/AAAAAAAABcD/ransomware-edr-bypass.jpg" alt="Reynolds Ransomware EDR Bypass">
-                </div>
-                <div class="news-content">
-                  <h2>Reynolds Ransomware Embeds BYOD Driver to Disable EDR Security Tools</h2>
-                  <p class="news-summary">A new ransomware strain named Reynolds has been observed embedding a BYOD driver to bypass and disable endpoint detection and response (EDR) security tools.</p>
-                  <div class="news-meta">The Hacker News · 2026-02-16</div>
-                </div>
-              </div>
-              <div class="news-card">
-                <div class="news-main-img">
-                  <img src="https://thehackernews.com/images/-android-backdoor/Xz8v7v8v8vI/AAAAAAAABcE/android-backdoor-firmware.jpg" alt="Keenadu Firmware Backdoor">
-                </div>
-                <div class="news-content">
-                  <h2>Keenadu Firmware Backdoor Infects Android Tablets via Signed OTA Updates</h2>
-                  <p class="news-summary">A firmware backdoor named Keenadu has been found infecting Android tablets through signed OTA updates, allowing persistent remote access.</p>
-                  <div class="news-meta">The Hacker News · 2026-02-15</div>
-                </div>
+              </a>
+              <!-- RIGHT: secondary stacked articles -->
+              <div class="bbc-right">
+                <a class="bbc-secondary" href="https://thehackernews.com" target="_blank" rel="noopener">
+                  <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=160&q=70" alt="">
+                  <div>
+                    <h4>Malicious Chrome Extensions Stealing Business Data &amp; Emails</h4>
+                    <span>Feb 17, 2026</span>
+                  </div>
+                </a>
+                <a class="bbc-secondary" href="https://thehackernews.com" target="_blank" rel="noopener">
+                  <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=160&q=70" alt="">
+                  <div>
+                    <h4>Reynolds Ransomware Embeds BYOD Driver to Disable EDR Tools</h4>
+                    <span>Feb 16, 2026</span>
+                  </div>
+                </a>
+                <a class="bbc-secondary" href="https://thehackernews.com" target="_blank" rel="noopener">
+                  <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=160&q=70" alt="">
+                  <div>
+                    <h4>Keenadu Firmware Backdoor Infects Android via Signed OTA Updates</h4>
+                    <span>Feb 15, 2026</span>
+                  </div>
+                </a>
               </div>
             </div>
+            <!-- Bottom row: 4 mini news cards -->
+            <div class="bbc-bottom-row">
+              <a class="bbc-mini" href="https://thehackernews.com" target="_blank" rel="noopener">
+                <span class="bbc-cat">Malware</span>
+                <h5>New Botnet Exploits Unpatched SOHO Routers Across Southeast Asia</h5>
+                <span>Feb 14, 2026</span>
+              </a>
+              <a class="bbc-mini" href="https://thehackernews.com" target="_blank" rel="noopener">
+                <span class="bbc-cat">Phishing</span>
+                <h5>AI-Generated Deepfake Voice Scams Target Corporate CFOs in Wire Fraud</h5>
+                <span>Feb 13, 2026</span>
+              </a>
+              <a class="bbc-mini" href="https://thehackernews.com" target="_blank" rel="noopener">
+                <span class="bbc-cat">Vulnerability</span>
+                <h5>Critical Zero-Day in Fortinet SSL VPN Exploited by Nation-State Actors</h5>
+                <span>Feb 12, 2026</span>
+              </a>
+              <a class="bbc-mini" href="https://thehackernews.com" target="_blank" rel="noopener">
+                <span class="bbc-cat">Data Breach</span>
+                <h5>Healthcare Giant Confirms 4.2M Patient Records Exposed in Supply Chain Attack</h5>
+                <span>Feb 11, 2026</span>
+              </a>
+            </div>
           </div>
-          <div class="home-sidebar">
+          <!-- Sidebar: Calendar -->
+          <div class="bbc-sidebar">
             <div class="calendar-widget">
               <div class="calendar-header">
                 <h4 id="calendarMonth"></h4>
@@ -234,9 +268,6 @@
               </div>
               <div class="calendar-days" id="calendarDays"></div>
             </div>
-          </div>
-        </div>
-      </section>
           </div>
         </div>
       </section>
