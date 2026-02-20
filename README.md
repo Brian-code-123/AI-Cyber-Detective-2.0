@@ -14,14 +14,12 @@ Make cybersecurity knowledge accessible. We provide intuitive tools and clear le
 ## Why This Project Exists
 Security tools are often fragmented and aimed at experts. NeoTrace packages essential capabilities into easy-to-use tools and lessons so more people can protect themselves and their communities.
 
-## Quick Start
-```bash
-git clone https://github.com/Brian-code-123/NeoTrace.git
-cd NeoTrace
-npm install
-npm run dev
-# Open http://localhost:3000
-```
+## Use Cases & Applications
+- **Security Professionals:** quick threat checks, incident triage, and lightweight forensics for triage and reporting.
+- **Educational Institutions:** interactive lessons and gamified modules for teaching practical cybersecurity skills.
+- **Business & IT Teams:** employee phishing simulations, URL and attachment scanning, and simple integration via APIs.
+- **Individual Users:** personal phone/URL checks, image authenticity inspection, and password/security hygiene tools.
+- **Developers & Researchers:** extendable API endpoints for prototyping threat detection or integrating NeoTrace checks into other systems.
 
 ## Technical Details
 - Runtime: Node.js + Express server
@@ -31,12 +29,14 @@ npm run dev
 	- AI tasks performed via ASI include: content credibility scoring, deepfake/AI-image detection, phishing pattern detection, and risk-scoring for phone numbers and URLs.
 	- You can swap the ASI backend for another provider by updating the API endpoint and credentials in server configuration.
 
-## Use Cases & Applications
-- **Security Professionals:** quick threat checks, incident triage, and lightweight forensics for triage and reporting.
-- **Educational Institutions:** interactive lessons and gamified modules for teaching practical cybersecurity skills.
-- **Business & IT Teams:** employee phishing simulations, URL and attachment scanning, and simple integration via APIs.
-- **Individual Users:** personal phone/URL checks, image authenticity inspection, and password/security hygiene tools.
-- **Developers & Researchers:** extendable API endpoints for prototyping threat detection or integrating NeoTrace checks into other systems.
+## Quick Start
+```bash
+git clone https://github.com/Brian-code-123/NeoTrace.git
+cd NeoTrace
+npm install
+npm run dev
+# Open http://localhost:3000
+```
 
 ## License
 MIT
