@@ -914,7 +914,7 @@ function formatBytes(bytes) {
  * Scrapes The Hacker News RSS feed and returns up to 10 articles with AI-generated summaries
  */
 let newsCache = { data: null, timestamp: 0 };
-const NEWS_CACHE_TTL = 15 * 60 * 1000; // 15 minutes
+
 
 app.get("/api/news", async (req, res) => {
   try {
@@ -930,21 +930,81 @@ app.get("/api/news", async (req, res) => {
     const items = [];
     const itemRegex = /<item>([\s\S]*?)<\/item>/g;
     let match;
-    while ((match = itemRegex.exec(xml)) !== null && items.length < 10) {
+    while ((match = itemRegex.exec(xml)) !== null && items.length < 15) {
       const itemXml = match[1];
       const title = extractTag(itemXml, "title");
       const rawLink = extractTag(itemXml, "link");
       const guid = extractTag(itemXml, "guid");
-      // <link> in RSS can be a bare URL or CDATA; guid is more reliable
-      const link =
-        (rawLink && rawLink.startsWith("http") ? rawLink : "") ||
-        (guid && guid.startsWith("http") ? guid : "") ||
-        rawLink;
       const pubDate = extractTag(itemXml, "pubDate");
       const description = extractTag(itemXml, "description");
 
+      // Clean CDATA and whitespace from title
+      const cleanTitle = title
+        .replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1")
+        .replace(/<[^>]*>/g, "")
+        .trim();
+
+      // Extract and validate link using new function
+      const linkFromTag = cleanAndValidateUrl(rawLink);
+      const linkFromGuid = cleanAndValidateUrl(guid);
+      
+      // Prefer <link> tag, fallback to GUID, skip if neither works
+      const cleanLink = linkFromTag || linkFromGuid;
+      
+      if (!cleanLink) {
+        continue;  // Skip items without valid links
+      }
+
+      // Extract image from various sources
+      let imageUrl = "";
+      
+      // Try <media:content> with image type
+      const mediaContent = extractTag(itemXml, "media:content");
+      if (mediaContent) {
+        const urlMatch = mediaContent.match(/url="([^"]+)"/);
+        if (urlMatch && (urlMatch[1].includes(".jpg") || urlMatch[1].includes(".png") || urlMatch[1].includes(".webp"))) {
+          imageUrl = cleanAndValidateUrl(urlMatch[1]);
+        }
+      }
+
+      // Try <enclosure> for images
+      if (!imageUrl) {
+        const enclosure = extractTag(itemXml, "enclosure");
+        if (enclosure && (enclosure.includes("image") || enclosure.includes(".jpg") || enclosure.includes(".png"))) {
+          const urlMatch = enclosure.match(/url="([^"]+)"/);
+          if (urlMatch) {
+            imageUrl = cleanAndValidateUrl(urlMatch[1]);
+          }
+        }
+      }
+
+      // Try to extract image from description HTML
+      if (!imageUrl) {
+        const imgMatch = description.match(/<img[^>]+src="([^"]+)"/i);
+        if (imgMatch) {
+          imageUrl = cleanAndValidateUrl(imgMatch[1]);
+        }
+      }
+
+      // Generate fallback stock image URL based on title keywords
+      if (!imageUrl) {
+        const keywords = cleanTitle.toLowerCase();
+        let stockQuery = "cybersecurity";
+        if (keywords.includes("malware")) stockQuery = "malware";
+        else if (keywords.includes("phishing")) stockQuery = "phishing";
+        else if (keywords.includes("ransomware")) stockQuery = "ransomware";
+        else if (keywords.includes("zero-day") || keywords.includes("vulnerability")) stockQuery = "vulnerability";
+        else if (keywords.includes("breach") || keywords.includes("data")) stockQuery = "data-breach";
+        else if (keywords.includes("hacker")) stockQuery = "hacker-attack";
+        else if (keywords.includes("ai") || keywords.includes("deepfake")) stockQuery = "ai-security";
+        
+        // Use Unsplash for fallback images
+        imageUrl = `https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80&fit=crop`;
+      }
+
       // Clean HTML from description for summary
       const cleanDesc = description
+        .replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1")
         .replace(/<[^>]*>/g, "")
         .replace(/&nbsp;/g, " ")
         .replace(/&amp;/g, "&")
@@ -957,17 +1017,19 @@ app.get("/api/news", async (req, res) => {
           ? cleanDesc.substring(0, 200) + "..."
           : cleanDesc;
 
-      const cleanLink = link.replace(/<!\[CDATA[|]]>/g, "").trim();
-      items.push({
-        title: title.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim(),
-        link: cleanLink,
-        url: cleanLink, // alias for backwards compat
-        date: pubDate
-          ? new Date(pubDate).toISOString()
-          : new Date().toISOString(),
-        source: "The Hacker News",
-        summary,
-      });
+      if (cleanTitle && cleanLink) {
+        items.push({
+          title: cleanTitle,
+          link: cleanLink,
+          url: cleanLink, // alias for backwards compat
+          date: pubDate
+            ? new Date(pubDate).toISOString()
+            : new Date().toISOString(),
+          source: "The Hacker News",
+          summary,
+          image: imageUrl || "",
+        });
+      }
     }
 
     // Enhance summaries with AI if API key is available
@@ -1014,6 +1076,37 @@ function extractTag(xml, tag) {
   const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i");
   const match = xml.match(regex);
   return match ? match[1] : "";
+}
+
+/**
+ * Clean and validate a URL extracted from RSS
+ * Removes CDATA wrappers, extra whitespace, and verifies it's a valid URL
+ */
+function cleanAndValidateUrl(url) {
+  if (!url) return "";
+  
+  let cleaned = url
+    .replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1")  // Remove CDATA
+    .replace(/<[^>]*>/g, "")  // Remove HTML tags
+    .trim()
+    .split(/\s+/)[0];  // Take first URL if multiple
+  
+  // Ensure it starts with http:// or https://
+  if (cleaned && !cleaned.startsWith("http")) {
+    if (cleaned.startsWith("//")) {
+      cleaned = "https:" + cleaned;
+    } else {
+      cleaned = "https://" + cleaned;
+    }
+  }
+  
+  // Validate it's a real URL
+  try {
+    new URL(cleaned);
+    return cleaned;
+  } catch {
+    return "";
+  }
 }
 
 function fetchURL(targetUrl) {

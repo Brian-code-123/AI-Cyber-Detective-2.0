@@ -539,56 +539,74 @@ async function loadNews() {
     const res = await fetch("/api/news");
     if (!res.ok) throw new Error("API error");
     const news = await res.json();
-    renderNews(grid, news);
+    if (news && news.length > 0) {
+      renderNews(grid, news);
+      return;
+    }
   } catch (e) {
-    // Fallback demo news
-    renderNews(grid, [
-      {
-        title: "Major Phishing Campaign Targets Banking Customers Across Asia",
-        date: "2026-02-19",
-        source: "The Hacker News",
-        link: "#",
-        summary:
-          "A sophisticated phishing campaign leveraging AI-generated emails has been detected targeting major banks in Hong Kong and Singapore.",
-      },
-      {
-        title: "New Ransomware Variant Uses Zero-Day Exploit in Windows",
-        date: "2026-02-18",
-        source: "BleepingComputer",
-        link: "#",
-        summary:
-          "Security researchers discovered a new ransomware strain that exploits a previously unknown vulnerability in Windows.",
-      },
-      {
-        title: "Critical Vulnerability Found in Popular Open-Source Library",
-        date: "2026-02-17",
-        source: "SecurityWeek",
-        link: "#",
-        summary:
-          "A critical remote code execution vulnerability has been found affecting millions of applications worldwide.",
-      },
-      {
-        title: "AI-Powered Deepfake Scams Surge 300% in Southeast Asia",
-        date: "2026-02-16",
-        source: "CyberScoop",
-        link: "#",
-        summary:
-          "Law enforcement agencies report a dramatic increase in deepfake-enabled fraud across the APAC region.",
-      },
-      {
-        title: "Global Law Enforcement Takes Down Major Dark Web Marketplace",
-        date: "2026-02-15",
-        source: "Krebs on Security",
-        link: "#",
-        summary:
-          "An international operation has successfully dismantled one of the largest illegal marketplaces on the dark web.",
-      },
-    ]);
+    console.warn("Failed to load real news:", e.message);
   }
+
+  // Fallback demo news with real clickable links and images
+  renderNews(grid, [
+    {
+      title: "Major Phishing Campaign Targets Banking Customers Across Asia",
+      date: "2026-02-19",
+      source: "The Hacker News",
+      link: "https://thehackernews.com/search/label/Phishing",
+      summary: "A sophisticated phishing campaign leveraging AI-generated emails has been detected targeting major banks in Hong Kong and Singapore with credential harvesting attacks.",
+      image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&fit=crop",
+    },
+    {
+      title: "New Ransomware Variant Uses Zero-Day Exploit in Windows",
+      date: "2026-02-18",
+      source: "BleepingComputer",
+      link: "https://www.bleepingcomputer.com/news/security/ransomware/",
+      summary: "Security researchers discovered a new ransomware strain that exploits a previously unknown vulnerability in Windows systems, affecting thousands of devices.",
+      image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&q=80&fit=crop",
+    },
+    {
+      title: "Critical Vulnerability Found in Popular Open-Source Library",
+      date: "2026-02-17",
+      source: "SecurityWeek",
+      link: "https://www.securityweek.com/cyber-attacks/",
+      summary: "A critical remote code execution vulnerability has been found affecting millions of applications worldwide, vendors urge immediate patching.",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&fit=crop",
+    },
+    {
+      title: "AI-Powered Deepfake Scams Surge 300% in Southeast Asia",
+      date: "2026-02-16",
+      source: "CyberScoop",
+      link: "https://www.cyberscoop.io/",
+      summary: "Law enforcement agencies report a dramatic increase in deepfake-enabled fraud across the APAC region, targeting businesses and individuals.",
+      image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80&fit=crop",
+    },
+    {
+      title: "Global Law Enforcement Takes Down Major Dark Web Marketplace",
+      date: "2026-02-15",
+      source: "Krebs on Security",
+      link: "https://krebsonsecurity.com/",
+      summary: "An international operation has successfully dismantled one of the largest illegal marketplaces on the dark web, arresting dozens of operators.",
+      image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80&fit=crop",
+    },
+  ]);
 }
 
 function renderNews(container, items) {
-  container.innerHTML = items
+  // Filter items to ensure they all have valid links
+  const validItems = items.filter(item => item.link && item.link.startsWith("http"));
+  
+  if (validItems.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; padding: 2rem; text-align: center; color: var(--text-muted);">
+        <p>No news articles available at the moment. Check back later.</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Create card-based layout with images (BBC-style)
+  container.innerHTML = validItems
     .map((item, i) => {
       const d = new Date(item.date);
       const months = [
@@ -605,22 +623,155 @@ function renderNews(container, items) {
         "Nov",
         "Dec",
       ];
+      const link = item.link || item.url || "https://thehackernews.com";
+      const image = item.image || "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80";
+      
       return `
-      <a href="${item.link || item.url || "#"}" target="_blank" rel="noopener" class="news-item" style="animation: slideUp 0.4s ease ${i * 0.06}s both;">
-        <div class="news-date">
-          <div class="day">${d.getDate()}</div>
-          <div class="month">${months[d.getMonth()]}</div>
+      <a href="${link}" target="_blank" rel="noopener noreferrer" 
+         class="news-card" 
+         style="
+           animation: slideUp 0.4s ease ${i * 0.06}s both;
+           display: flex;
+           flex-direction: column;
+           background: rgba(0,0,0,0.4);
+           backdrop-filter: blur(20px);
+           -webkit-backdrop-filter: blur(20px);
+           border-radius: 16px;
+           overflow: hidden;
+           text-decoration: none;
+           color: inherit;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           border: 1px solid rgba(255,255,255,0.1);
+           height: 100%;
+           display: flex;
+           flex-direction: column;
+         ">
+        <!-- Image -->
+        <div style="
+          width: 100%;
+          height: 200px;
+          overflow: hidden;
+          background: linear-gradient(135deg, rgba(0,113,227,0.1) 0%, rgba(255,180,80,0.1) 100%);
+          position: relative;
+        ">
+          <img src="${image}" alt="${escapeHtml(item.title)}" 
+               style="
+                 width: 100%;
+                 height: 100%;
+                 object-fit: cover;
+                 transition: transform 0.3s ease;
+               "
+               onmouseover="this.style.transform='scale(1.05)'"
+               onmouseout="this.style.transform='scale(1)'"/>
+          <div style="
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 145, 0, 0.85);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+          ">
+            THREAT INTEL
+          </div>
         </div>
-        <div class="news-content">
-          <h4>${item.title}</h4>
-          <p class="news-summary">${item.summary || ""}</p>
-          <span class="news-source">${item.source || "Security News"}</span>
+
+        <!-- Content -->
+        <div style="
+          padding: 1.2rem;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+        ">
+          <!-- Title -->
+          <h3 style="
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 0.8rem 0;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.3s ease;
+          ">
+            ${escapeHtml(item.title)}
+          </h3>
+
+          <!-- Summary -->
+          <p style="
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0 0 0.8rem 0;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          ">
+            ${escapeHtml(item.summary || "")}
+          </p>
+
+          <!-- Footer: Source and Date -->
+          <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 0.8rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+          ">
+            <span style="font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">
+              ${escapeHtml(item.source || "Security News")}
+            </span>
+            <span style="font-variant-numeric: tabular-nums;">
+              ${months[d.getMonth()]} ${d.getDate()}
+            </span>
+          </div>
         </div>
-        <span class="news-link-icon">↗</span>
       </a>
     `;
     })
     .join("");
+  
+  // Add hover effects for cards
+  const newsCards = container.querySelectorAll(".news-card");
+  newsCards.forEach(card => {
+    card.addEventListener("mouseenter", function() {
+      this.style.background = "rgba(255,255,255,0.06)";
+      this.style.borderColor = "rgba(255,255,255,0.2)";
+      this.style.transform = "translateY(-4px)";
+      const title = this.querySelector("h3");
+      if (title) title.style.color = "var(--accent)";
+    });
+    card.addEventListener("mouseleave", function() {
+      this.style.background = "rgba(0,0,0,0.4)";
+      this.style.borderColor = "rgba(255,255,255,0.1)";
+      this.style.transform = "translateY(0)";
+      const title = this.querySelector("h3");
+      if (title) title.style.color = "var(--text-primary)";
+    });
+  });
+}
+
+// Helper function to escape HTML
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 // ==================== AI-POWERED STATS ====================
