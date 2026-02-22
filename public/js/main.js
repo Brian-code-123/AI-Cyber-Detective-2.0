@@ -4,6 +4,70 @@
 //          scroll reveal, calendar, auto-suggest
 // =====================================================
 
+// Ensure chatbot markup exists (inject homepage chatbot HTML when missing)
+(function ensureChatbotMarkup() {
+  try {
+    if (document.getElementById("chatbotPanel") || typeof document === "undefined") return;
+
+    // Insert chatbot toggle button if missing
+    if (!document.getElementById("chatbotToggle")) {
+      const btn = document.createElement("button");
+      btn.className = "chatbot-toggle";
+      btn.id = "chatbotToggle";
+      btn.title = "NeoTrace AI Assistant";
+      btn.innerHTML = '<img src="images/logo.png" alt="NeoTrace AI" class="chatbot-logo-icon" />';
+      document.body.appendChild(btn);
+    }
+
+    // Insert chatbot panel
+    if (!document.getElementById("chatbotPanel")) {
+      const panel = document.createElement("div");
+      panel.className = "chatbot-panel";
+      panel.id = "chatbotPanel";
+      panel.innerHTML = `
+        <div class="chatbot-header">
+          <div class="bot-avatar">💀</div>
+          <h4 data-i18n="chat.title">NeoTrace AI</h4>
+          <button class="chatbot-close" id="chatbotClose">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg bot" data-i18n="chat.welcome">Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or how to use this platform.</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" data-i18n-placeholder="chat.placeholder" placeholder="Ask something..." autocomplete="off" />
+          <button class="chat-send-btn" id="chatSend">➤</button>
+        </div>
+      `;
+      document.body.appendChild(panel);
+    }
+
+    // Insert feedback overlay if missing (used by chatbot)
+    if (!document.getElementById("feedbackOverlay")) {
+      const fb = document.createElement("div");
+      fb.className = "feedback-overlay";
+      fb.id = "feedbackOverlay";
+      fb.innerHTML = `
+        <div class="feedback-modal">
+          <h3 data-i18n="feedback.title">Share Your Feedback</h3>
+          <p data-i18n="feedback.subtitle">Help us improve NeoTrace</p>
+          <div class="feedback-stars" id="feedbackStars">
+            <button data-star="1">☆</button><button data-star="2">☆</button><button data-star="3">☆</button><button data-star="4">☆</button><button data-star="5">☆</button>
+          </div>
+          <textarea id="feedbackText" data-i18n-placeholder="feedback.placeholder" placeholder="Tell us what you think..."></textarea>
+          <div class="feedback-actions">
+            <button class="btn-feedback-cancel" id="feedbackCancel" data-i18n="feedback.cancel">Cancel</button>
+            <button class="btn-feedback-submit" id="feedbackSubmit" data-i18n="feedback.submit">Submit</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(fb);
+    }
+  } catch (e) {
+    // fail silently — non-critical enhancement
+    console.warn("Chatbot injector failed:", e);
+  }
+})();
+
 // ── Dark / Light Theme Toggle ──────────────────────
 function initThemeToggle() {
   const saved = localStorage.getItem("neotrace-theme") || "dark";

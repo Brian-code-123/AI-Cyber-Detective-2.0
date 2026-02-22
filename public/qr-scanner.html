@@ -411,7 +411,7 @@
       id="chatbotToggle"
       title="NeoTrace AI Assistant"
     >
-      💬
+      <img src="images/logo.png" alt="NeoTrace AI" class="chatbot-logo-icon" />
     </button>
     <div class="chatbot-panel" id="chatbotPanel">
       <div class="chatbot-header">
@@ -421,16 +421,33 @@
       </div>
       <div class="chat-messages" id="chatMessages">
         <div class="chat-msg bot" data-i18n="chat.welcome">
-          Hi! I'm NeoTrace AI Assistant.
+          Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or
+          how to use this platform.
         </div>
       </div>
       <div class="chat-input-area">
         <input
           type="text"
           id="chatInput"
+          data-i18n-placeholder="chat.placeholder"
           placeholder="Ask something..."
           autocomplete="off"
         /><button class="chat-send-btn" id="chatSend">➤</button>
+      </div>
+    </div>
+
+    <div class="feedback-overlay" id="feedbackOverlay">
+      <div class="feedback-modal">
+        <h3 data-i18n="feedback.title">Share Your Feedback</h3>
+        <p data-i18n="feedback.subtitle">Help us improve NeoTrace</p>
+        <div class="feedback-stars" id="feedbackStars">
+          <button data-star="1">☆</button><button data-star="2">☆</button><button data-star="3">☆</button><button data-star="4">☆</button><button data-star="5">☆</button>
+        </div>
+        <textarea id="feedbackText" data-i18n-placeholder="feedback.placeholder" placeholder="Tell us what you think..."></textarea>
+        <div class="feedback-actions">
+          <button class="btn-feedback-cancel" id="feedbackCancel" data-i18n="feedback.cancel">Cancel</button>
+          <button class="btn-feedback-submit" id="feedbackSubmit" data-i18n="feedback.submit">Submit</button>
+        </div>
       </div>
     </div>
 

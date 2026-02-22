@@ -33,35 +33,51 @@
               <span class="mega-label"
                 ><svg
                   viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.9"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="2" y="6" width="20" height="12" rx="4" />
-                  <path d="M8 12h3m-1.5-1.5v3M15 11.5h.01M18 11.5h.01" /></svg
-                >Game Modes</span
-              >
-              <a href="story.html" data-i18n="nav.story">Story Mode</a>
-              <a href="game.html" data-i18n="nav.game">Beginner Training</a>
-              <a href="game-intermediate.html">Crypto Challenge</a>
-            </div>
-          </div>
-        </li>
-        <li class="nav-dropdown active">
-          <a href="#">For You</a>
-          <div class="mega-menu foryou-mega">
-            <div class="mega-col">
-              <span class="mega-label"
-                ><svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.9"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
+                  <button
+                    class="chatbot-toggle"
+                    id="chatbotToggle"
+                    title="NeoTrace AI Assistant"
+                  >
+                    <img src="images/logo.png" alt="NeoTrace AI" class="chatbot-logo-icon" />
+                  </button>
+                  <div class="chatbot-panel" id="chatbotPanel">
+                    <div class="chatbot-header">
+                      <div class="bot-avatar">💀</div>
+                      <h4 data-i18n="chat.title">NeoTrace AI</h4>
+                      <button class="chatbot-close" id="chatbotClose">✕</button>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                      <div class="chat-msg bot" data-i18n="chat.welcome">
+                        Hi! I'm NeoTrace AI Assistant. Ask me anything about cybersecurity or
+                        how to use this platform.
+                      </div>
+                    </div>
+                    <div class="chat-input-area">
+                      <input
+                        type="text"
+                        id="chatInput"
+                        data-i18n-placeholder="chat.placeholder"
+                        placeholder="Ask something..."
+                        autocomplete="off"
+                      />
+                      <button class="chat-send-btn" id="chatSend">➤</button>
+                    </div>
+                  </div>
+
+                  <div class="feedback-overlay" id="feedbackOverlay">
+                    <div class="feedback-modal">
+                      <h3 data-i18n="feedback.title">Share Your Feedback</h3>
+                      <p data-i18n="feedback.subtitle">Help us improve NeoTrace</p>
+                      <div class="feedback-stars" id="feedbackStars">
+                        <button data-star="1">☆</button><button data-star="2">☆</button><button data-star="3">☆</button><button data-star="4">☆</button><button data-star="5">☆</button>
+                      </div>
+                      <textarea id="feedbackText" data-i18n-placeholder="feedback.placeholder" placeholder="Tell us what you think..."></textarea>
+                      <div class="feedback-actions">
+                        <button class="btn-feedback-cancel" id="feedbackCancel" data-i18n="feedback.cancel">Cancel</button>
+                        <button class="btn-feedback-submit" id="feedbackSubmit" data-i18n="feedback.submit">Submit</button>
+                      </div>
+                    </div>
+                  </div>
                   <path
                     d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
                   /></svg
