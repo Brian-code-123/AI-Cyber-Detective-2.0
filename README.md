@@ -1,150 +1,92 @@
-# NeoTrace — All-in-One Cybersecurity Learning Hub
+# NeoTrace
 
-NeoTrace is a lightweight web platform that helps students, professionals, and everyday users learn practical cybersecurity skills and inspect digital content safely. The site combines clear learning paths with simple, privacy-minded tools for threat detection and analysis.
-## Overview
+<p align="center">
+  <strong>All-in-One Cybersecurity Learning Hub</strong>
+</p>
 
-NeoTrace's goal is to make cybersecurity accessible. Inspired by the idea of revealing hidden threats, the project aims to empower people to recognize phishing, deepfakes, scams, and other digital risks. The platform curates learning resources and bundled tools so users can progress from basics to more advanced topics without hunting through scattered content.
-## Key Features
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#features">Features</a> •
+  <a href="#quick-start">Quick Start</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#contributing">Contributing</a>
+</p>
 
-- URL Threat Scanner — quick checks for suspicious links
-- Image Forensics — local analysis to help detect manipulated images
-- Content Verifier — verify text and detect likely misinformation
-- Phone Inspector — inspect phone-related metadata and risks
-- Password Checker — basic password strength and reuse guidance
-- WiFi Scanner & QR Scanner — simple checks for common risks
-- Training Game & Story Mode — hands-on exercises for learning
-## Mission & Audience
-
-NeoTrace is built for learners and everyday citizens who want to browse and interact with the web more confidently. The project emphasizes clarity over jargon, practical tools over marketing claims, and local-first processing when possible to protect user privacy.
-## Technology
-
-The platform uses modern web technologies focused on performance and scalability. Notable components used in the project:
-- Node.js and Express.js (backend)
-- Client-side processing and tools (runs locally in the browser where feasible)
-- Chart.js, Leaflet.js for visualizations
-- Bootstrap 5 for layout and UI
-- Deployed on Vercel; source hosted on GitHub
-## Quick Start (Local)
-
-Prerequisites: Node.js >= 18
-1. Install dependencies:
-
-```bash
-npm install
-```
-2. Start the server:
-
-```bash
-npm start
-# or
-node server.js
-```
-3. Open http://localhost:3000 (or the port shown in the console).
-
-Note: The project is intentionally lightweight and primarily client-focused; many analysis tools run locally in the browser to preserve privacy.
-## Contributing
-
-Contributions are welcome. If you find a bug or want to suggest an improvement, please open an issue or submit a pull request on the repository.
-- Report bugs or suggest features via the GitHub repository: https://github.com/Brian-code-123/NeoTrace
-- Use the site's feedback button or chatbot for quick notes.
-## License & Contact
-
-This repository includes the site source and tooling. See the repository for the full license and contributor guidelines. For questions, feedback, or collaboration, use the feedback options on the site or open an issue on GitHub.
 ---
 
-This README is intentionally concise and factual, and it reflects the project's About page mission: to make cybersecurity learning approachable and practical for everyone.
-NeoTrace
-<p align="center">
-  <strong>Open-Source Digital Forensics & Threat Intelligence Platform</strong>
-</p>
-<p align="center">
-  <a href="#features">Features</a> •
-  <a href="#use-cases">Use Cases</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#api-reference">API</a>
-</p>
-Overview
-NeoTrace is a web-based platform that brings practical digital forensics and threat intelligence tools to students, security professionals, and IT teams. It packages essential forensic capabilities into an accessible interface—making cybersecurity skills easier to learn and apply without requiring enterprise-grade infrastructure.
-The platform integrates real-time security monitoring, multimedia analysis, and automated threat detection through modular, extensible components.
-Features
-Threat Intelligence Dashboard
-Real-time visualization of security events using Chart.js and Leaflet maps
-Configurable risk scoring based on asset priority and threat indicators
-Drill-down investigation workflows from summary metrics to detailed logs
-Forensic Analysis Tools
-| Tool                | Capability                                                                       | Input                       |
-| ------------------- | -------------------------------------------------------------------------------- | --------------------------- |
-| **Phone Analyzer**  | Carrier lookup, line type detection, fraud indicators                            | Phone number (E.164 format) |
-| **URL Inspector**   | Phishing pattern detection, domain reputation, SSL analysis                      | URL or domain               |
-| **Image Forensics** | Metadata extraction, manipulation detection, AI-generated content identification | Image file (JPG, PNG, WebP) |
-I Integration (Optional)
-NeoTrace supports external AI services via the ASI API for enhanced analysis:
-Content credibility assessment
-Deepfake detection assistance
-Automated threat classification
-AI features require an ASI_API_KEY in your environment configuration. The AI backend can be replaced with alternative providers by updating the endpoint settings.
-Learning & Training
-Interactive cybersecurity lessons
-Gamified training modules for threat recognition
-Simulated incident response scenarios
-Quick Start
-Requirements
-Node.js 18+
-npm or yarn
-(Optional) ASI API key for AI features
-Installation
+## Overview
+
+NeoTrace is a lightweight, open-source web platform that makes cybersecurity education accessible to students, professionals, and everyday users. It combines practical learning paths with privacy-focused tools for threat detection and digital content analysis.
+
+The platform emphasizes **local-first processing** to protect user privacy while providing essential forensic capabilities through an intuitive, browser-based interface.
+
+## Key Features
+
+### Security Analysis Tools
+
+| Tool | Capability | Input | Privacy |
+|------|-----------|-------|---------|
+| **URL Threat Scanner** | Phishing detection, domain reputation, SSL validation | URL or domain | Local analysis |
+| **Phone Inspector** | Carrier lookup, line type detection, fraud risk scoring | Phone number (E.164) | Local analysis |
+| **Image Forensics** | Metadata extraction, manipulation detection | JPG, PNG, WebP | Client-side |
+| **Content Verifier** | Text credibility scoring, misinformation patterns | Text content | Local processing |
+| **Password Checker** | Strength analysis, breach database comparison | Password (hashed) | Secure hashing |
+| **WiFi & QR Scanner** | Network security assessment, malicious link detection | SSID or QR code | Local scan |
+
+### Learning & Training
+
+## NeoTrace — Cybersecurity Learning Hub
+
+NeoTrace is a lightweight web platform that helps learners and everyday users spot online threats and learn practical cybersecurity skills. The site combines clear learning paths with simple, privacy-minded tools for inspecting links, images, text, and more.
+
+## Overview
+
+NeoTrace focuses on accessibility and privacy. It provides hands-on tools and curated resources to help people identify phishing, deepfakes, scams, and other common digital risks. Where possible, analysis runs locally in the browser to minimize data exposure.
+
+## Features
+
+- URL Threat Scanner — quick checks for suspicious links and domains
+- Image Forensics — metadata and basic manipulation indicators
+- Content Verifier — local text checks for likely misinformation patterns
+- Phone Inspector — number lookups and basic risk signals
+- Password Checker — basic strength and reuse guidance
+- WiFi & QR Scanner — simple checks for common risks
+- Training Game & Story Mode — interactive exercises to build skills
+
+## Mission
+
+Make cybersecurity practical and understandable. NeoTrace prefers plain language over jargon, tools that work in the browser when feasible, and straightforward learning paths from beginner to more advanced topics.
+
+## Tech (high level)
+
+- Node.js + Express.js (backend)
+- Vanilla JS and Bootstrap 5 (frontend)
+- Chart.js, Leaflet.js for visualizations
+- Optional AI integrations via configurable API keys
+- Deployed on Vercel; source on GitHub
+
+## Quick start (local)
+
+Prerequisites: Node.js >= 18
+
+```bash
 git clone https://github.com/Brian-code-123/NeoTrace.git
 cd NeoTrace
 npm install
-
-# Copy and edit environment variables
-cp .env.example .env
-# Add ASI_API_KEY if using AI features
-
-npm run dev
-# Open http://localhost:3000
-Production
-npm run build
 npm start
-Configuration
-Environment Variables
-| Variable       | Required | Description                                             |
-| -------------- | -------- | ------------------------------------------------------- |
-| `ASI_API_KEY`  | No       | API key for AI analysis services                        |
-| `ASI_ENDPOINT` | No       | Custom AI service endpoint (defaults to standard ASI)   |
-| `JWT_SECRET`   | Yes      | Secret for authentication tokens                        |
-| `DB_PATH`      | No       | SQLite database path (defaults to `./data/neotrace.db`) |
+# then open http://localhost:3000
+```
 
-Use Cases
-Security Teams
-Quick triage of suspicious phone numbers, URLs, or attachments
-Lightweight forensics for preliminary incident assessment
-Standardized reporting for documentation
-Education
-Hands-on digital forensics labs
-Training environments for cybersecurity courses
-CTF competition preparation
-Enterprise IT
-Employee phishing awareness tools
-Vendor and link verification
-Basic threat monitoring for small-to-medium deployments
-Individual Users
-Personal phone number and URL safety checks
-Image authenticity verification for social media content
-Learning fundamental cybersecurity practices
-API Reference
-NeoTrace provides RESTful endpoints for automation and integration.
-Core Endpoints
-| Endpoint                 | Method | Description                             | Auth         |
-| ------------------------ | ------ | --------------------------------------- | ------------ |
-| `/api/v1/analyze/phone`  | POST   | Phone number analysis                   | Bearer token |
-| `/api/v1/analyze/url`    | POST   | URL inspection and risk scoring         | Bearer token |
-| `/api/v1/analyze/image`  | POST   | Image forensics analysis                | Bearer token |
-| `/api/v1/threats/stream` | GET    | Server-sent events for real-time alerts | Bearer token |
+Optional: copy `.env.example` to `.env` and add an `ASI_API_KEY` to enable AI features.
 
-curl -X POST http://localhost:3000/api/v1/analyze/url \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://example.com"}'
-  Full documentation available at /docs in development mode.
-Architecture
+## Contributing
+
+Contributions are welcome. Fork the repository, make changes on a branch, and open a pull request. Report bugs or suggest features via GitHub Issues or use the site's feedback button.
+
+## License & Contact
+
+This project is available under the MIT License. Source and issues: https://github.com/Brian-code-123/NeoTrace
+
+---
+
+This README is written to be factual and approachable, reflecting the project's About page: practical tools, local-first privacy, and clear learning paths.
