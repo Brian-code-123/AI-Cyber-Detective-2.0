@@ -57,7 +57,7 @@ NeoTrace focuses on accessibility and privacy. It provides hands-on tools and cu
 
 Make cybersecurity practical and understandable. NeoTrace prefers plain language over jargon, tools that work in the browser when feasible, and straightforward learning paths from beginner to more advanced topics.
 
-## Tech (high level)
+## Tech 
 
 - Node.js + Express.js (backend)
 - Vanilla JS and Bootstrap 5 (frontend)
@@ -85,8 +85,6 @@ Contributions are welcome. Fork the repository, make changes on a branch, and op
 
 ## License & Contact
 
-This project is available under the MIT License. Source and issues: https://github.com/Brian-code-123/NeoTrace
+MIT License
 
 ---
-
-This README is written to be factual and approachable, reflecting the project's About page: practical tools, local-first privacy, and clear learning paths.
