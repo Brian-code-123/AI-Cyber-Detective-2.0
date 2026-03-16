@@ -105,6 +105,7 @@ The dashboard integrates:
   - Event normalization pipeline
   - Confidence score generation
   - Export and stream endpoints
+  - ASI-1 AI integration for chat and smart summaries (optional via `ASI_API_KEY`)
 
 ## 4. Data Model
 
@@ -233,3 +234,7 @@ Current implementation is production-ready for demos and competition judging, wi
 ---
 
 Built for practical cybersecurity education and intelligence storytelling.
+
+MIT License
+
+---
