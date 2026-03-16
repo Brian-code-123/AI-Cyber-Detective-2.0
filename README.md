@@ -1,92 +1,235 @@
 # NeoTrace
 
-<p align="center">
-  <strong>All-in-One Cybersecurity Learning Hub</strong>
-</p>
+NeoTrace is a cybersecurity intelligence and learning platform built with Node.js, Express, and vanilla JavaScript.
 
-<p align="center">
-  <a href="#overview">Overview</a> •
-  <a href="#features">Features</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#tech-stack">Tech Stack</a> •
-  <a href="#contributing">Contributing</a>
-</p>
+This version includes a competition-ready intelligence dashboard with:
+- Multi-source news fusion (official feeds, RSS, social snapshot, GDELT snapshot)
+- Event normalization into GeoJSON
+- Interactive threat map (marker layer, marker clustering, heatmap, density layer)
+- Timeline filtering and playback
+- Confidence scoring and credibility badges
+- Data quality and provenance tracking
+- CSV / GeoJSON export
 
----
+## Table of Contents
 
-## Overview
+1. Overview
+2. Core Features
+3. Architecture
+4. Data Model
+5. API Endpoints
+6. Local Development
+7. Deployment Notes
+8. Competition Demo Flow
+9. Limitations and Next Improvements
 
-NeoTrace is a lightweight, open-source web platform that makes cybersecurity education accessible to students, professionals, and everyday users. It combines practical learning paths with privacy-focused tools for threat detection and digital content analysis.
+## 1. Overview
 
-The platform emphasizes **local-first processing** to protect user privacy while providing essential forensic capabilities through an intuitive, browser-based interface.
+NeoTrace combines cybersecurity tooling, educational pages, and an intelligence dashboard focused on clear threat visualization and source-aware reporting.
 
-## Key Features
+The dashboard integrates:
+- Threat events on a world map
+- Source-attributed cybersecurity news
+- Confidence and corroboration signals
+- Exportable and filterable data views
 
-### Security Analysis Tools
+## 2. Core Features
 
-| Tool | Capability | Input | Privacy |
-|------|-----------|-------|---------|
-| **URL Threat Scanner** | Phishing detection, domain reputation, SSL validation | URL or domain | Local analysis |
-| **Phone Inspector** | Carrier lookup, line type detection, fraud risk scoring | Phone number (E.164) | Local analysis |
-| **Image Forensics** | Metadata extraction, manipulation detection | JPG, PNG, WebP | Client-side |
-| **Content Verifier** | Text credibility scoring, misinformation patterns | Text content | Local processing |
-| **Password Checker** | Strength analysis, breach database comparison | Password (hashed) | Secure hashing |
-| **WiFi & QR Scanner** | Network security assessment, malicious link detection | SSID or QR code | Local scan |
+### 2.1 Map Intelligence
 
-### Learning & Training
+- Zoom and pan with keyboard support
+- Layer toggles:
+  - Raw markers
+  - Marker clustering
+  - Heatmap
+  - Density layer
+- Filters:
+  - Time window (6h / 24h / 72h / 7d / 30d)
+  - Category
+  - Minimum confidence
+- Event detail side panel:
+  - Source
+  - Timestamp
+  - Confidence
+  - Category
+  - Provenance parser and source URL
+- Timeline playback slider for time-series narrative
+- Export options:
+  - GeoJSON
+  - CSV
 
-## NeoTrace — Cybersecurity Learning Hub
+### 2.2 News Intelligence
 
-NeoTrace is a lightweight web platform that helps learners and everyday users spot online threats and learn practical cybersecurity skills. The site combines clear learning paths with simple, privacy-minded tools for inspecting links, images, text, and more.
+- Multi-source ingestion pipeline
+- Unified article cards with:
+  - Source type label (official / rss / social / gdelt)
+  - Confidence badge
+  - Corroboration count
+  - Short summary
+- Source filter chips and sorting controls
+- News-to-map linking: click “Show on map” to focus the geographic context
 
-## Overview
+### 2.3 Data Quality and Traceability
 
-NeoTrace focuses on accessibility and privacy. It provides hands-on tools and curated resources to help people identify phishing, deepfakes, scams, and other common digital risks. Where possible, analysis runs locally in the browser to minimize data exposure.
+- Event normalization with required fields validation
+- ETL checks for:
+  - Missing required fields
+  - Invalid coordinates
+  - Timestamp normalization
+  - Duplicate-rate measurement
+- Per-record provenance metadata:
+  - Source URL
+  - Fetch timestamp
+  - Parser method
+- Data quality metrics generated in API metadata
 
-## Features
+## 3. Architecture
 
-- URL Threat Scanner — quick checks for suspicious links and domains
-- Image Forensics — metadata and basic manipulation indicators
-- Content Verifier — local text checks for likely misinformation patterns
-- Phone Inspector — number lookups and basic risk signals
-- Password Checker — basic strength and reuse guidance
-- WiFi & QR Scanner — simple checks for common risks
-- Training Game & Story Mode — interactive exercises to build skills
+### Frontend
 
-## Mission
+- `public/index.html`
+  - Dashboard layout (news, map, charts, controls)
+- `public/js/dashboard.js`
+  - Chart rendering
+  - News loading and filtering
+  - Map rendering and layer management
+  - Playback control
+  - Event stream heartbeat handling
+- `public/css/style.css`
+  - Dashboard UI styles for map/news/data panels
 
-Make cybersecurity practical and understandable. NeoTrace prefers plain language over jargon, tools that work in the browser when feasible, and straightforward learning paths from beginner to more advanced topics.
+### Backend
 
-## Tech (high level)
+- `server.js`
+  - News fusion and enrichment pipeline
+  - Event normalization pipeline
+  - Confidence score generation
+  - Export and stream endpoints
 
-- Node.js + Express.js (backend)
-- Vanilla JS and Bootstrap 5 (frontend)
-- Chart.js, Leaflet.js for visualizations
-- Optional AI integrations via configurable API keys
-- Deployed on Vercel; source on GitHub
+## 4. Data Model
 
-## Quick start (local)
+### 4.1 Standard Event Schema
 
-Prerequisites: Node.js >= 18
+Each event is normalized to:
+- `id`
+- `lat`
+- `lng`
+- `timestamp` (ISO-8601)
+- `source`
+- `confidence` (0-100)
+- `category`
+- `title`
+- `severity`
+- `provenance`
+  - `sourceUrl`
+  - `fetchedAt`
+  - `parser`
+
+### 4.2 News Enrichment Fields
+
+News records include:
+- `sourceType`
+- `clusterId`
+- `corroborationCount`
+- `confidence`
+- `confidenceBadge`
+- `entities` (locations / organizations / persons)
+- optional geo linkage (`lat`, `lng`, `location`)
+
+## 5. API Endpoints
+
+### News
+
+- `GET /api/news?includeMeta=1&limit=36`
+  - Returns fused news data
+  - `includeMeta=1` returns `{ items, meta }`
+- `GET /api/news/metrics`
+  - Returns source distribution and confidence summary
+
+### Events
+
+- `GET /api/events`
+  - Default returns GeoJSON FeatureCollection
+- `GET /api/events?format=json`
+  - Returns normalized JSON events with metadata
+- `GET /api/events?format=csv`
+  - Returns CSV export
+- `GET /api/events/export?format=geojson|csv`
+  - Download-ready export endpoint
+- `GET /api/events/stream`
+  - Server-Sent Events stream for live heartbeat snapshots
+
+### Existing Platform APIs
+
+NeoTrace also includes existing APIs such as:
+- `/api/analyze-url`
+- `/api/analyze-image`
+- `/api/verify-text`
+- `/api/phone/check`
+- `/api/stats`
+- `/api/chatbot`
+- `/api/leaderboard`
+
+## 6. Local Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Install and run
 
 ```bash
-git clone https://github.com/Brian-code-123/NeoTrace.git
-cd NeoTrace
 npm install
 npm start
-# then open http://localhost:3000
 ```
 
-Optional: copy `.env.example` to `.env` and add an `ASI_API_KEY` to enable AI features.
+Open:
 
-## Contributing
+```text
+http://localhost:3000
+```
 
-Contributions are welcome. Fork the repository, make changes on a branch, and open a pull request. Report bugs or suggest features via GitHub Issues or use the site's feedback button.
+### Optional environment variables
 
-## License & Contact
+Create `.env` in project root:
 
-This project is available under the MIT License. Source and issues: https://github.com/Brian-code-123/NeoTrace
+```bash
+ASI_API_KEY=your_api_key_here
+ASI_MODEL=asi1-mini
+NUMVERIFY_KEY=your_numverify_key_here
+```
+
+If `ASI_API_KEY` is not set, the dashboard still works with deterministic fallback logic.
+
+## 7. Deployment Notes
+
+- The project is designed to run on Vercel and standard Node hosting.
+- In production on Vercel, environment variables should be configured in project settings.
+- SSE endpoint (`/api/events/stream`) is used for lightweight live status updates.
+
+## 8. Competition Demo Flow
+
+Recommended 3-minute presentation sequence:
+
+1. Show source fusion in the News panel (official + rss + social + gdelt)
+2. Open a news item and jump to map context
+3. Toggle map layers (cluster, heatmap, density)
+4. Apply filters (category, confidence, time)
+5. Run timeline playback
+6. Export GeoJSON and CSV
+7. Highlight provenance and quality metrics from API metadata
+
+## 9. Limitations and Next Improvements
+
+Current implementation is production-ready for demos and competition judging, with room for extension:
+
+- Add real-time websocket or Kafka ingestion adapter
+- Replace snapshots with direct GDELT query ingestion
+- Add full NER model and geocoding service for higher location precision
+- Add PostGIS or Elasticsearch persistence for large-scale querying
+- Add full benchmark dashboard (precision/recall/FPR/query latency trend)
 
 ---
 
-This README is written to be factual and approachable, reflecting the project's About page: practical tools, local-first privacy, and clear learning paths.
+Built for practical cybersecurity education and intelligence storytelling.

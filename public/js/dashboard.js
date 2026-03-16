@@ -1,7 +1,50 @@
 // =====================================================
-// NeoTrace — Dashboard Charts (Apple-Style, 3 Charts Only)
+// NeoTrace Dashboard
+// - Interactive map with clustering, heatmap, density, playback
+// - News fusion with credibility badges and source filtering
+// - GeoJSON/CSV export and real-time stream heartbeat
 // =====================================================
 
+const dashboardState = {
+  news: [],
+  newsMeta: null,
+  newsFilters: {
+    sourceType: "all",
+    sort: "latest",
+  },
+  map: {
+    instance: null,
+    baseLayer: null,
+    markersLayer: null,
+    clusterLayer: null,
+    heatLayer: null,
+    densityLayer: null,
+    events: [],
+    filteredEvents: [],
+    markerIndex: new Map(),
+    layerVisibility: {
+      markers: true,
+      cluster: true,
+      heat: true,
+      density: false,
+    },
+    filters: {
+      category: "all",
+      minConfidence: 40,
+      timeWindowHours: 24,
+    },
+    playback: {
+      active: false,
+      sliderValue: 100,
+      timer: null,
+    },
+  },
+};
+
+let topScamsChart = null;
+let trendChart = null;
+let eventSource = null;
+let fallbackPollingTimer = null;
 
 function getChartScalesConfig(theme) {
   if (theme === "light") {
@@ -11,783 +54,916 @@ function getChartScalesConfig(theme) {
     };
   }
   return {
-    gridColor: "rgba(255,255,255,0.06)",
+    gridColor: "rgba(255,255,255,0.08)",
     tickColor: "rgba(255,255,255,0.85)",
   };
 }
 
 function setChartTheme(theme) {
   if (theme === "light") {
-    Chart.defaults.color = "rgba(0,0,0,0.7)";
+    Chart.defaults.color = "rgba(0,0,0,0.72)";
     Chart.defaults.borderColor = "rgba(0,0,0,0.08)";
   } else {
-    Chart.defaults.color = "rgba(255,255,255,0.85)";
+    Chart.defaults.color = "rgba(255,255,255,0.9)";
     Chart.defaults.borderColor = "rgba(255,255,255,0.08)";
   }
   Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif";
 }
 
 function getCurrentTheme() {
-  // 優先用 data-theme，否則 fallback 至 prefers-color-scheme
   const html = document.documentElement;
-  if (html.hasAttribute('data-theme')) {
-    return html.getAttribute('data-theme');
+  if (html.hasAttribute("data-theme")) {
+    return html.getAttribute("data-theme");
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function redrawCharts() {
-  // 重新載入頁面即可重繪（簡單做法，或可優化為動態重繪）
-  location.reload();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   setChartTheme(getCurrentTheme());
+  bindThemeListener();
+  bindNewsControls();
+  bindMapControls();
 
-  // 監聽主題切換（假設有 data-theme 變化）
-  const observer = new MutationObserver(() => {
-    setChartTheme(getCurrentTheme());
-    redrawCharts();
-  });
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  await Promise.all([
+    initCharts(),
+    loadAIStats(),
+    loadNews(),
+    initThreatMap(),
+  ]);
 
-  // ── Fetch AI-powered real-time stats ───────────────
-  loadAIStats();
-
-  // ===== 1. Top 10 Scam Types (Horizontal Bar) =====
-  const topScamsCtx = document.getElementById("topScamsChart");
-  if (topScamsCtx) {
-    new Chart(topScamsCtx, {
-      type: "bar",
-      data: {
-        labels: [
-          t("charts.phishing"),
-          t("charts.investment"),
-          t("charts.romance"),
-          t("charts.techSupport"),
-          t("charts.onlineShopping"),
-          t("charts.identityTheft"),
-          t("charts.businessEmail"),
-          t("charts.cryptocurrency"),
-          t("charts.prize"),
-          t("charts.socialMedia"),
-        ],
-        datasets: [
-          {
-            label: t("charts.reports"),
-            data: [324, 267, 215, 186, 158, 142, 125, 108, 84, 73],
-            backgroundColor: [
-              "rgba(10,132,255,0.65)",
-              "rgba(48,209,88,0.65)",
-              "rgba(255,69,58,0.65)",
-              "rgba(255,159,10,0.65)",
-              "rgba(191,90,242,0.65)",
-              "rgba(100,210,255,0.65)",
-              "rgba(255,214,10,0.65)",
-              "rgba(255,55,95,0.65)",
-              "rgba(90,200,245,0.65)",
-              "rgba(172,142,104,0.65)",
-            ],
-            borderColor: [
-              "#0A84FF",
-              "#30D158",
-              "#FF453A",
-              "#FF9F0A",
-              "#BF5AF2",
-              "#64D2FF",
-              "#FFD60A",
-              "#FF375F",
-              "#5AC8F5",
-              "#AC8E68",
-            ],
-            borderWidth: 1,
-            borderRadius: 6,
-            borderSkipped: false,
-          },
-        ],
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: "rgba(28,28,30,0.95)",
-            borderColor: "rgba(255,255,255,0.1)",
-            borderWidth: 1,
-            titleFont: { size: 12, weight: "600" },
-            bodyFont: { size: 13 },
-            padding: 12,
-            cornerRadius: 10,
-            callbacks: {
-              label: (ctx) => ` ${ctx.parsed.x}K reports worldwide`,
-            },
-          },
-        },
-        scales: {
-          x: {
-            grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
-            ticks: { callback: (v) => v + "K", font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
-          },
-          y: {
-            grid: { display: false },
-            ticks: { font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
-          },
-        },
-      },
-    });
-  }
-
-  // ===== 2. Yearly Trend (Line) =====
-  const trendCtx = document.getElementById("trendChart");
-  if (trendCtx) {
-    new Chart(trendCtx, {
-      type: "line",
-      data: {
-        labels: [
-          "2018",
-          "2019",
-          "2020",
-          "2021",
-          "2022",
-          "2023",
-          "2024",
-          "2025",
-          "2026",
-        ],
-        datasets: [
-          {
-            label: t("charts.totalReports"),
-            data: [352, 467, 791, 847, 800, 880, 1020, 1150, 1280],
-            borderColor: "#0A84FF",
-            backgroundColor: "rgba(10,132,255,0.08)",
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: "#0A84FF",
-            pointBorderColor: "#000",
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-            borderWidth: 2,
-          },
-          {
-            label: t("charts.financialLoss"),
-            data: [2.7, 3.5, 4.2, 6.9, 10.3, 12.5, 14.8, 17.2, 19.8],
-            borderColor: "#FF453A",
-            backgroundColor: "rgba(255,69,58,0.05)",
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: "#FF453A",
-            pointBorderColor: "#000",
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-            borderWidth: 2,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { intersect: false, mode: "index" },
-        plugins: {
-          legend: {
-            labels: { usePointStyle: true, padding: 20, font: { size: 11 } },
-          },
-          tooltip: {
-            backgroundColor: "rgba(28,28,30,0.95)",
-            borderColor: "rgba(255,255,255,0.1)",
-            borderWidth: 1,
-            titleFont: { weight: "600" },
-            padding: 12,
-            cornerRadius: 10,
-          },
-        },
-        scales: {
-          x: {
-            grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
-            ticks: { font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
-          },
-          y: {
-            grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
-            ticks: { font: { size: 11 }, color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  }
-
-  // ===== 3. World Heatmap (Leaflet) =====
-  initHeatmap();
-
-  // ===== Load News =====
-  loadNews();
+  connectEventStream();
 });
 
-// ==================== HEATMAP ====================
-function initHeatmap() {
+function bindThemeListener() {
+  const observer = new MutationObserver(() => {
+    setChartTheme(getCurrentTheme());
+    initCharts();
+  });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+}
+
+async function initCharts() {
+  const stats = await fetchStatsData();
+  renderTopScamsChart(stats.topScams || getFallbackTopScams());
+  renderTrendChart(stats.yearlyTrend || getFallbackTrend());
+}
+
+async function fetchStatsData() {
+  try {
+    const res = await fetch("/api/stats", { cache: "no-store" });
+    if (!res.ok) throw new Error("stats request failed");
+    return await res.json();
+  } catch (_error) {
+    return {
+      topScams: getFallbackTopScams(),
+      yearlyTrend: getFallbackTrend(),
+    };
+  }
+}
+
+function getFallbackTopScams() {
+  return [
+    { name: "Phishing", reports: 324 },
+    { name: "Investment Fraud", reports: 267 },
+    { name: "Romance Scam", reports: 215 },
+    { name: "Tech Support Scam", reports: 186 },
+    { name: "Identity Theft", reports: 142 },
+    { name: "BEC", reports: 125 },
+    { name: "Crypto Scam", reports: 108 },
+    { name: "Prize Scam", reports: 84 },
+    { name: "Social Engineering", reports: 73 },
+    { name: "Deepfake Scam", reports: 65 },
+  ];
+}
+
+function getFallbackTrend() {
+  return [
+    { year: 2018, reports: 352, losses: 2.7 },
+    { year: 2019, reports: 467, losses: 3.5 },
+    { year: 2020, reports: 791, losses: 4.2 },
+    { year: 2021, reports: 847, losses: 6.9 },
+    { year: 2022, reports: 880, losses: 10.3 },
+    { year: 2023, reports: 920, losses: 12.5 },
+    { year: 2024, reports: 1020, losses: 14.8 },
+    { year: 2025, reports: 1150, losses: 17.2 },
+    { year: 2026, reports: 1280, losses: 19.8 },
+  ];
+}
+
+function renderTopScamsChart(topScams) {
+  const canvas = document.getElementById("topScamsChart");
+  if (!canvas) return;
+
+  if (topScamsChart) topScamsChart.destroy();
+
+  topScamsChart = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: topScams.map((item) => item.name),
+      datasets: [
+        {
+          label: "Reports (K)",
+          data: topScams.map((item) => item.reports),
+          backgroundColor: [
+            "rgba(10,132,255,0.62)",
+            "rgba(48,209,88,0.62)",
+            "rgba(255,69,58,0.62)",
+            "rgba(255,159,10,0.62)",
+            "rgba(191,90,242,0.62)",
+            "rgba(100,210,255,0.62)",
+            "rgba(255,214,10,0.62)",
+            "rgba(255,55,95,0.62)",
+            "rgba(90,200,245,0.62)",
+            "rgba(110,190,160,0.62)",
+          ],
+          borderRadius: 7,
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.parsed.x}K incidents`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
+          ticks: {
+            color: () => getChartScalesConfig(getCurrentTheme()).tickColor,
+            callback: (v) => `${v}K`,
+          },
+        },
+        y: {
+          grid: { display: false },
+          ticks: {
+            color: () => getChartScalesConfig(getCurrentTheme()).tickColor,
+            autoSkip: false,
+          },
+        },
+      },
+    },
+  });
+}
+
+function renderTrendChart(trendData) {
+  const canvas = document.getElementById("trendChart");
+  if (!canvas) return;
+
+  if (trendChart) trendChart.destroy();
+
+  trendChart = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: trendData.map((p) => String(p.year)),
+      datasets: [
+        {
+          label: "Reports (K)",
+          data: trendData.map((p) => p.reports),
+          borderColor: "#0A84FF",
+          backgroundColor: "rgba(10,132,255,0.08)",
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+        },
+        {
+          label: "Financial Loss (B USD)",
+          data: trendData.map((p) => p.losses),
+          borderColor: "#FF453A",
+          backgroundColor: "rgba(255,69,58,0.06)",
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      interaction: { intersect: false, mode: "index" },
+      scales: {
+        x: {
+          grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
+          ticks: { color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: () => getChartScalesConfig(getCurrentTheme()).gridColor },
+          ticks: { color: () => getChartScalesConfig(getCurrentTheme()).tickColor },
+        },
+      },
+    },
+  });
+}
+
+async function initThreatMap() {
   const mapContainer = document.getElementById("heatmap");
-  if (!mapContainer) return;
+  if (!mapContainer || typeof L === "undefined") return;
 
   const map = L.map("heatmap", {
-    center: [25, 10],
+    center: [18, 12],
     zoom: 2,
     minZoom: 2,
-    maxZoom: 6,
-    zoomControl: true,
-    attributionControl: false,
-    scrollWheelZoom: true,
+    maxZoom: 9,
+    keyboard: true,
   });
 
-  L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
+  const base = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
     {
       subdomains: "abcd",
       maxZoom: 20,
+      attribution: "",
     },
-  ).addTo(map);
+  );
+  base.addTo(map);
 
-  const countryData = [
-    {
-      name: "United States",
-      lat: 39.8,
-      lng: -98.5,
-      reports: 880418,
-      risk: 95,
-      lost: "$12.5B",
-    },
-    {
-      name: "United Kingdom",
-      lat: 55.3,
-      lng: -3.4,
-      reports: 425000,
-      risk: 88,
-      lost: "$4.7B",
-    },
-    {
-      name: "Canada",
-      lat: 56.1,
-      lng: -106.3,
-      reports: 186000,
-      risk: 82,
-      lost: "$2.1B",
-    },
-    {
-      name: "Australia",
-      lat: -25.3,
-      lng: 133.7,
-      reports: 267000,
-      risk: 85,
-      lost: "$2.7B",
-    },
-    {
-      name: "Germany",
-      lat: 51.1,
-      lng: 10.4,
-      reports: 198000,
-      risk: 78,
-      lost: "$1.8B",
-    },
-    {
-      name: "France",
-      lat: 46.2,
-      lng: 2.2,
-      reports: 175000,
-      risk: 76,
-      lost: "$1.5B",
-    },
-    {
-      name: "India",
-      lat: 20.5,
-      lng: 78.9,
-      reports: 520000,
-      risk: 90,
-      lost: "$3.2B",
-    },
-    {
-      name: "China",
-      lat: 35.8,
-      lng: 104.1,
-      reports: 680000,
-      risk: 92,
-      lost: "$8.8B",
-    },
-    {
-      name: "Japan",
-      lat: 36.2,
-      lng: 138.2,
-      reports: 145000,
-      risk: 72,
-      lost: "$1.2B",
-    },
-    {
-      name: "South Korea",
-      lat: 35.9,
-      lng: 127.7,
-      reports: 165000,
-      risk: 75,
-      lost: "$1.4B",
-    },
-    {
-      name: "Brazil",
-      lat: -14.2,
-      lng: -51.9,
-      reports: 310000,
-      risk: 86,
-      lost: "$2.8B",
-    },
-    {
-      name: "Nigeria",
-      lat: 9.08,
-      lng: 8.67,
-      reports: 210000,
-      risk: 88,
-      lost: "$1.6B",
-    },
-    {
-      name: "Russia",
-      lat: 61.5,
-      lng: 105.3,
-      reports: 290000,
-      risk: 84,
-      lost: "$2.4B",
-    },
-    {
-      name: "South Africa",
-      lat: -30.5,
-      lng: 22.9,
-      reports: 120000,
-      risk: 78,
-      lost: "$0.9B",
-    },
-    {
-      name: "Mexico",
-      lat: 23.6,
-      lng: -102.5,
-      reports: 95000,
-      risk: 70,
-      lost: "$0.7B",
-    },
-    {
-      name: "Indonesia",
-      lat: -0.7,
-      lng: 113.9,
-      reports: 155000,
-      risk: 74,
-      lost: "$1.1B",
-    },
-    {
-      name: "Philippines",
-      lat: 12.8,
-      lng: 121.7,
-      reports: 180000,
-      risk: 80,
-      lost: "$1.3B",
-    },
-    {
-      name: "Thailand",
-      lat: 15.8,
-      lng: 100.9,
-      reports: 98000,
-      risk: 72,
-      lost: "$0.8B",
-    },
-    {
-      name: "Vietnam",
-      lat: 14.0,
-      lng: 108.2,
-      reports: 86000,
-      risk: 68,
-      lost: "$0.6B",
-    },
-    {
-      name: "Malaysia",
-      lat: 4.2,
-      lng: 101.9,
-      reports: 115000,
-      risk: 76,
-      lost: "$1.0B",
-    },
-    {
-      name: "Singapore",
-      lat: 1.35,
-      lng: 103.8,
-      reports: 42000,
-      risk: 65,
-      lost: "$0.5B",
-    },
-    {
-      name: "UAE",
-      lat: 23.4,
-      lng: 53.8,
-      reports: 58000,
-      risk: 68,
-      lost: "$0.6B",
-    },
-    {
-      name: "Italy",
-      lat: 41.8,
-      lng: 12.5,
-      reports: 142000,
-      risk: 74,
-      lost: "$1.1B",
-    },
-    {
-      name: "Spain",
-      lat: 40.4,
-      lng: -3.7,
-      reports: 128000,
-      risk: 72,
-      lost: "$1.0B",
-    },
-    {
-      name: "Netherlands",
-      lat: 52.1,
-      lng: 5.2,
-      reports: 98000,
-      risk: 70,
-      lost: "$0.8B",
-    },
-    {
-      name: "Turkey",
-      lat: 38.9,
-      lng: 35.2,
-      reports: 95000,
-      risk: 72,
-      lost: "$0.7B",
-    },
-    {
-      name: "Taiwan",
-      lat: 23.69,
-      lng: 120.96,
-      reports: 78000,
-      risk: 70,
-      lost: "$0.6B",
-    },
-    {
-      name: "Hong Kong",
-      lat: 22.39,
-      lng: 114.1,
-      reports: 62000,
-      risk: 74,
-      lost: "$0.8B",
-    },
-  ];
+  const markersLayer = L.layerGroup().addTo(map);
+  const clusterLayer =
+    typeof L.markerClusterGroup === "function"
+      ? L.markerClusterGroup({
+          showCoverageOnHover: false,
+          spiderfyOnMaxZoom: true,
+          disableClusteringAtZoom: 6,
+        }).addTo(map)
+      : L.layerGroup().addTo(map);
 
-  function getRiskColor(risk) {
-    if (risk >= 90) return "#FF453A";
-    if (risk >= 80) return "#FF6961";
-    if (risk >= 70) return "#FF9F0A";
-    if (risk >= 60) return "#FFD60A";
-    return "#30D158";
-  }
+  const heatLayer =
+    typeof L.heatLayer === "function"
+      ? L.heatLayer([], { radius: 26, blur: 18, minOpacity: 0.3 }).addTo(map)
+      : null;
 
-  function getRadius(reports) {
-    return Math.max(8, Math.min(30, Math.sqrt(reports / 1200)));
-  }
+  const densityLayer = L.layerGroup().addTo(map);
 
-  countryData.forEach((c) => {
-    L.circleMarker([c.lat, c.lng], {
-      radius: getRadius(c.reports),
-      fillColor: getRiskColor(c.risk),
-      color: getRiskColor(c.risk),
-      weight: 1,
-      opacity: 0.8,
-      fillOpacity: 0.4,
-    })
-      .addTo(map)
-      .bindTooltip(
-        `
-      <div class="custom-tooltip">
-        <div class="tooltip-title">${c.name}</div>
-        <div class="tooltip-value">📊 Reports: ${c.reports.toLocaleString()}</div>
-        <div class="tooltip-value">⚠️ Risk Level: ${c.risk}/100</div>
-        <div class="tooltip-value">💰 Losses: ${c.lost}</div>
-      </div>
-    `,
-        { direction: "top", offset: [0, -10], className: "custom-tooltip" },
-      );
-  });
+  dashboardState.map.instance = map;
+  dashboardState.map.baseLayer = base;
+  dashboardState.map.markersLayer = markersLayer;
+  dashboardState.map.clusterLayer = clusterLayer;
+  dashboardState.map.heatLayer = heatLayer;
+  dashboardState.map.densityLayer = densityLayer;
 
-  // Legend
-  const legend = L.control({ position: "bottomright" });
-  legend.onAdd = function () {
-    const div = L.DomUtil.create("div", "info legend");
-    div.style.cssText =
-      "background:rgba(28,28,30,0.9);padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:12px;";
-    div.innerHTML = `
-      <div style="font-weight:700;margin-bottom:8px;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;">RISK LEVEL</div>
-      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF453A;"></span> Critical (90+)</div>
-      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF6961;"></span> High (80-89)</div>
-      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF9F0A;"></span> Medium (70-79)</div>
-      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FFD60A;"></span> Moderate (60-69)</div>
-      <div style="display:flex;align-items:center;gap:6px;margin:4px 0;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#30D158;"></span> Low (&lt;60)</div>
-    `;
-    return div;
-  };
-  legend.addTo(map);
+  await refreshEvents();
 }
 
-// ==================== NEWS ====================
+async function refreshEvents(forceRefresh = false) {
+  const params = new URLSearchParams({ format: "json" });
+  if (forceRefresh) params.set("refresh", "1");
+
+  try {
+    const res = await fetch(`/api/events?${params.toString()}`, { cache: "no-store" });
+    if (!res.ok) throw new Error("events request failed");
+    const payload = await res.json();
+    dashboardState.map.events = payload.events || [];
+    applyMapFilters();
+    setMapLivePill(`Live: ${dashboardState.map.events.length} events synced`);
+  } catch (_error) {
+    setMapLivePill("Live: using local fallback");
+    dashboardState.map.events = getFallbackEvents();
+    applyMapFilters();
+  }
+}
+
+function getFallbackEvents() {
+  return [
+    {
+      id: "evt-fallback-1",
+      lat: 22.3193,
+      lng: 114.1694,
+      timestamp: new Date(Date.now() - 1.2 * 60 * 60 * 1000).toISOString(),
+      source: "SOC Intel Feed",
+      confidence: 87,
+      category: "phishing",
+      title: "Credential phishing domains detected in APAC banking sector",
+      severity: "high",
+      provenance: {
+        sourceUrl: "https://example.com/fallback/apac-phishing",
+        fetchedAt: new Date().toISOString(),
+        parser: "fallback",
+      },
+    },
+    {
+      id: "evt-fallback-2",
+      lat: 1.3521,
+      lng: 103.8198,
+      timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      source: "CERT Advisory",
+      confidence: 91,
+      category: "ransomware",
+      title: "Hospital sector receives ransomware extortion attempts",
+      severity: "critical",
+      provenance: {
+        sourceUrl: "https://example.com/fallback/ransomware-hospital",
+        fetchedAt: new Date().toISOString(),
+        parser: "fallback",
+      },
+    },
+  ];
+}
+
+function applyMapFilters() {
+  const mapState = dashboardState.map;
+  const now = Date.now();
+  const category = mapState.filters.category;
+  const minConfidence = mapState.filters.minConfidence;
+  const windowMs = mapState.filters.timeWindowHours * 60 * 60 * 1000;
+  const windowStart = now - windowMs;
+
+  let filtered = mapState.events.filter((event) => {
+    if (category !== "all" && event.category !== category) return false;
+    if (event.confidence < minConfidence) return false;
+    const eventTime = new Date(event.timestamp).getTime();
+    if (Number.isNaN(eventTime) || eventTime < windowStart) return false;
+    return true;
+  });
+
+  const cutoffTime = getPlaybackCutoffTime(filtered);
+  if (cutoffTime) {
+    filtered = filtered.filter((event) => new Date(event.timestamp).getTime() <= cutoffTime);
+  }
+
+  mapState.filteredEvents = filtered;
+  renderMapLayers(filtered);
+  refreshTimelineInfo(filtered);
+}
+
+function getPlaybackCutoffTime(events) {
+  if (!events.length) return 0;
+  const sliderPct = dashboardState.map.playback.sliderValue / 100;
+  if (sliderPct >= 1) return Number.MAX_SAFE_INTEGER;
+  const sorted = [...events].sort(
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+  );
+  const idx = Math.max(0, Math.min(sorted.length - 1, Math.floor(sliderPct * (sorted.length - 1))));
+  return new Date(sorted[idx].timestamp).getTime();
+}
+
+function renderMapLayers(events) {
+  const mapState = dashboardState.map;
+  const map = mapState.instance;
+  if (!map) return;
+
+  mapState.markerIndex.clear();
+  mapState.markersLayer.clearLayers();
+  mapState.clusterLayer.clearLayers();
+  mapState.densityLayer.clearLayers();
+  if (mapState.heatLayer) mapState.heatLayer.setLatLngs([]);
+
+  const heatPoints = [];
+  const densityBuckets = new Map();
+
+  events.forEach((event) => {
+    const marker = L.circleMarker([event.lat, event.lng], {
+      radius: markerRadius(event.confidence),
+      fillColor: markerColor(event.confidence),
+      color: markerColor(event.confidence),
+      fillOpacity: 0.5,
+      opacity: 0.92,
+      weight: 1.2,
+    });
+
+    marker.bindTooltip(buildMarkerTooltip(event), {
+      direction: "top",
+      sticky: true,
+      className: "custom-tooltip",
+    });
+
+    marker.on("click", () => {
+      updateMapDetailPanel(event);
+      marker.openTooltip();
+    });
+
+    marker.addTo(mapState.markersLayer);
+    mapState.clusterLayer.addLayer(marker);
+    mapState.markerIndex.set(event.id, marker);
+
+    heatPoints.push([event.lat, event.lng, Math.max(0.2, event.confidence / 100)]);
+
+    const gridKey = `${Math.round(event.lat / 8) * 8}:${Math.round(event.lng / 8) * 8}`;
+    const existing = densityBuckets.get(gridKey) || {
+      lat: Math.round(event.lat / 8) * 8,
+      lng: Math.round(event.lng / 8) * 8,
+      count: 0,
+      confidence: 0,
+    };
+    existing.count += 1;
+    existing.confidence += event.confidence;
+    densityBuckets.set(gridKey, existing);
+  });
+
+  if (mapState.heatLayer) {
+    mapState.heatLayer.setLatLngs(heatPoints);
+  }
+
+  [...densityBuckets.values()].forEach((bucket) => {
+    const avgConfidence = bucket.confidence / bucket.count;
+    const radius = 50000 + bucket.count * 80000;
+    L.circle([bucket.lat, bucket.lng], {
+      radius,
+      fillColor: markerColor(avgConfidence),
+      color: markerColor(avgConfidence),
+      fillOpacity: 0.2,
+      opacity: 0.35,
+      weight: 1,
+    })
+      .bindTooltip(`Density: ${bucket.count} incidents | Avg confidence: ${Math.round(avgConfidence)}`)
+      .addTo(mapState.densityLayer);
+  });
+
+  applyLayerVisibility();
+}
+
+function markerColor(confidence) {
+  if (confidence >= 90) return "#ff453a";
+  if (confidence >= 80) return "#ff6b61";
+  if (confidence >= 70) return "#ff9f0a";
+  if (confidence >= 60) return "#ffd60a";
+  return "#30d158";
+}
+
+function markerRadius(confidence) {
+  return Math.max(6, Math.min(18, confidence / 7));
+}
+
+function buildMarkerTooltip(event) {
+  const ts = new Date(event.timestamp).toLocaleString();
+  return `
+    <div class="custom-tooltip">
+      <div class="tooltip-title">${escapeHtml(event.title || event.category)}</div>
+      <div class="tooltip-value">Source: ${escapeHtml(event.source)}</div>
+      <div class="tooltip-value">Time: ${escapeHtml(ts)}</div>
+      <div class="tooltip-value">Confidence: ${event.confidence}</div>
+      <div class="tooltip-value">Category: ${escapeHtml(event.category)}</div>
+    </div>
+  `;
+}
+
+function refreshTimelineInfo(events) {
+  const slider = document.getElementById("timelineSlider");
+  const label = document.getElementById("timelineLabel");
+  if (!slider || !label) return;
+
+  if (!events.length) {
+    label.textContent = "No events";
+    return;
+  }
+
+  const cutoff = getPlaybackCutoffTime(events);
+  if (!cutoff || cutoff === Number.MAX_SAFE_INTEGER) {
+    label.textContent = `Latest (${events.length})`;
+  } else {
+    label.textContent = `${new Date(cutoff).toLocaleString()} | ${events.length} visible`;
+  }
+}
+
+function applyLayerVisibility() {
+  const mapState = dashboardState.map;
+  const map = mapState.instance;
+  if (!map) return;
+
+  toggleLayer(mapState.markersLayer, mapState.layerVisibility.markers, map);
+  toggleLayer(mapState.clusterLayer, mapState.layerVisibility.cluster, map);
+  if (mapState.heatLayer) toggleLayer(mapState.heatLayer, mapState.layerVisibility.heat, map);
+  toggleLayer(mapState.densityLayer, mapState.layerVisibility.density, map);
+}
+
+function toggleLayer(layer, enabled, map) {
+  if (!layer) return;
+  const hasLayer = map.hasLayer(layer);
+  if (enabled && !hasLayer) map.addLayer(layer);
+  if (!enabled && hasLayer) map.removeLayer(layer);
+}
+
+function bindMapControls() {
+  const category = document.getElementById("mapCategoryFilter");
+  const confidence = document.getElementById("mapConfidenceFilter");
+  const confidenceValue = document.getElementById("mapConfidenceValue");
+  const timeRange = document.getElementById("mapTimeRange");
+  const layerButtons = document.querySelectorAll(".map-btn[data-layer]");
+  const exportGeoJsonBtn = document.getElementById("exportGeoJsonBtn");
+  const exportCsvBtn = document.getElementById("exportCsvBtn");
+  const playbackBtn = document.getElementById("playbackBtn");
+  const timelineSlider = document.getElementById("timelineSlider");
+
+  if (category) {
+    category.addEventListener("change", () => {
+      dashboardState.map.filters.category = category.value;
+      applyMapFilters();
+    });
+  }
+
+  if (confidence) {
+    confidence.addEventListener("input", () => {
+      dashboardState.map.filters.minConfidence = Number(confidence.value);
+      if (confidenceValue) confidenceValue.textContent = String(confidence.value);
+      applyMapFilters();
+    });
+  }
+
+  if (timeRange) {
+    timeRange.addEventListener("change", () => {
+      dashboardState.map.filters.timeWindowHours = Number(timeRange.value);
+      applyMapFilters();
+    });
+  }
+
+  layerButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const layer = btn.dataset.layer;
+      dashboardState.map.layerVisibility[layer] = !dashboardState.map.layerVisibility[layer];
+      btn.classList.toggle("active", dashboardState.map.layerVisibility[layer]);
+      applyLayerVisibility();
+    });
+  });
+
+  if (exportGeoJsonBtn) {
+    exportGeoJsonBtn.addEventListener("click", () => openEventExport("geojson"));
+  }
+
+  if (exportCsvBtn) {
+    exportCsvBtn.addEventListener("click", () => openEventExport("csv"));
+  }
+
+  if (playbackBtn) {
+    playbackBtn.addEventListener("click", () => togglePlayback());
+  }
+
+  if (timelineSlider) {
+    timelineSlider.addEventListener("input", () => {
+      dashboardState.map.playback.sliderValue = Number(timelineSlider.value);
+      applyMapFilters();
+    });
+  }
+}
+
+function openEventExport(format) {
+  const params = new URLSearchParams({
+    format,
+    category: dashboardState.map.filters.category === "all" ? "" : dashboardState.map.filters.category,
+    minConfidence: String(dashboardState.map.filters.minConfidence),
+  });
+  window.open(`/api/events/export?${params.toString()}`, "_blank", "noopener");
+}
+
+function togglePlayback() {
+  const playbackBtn = document.getElementById("playbackBtn");
+  const slider = document.getElementById("timelineSlider");
+  if (!playbackBtn || !slider) return;
+
+  const playback = dashboardState.map.playback;
+  playback.active = !playback.active;
+  playbackBtn.classList.toggle("active", playback.active);
+  playbackBtn.textContent = playback.active ? "Pause" : "Playback";
+
+  if (playback.active) {
+    if (playback.timer) clearInterval(playback.timer);
+    playback.timer = setInterval(() => {
+      let next = Number(slider.value) + 2;
+      if (next > 100) next = 0;
+      slider.value = String(next);
+      playback.sliderValue = next;
+      applyMapFilters();
+    }, 700);
+  } else if (playback.timer) {
+    clearInterval(playback.timer);
+    playback.timer = null;
+  }
+}
+
+function updateMapDetailPanel(item) {
+  const panel = document.getElementById("mapDetailPanel");
+  if (!panel || !item) return;
+
+  const sourceUrl = item.provenance?.sourceUrl || item.link || "";
+  const type = item.category || "news";
+  panel.innerHTML = `
+    <h4>${escapeHtml(item.title || "Event")}</h4>
+    <ul class="map-detail-list">
+      <li><strong>Source:</strong> ${escapeHtml(item.source || "Unknown")}</li>
+      <li><strong>Timestamp:</strong> ${escapeHtml(new Date(item.timestamp || item.date).toLocaleString())}</li>
+      <li><strong>Confidence:</strong> ${escapeHtml(String(item.confidence || "N/A"))}</li>
+      <li><strong>Category:</strong> ${escapeHtml(type)}</li>
+      <li><strong>Provenance:</strong> ${escapeHtml(item.provenance?.parser || "n/a")}</li>
+    </ul>
+    ${sourceUrl ? `<a class="map-source-link" href="${sourceUrl}" target="_blank" rel="noopener">Open source reference</a>` : ""}
+  `;
+}
+
+function focusMapOnNews(newsItem) {
+  if (!newsItem || !Number.isFinite(newsItem.lat) || !Number.isFinite(newsItem.lng)) return;
+  const map = dashboardState.map.instance;
+  if (!map) return;
+
+  map.setView([newsItem.lat, newsItem.lng], 4, { animate: true });
+
+  const linkedMarker = [...dashboardState.map.markerIndex.values()].find((marker) => {
+    const ll = marker.getLatLng();
+    return Math.abs(ll.lat - newsItem.lat) < 0.0001 && Math.abs(ll.lng - newsItem.lng) < 0.0001;
+  });
+
+  if (linkedMarker) {
+    linkedMarker.fire("click");
+  } else {
+    updateMapDetailPanel(newsItem);
+  }
+}
+
 async function loadNews() {
   const grid = document.getElementById("newsGrid");
   if (!grid) return;
 
   try {
-    const res = await fetch("/api/news");
-    if (!res.ok) throw new Error("API error");
-    const news = await res.json();
-    if (news && news.length > 0) {
-      renderNews(grid, news);
-      return;
-    }
-  } catch (e) {
-    console.warn("Failed to load real news:", e.message);
-  }
+    const res = await fetch("/api/news?includeMeta=1&limit=36", { cache: "no-store" });
+    if (!res.ok) throw new Error("news request failed");
+    const payload = await res.json();
 
-  // Fallback demo news with real clickable links and images
-  renderNews(grid, [
-    {
-      title: "Major Phishing Campaign Targets Banking Customers Across Asia",
-      date: "2026-02-19",
-      source: "The Hacker News",
-      link: "https://thehackernews.com/search/label/Phishing",
-      summary: "A sophisticated phishing campaign leveraging AI-generated emails has been detected targeting major banks in Hong Kong and Singapore with credential harvesting attacks.",
-      image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&fit=crop",
-    },
-    {
-      title: "New Ransomware Variant Uses Zero-Day Exploit in Windows",
-      date: "2026-02-18",
-      source: "BleepingComputer",
-      link: "https://www.bleepingcomputer.com/news/security/ransomware/",
-      summary: "Security researchers discovered a new ransomware strain that exploits a previously unknown vulnerability in Windows systems, affecting thousands of devices.",
-      image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&q=80&fit=crop",
-    },
-    {
-      title: "Critical Vulnerability Found in Popular Open-Source Library",
-      date: "2026-02-17",
-      source: "SecurityWeek",
-      link: "https://www.securityweek.com/cyber-attacks/",
-      summary: "A critical remote code execution vulnerability has been found affecting millions of applications worldwide, vendors urge immediate patching.",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&fit=crop",
-    },
-    {
-      title: "AI-Powered Deepfake Scams Surge 300% in Southeast Asia",
-      date: "2026-02-16",
-      source: "CyberScoop",
-      link: "https://www.cyberscoop.io/",
-      summary: "Law enforcement agencies report a dramatic increase in deepfake-enabled fraud across the APAC region, targeting businesses and individuals.",
-      image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80&fit=crop",
-    },
-    {
-      title: "Global Law Enforcement Takes Down Major Dark Web Marketplace",
-      date: "2026-02-15",
-      source: "Krebs on Security",
-      link: "https://krebsonsecurity.com/",
-      summary: "An international operation has successfully dismantled one of the largest illegal marketplaces on the dark web, arresting dozens of operators.",
-      image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80&fit=crop",
-    },
-  ]);
+    dashboardState.news = payload.items || [];
+    dashboardState.newsMeta = payload.meta || null;
+    renderNewsMetrics();
+    applyNewsFilters();
+  } catch (_error) {
+    dashboardState.news = fallbackNews();
+    dashboardState.newsMeta = null;
+    renderNewsMetrics();
+    applyNewsFilters();
+  }
 }
 
-function renderNews(container, items) {
-  // Filter items to ensure they all have valid links
-  const validItems = items.filter(item => item.link && item.link.startsWith("http"));
-  
-  if (validItems.length === 0) {
-    container.innerHTML = `
-      <div style="grid-column: 1 / -1; padding: 2rem; text-align: center; color: var(--text-muted);">
-        <p>No news articles available at the moment. Check back later.</p>
+function fallbackNews() {
+  const now = Date.now();
+  return [
+    {
+      id: "news-fallback-1",
+      title: "Major phishing campaign targets banking customers across APAC",
+      date: new Date(now - 2 * 60 * 60 * 1000).toISOString(),
+      source: "The Hacker News",
+      sourceType: "rss",
+      confidence: 84,
+      confidenceBadge: "Medium Confidence",
+      corroborationCount: 2,
+      clusterId: "cluster-a",
+      shortSummary:
+        "Security teams report credential-harvesting pages impersonating regional banking portals.",
+      summary:
+        "Security teams report credential-harvesting pages impersonating regional banking portals and pushing victims through fake MFA challenges.",
+      link: "https://thehackernews.com/search/label/Phishing",
+      image:
+        "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&fit=crop",
+      lat: 22.3193,
+      lng: 114.1694,
+      provenance: {
+        sourceUrl: "https://thehackernews.com/search/label/Phishing",
+        fetchedAt: new Date().toISOString(),
+        parser: "fallback",
+      },
+    },
+    {
+      id: "news-fallback-2",
+      title: "Official advisory highlights active ransomware targeting healthcare",
+      date: new Date(now - 5 * 60 * 60 * 1000).toISOString(),
+      source: "CISA Advisories",
+      sourceType: "official",
+      confidence: 92,
+      confidenceBadge: "High Confidence",
+      corroborationCount: 3,
+      clusterId: "cluster-b",
+      shortSummary:
+        "Authorities urge immediate patching and segmentation after new ransomware indicators were confirmed.",
+      summary:
+        "Authorities urge immediate patching and segmentation after new ransomware indicators were confirmed in healthcare incident response operations.",
+      link: "https://www.cisa.gov/cybersecurity-advisories",
+      image:
+        "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&q=80&fit=crop",
+      lat: 1.3521,
+      lng: 103.8198,
+      provenance: {
+        sourceUrl: "https://www.cisa.gov/cybersecurity-advisories",
+        fetchedAt: new Date().toISOString(),
+        parser: "fallback",
+      },
+    },
+  ];
+}
+
+function bindNewsControls() {
+  const sourceButtons = document.querySelectorAll(".intel-chip[data-news-source]");
+  const sortSelect = document.getElementById("newsSort");
+
+  sourceButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      dashboardState.newsFilters.sourceType = button.dataset.newsSource || "all";
+      sourceButtons.forEach((btn) => btn.classList.toggle("active", btn === button));
+      applyNewsFilters();
+    });
+  });
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      dashboardState.newsFilters.sort = sortSelect.value;
+      applyNewsFilters();
+    });
+  }
+}
+
+function applyNewsFilters() {
+  let items = [...dashboardState.news];
+  const { sourceType, sort } = dashboardState.newsFilters;
+
+  if (sourceType !== "all") {
+    items = items.filter((item) => (item.sourceType || "rss") === sourceType);
+  }
+
+  if (sort === "confidence") {
+    items.sort((a, b) => (b.confidence || 0) - (a.confidence || 0));
+  } else if (sort === "corroboration") {
+    items.sort((a, b) => (b.corroborationCount || 0) - (a.corroborationCount || 0));
+  } else {
+    items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+
+  renderNews(items);
+}
+
+function renderNews(items) {
+  const grid = document.getElementById("newsGrid");
+  if (!grid) return;
+
+  if (!items.length) {
+    grid.innerHTML = `
+      <div class="intel-empty">
+        <h4>No articles match the selected filter</h4>
+        <p>Try another source type or sort strategy.</p>
       </div>
     `;
     return;
   }
 
-  // Create card-based layout with images (BBC-style)
-  container.innerHTML = validItems
-    .map((item, i) => {
+  grid.innerHTML = items
+    .map((item) => {
       const d = new Date(item.date);
-      const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const link = item.link || item.url || "https://thehackernews.com";
-      const image = item.image || "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80";
-      
+      const dateLabel = Number.isNaN(d.getTime()) ? "Unknown date" : d.toLocaleString();
+      const confidenceClass = confidenceClassName(item.confidence || 0);
+
       return `
-      <a href="${link}" target="_blank" rel="noopener noreferrer" 
-         class="news-card" 
-         style="
-           animation: slideUp 0.4s ease ${i * 0.06}s both;
-           display: flex;
-           flex-direction: column;
-           background: rgba(0,0,0,0.4);
-           backdrop-filter: blur(20px);
-           -webkit-backdrop-filter: blur(20px);
-           border-radius: 16px;
-           overflow: hidden;
-           text-decoration: none;
-           color: inherit;
-           cursor: pointer;
-           transition: all 0.3s ease;
-           border: 1px solid rgba(255,255,255,0.1);
-           height: 100%;
-           display: flex;
-           flex-direction: column;
-         ">
-        <!-- Image -->
-        <div style="
-          width: 100%;
-          height: 200px;
-          overflow: hidden;
-          background: linear-gradient(135deg, rgba(0,113,227,0.1) 0%, rgba(255,180,80,0.1) 100%);
-          position: relative;
-        ">
-          <img src="${image}" alt="${escapeHtml(item.title)}" 
-               style="
-                 width: 100%;
-                 height: 100%;
-                 object-fit: cover;
-                 transition: transform 0.3s ease;
-               "
-               onmouseover="this.style.transform='scale(1.05)'"
-               onmouseout="this.style.transform='scale(1)'"/>
-          <div style="
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(255, 145, 0, 0.85);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-          ">
-            THREAT INTEL
+      <article class="intel-card" tabindex="0" data-news-id="${escapeHtml(item.id)}">
+        <div class="intel-card-media">
+          <img src="${escapeHtml(item.image || "")}" alt="${escapeHtml(item.title)}" loading="lazy" />
+          <span class="intel-badge ${confidenceClass}">${escapeHtml(item.confidenceBadge || "Watch")}</span>
+        </div>
+        <div class="intel-card-body">
+          <div class="intel-card-meta">
+            <span>${escapeHtml(item.source)}</span>
+            <span>${escapeHtml(item.sourceType || "rss")}</span>
+            <span>${item.confidence || 0}/100</span>
+          </div>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.shortSummary || item.summary || "")}</p>
+          <div class="intel-card-footer">
+            <span>${escapeHtml(dateLabel)}</span>
+            <span>Corroboration: ${item.corroborationCount || 1}</span>
+          </div>
+          <div class="intel-card-actions">
+            <button class="map-jump-btn" data-news-open-map="${escapeHtml(item.id)}">Show on map</button>
+            <a href="${escapeHtml(item.link || "#")}" target="_blank" rel="noopener">Read source</a>
           </div>
         </div>
-
-        <!-- Content -->
-        <div style="
-          padding: 1.2rem;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        ">
-          <!-- Title -->
-          <h3 style="
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin: 0 0 0.8rem 0;
-            line-height: 1.35;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            transition: color 0.3s ease;
-          ">
-            ${escapeHtml(item.title)}
-          </h3>
-
-          <!-- Summary -->
-          <p style="
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin: 0 0 0.8rem 0;
-            flex: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          ">
-            ${escapeHtml(item.summary || "")}
-          </p>
-
-          <!-- Footer: Source and Date -->
-          <div style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 0.8rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-          ">
-            <span style="font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">
-              ${escapeHtml(item.source || "Security News")}
-            </span>
-            <span style="font-variant-numeric: tabular-nums;">
-              ${months[d.getMonth()]} ${d.getDate()}
-            </span>
-          </div>
-        </div>
-      </a>
-    `;
+      </article>
+      `;
     })
     .join("");
-  
-  // Add hover effects for cards
-  const newsCards = container.querySelectorAll(".news-card");
-  newsCards.forEach(card => {
-    card.addEventListener("mouseenter", function() {
-      this.style.background = "rgba(255,255,255,0.06)";
-      this.style.borderColor = "rgba(255,255,255,0.2)";
-      this.style.transform = "translateY(-4px)";
-      const title = this.querySelector("h3");
-      if (title) title.style.color = "var(--accent)";
+
+  grid.querySelectorAll("[data-news-open-map]").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const id = btn.getAttribute("data-news-open-map");
+      const item = dashboardState.news.find((n) => n.id === id);
+      if (item) {
+        focusMapOnNews(item);
+        updateMapDetailPanel(item);
+      }
     });
-    card.addEventListener("mouseleave", function() {
-      this.style.background = "rgba(0,0,0,0.4)";
-      this.style.borderColor = "rgba(255,255,255,0.1)";
-      this.style.transform = "translateY(0)";
-      const title = this.querySelector("h3");
-      if (title) title.style.color = "var(--text-primary)";
+  });
+
+  grid.querySelectorAll(".intel-card").forEach((card) => {
+    const newsId = card.getAttribute("data-news-id");
+    const item = dashboardState.news.find((n) => n.id === newsId);
+    if (!item) return;
+
+    card.addEventListener("click", () => {
+      focusMapOnNews(item);
+      updateMapDetailPanel(item);
+    });
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        focusMapOnNews(item);
+        updateMapDetailPanel(item);
+      }
     });
   });
 }
 
-// Helper function to escape HTML
-function escapeHtml(text) {
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-  return text.replace(/[&<>"']/g, m => map[m]);
+function renderNewsMetrics() {
+  const list = document.getElementById("newsMetricsList");
+  if (!list) return;
+
+  const meta = dashboardState.newsMeta;
+  if (!meta || !meta.sourceBreakdown) {
+    list.innerHTML = `<p class="intel-empty-copy">Metrics unavailable.</p>`;
+    return;
+  }
+
+  const rows = Object.entries(meta.sourceBreakdown)
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([source, count]) => `
+      <div class="intel-metric-row">
+        <span>${escapeHtml(source)}</span>
+        <span>${count}</span>
+      </div>
+    `,
+    )
+    .join("");
+
+  list.innerHTML = `
+    <div class="intel-metric-head">Avg confidence: ${meta.confidenceAverage || 0}</div>
+    ${rows}
+  `;
 }
 
-// ==================== AI-POWERED STATS ====================
-// Fetches real-time cybersecurity stats from the AI endpoint
-// and updates the hero stat counter elements on the dashboard
+function confidenceClassName(score) {
+  if (score >= 85) return "high";
+  if (score >= 70) return "medium";
+  if (score >= 55) return "watch";
+  return "low";
+}
+
+function connectEventStream() {
+  if (!window.EventSource) {
+    startFallbackEventPolling();
+    return;
+  }
+
+  try {
+    eventSource = new EventSource("/api/events/stream");
+
+    eventSource.addEventListener("snapshot", async (event) => {
+      const data = JSON.parse(event.data || "{}");
+      setMapLivePill(`Live: ${data.eventCount || 0} events | latency ${data.latencyMs || 0}ms`);
+      await refreshEvents();
+    });
+
+    eventSource.addEventListener("error", () => {
+      setMapLivePill("Live: stream reconnecting");
+      if (eventSource) eventSource.close();
+      startFallbackEventPolling();
+    });
+  } catch (_error) {
+    startFallbackEventPolling();
+  }
+}
+
+function startFallbackEventPolling() {
+  if (fallbackPollingTimer) return;
+  fallbackPollingTimer = setInterval(() => {
+    refreshEvents();
+  }, 60000);
+}
+
+function setMapLivePill(text) {
+  const pill = document.getElementById("mapLivePill");
+  if (pill) pill.textContent = text;
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 async function loadAIStats() {
   try {
-    const res = await fetch("/api/stats");
+    const res = await fetch("/api/stats", { cache: "no-store" });
     if (!res.ok) return;
     const stats = await res.json();
 
-    // Map stat keys to data-count attribute selectors
     const statEls = document.querySelectorAll(".stat-number[data-count]");
     if (!statEls.length) return;
 
-    // Update counter targets from AI data
     statEls.forEach((el) => {
       const suffix = el.dataset.suffix || "";
       const prefix = el.dataset.prefix || "";
@@ -803,9 +979,8 @@ async function loadAIStats() {
       }
     });
 
-    // Re-trigger counter animations with new values
     if (typeof animateCounters === "function") animateCounters();
-  } catch (e) {
-    console.log("Using default stats (AI unavailable)");
+  } catch (_error) {
+    // Keep static fallback numbers.
   }
 }

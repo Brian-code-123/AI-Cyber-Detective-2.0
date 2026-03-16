@@ -14,6 +14,14 @@
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
     <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+    />
+    <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>"
     />
@@ -176,177 +184,45 @@
           <div class="accent-line"></div>
         </div>
 
-        <div class="bbc-wrap">
-          <!-- News Grid -->
-          <div class="bbc-news-block">
-            <div class="bbc-grid">
-              <!-- LEFT: featured text headline -->
-              <div class="bbc-left">
-                <div>
-                  <span class="bbc-cat">Threat Intel</span>
-                  <h2>
-                    CRESCENTHARVEST Campaign Targets Iran Protest Supporters
-                    With RAT Malware
-                  </h2>
-                  <p>
-                    Cybersecurity researchers disclosed a new campaign targeting
-                    protest supporters to conduct information theft and
-                    long-term espionage, deploying remote access trojans via
-                    spear-phishing lures.
-                  </p>
-                </div>
-                <div class="bbc-meta">
-                  <span>Ravie Lakshmanan</span>
-                  <span class="bbc-meta-dot">·</span>
-                  <span>Feb 19, 2026</span>
-                </div>
+        <div class="intel-news-layout">
+          <div class="intel-news-main" aria-live="polite">
+            <div class="intel-toolbar" role="toolbar" aria-label="News filters">
+              <div class="intel-toolbar-group" aria-label="Source type filter">
+                <button class="intel-chip active" data-news-source="all">All Sources</button>
+                <button class="intel-chip" data-news-source="official">Official</button>
+                <button class="intel-chip" data-news-source="rss">RSS</button>
+                <button class="intel-chip" data-news-source="social">Social</button>
+                <button class="intel-chip" data-news-source="gdelt">GDELT</button>
               </div>
-              <!-- CENTER: hero image article -->
-              <a
-                class="bbc-hero"
-                href="https://thehackernews.com"
-                target="_blank"
-                rel="noopener"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=900&q=80"
-                  alt="Cybersecurity threat"
-                />
-                <div class="bbc-hero-overlay">
-                  <span class="bbc-cat">Credentials</span>
-                  <h3>
-                    First Malicious Outlook Add-In Steals 4,000+ Microsoft
-                    Credentials
-                  </h3>
-                </div>
-              </a>
-              <!-- RIGHT: secondary stacked articles -->
-              <div class="bbc-right">
-                <a
-                  class="bbc-secondary"
-                  href="https://thehackernews.com"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=160&q=70"
-                    alt=""
-                  />
-                  <div>
-                    <h4>
-                      Malicious Chrome Extensions Stealing Business Data &amp;
-                      Emails
-                    </h4>
-                    <span>Feb 17, 2026</span>
-                  </div>
-                </a>
-                <a
-                  class="bbc-secondary"
-                  href="https://thehackernews.com"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=160&q=70"
-                    alt=""
-                  />
-                  <div>
-                    <h4>
-                      Reynolds Ransomware Embeds BYOD Driver to Disable EDR
-                      Tools
-                    </h4>
-                    <span>Feb 16, 2026</span>
-                  </div>
-                </a>
-                <a
-                  class="bbc-secondary"
-                  href="https://thehackernews.com"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=160&q=70"
-                    alt=""
-                  />
-                  <div>
-                    <h4>
-                      Keenadu Firmware Backdoor Infects Android via Signed OTA
-                      Updates
-                    </h4>
-                    <span>Feb 15, 2026</span>
-                  </div>
-                </a>
-              </div>
+              <label class="intel-select-wrap" for="newsSort">
+                <span>Sort</span>
+                <select id="newsSort" class="intel-select">
+                  <option value="latest">Latest</option>
+                  <option value="confidence">Highest Confidence</option>
+                  <option value="corroboration">Most Corroborated</option>
+                </select>
+              </label>
             </div>
-            <!-- Bottom row: 4 mini news cards -->
-            <div class="bbc-bottom-row">
-              <a
-                class="bbc-mini"
-                href="https://thehackernews.com"
-                target="_blank"
-                rel="noopener"
-              >
-                <span class="bbc-cat">Malware</span>
-                <h5>
-                  New Botnet Exploits Unpatched SOHO Routers Across Southeast
-                  Asia
-                </h5>
-                <span>Feb 14, 2026</span>
-              </a>
-              <a
-                class="bbc-mini"
-                href="https://thehackernews.com"
-                target="_blank"
-                rel="noopener"
-              >
-                <span class="bbc-cat">Phishing</span>
-                <h5>
-                  AI-Generated Deepfake Voice Scams Target Corporate CFOs in
-                  Wire Fraud
-                </h5>
-                <span>Feb 13, 2026</span>
-              </a>
-              <a
-                class="bbc-mini"
-                href="https://thehackernews.com"
-                target="_blank"
-                rel="noopener"
-              >
-                <span class="bbc-cat">Vulnerability</span>
-                <h5>
-                  Critical Zero-Day in Fortinet SSL VPN Exploited by
-                  Nation-State Actors
-                </h5>
-                <span>Feb 12, 2026</span>
-              </a>
-              <a
-                class="bbc-mini"
-                href="https://thehackernews.com"
-                target="_blank"
-                rel="noopener"
-              >
-                <span class="bbc-cat">Data Breach</span>
-                <h5>
-                  Healthcare Giant Confirms 4.2M Patient Records Exposed in
-                  Supply Chain Attack
-                </h5>
-                <span>Feb 11, 2026</span>
-              </a>
-            </div>
+            <div id="newsGrid" class="intel-news-grid"></div>
           </div>
-          <!-- Sidebar: Calendar -->
-          <div class="bbc-sidebar">
+
+          <aside class="intel-news-side" aria-label="News intelligence sidebar">
             <div class="calendar-widget">
               <div class="calendar-header">
                 <h4 id="calendarMonth"></h4>
                 <div class="calendar-nav">
-                  <button onclick="changeMonth(-1)">‹</button>
-                  <button onclick="changeMonth(1)">›</button>
+                  <button onclick="changeMonth(-1)" aria-label="Previous month">‹</button>
+                  <button onclick="changeMonth(1)" aria-label="Next month">›</button>
                 </div>
               </div>
               <div class="calendar-days" id="calendarDays"></div>
             </div>
-          </div>
+
+            <div class="intel-metrics" id="newsMetrics" aria-live="polite">
+              <h4>Source Credibility</h4>
+              <div class="intel-metrics-list" id="newsMetricsList"></div>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -452,8 +328,75 @@
         <div class="charts-grid">
           <!-- Geographic Heatmap (full width) -->
           <div class="chart-container full-width">
-            <h3 data-i18n="charts.heatmap">Global Cyber Fraud Heatmap</h3>
-            <div id="heatmap"></div>
+            <div class="map-header-row">
+              <h3 data-i18n="charts.heatmap">Global Cyber Fraud Heatmap</h3>
+              <div class="map-live-pill" id="mapLivePill" aria-live="polite">Live: syncing</div>
+            </div>
+
+            <div class="map-control-grid" role="region" aria-label="Map controls">
+              <label class="map-control-field" for="mapCategoryFilter">
+                <span>Category</span>
+                <select id="mapCategoryFilter" class="map-input">
+                  <option value="all">All</option>
+                  <option value="phishing">Phishing</option>
+                  <option value="ransomware">Ransomware</option>
+                  <option value="vulnerability">Vulnerability</option>
+                  <option value="data-breach">Data Breach</option>
+                  <option value="deepfake">Deepfake</option>
+                  <option value="threat-intel">Threat Intel</option>
+                </select>
+              </label>
+
+              <label class="map-control-field" for="mapConfidenceFilter">
+                <span>Min Confidence</span>
+                <input id="mapConfidenceFilter" class="map-input" type="range" min="0" max="100" step="5" value="40" />
+                <output id="mapConfidenceValue">40</output>
+              </label>
+
+              <label class="map-control-field" for="mapTimeRange">
+                <span>Time Window</span>
+                <select id="mapTimeRange" class="map-input">
+                  <option value="6">Last 6 hours</option>
+                  <option value="24" selected>Last 24 hours</option>
+                  <option value="72">Last 72 hours</option>
+                  <option value="168">Last 7 days</option>
+                  <option value="720">Last 30 days</option>
+                </select>
+              </label>
+
+              <div class="map-control-field map-control-actions">
+                <span>Layers</span>
+                <div class="map-layer-buttons" role="group" aria-label="Map layer toggles">
+                  <button class="map-btn active" data-layer="markers">Markers</button>
+                  <button class="map-btn active" data-layer="cluster">Cluster</button>
+                  <button class="map-btn active" data-layer="heat">Heatmap</button>
+                  <button class="map-btn" data-layer="density">Density</button>
+                </div>
+              </div>
+
+              <div class="map-control-field map-control-actions">
+                <span>Export & Replay</span>
+                <div class="map-layer-buttons" role="group" aria-label="Map export and replay">
+                  <button id="exportGeoJsonBtn" class="map-btn">Export GeoJSON</button>
+                  <button id="exportCsvBtn" class="map-btn">Export CSV</button>
+                  <button id="playbackBtn" class="map-btn">Playback</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="map-canvas-layout">
+              <div id="heatmap" tabindex="0" aria-label="Cyber threat event map"></div>
+              <aside id="mapDetailPanel" class="map-detail-panel" aria-live="polite">
+                <h4>Event Detail</h4>
+                <p class="map-detail-placeholder">Select a marker or news item to inspect source, timestamp, confidence, and provenance.</p>
+              </aside>
+            </div>
+
+            <div class="timeline-controls" aria-label="Timeline playback controls">
+              <label for="timelineSlider">Timeline</label>
+              <input id="timelineSlider" type="range" min="0" max="100" value="100" step="1" />
+              <span id="timelineLabel">Latest</span>
+            </div>
           </div>
 
           <!-- Top 10 Scam Types (Bar) -->
@@ -650,6 +593,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
     <script src="js/dashboard.js"></script>
