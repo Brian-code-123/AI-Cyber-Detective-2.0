@@ -389,27 +389,7 @@ If `ASI_API_KEY` is not set, the dashboard still works with deterministic fallba
 - In production on Vercel, environment variables should be configured in project settings.
 - SSE endpoint (`/api/events/stream`) is used for lightweight live status updates.
 
-## 8. Competition Demo Flow
 
-Recommended 3-minute presentation sequence:
-
-1. Show source fusion in the News panel (official + rss + social + gdelt)
-2. Open a news item and jump to map context
-3. Toggle map layers (cluster, heatmap, density)
-4. Apply filters (category, confidence, time)
-5. Run timeline playback
-6. Export GeoJSON and CSV
-7. Highlight provenance and quality metrics from API metadata
-
-## 9. Limitations and Next Improvements
-
-Current implementation is production-ready for demos and competition judging, with room for extension:
-
-- Add real-time websocket or Kafka ingestion adapter
-- Replace snapshots with direct GDELT query ingestion
-- Add full NER model and geocoding service for higher location precision
-- Add PostGIS or Elasticsearch persistence for large-scale querying
-- Add full benchmark dashboard (precision/recall/FPR/query latency trend)
 
 ---
 
