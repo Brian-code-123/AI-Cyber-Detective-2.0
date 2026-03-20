@@ -1,13 +1,30 @@
 /**
- * NeoTrace AI Chatbot v3
- * ASI-1 powered · Quick chips · Conversation history · Offline fallback
- * @description Full-featured chatbot with persistent conversation, retry logic,
- *   and professional frosted-glass UI matching the NeoTrace design system.
+ * =====================================================
+ * NeoTrace AI Chatbot v3 Module
+ * =====================================================
+ *
+ * Full-featured conversational AI assistant integrated into the NeoTrace platform.
+ * Provides intelligent responses to cybersecurity questions with offline fallback.
+ *
+ * Key Features:
+ * - Multi-turn conversation history with context awareness
+ * - Quick-question chips for common cybersecurity topics
+ * - Markdown-to-HTML rendering for rich response formatting
+ * - Offline fallback answers when API is unavailable
+ * - Automatic retry logic with exponential backoff
+ * - Professional frosted-glass UI matching NeoTrace design system
+ * - Persistent conversation state in sessionStorage
+ *
+ * @requires ../css/style.css
+ * API: POST to /api/ai (expects body: { message: string })
+ * Fallback: Provides pre-written answers for: phishing, URL scanning, passwords, certs, careers, images
  */
 (function () {
   "use strict";
 
-  // ── Quick-question data ──────────────────────────────────────────
+  // ── Quick Question Data ──────────────────────────────────────────
+  // Pre-defined questions to help users get started
+  // Format: { label: string (with emoji), text: string (full question) }─────────
   const QUICK_QUESTIONS = [
     {
       label: "🎣 What is phishing?",
@@ -53,7 +70,12 @@
       "## Welcome to NeoTrace AI! 👋\n\nI can help you with:\n\n**🛠️ Platform Tools:**\n- How to use any NeoTrace tool (URL Scanner, Image Forensics, Email Analyzer, etc.)\n- Understanding scan results\n\n**🔐 Cybersecurity Knowledge:**\n- Phishing, malware, social engineering explained\n- How to protect your accounts and devices\n- Certification and career guidance\n\n**🎮 Learning Resources:**\n- Story Mode and Training Game guide\n- YouTube channels, books, and courses\n\nJust type your question below — or click a **Quick Question** chip to get started!",
   };
 
-  /** @description Match user text to offline fallback for when ASI is unreachable. */
+  /**
+   * Match user input to offline fallback answer.
+   * This provides AI-like responses when the API is unavailable.
+   * @param {string} text - User's input text
+   * @returns {string} Matching fallback answer (HTML formatted)
+   */
   function offlineFallback(text) {
     const t = text.toLowerCase();
     if (t.includes("url") || t.includes("link") || t.includes("scanner")) return OFFLINE_ANSWERS.url_scanner;

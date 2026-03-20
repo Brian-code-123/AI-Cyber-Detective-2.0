@@ -1,8 +1,20 @@
-// =====================================================
-// NeoTrace — Main Shared JavaScript
-// Handles: navigation, theme toggle, counters,
-//          scroll reveal, calendar, auto-suggest
-// =====================================================
+/**
+ * =====================================================
+ * NeoTrace — Main Shared JavaScript
+ * =====================================================
+ *
+ * Core functionality module for the NeoTrace platform, providing:
+ * - Navigation management (active link highlighting, mobile menu toggle)
+ * - Theme switching (dark/light mode with localStorage persistence)
+ * - Animated stat counters with easing functions
+ * - Scroll-triggered reveal animations using IntersectionObserver
+ * - Interactive calendar widget with month navigation
+ * - Auto-suggest dropdown component for search/input fields
+ * - Internationalization (i18n) support integration
+ *
+ * @requires ../js/i18n.js
+ * @requires ../css/style.css
+ */
 
 // Ensure chatbot markup exists (inject homepage chatbot HTML when missing)
 (function ensureChatbotMarkup() {
@@ -68,38 +80,68 @@
   }
 })();
 
-// ── Dark / Light Theme Toggle ──────────────────────
+/**
+ * Initialize theme toggle button and restore saved theme preference.
+ * Updates the root element's data-theme attribute and persists choice in localStorage.
+ * Toggles between 'dark' and 'light' modes on button click.
+ */
 function initThemeToggle() {
+  // Restore saved theme or default to dark
   const saved = localStorage.getItem("neotrace-theme") || "dark";
   document.documentElement.setAttribute("data-theme", saved);
+  
   const btn = document.getElementById("themeToggle");
   if (!btn) return;
+  
+  // Update button emoji based on current theme
   btn.textContent = saved === "dark" ? "☀️" : "🌙";
+  btn.title = saved === "dark" ? "Switch to light mode" : "Switch to dark mode";
+  
+  // Toggle theme on click
   btn.addEventListener("click", () => {
-    const current =
-      document.documentElement.getAttribute("data-theme") || "dark";
+    const current = document.documentElement.getAttribute("data-theme") || "dark";
     const next = current === "dark" ? "light" : "dark";
+    
+    // Update DOM and storage
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("neotrace-theme", next);
+    
+    // Update button appearance
     btn.textContent = next === "dark" ? "☀️" : "🌙";
+    btn.title = next === "dark" ? "Switch to light mode" : "Switch to dark mode";
   });
 }
 
-// ── Mobile Nav Toggle ──────────────────────────────
+/**
+ * Initialize mobile hamburger menu toggle.
+ * Toggles .show class on nav-links when hamburger is clicked.
+ * Auto-closes menu when a link is clicked (improves mobile UX).
+ */
 function initNavToggle() {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
-  if (hamburger && navLinks) {
-    hamburger.addEventListener("click", () => {
-      navLinks.classList.toggle("show");
+  
+  if (!hamburger || !navLinks) return;
+  
+  // Toggle menu visibility
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("show");
+  });
+  
+  // Close menu when any link is clicked (smoother mobile UX)
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("show");
     });
-    navLinks.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => navLinks.classList.remove("show"));
-    });
-  }
+  });
 }
 
-/** Animate stat counter elements using IntersectionObserver. Eases in using cubic bezier and supports float/int values with prefix/suffix. */
+/**
+ * Animate numeric stat counters with easing when they come into view.
+ * Uses IntersectionObserver for performance. Supports float/integer values with prefix/suffix.
+ * @example
+ *   <div class="stat-number" data-count="2850" data-prefix="" data-suffix="+">0</div>
+ */
 function animateCounters() {
   document.querySelectorAll(".stat-number[data-count]").forEach((el) => {
     const target = parseFloat(el.dataset.count);
@@ -129,7 +171,11 @@ function animateCounters() {
   });
 }
 
-/** Observe elements for scroll-triggered fade-in animation via .visible class. */
+/**
+ * Initialize scroll-triggered reveal animations using IntersectionObserver.
+ * Adds .visible class to elements when they enter the viewport, triggering CSS animations.
+ * Selector: .chapter, .card, .chart-container, .tool-panel, .result-panel, .news-item
+ */
 function initScrollReveal() {
   const observer = new IntersectionObserver(
     (entries) => {

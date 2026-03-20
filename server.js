@@ -3,22 +3,31 @@
  * NeoTrace — Backend Server
  * =====================================================
  *
- * @description Express.js server providing API endpoints for cybersecurity intelligence platform
+ * Express.js server providing comprehensive API endpoints for the NeoTrace
+ * cybersecurity intelligence platform. Implements threat detection, digital
+ * forensics, and gamification features.
+ *
  * @author NeoTrace Team
- * @version 3.0.0
- * @date 2026-02-16
+ * @version 4.0.0
+ * @date 2026-03-21
+ * @license MIT
  *
- * Features:
- * - URL threat analysis with phishing detection
- * - Image forensics with AI detection
- * - Text verification with misinformation detection
- * - Global leaderboard for gamification
+ * Core Features:
+ * - URL phishing & threat analysis with multi-factor risk scoring
+ * - Image forensics with AI-generated image detection
+ * - Content verification with sentiment & credibility analysis
+ * - Real-time global leaderboard with player rankings
  *
- * API Endpoints:
- * - GET/POST /api/leaderboard - Game leaderboard management
- * - POST /api/analyze-url - URL security analysis
- * - POST /api/analyze-image - Image authenticity verification
- * - POST /api/verify-text - Text credibility scoring
+ * Main API Endpoints:
+ * - GET/POST /api/leaderboard  - Retrieve/add player scores
+ * - POST /api/analyze-url      - Comprehensive URL security analysis
+ * - POST /api/analyze-image    - Image authenticity & forensics analysis
+ * - POST /api/verify-text      - Text credibility & fake news detection
+ *
+ * Deployment:
+ * - Vercel (serverless) or Node.js + Express
+ * - Supports environment variables via dotenv or Vercel
+ * - CORS enabled for all origins (adjustable for production)
  */
 
 const express = require("express");
@@ -42,16 +51,22 @@ try {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware configuration
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json({ limit: "50mb" })); // Parse JSON bodies (up to 50MB)
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+// ── Middleware Configuration ──────────────────────────────────────────
+// CORS: Allow requests from all origins (adjust for production security)
+app.use(cors());
 
-// Configure multer for file uploads (in-memory storage, 20MB limit)
+// Body Parsers: Accept JSON and form-encoded data (50MB limit for large uploads)
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+// Static File Serving: Serve the React frontend from /public directory
+app.use(express.static(path.join(__dirname, "public")));
+
+// ── File Upload Configuration ─────────────────────────────────────────
+// Multer: In-memory storage for image uploads (20MB limit)
 const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 20 * 1024 * 1024 },
+  storage: multer.memoryStorage(), // Files stored in RAM, not disk
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB maximum file size
 });
 
 // ==================== LEADERBOARD API ====================
