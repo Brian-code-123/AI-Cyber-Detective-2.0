@@ -52,8 +52,24 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Middleware Configuration ──────────────────────────────────────────
-// CORS: Allow requests from all origins (adjust for production security)
-app.use(cors());
+// CORS: 限制允许的来源 (生产环境安全配置)
+const corsOptions = {
+  origin: function(origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      process.env.ALLOWED_ORIGIN || 'https://neotrace.vercel.app'
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS']
+};
+app.use(cors(corsOptions));
 
 // Body Parsers: Accept JSON and form-encoded data (50MB limit for large uploads)
 app.use(express.json({ limit: "50mb" }));
@@ -1923,31 +1939,55 @@ function cleanAndValidateUrl(url) {
   }
 }
 
-function fetchURL(targetUrl) {
+function fetchURL(targetUrl, redirectCount = 0, maxRedirects = 5) {
+  // 防止无限重定向
+  if (redirectCount > maxRedirects) {
+    return Promise.reject(new Error("Too many redirects"));
+  }
+
   return new Promise((resolve, reject) => {
     const protocol = targetUrl.startsWith("https") ? https : http;
-    protocol
+    let totalSize = 0;
+    const maxSize = 10 * 1024 * 1024; // 10MB limit
+    
+    const req = protocol
       .get(
         targetUrl,
-        { headers: { "User-Agent": "NeoTrace/3.0" } },
+        { 
+          headers: { "User-Agent": "NeoTrace/3.0" },
+          timeout: 5000  // 5秒超时
+        },
         (response) => {
-          // Handle redirects
+          // Handle redirects with redirect counter
           if (
             response.statusCode >= 300 &&
             response.statusCode < 400 &&
             response.headers.location
           ) {
-            return fetchURL(response.headers.location)
+            return fetchURL(response.headers.location, redirectCount + 1, maxRedirects)
               .then(resolve)
               .catch(reject);
           }
           let data = "";
-          response.on("data", (chunk) => (data += chunk));
+          response.on("data", (chunk) => {
+            totalSize += chunk.length;
+            // 检查响应大小限制
+            if (totalSize > maxSize) {
+              response.destroy();
+              reject(new Error("Response size exceeded 10MB limit"));
+              return;
+            }
+            data += chunk;
+          });
           response.on("end", () => resolve(data));
           response.on("error", reject);
         },
       )
-      .on("error", reject);
+      .on("error", reject)
+      .on("timeout", () => {
+        req.destroy();
+        reject(new Error("Request timeout after 5 seconds"));
+      });
   });
 }
 
