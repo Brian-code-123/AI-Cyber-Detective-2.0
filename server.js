@@ -57,6 +57,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ═══════════════════════════════════════════════════════════════════════
+// GLOBAL ERROR HANDLERS (PREVENT FUNCTION_INVOCATION_FAILED)
+// ═══════════════════════════════════════════════════════════════════════
+/**
+ * Catch unhandled promise rejections before they crash the runtime
+ * Critical for Vercel serverless stability
+ */
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("❌ Unhandled Rejection at:", promise, "reason:", reason);
+  // Don't exit — let Vercel handle gracefully
+});
+
+/**
+ * Catch uncaught exceptions to prevent complete function crash
+ */
+process.on("uncaughtException", (error) => {
+  console.error("❌ Uncaught Exception:", error);
+  // Log but don't exit — Vercel will restart
+});
+
+// ═══════════════════════════════════════════════════════════════════════
 // P0 SECURITY: HELMET + SECURITY HEADERS
 // ═══════════════════════════════════════════════════════════════════════
 /**
@@ -195,6 +215,15 @@ app.use("/api/verify-", analyzeLimiter);
 
 // Static File Serving: Serve the React frontend from /public directory
 app.use(express.static(path.join(__dirname, "public")));
+
+// ══════════════════════════════════════════════════════════════════════
+// MIDDLEWARE: Async Route Error Wrapper
+// Catches unhandled errors in async route handlers
+// ══════════════════════════════════════════════════════════════════════
+// Optional wrapper for clean error handling
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 
 // ══════════════════════════════════════════════════════════════════════
 // P0 SECURITY: API KEY AUTHENTICATION MIDDLEWARE
@@ -494,7 +523,7 @@ const LEGITIMATE_DOMAINS = [
  * @body {string} targetUrl - URL to analyze
  * @returns {object} Risk score, findings, and domain details
  */
-app.post("/api/analyze-url", analyzeLimiter, async (req, res) => {
+app.post("/api/analyze-url", analyzeLimiter, async (req, res, next) => {
   try {
     const { targetUrl } = req.body;
     
@@ -728,7 +757,7 @@ app.post("/api/analyze-url", analyzeLimiter, async (req, res) => {
  * - Memory-safe processing
  * - No execution of embedded content
  */
-app.post("/api/analyze-image", analyzeLimiter, upload.single("image"), async (req, res) => {
+app.post("/api/analyze-image", analyzeLimiter, upload.single("image"), async (req, res, next) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No image uploaded" });
@@ -1310,7 +1339,7 @@ const LOCATION_INDEX = {
 };
 
 
-app.get("/api/news", async (req, res) => {
+app.get("/api/news", async (req, res, next) => {
   try {
     if (newsCache.data && Date.now() - newsCache.timestamp < NEWS_CACHE_TTL) {
       const limit = clampInt(req.query.limit, 1, 60, 24);
@@ -1347,7 +1376,7 @@ app.get("/api/news", async (req, res) => {
   }
 });
 
-app.get("/api/news/metrics", async (req, res) => {
+app.get("/api/news/metrics", async (req, res, next) => {
   try {
     if (!newsCache.data || Date.now() - newsCache.timestamp >= NEWS_CACHE_TTL) {
       newsCache = { data: await buildFusedNews(), timestamp: Date.now() };
@@ -1358,7 +1387,7 @@ app.get("/api/news/metrics", async (req, res) => {
   }
 });
 
-app.get("/api/events", async (req, res) => {
+app.get("/api/events", async (req, res, next) => {
   try {
     const payload = await buildEventPayload({ force: req.query.refresh === "1" });
 
@@ -1410,7 +1439,7 @@ app.get("/api/events", async (req, res) => {
   }
 });
 
-app.get("/api/events/export", async (req, res) => {
+app.get("/api/events/export", async (req, res, next) => {
   try {
     const payload = await buildEventPayload({ force: req.query.refresh === "1" });
     const categories = (req.query.category || "")
@@ -1452,7 +1481,7 @@ app.get("/api/events/export", async (req, res) => {
   }
 });
 
-app.get("/api/events/stream", async (req, res) => {
+app.get("/api/events/stream", async (req, res, next) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -2289,7 +2318,7 @@ function fetchURL(targetUrl, redirectCount = 0, maxRedirects = 5) {
 let statsCache = { data: null, timestamp: 0 };
 const STATS_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
-app.get("/api/stats", async (req, res) => {
+app.get("/api/stats", async (req, res, next) => {
   const now = Date.now();
   // Return cached data if still valid
   if (statsCache.data && now - statsCache.timestamp < STATS_TTL) {
@@ -2350,7 +2379,7 @@ Return ONLY valid JSON, no markdown, no explanation.`;
 
 // ==================== PHONE INSPECTOR API ====================
 // Accepts { phone } or { dialCode, number }. Uses Numverify + ASI-1 AI analysis.
-app.post("/api/phone/check", async (req, res) => {
+app.post("/api/phone/check", async (req, res, next) => {
   let { phone, dialCode, number } = req.body;
 
   // Merge split-input mode
@@ -2752,7 +2781,7 @@ app.post("/api/phone/check", async (req, res) => {
 });
 
 // ==================== EMAIL HEADER ANALYZER API ====================
-app.post("/api/email-analyze", async (req, res) => {
+app.post("/api/email-analyze", async (req, res, next) => {
   const { headers: rawHeaders } = req.body;
   if (!rawHeaders || rawHeaders.trim().length < 20)
     return res.status(400).json({ error: "Email headers required" });
@@ -2984,7 +3013,7 @@ Flags: ${flags.map((f) => f.m).join("; ")}`;
 });
 
 // ==================== WIFI SECURITY ANALYZER API ====================
-app.post("/api/wifi-analyze", async (req, res) => {
+app.post("/api/wifi-analyze", async (req, res, next) => {
   const { ssid, security, signal, vendor } = req.body;
   if (!ssid) return res.status(400).json({ error: "SSID required" });
 
@@ -3129,6 +3158,7 @@ const IS_VERCEL = !!process.env.VERCEL; // Detect Vercel environment
 
 /**
  * Internal helper: calls ASI-1 chat completion API directly
+ * Enhanced with proper timeout and error recovery for Vercel
  */
 async function callASI(
   userMessage,
@@ -3136,6 +3166,7 @@ async function callASI(
   maxTokens = 1500,
 ) {
   if (!ASI_API_KEY) throw new Error("No ASI API key configured");
+  
   const payload = JSON.stringify({
     model: ASI_MODEL,
     messages: [
@@ -3145,7 +3176,12 @@ async function callASI(
     max_tokens: maxTokens,
     temperature: 0.3,
   });
+  
   return new Promise((resolve, reject) => {
+    // Vercel has 30s max timeout for serverless functions
+    // ASI timeout must be less than that
+    const VERCEL_ASI_TIMEOUT = IS_VERCEL ? 12000 : 20000;
+    
     const options = {
       hostname: "api.asi1.ai",
       port: 443,
@@ -3157,23 +3193,45 @@ async function callASI(
         "Content-Length": Buffer.byteLength(payload),
       },
     };
+    
     const apiReq = https.request(options, (apiRes) => {
       let data = "";
-      apiRes.on("data", (chunk) => (data += chunk));
+      
+      // Enforce max response size (prevent memory exhaustion)
+      const MAX_RESPONSE_SIZE = 50 * 1024; // 50KB
+      
+      apiRes.on("data", (chunk) => {
+        data += chunk;
+        if (data.length > MAX_RESPONSE_SIZE) {
+          apiReq.destroy();
+          reject(new Error("ASI response too large"));
+        }
+      });
+      
       apiRes.on("end", () => {
         try {
-          resolve(JSON.parse(data).choices?.[0]?.message?.content || "");
+          const parsed = JSON.parse(data);
+          if (parsed.error) {
+            reject(new Error(parsed.error.message || "ASI API error"));
+          } else {
+            resolve(parsed.choices?.[0]?.message?.content || "");
+          }
         } catch (e) {
           reject(new Error("Invalid JSON from ASI API"));
         }
       });
     });
-    apiReq.on("error", reject);
-    const timeout = IS_VERCEL ? 15000 : 20000; // Shorter timeout for Vercel
-    apiReq.setTimeout(timeout, () => {
+    
+    apiReq.on("error", (err) => {
+      reject(new Error(`ASI request failed: ${err.message}`));
+    });
+    
+    // Set timeout with buffer for Vercel
+    apiReq.setTimeout(VERCEL_ASI_TIMEOUT, () => {
       apiReq.destroy();
       reject(new Error("ASI API timeout"));
     });
+    
     apiReq.write(payload);
     apiReq.end();
   });
@@ -3249,7 +3307,7 @@ const GAME_CACHE_TTL = 60 * 60 * 1000; // 1 hour
  * Generate AI-powered game scenarios via ASI-1.
  * Cached per tier for performance. Falls back to empty array on failure.
  */
-app.get("/api/game-scenario", async (req, res) => {
+app.get("/api/game-scenario", async (req, res, next) => {
   const tier = parseInt(req.query.tier) || 1;
   const lang = req.query.lang || "en";
   const cacheKey = `${tier}_${lang}`;
@@ -3317,7 +3375,7 @@ Example: [{"text":"...","label":"SCAM","typeLabel":"📧 PHISHING","explanation"
 });
 
 // Chatbot endpoint (wraps ASI with NeoTrace system prompt)
-app.post("/api/chatbot", async (req, res) => {
+app.post("/api/chatbot", async (req, res, next) => {
   const { message, history, context } = req.body;
   if (!message) return res.status(400).json({ error: "message required" });
 
@@ -3482,6 +3540,61 @@ if (process.env.NODE_ENV === "production" && !process.env.VERCEL) {
     }
   });
 }
+
+// ══════════════════════════════════════════════════════════════════════
+// GLOBAL ERROR HANDLER MIDDLEWARE (PREVENT FUNCTION_INVOCATION_FAILED)
+// ══════════════════════════════════════════════════════════════════════
+/**
+ * Catch all unhandled errors from route handlers
+ * Must be last middleware — catches errors from all routes/handlers
+ */
+app.use((err, req, res, next) => {
+  const isDev = process.env.NODE_ENV !== "production";
+  
+  // Log error with context
+  console.error({
+    timestamp: new Date().toISOString(),
+    error: err.message,
+    stack: isDev ? err.stack : undefined,
+    path: req.path,
+    method: req.method,
+  });
+  
+  // Determine status code
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Internal Server Error";
+  
+  // Handle specific error types
+  if (err.message.includes("timeout")) {
+    statusCode = 504;
+    message = "Request timeout — service took too long to respond";
+  } else if (err.message.includes("ECONNREFUSED") || err.message.includes("ENOTFOUND")) {
+    statusCode = 503;
+    message = "Service unavailable — external API unreachable";
+  } else if (err instanceof SyntaxError) {
+    statusCode = 400;
+    message = "Invalid request format";
+  }
+  
+  // Send error response
+  // Don't expose internal stack traces in production
+  res.status(statusCode).json({
+    error: message,
+    ...(isDev && { stack: err.stack }),
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════
+// 404 HANDLER
+// ══════════════════════════════════════════════════════════════════════
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Not Found",
+    path: req.path,
+    message: "The requested resource does not exist.",
+  });
+});
 
 // ==================== START SERVER ====================
 // Only start HTTP server when running locally (not on Vercel serverless)
