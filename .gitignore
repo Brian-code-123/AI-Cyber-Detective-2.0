@@ -49,10 +49,8 @@ temp/
 *.swo
 *~
 
-# Test and Documentation Files (Local Development Only)
-# 不上传测试文件和评估文档
-test/
-jest.config.js
+# Evaluation and Documentation Files (Temporary Artifacts Only)
+# 不上传评估文档和临时文件
 CODE_REVIEW.md
 PATCHES.js
 FEATURE_SUGGESTIONS.md
