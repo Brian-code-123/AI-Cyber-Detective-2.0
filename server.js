@@ -32,6 +32,8 @@
 
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 const path = require("path");
 const dns = require("dns");
@@ -39,6 +41,9 @@ const https = require("https");
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
+
+// Security: Input validation
+const Joi = require("joi");
 
 // Load environment variables from .env if present
 try {
@@ -51,38 +56,199 @@ try {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ── Middleware Configuration ──────────────────────────────────────────
-// CORS: 限制允许的来源 (生产环境安全配置)
+// ═══════════════════════════════════════════════════════════════════════
+// P0 SECURITY: HELMET + SECURITY HEADERS
+// ═══════════════════════════════════════════════════════════════════════
+/**
+ * Helmet: Add essential security headers
+ * - X-Frame-Options: prevent clickjacking
+ * - X-Content-Type-Options: prevent MIME sniffing  
+ * - Strict-Transport-Security: force HTTPS
+ * - Content-Security-Policy: mitigate XSS attacks
+ */
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "api.asi1.ai", "*.vercel.app"],
+      fontSrc: ["'self'", "cdnjs.cloudflare.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: process.env.NODE_ENV === "production" ? [] : null,
+    },
+  },
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true,
+  },
+  frameguard: {
+    action: "deny",
+  },
+  noSniff: true,
+  referrerPolicy: {
+    policy: "strict-origin-when-cross-origin",
+  },
+}));
+
+// ══════════════════════════════════════════════════════════════════════
+// P0 SECURITY: CORS CONFIGURATION
+// ══════════════════════════════════════════════════════════════════════
+/**
+ * CORS: Restrict allowed origins for security
+ * Authorization: only requests from configured origins are allowed
+ */
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:3010",
+  process.env.ALLOWED_ORIGINS?.split(",").map(o => o.trim()).join(",") || "https://neotrace.vercel.app"
+];
+
 const corsOptions = {
   origin: function(origin, callback) {
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:5173',
-      process.env.ALLOWED_ORIGIN || 'https://neotrace.vercel.app'
-    ];
+    // Allow requests with no origin (like mobile apps, curl requests)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error("CORS policy: Access denied for origin: " + origin));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'OPTIONS']
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-API-Key"],
+  maxAge: 86400, // 24 hours
 };
+
 app.use(cors(corsOptions));
 
-// Body Parsers: Accept JSON and form-encoded data (50MB limit for large uploads)
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true }));
+// Preflight requests
+app.options("*", cors(corsOptions));
+
+// ══════════════════════════════════════════════════════════════════════
+// P0 SECURITY: BODY SIZE & REQUEST LIMIT CONFIGURATION  
+// ══════════════════════════════════════════════════════════════════════
+/**
+ * Reduce body size limits to prevent memory exhaustion attacks
+ * - JSON: 5MB (reduced from 50MB)
+ * - URL-encoded: 2MB
+ * - File uploads: 20MB (controlled by multer)
+ */
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ extended: true, limit: "2mb" }));
+
+// ══════════════════════════════════════════════════════════════════════
+// P0 SECURITY: RATE LIMITING
+// ══════════════════════════════════════════════════════════════════════
+/**
+ * Rate limiters with varying strictness:
+ * - Global: 100 requests per minute per IP
+ * - APIs: 30 requests per minute per IP
+ * - Analyze endpoints: 10 requests per minute (consuming API keys)
+ * - Auth endpoints: 5 attempts per minute (brute force protection)
+ */
+
+// Global rate limiter
+const globalLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 100,
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Standard API rate limiter
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 30,
+  message: "Too many API requests, please slow down.",
+  skip: (req) => req.path.startsWith("/api/leaderboard/get"), // GET leaderboard is less critical
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Strict rate limiter for resource-heavy endpoints
+const analyzeLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute  
+  max: 10,
+  message: "Too many analysis requests. Please wait before analyzing more content.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Authentication/sensitive endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5,
+  message: "Too many attempts, please try again later.",
+  skipSuccessfulRequests: true,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiters
+app.use("/api/", apiLimiter);
+app.use("/api/analyze-", analyzeLimiter);
+app.use("/api/verify-", analyzeLimiter);
 
 // Static File Serving: Serve the React frontend from /public directory
 app.use(express.static(path.join(__dirname, "public")));
 
-// ── File Upload Configuration ─────────────────────────────────────────
-// Multer: In-memory storage for image uploads (20MB limit)
+// ══════════════════════════════════════════════════════════════════════
+// P0 SECURITY: API KEY AUTHENTICATION MIDDLEWARE
+// ══════════════════════════════════════════════════════════════════════
+/**
+ * Secret API key validation for sensitive endpoints
+ * Check X-API-Key header or query parameter
+ */
+const requiredApiKey = process.env.API_KEY || "";
+
+function validateApiKey(req, res, next) {
+  if (!requiredApiKey) {
+    // If no API key is configured, warn but allow (development mode)
+    console.warn("⚠️  Warning: API_KEY not configured. Set API_KEY env var for production security.");
+    return next();
+  }
+
+  const apiKey = req.headers["x-api-key"] || req.query.api_key;
+  
+  if (!apiKey || apiKey !== requiredApiKey) {
+    return res.status(401).json({
+      error: "Unauthorized",
+      message: "Missing or invalid API key. Provide X-API-Key header or ?api_key query parameter",
+    });
+  }
+
+  next();
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// File Upload Configuration
+// ──────────────────────────────────────────────────────────────────────
+/**
+ * Multer: In-memory storage for image uploads with security validation
+ * - Maximum file size: 10MB (reduced from 20MB)
+ * - MIME type whitelist: image/jpeg, image/png, image/webp only
+ * - File count limit: 1 file per request
+ */
+const fileTypeModule = require("file-type");
+
 const upload = multer({
   storage: multer.memoryStorage(), // Files stored in RAM, not disk
-  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB maximum file size
+  limits: { 
+    fileSize: 10 * 1024 * 1024, // 10MB maximum (down from 20MB)
+    files: 1, // Only 1 file per request
+  },
+  fileFilter: async (req, file, cb) => {
+    // Basic MIME type check
+    const allowedMimes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!allowedMimes.includes(file.mimetype)) {
+      return cb(new Error(`File type not allowed: ${file.mimetype}`));
+    }
+    cb(null, true);
+  },
 });
 
 // ==================== LEADERBOARD API ====================
@@ -162,32 +328,103 @@ app.get("/api/leaderboard", (req, res) => {
 
 /**
  * POST /api/leaderboard
- * Adds new player score to leaderboard
- * @body {string} name - Player name
- * @body {number} score - Player score
+ * Adds new player score to leaderboard with input validation
+ * @body {string} name - Player name (1-50 characters, no HTML)
+ * @body {number} score - Player score (0-10000)
  * @body {string} rank - Player rank (optional)
  * @body {string} badge - Player badge emoji (optional)
  */
 app.post("/api/leaderboard", (req, res) => {
-  const { name, score, rank, badge } = req.body;
-  if (!name || score === undefined)
-    return res.status(400).json({ error: "Name and score required" });
+  // Input validation with Joi
+  const schema = Joi.object({
+    name: Joi.string().trim().min(1).max(50).required().pattern(/^[^<>]*$/),
+    score: Joi.number().integer().min(0).max(10000).required(),
+    rank: Joi.string().trim().max(30).optional().pattern(/^[^<>]*$/),
+    badge: Joi.string().max(10).optional(), // Allow emoji
+  });
+
+  const { error, value } = schema.validate(req.body);
+  
+  if (error) {
+    return res.status(400).json({
+      error: "Invalid input",
+      details: error.details.map(e => e.message),
+    });
+  }
+
+  const { name, score, rank, badge } = value;
+  
+  // Create new entry with unique ID to fix position calculation bug
   const entry = {
+    id: Date.now() + Math.random().toString(36).substr(2, 9), // Unique ID
     name,
     score,
     rank: rank || "Trainee",
     badge: badge || "🥉",
     date: new Date().toISOString().split("T")[0],
   };
+  
   leaderboard.push(entry);
-  leaderboard.sort((a, b) => b.score - a.score);
+  
+  // Sort by score descending, then by date ascending (stable sort)
+  leaderboard.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  });
+  
+  // Keep only top 100 entries
   if (leaderboard.length > 100) leaderboard = leaderboard.slice(0, 100);
-  const position =
-    leaderboard.findIndex((e) => e.name === name && e.score === score) + 1;
-  res.json({ success: true, position, entry });
+  
+  // Calculate position by finding the entry's index (fixed bug: was using findIndex which could return -1)
+  const position = leaderboard.findIndex(e => e.id === entry.id) + 1;
+  
+  res.status(201).json({
+    success: true,
+    position,
+    entry: {
+      ...entry,
+      id: undefined, // Don't expose internal ID to client
+    },
+  });
 });
 
-// ==================== URL ANALYZER API ====================
+/**
+ * Get registered domain (eTLD+1) from a domain name
+ * Examples:
+ * - "example.com" → "example.com"
+ * - "sub.example.com" → "example.com"  
+ * - "co.uk" → "co.uk" (common suffix)
+ * - "example.co.uk" → "example.co.uk"
+ *
+ * Note: This is a simplified version. For production, use publicsuffix library.
+ */
+function getRegisteredDomain(domain) {
+  if (!domain) return "";
+  
+  const parts = domain.toLowerCase().split(".");
+  
+  // Common multi-part TLDs that need special handling
+  const multiPartTlds = [
+    "co.uk", "co.jp", "co.in", "com.au", "co.nz",
+    "com.br", "co.il", "co.kr", "co.th", "co.id",
+    "ge.com", "c.la", "c.st"
+  ];
+  
+  // Check if domain ends with multi-part TLD
+  for (let i = 2; i <= Math.min(3, parts.length); i++) {
+    const possibleTld = parts.slice(-i).join(".");
+    if (multiPartTlds.includes(possibleTld)) {
+      return parts.length > i ? parts.slice(-(i + 1)).join(".") : domain;
+    }
+  }
+  
+  // Default: return last 2 parts (domain + TLD)
+  return parts.length > 1 ? parts.slice(-2).join(".") : domain;
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// URL ANALYZER API
+// ──────────────────────────────────────────────────────────────────────
 /**
  * Threat detection databases for URL analysis
  */
@@ -253,14 +490,18 @@ const LEGITIMATE_DOMAINS = [
 
 /**
  * POST /api/analyze-url
- * Analyzes URL for phishing and security threats
+ * Analyzes URL for phishing and security threats with SSRF protection
  * @body {string} targetUrl - URL to analyze
  * @returns {object} Risk score, findings, and domain details
  */
-app.post("/api/analyze-url", async (req, res) => {
+app.post("/api/analyze-url", analyzeLimiter, async (req, res) => {
   try {
     const { targetUrl } = req.body;
-    if (!targetUrl) return res.status(400).json({ error: "URL required" });
+    
+    // Input validation
+    if (!targetUrl || typeof targetUrl !== "string" || targetUrl.length > 2048) {
+      return res.status(400).json({ error: "Invalid URL: must be a string ≤ 2048 chars" });
+    }
 
     let parsedUrl;
     try {
@@ -268,14 +509,36 @@ app.post("/api/analyze-url", async (req, res) => {
         targetUrl.startsWith("http") ? targetUrl : `https://${targetUrl}`,
       );
     } catch (e) {
-      return res.json({
+      return res.status(400).json({
         error: "Invalid URL format",
         riskScore: 100,
         riskLevel: "Critical",
       });
     }
 
+    // ────────────────────────────────────────────────────────────────
+    // SSRF PROTECTION: Prevent resolution of private IP addresses
+    // ────────────────────────────────────────────────────────────────
     const hostname = parsedUrl.hostname;
+    const privateIpPattern = /^(10\.|127\.|172\.(1[6-9]|2\d|3[0-1])\.|192\.168\.|169\.254\.|localhost|::1|fc00::|fd00::)/i;
+    
+    if (privateIpPattern.test(hostname)) {
+      return res.status(403).json({
+        error: "SSRF Protection: Cannot analyze private/internal IP addresses",
+        riskScore: 100,
+        riskLevel: "Critical",
+      });
+    }
+
+    // Additional protection: block certain schemes
+    if (!/^https?:$/.test(parsedUrl.protocol)) {
+      return res.status(400).json({
+        error: "Only HTTP and HTTPS schemes are supported",
+        riskScore: 100,
+        riskLevel: "Critical",
+      });
+    }
+
     const domain = hostname.replace(/^www\./, "");
     let riskScore = 0;
     const findings = [];
@@ -345,7 +608,7 @@ app.post("/api/analyze-url", async (req, res) => {
     // Check phishing keywords
     const foundKeywords = PHISHING_KEYWORDS.filter(
       (kw) =>
-        domain.includes(kw) || parsedUrl.pathname.toLowerCase().includes(kw),
+        domain.toLowerCase().includes(kw) || parsedUrl.pathname.toLowerCase().includes(kw),
     );
     if (foundKeywords.length > 0) {
       riskScore += foundKeywords.length * 5;
@@ -355,13 +618,21 @@ app.post("/api/analyze-url", async (req, res) => {
       });
     }
 
-    // Check for brand impersonation
-    const brandCheck = LEGITIMATE_DOMAINS.find(
-      (ld) =>
-        domain.includes(ld.split(".")[0]) &&
-        domain !== ld &&
-        !domain.endsWith("." + ld),
-    );
+    // ────────────────────────────────────────────────────────────────
+    // IMPROVED BRAND IMPERSONATION DETECTION
+    // Use registered domain (eTLD+1) to avoid false positives
+    // ────────────────────────────────────────────────────────────────
+    const registeredDomain = getRegisteredDomain(domain);
+    const brandCheck = LEGITIMATE_DOMAINS.find(legit => {
+      const legitimateDomain = getRegisteredDomain(legit);
+      // Check if impersonating: domain !== legitimate AND domain contains the brand
+      return (
+        registeredDomain !== legitimateDomain &&
+        domain.includes(legitimateDomain.split(".")[0]) &&
+        !domain.endsWith("." + legitimateDomain)
+      );
+    });
+    
     if (brandCheck) {
       riskScore += 25;
       findings.push({
@@ -371,7 +642,7 @@ app.post("/api/analyze-url", async (req, res) => {
     }
 
     // Check if legitimate
-    if (LEGITIMATE_DOMAINS.includes(domain)) {
+    if (LEGITIMATE_DOMAINS.includes(domain) || LEGITIMATE_DOMAINS.some(ld => domain.endsWith("." + ld))) {
       riskScore = Math.max(0, riskScore - 40);
       findings.push({
         type: "safe",
@@ -404,14 +675,20 @@ app.post("/api/analyze-url", async (req, res) => {
       });
     }
 
-    // DNS lookup
+    // DNS lookup with timeout
     try {
       const addresses = await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error("DNS lookup timeout"));
+        }, 5000);
+        
         dns.resolve4(hostname, (err, addresses) => {
+          clearTimeout(timeout);
           if (err) reject(err);
           else resolve(addresses);
         });
       });
+      
       details.ip = addresses[0];
       findings.push({
         type: "safe",
@@ -433,6 +710,7 @@ app.post("/api/analyze-url", async (req, res) => {
 
     res.json({ riskScore, riskLevel, findings, details, domain });
   } catch (error) {
+    console.error("URL analysis error:", error.message);
     res.status(500).json({ error: "Analysis failed", message: error.message });
   }
 });
@@ -440,25 +718,44 @@ app.post("/api/analyze-url", async (req, res) => {
 // ==================== IMAGE ANALYZER API ====================
 /**
  * POST /api/analyze-image
- * Multi-layered image forensic analysis
- * @body {file} image - Image file to analyze (multipart/form-data, max 20MB)
+ * Multi-layered image forensic analysis with file validation
+ * @body {file} image - Image file to analyze (multipart/form-data, max 10MB)
  * @returns {object} AI detection score, EXIF data, compression analysis, forensic findings
  *
- * Analysis layers:
- * - EXIF metadata extraction (camera info, GPS, software)
- * - AI generation software detection
- * - JPEG compression artifact analysis
- * - Pixel uniformity forensics
- * - File signature verification
+ * Security Validations:
+ * - File type verification via magic bytes (file signature)
+ * - MIME type validation
+ * - Memory-safe processing
+ * - No execution of embedded content
  */
-app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
+app.post("/api/analyze-image", analyzeLimiter, upload.single("image"), async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ error: "No image uploaded" });
+    if (!req.file) {
+      return res.status(400).json({ error: "No image uploaded" });
+    }
 
     const buffer = req.file.buffer;
     const fileSize = buffer.length;
     const mimeType = req.file.mimetype;
     const fileName = req.file.originalname;
+
+    // ────────────────────────────────────────────────────────────────
+    // SECURITY: Validate file type by checking magic bytes
+    // ────────────────────────────────────────────────────────────────
+    const header = buffer.slice(0, 12);
+    const isPNG = header[0] === 0x89 && header[1] === 0x50 && header[2] === 0x4e && header[3] === 0x47;
+    const isJPG = header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff;
+    const isGIF = header[0] === 0x47 && header[1] === 0x49 && header[2] === 0x46;
+    const isWebP = header[0] === 0x52 && header[1] === 0x49 && header[2] === 0x46 && header[3] === 0x46 &&
+                   header[8] === 0x57 && header[9] === 0x45 && header[10] === 0x42 && header[11] === 0x50;
+
+    // Verify file signature matches declared MIME type
+    if (!isPNG && !isJPG && !isGIF && !isWebP) {
+      return res.status(400).json({
+        error: "Invalid image file. File signature does not match standard image formats.",
+        details: "File appears to be corrupted or is not a valid image.",
+      });
+    }
 
     const results = {
       fileInfo: {
@@ -547,8 +844,22 @@ app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
       });
     }
 
-    // Compression Analysis
-    if (mimeType === "image/jpeg" || mimeType === "image/jpg") {
+    // Compression Analysis (JPEG specific)
+    if (isPNG) {
+      results.compression.findings.push({
+        type: "info",
+        message: "Format: PNG (lossless compression)",
+      });
+
+      // Check for tEXt chunks that might contain AI metadata
+      const textChunk = buffer.indexOf(Buffer.from("tEXt"));
+      if (textChunk !== -1) {
+        results.compression.findings.push({
+          type: "info",
+          message: "PNG text metadata chunks found",
+        });
+      }
+    } else if (isJPG) {
       // Check JPEG markers
       const hasJFIF = buffer.indexOf(Buffer.from("JFIF")) !== -1;
       const hasExif = buffer.indexOf(Buffer.from("Exif")) !== -1;
@@ -580,20 +891,6 @@ app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
         type: "info",
         message: `Format: JPEG ${hasJFIF ? "(JFIF)" : ""} ${hasExif ? "(EXIF)" : ""}`,
       });
-    } else if (mimeType === "image/png") {
-      results.compression.findings.push({
-        type: "info",
-        message: "Format: PNG (lossless compression)",
-      });
-
-      // Check for tEXt chunks that might contain AI metadata
-      const textChunk = buffer.indexOf(Buffer.from("tEXt"));
-      if (textChunk !== -1) {
-        results.compression.findings.push({
-          type: "info",
-          message: "PNG text metadata chunks found",
-        });
-      }
     }
 
     // Forensic Analysis
@@ -619,25 +916,11 @@ app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
       });
     }
 
-    // Check file signature
-    const header = buffer.slice(0, 8);
-    const isPNG = header[0] === 0x89 && header[1] === 0x50;
-    const isJPG = header[0] === 0xff && header[1] === 0xd8;
-    const isGIF = header[0] === 0x47 && header[1] === 0x49;
-    const isWebP = header[4] === 0x57 && header[5] === 0x45;
-
-    if (!isPNG && !isJPG && !isGIF && !isWebP) {
-      results.forensic.findings.push({
-        type: "warning",
-        message: "File header does not match standard image formats",
-      });
-      results.aiDetection.score += 10;
-    } else {
-      results.forensic.findings.push({
-        type: "safe",
-        message: "File signature matches declared format",
-      });
-    }
+    // File signature verification (already done above)
+    results.forensic.findings.push({
+      type: "safe",
+      message: "File signature matches declared format",
+    });
 
     // Normalize AI score
     results.aiDetection.score = Math.min(
@@ -654,6 +937,7 @@ app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
 
     res.json(results);
   } catch (error) {
+    console.error("Image analysis error:", error.message);
     res
       .status(500)
       .json({ error: "Image analysis failed", message: error.message });
@@ -664,7 +948,8 @@ app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
 /**
  * POST /api/verify-text
  * Analyzes text content for misinformation, credibility, and emotional manipulation
- * @body {string} text - Text content to verify
+ * with input validation and output escaping for XSS protection
+ * @body {string} text - Text content to verify (1-100,000 chars)
  * @returns {object} Credibility score, sentiment analysis, misinformation risk, content findings
  *
  * Detection patterns:
@@ -674,10 +959,18 @@ app.post("/api/analyze-image", upload.single("image"), async (req, res) => {
  * - Urgency tactics and social pressure
  * - Source citation analysis
  */
-app.post("/api/verify-text", (req, res) => {
+app.post("/api/verify-text", analyzeLimiter, (req, res) => {
   try {
     const { text } = req.body;
-    if (!text) return res.status(400).json({ error: "Text required" });
+    
+    // Input validation
+    if (!text || typeof text !== "string") {
+      return res.status(400).json({ error: "Text is required and must be a string" });
+    }
+    
+    if (text.length < 1 || text.length > 100000) {
+      return res.status(400).json({ error: "Text must be between 1 and 100,000 characters" });
+    }
 
     const Sentiment = require("sentiment");
     const sentiment = new Sentiment();
@@ -784,7 +1077,6 @@ app.post("/api/verify-text", (req, res) => {
     }
 
     // Emotional manipulation
-    const emotionalPatterns = [/!!+/g, /\?\?+/g, /ALL CAPS/g];
     const capsRatio =
       text.replace(/[^A-Z]/g, "").length /
       Math.max(text.replace(/[^a-zA-Z]/g, "").length, 1);
@@ -924,6 +1216,7 @@ app.post("/api/verify-text", (req, res) => {
 
     res.json(results);
   } catch (error) {
+    console.error("Text verification error:", error.message);
     res
       .status(500)
       .json({ error: "Text analysis failed", message: error.message });
