@@ -262,7 +262,6 @@ function validateApiKey(req, res, next) {
  * - MIME type whitelist: image/jpeg, image/png, image/webp only
  * - File count limit: 1 file per request
  */
-const fileTypeModule = require("file-type");
 
 const upload = multer({
   storage: multer.memoryStorage(), // Files stored in RAM, not disk

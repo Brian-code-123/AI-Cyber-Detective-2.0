@@ -797,24 +797,33 @@ function renderNews(items) {
   const grid = document.getElementById("newsGrid");
   if (!grid) return;
 
-  if (!items.length) {
+  // Filter news to only show items from the last 3 days
+  const threeDaysAgo = new Date();
+  threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+
+  const recentItems = items.filter((item) => {
+    const itemDate = new Date(item.date);
+    return !Number.isNaN(itemDate.getTime()) && itemDate >= threeDaysAgo;
+  });
+
+  if (!recentItems.length) {
     grid.innerHTML = `
       <div class="intel-empty">
-        <h4>No articles match the selected filter</h4>
-        <p>Try another source type or sort strategy.</p>
+        <h4>No articles from the last 3 days</h4>
+        <p>Check back later for newer content or expand your date range.</p>
       </div>
     `;
     return;
   }
 
-  grid.innerHTML = items
+  grid.innerHTML = recentItems
     .map((item) => {
       const d = new Date(item.date);
       const dateLabel = Number.isNaN(d.getTime()) ? "Unknown date" : d.toLocaleString();
       const confidenceClass = confidenceClassName(item.confidence || 0);
 
       return `
-      <article class="intel-card" tabindex="0" data-news-id="${escapeHtml(item.id)}">
+      <article class="intel-card carousel-item news-item" tabindex="0" data-news-id="${escapeHtml(item.id)}">
         <div class="intel-card-media">
           <img src="${escapeHtml(item.image || "")}" alt="${escapeHtml(item.title)}" loading="lazy" />
           <span class="intel-badge ${confidenceClass}">${escapeHtml(item.confidenceBadge || "Watch")}</span>
@@ -840,6 +849,13 @@ function renderNews(items) {
       `;
     })
     .join("");
+
+  // Ensure carousel styling is applied
+  grid.classList.add("carousel-container");
+  grid.querySelectorAll(".intel-card").forEach((card) => {
+    card.style.minWidth = "380px";
+    card.style.flexShrink = "0";
+  });
 
   grid.querySelectorAll("[data-news-open-map]").forEach((btn) => {
     btn.addEventListener("click", (event) => {

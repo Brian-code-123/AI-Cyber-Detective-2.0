@@ -11,10 +11,112 @@
  * - Interactive calendar widget with month navigation
  * - Auto-suggest dropdown component for search/input fields
  * - Internationalization (i18n) support integration
+ * - Animated particle background with gradient effects
  *
  * @requires ../js/i18n.js
  * @requires ../css/style.css
  */
+
+/* ═════════════════════════════════════════════════════════════════════
+   PARTICLE CANVAS BACKGROUND ANIMATION
+   ═════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Initialize animated particle background on page load
+ * Creates a canvas with dynamically rendered particles that move and interact
+ */
+(function initParticleBackground() {
+  // Skip if canvas already exists or document not ready
+  if (document.getElementById("particle-canvas")) return;
+
+  // Create canvas element
+  const canvas = document.createElement("canvas");
+  canvas.id = "particle-canvas";
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const ctx = canvas.getContext("2d");
+  const particles = [];
+  const particleCount = Math.min(50, Math.floor(window.innerWidth / 50));
+
+  // Particle class
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.speedY = (Math.random() - 0.5) * 0.5;
+      this.opacity = Math.random() * 0.5 + 0.2;
+      this.color = ["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"][Math.floor(Math.random() * 4)];
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      // Wrap around canvas edges
+      if (this.x > canvas.width) this.x = 0;
+      if (this.x < 0) this.x = canvas.width;
+      if (this.y > canvas.height) this.y = 0;
+      if (this.y < 0) this.y = canvas.height;
+    }
+
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.opacity;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  // Initialize particles
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  // Animation loop
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw connecting lines between nearby particles
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 150) {
+          ctx.strokeStyle = particles[i].color;
+          ctx.globalAlpha = (150 - distance) / 150 * 0.3;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Handle window resize
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+})();
+
+/* ═════════════════════════════════════════════════════════════════════ */
 
 // Ensure chatbot markup exists (inject homepage chatbot HTML when missing)
 (function ensureChatbotMarkup() {

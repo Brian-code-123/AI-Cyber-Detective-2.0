@@ -25,6 +25,8 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>"
     />
+    <!-- Three.js for 3D globe visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
@@ -177,7 +179,7 @@
       <!-- News + Calendar Section (shown first) -->
       <section class="section">
         <div class="section-header">
-          <h2 data-i18n="news.title">Cybersecurity News</h2>
+          <h2 data-i18n="news.title">Cybersecurity News (Last 3 Days)</h2>
           <p data-i18n="news.subtitle">
             Latest threats and advisories from across the industry
           </p>
@@ -203,7 +205,12 @@
                 </select>
               </label>
             </div>
-            <div id="newsGrid" class="intel-news-grid"></div>
+            <!-- Horizontal scrolling news carousel -->
+            <div class="intel-news-carousel">
+              <button class="carousel-nav prev" id="newsCarouselPrev" aria-label="Previous news">‹</button>
+              <div class="intel-news-scroll" id="newsGrid"></div>
+              <button class="carousel-nav next" id="newsCarouselNext" aria-label="Next news">›</button>
+            </div>
           </div>
 
           <aside class="intel-news-side" aria-label="News intelligence sidebar">
@@ -326,10 +333,10 @@
         </div>
 
         <div class="charts-grid">
-          <!-- Geographic Heatmap (full width) -->
+          <!-- Geographic Heatmap (full width) - Now with 3D Globe -->
           <div class="chart-container full-width">
             <div class="map-header-row">
-              <h3 data-i18n="charts.heatmap">Global Cyber Fraud Heatmap</h3>
+              <h3 data-i18n="charts.heatmap">Global Cyber Fraud Heatmap (3D)</h3>
               <div class="map-live-pill" id="mapLivePill" aria-live="polite">Live: syncing</div>
             </div>
 
@@ -365,37 +372,31 @@
               </label>
 
               <div class="map-control-field map-control-actions">
-                <span>Layers</span>
-                <div class="map-layer-buttons" role="group" aria-label="Map layer toggles">
-                  <button class="map-btn active" data-layer="markers">Markers</button>
-                  <button class="map-btn active" data-layer="cluster">Cluster</button>
-                  <button class="map-btn active" data-layer="heat">Heatmap</button>
-                  <button class="map-btn" data-layer="density">Density</button>
+                <span>View</span>
+                <div class="map-layer-buttons" role="group" aria-label="View mode selection">
+                  <button class="map-btn active" data-view="3d-globe">3D Globe</button>
+                  <button class="map-btn" data-view="2d-map">2D Map</button>
                 </div>
               </div>
 
               <div class="map-control-field map-control-actions">
-                <span>Export & Replay</span>
-                <div class="map-layer-buttons" role="group" aria-label="Map export and replay">
+                <span>Export</span>
+                <div class="map-layer-buttons" role="group" aria-label="Map export options">
                   <button id="exportGeoJsonBtn" class="map-btn">Export GeoJSON</button>
                   <button id="exportCsvBtn" class="map-btn">Export CSV</button>
-                  <button id="playbackBtn" class="map-btn">Playback</button>
                 </div>
               </div>
             </div>
 
             <div class="map-canvas-layout">
-              <div id="heatmap" tabindex="0" aria-label="Cyber threat event map"></div>
+              <!-- 3D Globe Container -->
+              <div id="globe3d" class="globe-container" style="display: block;"></div>
+              <!-- 2D Map Container (hidden by default) -->
+              <div id="heatmap" class="heatmap-container" style="display: none;"></div>
               <aside id="mapDetailPanel" class="map-detail-panel" aria-live="polite">
                 <h4>Event Detail</h4>
-                <p class="map-detail-placeholder">Select a marker or news item to inspect source, timestamp, confidence, and provenance.</p>
+                <p class="map-detail-placeholder">Select a marker on the 3D globe to inspect event details.</p>
               </aside>
-            </div>
-
-            <div class="timeline-controls" aria-label="Timeline playback controls">
-              <label for="timelineSlider">Timeline</label>
-              <input id="timelineSlider" type="range" min="0" max="100" value="100" step="1" />
-              <span id="timelineLabel">Latest</span>
             </div>
           </div>
 
@@ -597,6 +598,8 @@
     <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/news-carousel.js"></script>
+    <script src="js/globe-3d.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/chatbot.js"></script>
   </body>
